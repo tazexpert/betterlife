@@ -2,7 +2,7 @@
 
 ## สถานะปัจจุบัน
 **00 Repo Setup** ✅ · **01 Foundation** ✅
-**ถัดไป:** 02 Domain Model + Stats (เริ่มใน Session ใหม่)
+**กำลังทำ:** 02 Domain Model + Stats ⏸ รอผู้ใช้ยืนยัน Data Structure (`docs/systems/domain-model.md`)
 
 ## กติกาการทำงาน
 - ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
@@ -14,7 +14,7 @@
 |---|---|---|---|
 | 00 | Repo Setup | โครงสร้างโฟลเดอร์, asmdef, package.json, csproj, manifest.json, ProjectSetupMenu, GameBootstrap ว่าง | ✅ |
 | 01 | GameDate + Pcg32Random + IEventBus | พื้นฐานที่ทุกระบบใช้ (`docs/systems/foundation.md`) | ✅ |
-| 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet | ⬜ |
+| 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet | ⏸ Data Structure proposed |
 | 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters | ⬜ |
 | 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⬜ |
 | 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
