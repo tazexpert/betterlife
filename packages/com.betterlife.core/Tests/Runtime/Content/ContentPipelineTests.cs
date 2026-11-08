@@ -97,18 +97,17 @@ namespace BetterLife.Core.Tests.Content
 
             Assert.That(result.Succeeded, Is.False);
             Assert.That(result.Repository, Is.Null);
-            Assert.That(result.Errors.Select(e => e.ToString()), Is.EqualTo(new[]
+            List<string> errors = result.Errors.Select(e => e.ToString()).ToList();
+            Assert.That(errors.Take(2), Is.EqualTo(new[]
             {
                 "traits.json $.traits[0].statModifiers[0].stat: unknown stat 'mental.stres'.",
                 "skills.json $.skills[0].decay.graceWeeks: expected an integer.",
-                "Skipped 'character_catalogs' because 'traits' has errors.",
-                "Skipped 'rule_types' because 'character_catalogs' has errors.",
-                "Skipped 'activities' because 'rule_types' has errors.",
-                "Skipped 'time_settings' because 'activities' has errors.",
-                "Skipped 'events' because 'rule_types' has errors.",
             }));
+            Assert.That(errors.Skip(2), Is.All.StartsWith("Skipped '"), "everything else is a dependent that was skipped");
+            Assert.That(errors, Has.Member("Skipped 'character_catalogs' because 'traits' has errors."));
+            Assert.That(errors, Has.Member("Skipped 'events' because 'rule_types' has errors."));
             var ex = Assert.Throws<ContentLoadException>(() => result.RequireRepository());
-            Assert.That(ex.Errors, Has.Count.EqualTo(7));
+            Assert.That(ex.Errors, Has.Count.EqualTo(errors.Count));
         }
 
         [Test]
@@ -169,6 +168,17 @@ namespace BetterLife.Core.Tests.Content
 
             Assert.That(error.Path, Is.EqualTo("$.flags[0].defaultExpiryWeeks"));
             Assert.That(error.Message, Does.Contain("use null for none"));
+        }
+
+        [Test]
+        public void StatsTheCodeNeeds_MustBeDefined()
+        {
+            InMemoryContentSource source = TestContent.Source().Add("stats.json", TestContent.Stats.Replace("'id': 'mental',", "'id': 'mood',"));
+
+            ContentError error = Load(source).Errors.First();
+
+            Assert.That((error.File, error.Path), Is.EqualTo(("stats.json", "$.stats")));
+            Assert.That(error.Message, Does.Contain("stat 'mental' is required by the game"));
         }
 
         [Test]

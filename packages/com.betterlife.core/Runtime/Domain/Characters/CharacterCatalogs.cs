@@ -1,8 +1,10 @@
 using System;
+using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Domain.World;
 
 namespace BetterLife.Core.Domain.Characters
 {
@@ -20,13 +22,17 @@ namespace BetterLife.Core.Domain.Characters
         /// <param name="flags">Flag catalog.</param>
         /// <param name="reputationDomains">Reputation domain catalog.</param>
         /// <param name="healthConditions">Health condition catalog.</param>
+        /// <param name="countries">Country catalog.</param>
+        /// <param name="familyBackgrounds">Family background catalog.</param>
         public CharacterCatalogs(
             StatCatalog stats,
             DefinitionCatalog<TraitDefinition> traits,
             DefinitionCatalog<SkillDefinition> skills,
             DefinitionCatalog<FlagDefinition> flags,
             DefinitionCatalog<ReputationDomainDefinition> reputationDomains,
-            DefinitionCatalog<HealthConditionDefinition> healthConditions)
+            DefinitionCatalog<HealthConditionDefinition> healthConditions,
+            DefinitionCatalog<CountryDefinition> countries,
+            DefinitionCatalog<FamilyBackgroundDefinition> familyBackgrounds)
         {
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
             Traits = traits ?? throw new ArgumentNullException(nameof(traits));
@@ -34,6 +40,8 @@ namespace BetterLife.Core.Domain.Characters
             Flags = flags ?? throw new ArgumentNullException(nameof(flags));
             ReputationDomains = reputationDomains ?? throw new ArgumentNullException(nameof(reputationDomains));
             HealthConditions = healthConditions ?? throw new ArgumentNullException(nameof(healthConditions));
+            Countries = countries ?? throw new ArgumentNullException(nameof(countries));
+            FamilyBackgrounds = familyBackgrounds ?? throw new ArgumentNullException(nameof(familyBackgrounds));
         }
 
         /// <summary>Stat catalog.</summary>
@@ -53,5 +61,11 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Health condition catalog.</summary>
         public DefinitionCatalog<HealthConditionDefinition> HealthConditions { get; }
+
+        /// <summary>Country catalog.</summary>
+        public DefinitionCatalog<CountryDefinition> Countries { get; }
+
+        /// <summary>Family background catalog.</summary>
+        public DefinitionCatalog<FamilyBackgroundDefinition> FamilyBackgrounds { get; }
     }
 }

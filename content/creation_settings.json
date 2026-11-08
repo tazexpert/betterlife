@@ -1,0 +1,10 @@
+{
+  "birthYear": {
+    "min": 1950,
+    "max": 2026
+  },
+  "parentAgeAtBirth": {
+    "min": 20,
+    "max": 42
+  }
+}

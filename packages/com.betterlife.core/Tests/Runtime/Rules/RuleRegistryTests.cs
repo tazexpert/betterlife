@@ -25,7 +25,9 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'cash','op':'>=','amount':1500.25},
             {'type':'reputation','domain':'business','op':'<','value':30},
             {'type':'healthCondition','condition':'flu'},
-            {'type':'karma','kind':'bad','op':'>','value':30}]}";
+            {'type':'karma','kind':'bad','op':'>','value':30},
+            {'type':'location','country':'thailand','city':'thailand.bangkok'},
+            {'type':'familyBackground','background':'wealthy'}]}";
 
         private const string AllEffects = @"[
             {'type':'stat','stat':'mental.stress','amount':{'min':3,'max':8},'source':'source.work'},
@@ -86,6 +88,10 @@ namespace BetterLife.Core.Tests.Rules
         [TestCase("{'type':'trait','trait':'brave'}", "$.trait", "unknown trait")]
         [TestCase("{'type':'reputation','domain':'politics','op':'<','value':30}", "$.domain", "unknown reputation domain")]
         [TestCase("{'type':'healthCondition','condition':'plague'}", "$.condition", "unknown health condition")]
+        [TestCase("{'type':'location','country':'japan','city':'thailand.bangkok'}", "$.city", "is not in 'japan'")]
+        [TestCase("{'type':'location','city':'atlantis.capital'}", "$.city", "unknown city")]
+        [TestCase("{'type':'location'}", "$", "country or a city is required")]
+        [TestCase("{'type':'familyBackground','background':'royal'}", "$.background", "unknown family background")]
         [TestCase("{'type':'all','conditions':[]}", "$", "at least one")]
         [TestCase("{'type':'all','conditions':[{'type':'age','op':'<'}]}", "$.conditions[0].value", "is required")]
         [TestCase("[]", "$", "expected an object")]

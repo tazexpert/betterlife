@@ -419,6 +419,52 @@
               "maximum": 100
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "country"
+              ]
+            },
+            {
+              "required": [
+                "city"
+              ]
+            }
+          ],
+          "properties": {
+            "type": {
+              "const": "location"
+            },
+            "country": {
+              "$ref": "#/$defs/id"
+            },
+            "city": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "background"
+          ],
+          "properties": {
+            "type": {
+              "const": "familyBackground"
+            },
+            "background": {
+              "$ref": "#/$defs/id"
+            }
+          }
         }
       ]
     },

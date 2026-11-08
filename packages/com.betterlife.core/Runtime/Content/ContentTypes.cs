@@ -31,6 +31,18 @@ namespace BetterLife.Core.Content
         public const string Events = "events";
         /// <summary>Event system settings (exactly one file).</summary>
         public const string EventSettings = "event_settings";
+        /// <summary>Countries and cities.</summary>
+        public const string Countries = "countries";
+        /// <summary>Family backgrounds.</summary>
+        public const string FamilyBackgrounds = "family_backgrounds";
+        /// <summary>Parent personalities.</summary>
+        public const string ParentPersonalities = "parent_personalities";
+        /// <summary>Genetics settings (exactly one file).</summary>
+        public const string Genetics = "genetics";
+        /// <summary>Random name pools.</summary>
+        public const string Names = "names";
+        /// <summary>Character creation settings (exactly one file).</summary>
+        public const string CreationSettings = "creation_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

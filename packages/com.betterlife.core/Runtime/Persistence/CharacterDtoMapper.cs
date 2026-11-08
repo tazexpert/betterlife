@@ -4,10 +4,13 @@ using System.Globalization;
 using System.Linq;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
+using BetterLife.Core.Domain.Genetics;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Domain.World;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
@@ -70,6 +73,23 @@ namespace BetterLife.Core.Persistence
                         ExpiresWeek = f.ExpiresOn.HasValue ? f.ExpiresOn.Value.TotalWeeks : 0,
                     })
                     .OrderBy(f => f.Id, StringComparer.Ordinal).ToList(),
+                ResidenceCountryId = character.Residence.CountryId,
+                ResidenceCityId = character.Residence.CityId,
+                Family = character.Family == null ? null : new FamilyDto
+                {
+                    BackgroundId = character.Family.BackgroundId,
+                    Parents = character.Family.Parents.Select(p => new ParentDto
+                    {
+                        GivenName = p.Name.GivenName,
+                        FamilyName = p.Name.FamilyName,
+                        Sex = p.Sex.ToString(),
+                        BirthYear = p.BirthYear,
+                        PersonalityId = p.PersonalityId,
+                        Genome = GenomeDto(p.Genome),
+                        Traits = p.TraitIds.ToList(),
+                    }).ToList(),
+                },
+                Genome = GenomeDto(character.Genome),
                 Karma = new KarmaDto
                 {
                     Good = character.Karma.Good,
@@ -116,6 +136,7 @@ namespace BetterLife.Core.Persistence
             RestoreSkills(dto, character, catalogs.Skills, warnings);
             RestoreFlags(dto, character, catalogs.Flags, warnings);
             RestoreKarma(dto, character);
+            RestoreWorldAndFamily(dto, character, catalogs, warnings);
             RestoreChangeLog(dto, character, catalogs.Stats, warnings);
             RestoreHistory(dto, character, warnings);
             return new CharacterLoadResult(character, warnings);
@@ -227,6 +248,69 @@ namespace BetterLife.Core.Persistence
                 GameDate? expires = flag.HasExpiry ? new GameDate(flag.ExpiresWeek) : (GameDate?)null;
                 Wrap(() => character.Flags.Restore(new FlagEntry(flag.Id, flag.Value, new GameDate(flag.SetWeek), expires)), "flag");
             }
+        }
+
+        private static void RestoreWorldAndFamily(CharacterDto dto, Character character, CharacterCatalogs catalogs, List<string> warnings)
+        {
+            if (dto.ResidenceCountryId != null)
+            {
+                if (catalogs.Countries.TryGet(dto.ResidenceCountryId, out CountryDefinition country))
+                {
+                    string city = dto.ResidenceCityId != null && country.FindCity(dto.ResidenceCityId) != null ? dto.ResidenceCityId : null;
+                    if (city == null && dto.ResidenceCityId != null)
+                    {
+                        warnings.Add($"Skipped city '{dto.ResidenceCityId}': not in current content.");
+                    }
+                    character.MoveTo(new Residence(country.Id, city));
+                }
+                else
+                {
+                    warnings.Add($"Skipped residence '{dto.ResidenceCountryId}': not in current content.");
+                }
+            }
+
+            foreach (StatValueDto gene in Items(dto.Genome))
+            {
+                if (TryStatId(gene.Id, out StatId id))
+                {
+                    character.Genome.Set(id, gene.Value);
+                }
+            }
+
+            if (dto.Family == null)
+            {
+                return;
+            }
+            if (!catalogs.FamilyBackgrounds.Contains(dto.Family.BackgroundId))
+            {
+                warnings.Add($"Skipped family '{dto.Family.BackgroundId}': not in current content.");
+                return;
+            }
+            Wrap(() => character.SetFamily(new FamilyInfo(dto.Family.BackgroundId, Items(dto.Family.Parents).Select(p => new ParentRecord(
+                new PersonName(p.GivenName, p.FamilyName),
+                ParseEnum<BiologicalSex>(p.Sex, nameof(p.Sex)),
+                p.BirthYear,
+                p.PersonalityId,
+                GenomeFrom(p.Genome),
+                (p.Traits ?? new List<string>()).Where(catalogs.Traits.Contains))).ToList())), "family");
+        }
+
+        private static List<StatValueDto> GenomeDto(Genome genome)
+        {
+            return genome.Values.Select(g => new StatValueDto { Id = g.Key.Value, Value = g.Value }).OrderBy(g => g.Id, StringComparer.Ordinal).ToList();
+        }
+
+        private static Genome GenomeFrom(List<StatValueDto> values)
+        {
+            var genome = new Genome();
+            foreach (StatValueDto gene in Items(values))
+            {
+                if (TryStatId(gene.Id, out StatId id))
+                {
+                    genome.Set(id, gene.Value);
+                }
+            }
+            return genome;
         }
 
         private static void RestoreKarma(CharacterDto dto, Character character)

@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
+using BetterLife.Core.Domain.Genetics;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Domain.World;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
@@ -47,6 +50,8 @@ namespace BetterLife.Core.Domain.Characters
             Skills = new SkillSet(catalogs.Skills);
             Flags = new FlagSet(catalogs.Flags);
             Karma = new KarmaLedger();
+            Genome = new Genome();
+            Residence = new Residence(birth.CountryId, null);
         }
 
         /// <summary>Character id.</summary>
@@ -93,6 +98,56 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Good and bad karma and pending karmic debts.</summary>
         public KarmaLedger Karma { get; }
+
+        /// <summary>Inherited potential, passed on to children.</summary>
+        public Genome Genome { get; }
+
+        /// <summary>Where the character lives (country of birth until set).</summary>
+        public Residence Residence { get; private set; }
+
+        /// <summary>The family the character was born into, or null before creation sets it.</summary>
+        public FamilyInfo Family { get; private set; }
+
+        /// <summary>
+        /// Moves the character. The country and city must be declared, and the city must belong to the country.
+        /// </summary>
+        /// <param name="residence">New residence.</param>
+        public void MoveTo(Residence residence)
+        {
+            if (residence == null)
+            {
+                throw new ArgumentNullException(nameof(residence));
+            }
+            CountryDefinition country = Catalogs.Countries.Get(residence.CountryId);
+            if (residence.CityId != null && country.FindCity(residence.CityId) == null)
+            {
+                throw new ArgumentException($"City '{residence.CityId}' is not in '{residence.CountryId}'.", nameof(residence));
+            }
+            Residence = residence;
+        }
+
+        /// <summary>
+        /// Returns the effective location modifiers where the character lives.
+        /// </summary>
+        /// <returns>Complete modifiers.</returns>
+        public LocationModifiers LocationModifiers()
+        {
+            return Catalogs.Countries.Get(Residence.CountryId).ModifiersIn(Residence.CityId);
+        }
+
+        /// <summary>
+        /// Sets the birth family. The background must be declared.
+        /// </summary>
+        /// <param name="family">Family info.</param>
+        public void SetFamily(FamilyInfo family)
+        {
+            if (family == null)
+            {
+                throw new ArgumentNullException(nameof(family));
+            }
+            Catalogs.FamilyBackgrounds.Get(family.BackgroundId);
+            Family = family;
+        }
 
         /// <summary>
         /// Returns the age in whole years.

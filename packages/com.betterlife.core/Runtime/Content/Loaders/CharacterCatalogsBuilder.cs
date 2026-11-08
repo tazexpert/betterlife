@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Domain.World;
 
 namespace BetterLife.Core.Content.Loaders
 {
     /// <summary>
-    /// Combines the six base catalogs into <see cref="CharacterCatalogs"/>. Takes no files; later content types
+    /// Combines the base catalogs into <see cref="CharacterCatalogs"/>. Takes no files; later content types
     /// (events, careers...) depend on it so their rules can validate referenced ids.
     /// </summary>
     public sealed class CharacterCatalogsBuilder : IContentTypeLoader
@@ -17,7 +19,7 @@ namespace BetterLife.Core.Content.Loaders
         private static readonly string[] Dependencies =
         {
             ContentTypes.Stats, ContentTypes.Traits, ContentTypes.Skills, ContentTypes.Flags,
-            ContentTypes.ReputationDomains, ContentTypes.HealthConditions,
+            ContentTypes.ReputationDomains, ContentTypes.HealthConditions, ContentTypes.Countries, ContentTypes.FamilyBackgrounds,
         };
 
         /// <inheritdoc />
@@ -38,7 +40,9 @@ namespace BetterLife.Core.Content.Loaders
                 context.Require<DefinitionCatalog<SkillDefinition>>(),
                 context.Require<DefinitionCatalog<FlagDefinition>>(),
                 context.Require<DefinitionCatalog<ReputationDomainDefinition>>(),
-                context.Require<DefinitionCatalog<HealthConditionDefinition>>()));
+                context.Require<DefinitionCatalog<HealthConditionDefinition>>(),
+                context.Require<DefinitionCatalog<CountryDefinition>>(),
+                context.Require<DefinitionCatalog<FamilyBackgroundDefinition>>()));
         }
     }
 }

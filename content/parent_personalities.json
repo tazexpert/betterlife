@@ -1,0 +1,130 @@
+{
+  "personalities": [
+    {
+      "id": "strict",
+      "nameKey": "parent.strict.name",
+      "weight": 20,
+      "statModifiers": [
+        {
+          "stat": "hidden.willpower",
+          "amount": 6
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "anxious",
+          "chance": 0.15
+        }
+      ]
+    },
+    {
+      "id": "warm",
+      "nameKey": "parent.warm.name",
+      "weight": 25,
+      "statModifiers": [
+        {
+          "stat": "mental.happiness",
+          "amount": 6
+        },
+        {
+          "stat": "mental.confidence",
+          "amount": 4
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "calm",
+          "chance": 0.15
+        }
+      ]
+    },
+    {
+      "id": "neglectful",
+      "nameKey": "parent.neglectful.name",
+      "weight": 10,
+      "statModifiers": [
+        {
+          "stat": "mental.loneliness",
+          "amount": 8
+        },
+        {
+          "stat": "mental.confidence",
+          "amount": -4
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "introvert",
+          "chance": 0.15
+        }
+      ]
+    },
+    {
+      "id": "overprotective",
+      "nameKey": "parent.overprotective.name",
+      "weight": 15,
+      "statModifiers": [
+        {
+          "stat": "mental.stress",
+          "amount": 3
+        },
+        {
+          "stat": "mental.confidence",
+          "amount": -3
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "anxious",
+          "chance": 0.1
+        }
+      ]
+    },
+    {
+      "id": "academic",
+      "nameKey": "parent.academic.name",
+      "weight": 15,
+      "statModifiers": [
+        {
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 3
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "quick_learner",
+          "chance": 0.1
+        }
+      ]
+    },
+    {
+      "id": "free_spirited",
+      "nameKey": "parent.free_spirited.name",
+      "weight": 15,
+      "statModifiers": [
+        {
+          "stat": "mental.happiness",
+          "amount": 3
+        },
+        {
+          "stat": "hidden.willpower",
+          "amount": -2
+        }
+      ],
+      "traitChances": [
+        {
+          "trait": "extrovert",
+          "chance": 0.15
+        }
+      ]
+    }
+  ]
+}

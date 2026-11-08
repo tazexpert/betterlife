@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/family_backgrounds.schema.json",
+  "title": "Family backgrounds",
+  "description": "Economic standing of the birth family.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "backgrounds"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "backgrounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "weight",
+          "householdIncomeLevel",
+          "statModifiers"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "householdIncomeLevel": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "statModifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stat",
+                "amount"
+              ],
+              "properties": {
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

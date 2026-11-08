@@ -48,5 +48,10 @@ namespace BetterLife.Core.Domain.Stats
         public static readonly StatId Looks = new StatId("hidden.looks");
         /// <summary>Hidden stat.</summary>
         public static readonly StatId Willpower = new StatId("hidden.willpower");
+
+        /// <summary>
+        /// Stats that game code reads directly; content must define them (checked when stats load).
+        /// </summary>
+        public static readonly StatId[] RequiredByCode = { Mental };
     }
 }

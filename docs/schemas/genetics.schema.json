@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/genetics.schema.json",
+  "title": "Genetics",
+  "description": "Inheritance of stats and traits. Exactly one file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "population",
+    "stats",
+    "traits"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mean",
+        "sd"
+      ],
+      "properties": {
+        "mean": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "sd": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "stats": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stat",
+          "heritability",
+          "noise"
+        ],
+        "properties": {
+          "stat": {
+            "$ref": "#/$defs/id"
+          },
+          "heritability": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "noise": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trait",
+          "prevalence",
+          "heritability"
+        ],
+        "properties": {
+          "trait": {
+            "$ref": "#/$defs/id"
+          },
+          "prevalence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "heritability": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  }
+}

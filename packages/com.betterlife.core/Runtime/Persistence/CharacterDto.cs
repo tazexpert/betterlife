@@ -55,6 +55,18 @@ namespace BetterLife.Core.Persistence
         /// <summary>Active flags.</summary>
         public List<FlagDto> Flags = new List<FlagDto>();
 
+        /// <summary>Country of residence.</summary>
+        public string ResidenceCountryId;
+
+        /// <summary>City of residence, or null.</summary>
+        public string ResidenceCityId;
+
+        /// <summary>Birth family, or null.</summary>
+        public FamilyDto Family;
+
+        /// <summary>Inherited potential.</summary>
+        public List<StatValueDto> Genome = new List<StatValueDto>();
+
         /// <summary>Karma ledger.</summary>
         public KarmaDto Karma = new KarmaDto();
 

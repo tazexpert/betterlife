@@ -12,6 +12,7 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'health', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.health.name', 'descKey': 'stat.health.desc' },
             { 'id': 'health.fitness', 'layer': 'sub', 'parent': 'health', 'polarity': 'higherIsBetter', 'default': 40,
               'nameKey': 'stat.health.fitness.name', 'descKey': 'stat.health.fitness.desc', 'decay': { 'target': 30, 'ratePerWeek': 0.5 } },
+            { 'id': 'mental', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.mental.name', 'descKey': 'stat.mental.desc' },
             { 'id': 'mental.stress', 'layer': 'hidden', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.stress.name', 'descKey': 'stat.stress.desc' } ],
           'formulas': [ { 'target': 'health', 'type': 'weighted', 'terms': [ { 'stat': 'health.fitness', 'weight': 1 } ] } ] }";
 
@@ -41,6 +42,37 @@ namespace BetterLife.Core.Tests.Content
             'learning': { 'multiplierAtZeroMental': 0.5, 'multiplierAtFullMental': 1.5 },
             'defaultBudget': [ { 'activity': 'gym', 'hours': 5 } ] }";
 
+        public const string Countries = @"{ 'countries': [
+            { 'id': 'thailand', 'nameKey': 'country.thailand.name', 'weight': 9,
+              'modifiers': { 'costOfLiving': 1, 'education': 60, 'healthcare': 65, 'taxRate': 0.1 },
+              'cities': [ { 'id': 'thailand.bangkok', 'nameKey': 'city.bangkok.name', 'weight': 3, 'modifiers': { 'costOfLiving': 1.35 } },
+                          { 'id': 'thailand.rural', 'nameKey': 'city.rural.name', 'weight': 1 } ] },
+            { 'id': 'japan', 'nameKey': 'country.japan.name', 'weight': 1,
+              'modifiers': { 'costOfLiving': 1.8, 'education': 80, 'healthcare': 88, 'taxRate': 0.2 },
+              'cities': [ { 'id': 'japan.tokyo', 'nameKey': 'city.tokyo.name', 'weight': 1 } ] } ] }";
+
+        public const string FamilyBackgrounds = @"{ 'backgrounds': [
+            { 'id': 'poor', 'nameKey': 'family.poor.name', 'weight': 3, 'householdIncomeLevel': 1, 'statModifiers': [ { 'stat': 'health.fitness', 'amount': -5 } ] },
+            { 'id': 'wealthy', 'nameKey': 'family.wealthy.name', 'weight': 1, 'householdIncomeLevel': 5, 'statModifiers': [ { 'stat': 'health.fitness', 'amount': 5 } ] } ] }";
+
+        public const string Personalities = @"{ 'personalities': [
+            { 'id': 'strict', 'nameKey': 'parent.strict.name', 'weight': 1, 'statModifiers': [ { 'stat': 'mental.stress', 'amount': 5 } ],
+              'traitChances': [ { 'trait': 'anxious', 'chance': 0.5 } ] },
+            { 'id': 'warm', 'nameKey': 'parent.warm.name', 'weight': 1, 'statModifiers': [ { 'stat': 'mental.stress', 'amount': -5 } ], 'traitChances': [] } ] }";
+
+        public const string Genetics = @"{ 'population': { 'mean': 50, 'sd': 15 },
+            'stats': [ { 'stat': 'health.fitness', 'heritability': 0.5, 'noise': 5 } ],
+            'traits': [ { 'trait': 'anxious', 'prevalence': 0.2, 'heritability': 0.5 } ] }";
+
+        public const string Names = @"{ 'countries': [
+            { 'country': 'thailand', 'given': { 'female': [ { 'native': 'มาลี', 'latin': 'Malee' }, { 'native': 'สุดา', 'latin': 'Suda' } ],
+                                                'male': [ { 'native': 'สมชาย', 'latin': 'Somchai' }, { 'native': 'วิชัย', 'latin': 'Wichai' } ] },
+              'family': [ { 'native': 'ใจดี', 'latin': 'Jaidee' }, { 'native': 'ศรีสุข', 'latin': 'Srisuk' } ] },
+            { 'country': 'japan', 'given': { 'female': [ { 'native': 'さくら', 'latin': 'Sakura' } ], 'male': [ { 'native': 'はると', 'latin': 'Haruto' } ] },
+              'family': [ { 'native': '佐藤', 'latin': 'Sato' } ] } ] }";
+
+        public const string CreationSettings = "{ 'birthYear': { 'min': 1980, 'max': 2020 }, 'parentAgeAtBirth': { 'min': 20, 'max': 40 } }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -56,7 +88,10 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'reputation_domains', 'path': 'reputation_domains.json' }, { 'type': 'health_conditions', 'path': 'health_conditions.json' }, "
                 + "{ 'type': 'activities', 'path': 'activities.json' }, { 'type': 'time_settings', 'path': 'time_settings.json' }, "
                 + "{ 'type': 'astrology', 'path': 'astrology.json' }, { 'type': 'luck_settings', 'path': 'luck.json' }, "
-                + "{ 'type': 'event_settings', 'path': 'event_settings.json' }"
+                + "{ 'type': 'event_settings', 'path': 'event_settings.json' }, "
+                + "{ 'type': 'countries', 'path': 'countries.json' }, { 'type': 'family_backgrounds', 'path': 'family_backgrounds.json' }, "
+                + "{ 'type': 'parent_personalities', 'path': 'parent_personalities.json' }, { 'type': 'genetics', 'path': 'genetics.json' }, "
+                + "{ 'type': 'names', 'path': 'names.json' }, { 'type': 'creation_settings', 'path': 'creation_settings.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -70,7 +105,13 @@ namespace BetterLife.Core.Tests.Content
                 .Add("time_settings.json", TimeSettings)
                 .Add("astrology.json", TestAstrology.Json())
                 .Add("luck.json", TestAstrology.LuckJson)
-                .Add("event_settings.json", EventSettings(weeklyEventChance));
+                .Add("event_settings.json", EventSettings(weeklyEventChance))
+                .Add("countries.json", Countries)
+                .Add("family_backgrounds.json", FamilyBackgrounds)
+                .Add("parent_personalities.json", Personalities)
+                .Add("genetics.json", Genetics)
+                .Add("names.json", Names)
+                .Add("creation_settings.json", CreationSettings);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/names.schema.json",
+  "title": "Names",
+  "description": "Random name pools per country, in native and Latin script.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "countries"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "name": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native",
+        "latin"
+      ],
+      "properties": {
+        "native": {
+          "type": "string",
+          "minLength": 1
+        },
+        "latin": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "country",
+          "given",
+          "family"
+        ],
+        "properties": {
+          "country": {
+            "$ref": "#/$defs/id"
+          },
+          "given": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "female",
+              "male"
+            ],
+            "properties": {
+              "female": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/name"
+                },
+                "minItems": 1
+              },
+              "male": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/name"
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "family": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/name"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

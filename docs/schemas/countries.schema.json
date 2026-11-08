@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/countries.schema.json",
+  "title": "Countries",
+  "description": "Countries and cities with life modifiers. City ids are unique across countries (checked by the loader).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "countries"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "weight",
+          "modifiers",
+          "cities"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "modifiers": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "costOfLiving",
+              "education",
+              "healthcare",
+              "taxRate"
+            ],
+            "properties": {
+              "costOfLiving": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "education": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "healthcare": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "taxRate": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "cities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "nameKey",
+                "weight"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/id"
+                },
+                "nameKey": {
+                  "$ref": "#/$defs/id"
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "modifiers": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [],
+                  "properties": {
+                    "costOfLiving": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "education": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "healthcare": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "taxRate": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

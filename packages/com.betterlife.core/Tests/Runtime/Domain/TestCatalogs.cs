@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Domain.World;
 using BetterLife.Core.Time;
 
 namespace BetterLife.Core.Tests.Domain
@@ -99,9 +101,34 @@ namespace BetterLife.Core.Tests.Domain
             });
         }
 
+        public static DefinitionCatalog<CountryDefinition> Countries()
+        {
+            return new DefinitionCatalog<CountryDefinition>(new[]
+            {
+                new CountryDefinition("thailand", "country.thailand.name", 9f, new LocationModifiers(1f, 60f, 65f, 0.1f), new[]
+                {
+                    new CityDefinition("thailand.bangkok", "city.thailand.bangkok.name", 1f, new LocationModifiers(1.35f, 75f, null, null)),
+                    new CityDefinition("thailand.rural", "city.thailand.rural.name", 1f, null),
+                }),
+                new CountryDefinition("japan", "country.japan.name", 1f, new LocationModifiers(1.8f, 80f, 88f, 0.2f), new[]
+                {
+                    new CityDefinition("japan.tokyo", "city.japan.tokyo.name", 1f, null),
+                }),
+            });
+        }
+
+        public static DefinitionCatalog<FamilyBackgroundDefinition> FamilyBackgrounds()
+        {
+            return new DefinitionCatalog<FamilyBackgroundDefinition>(new[]
+            {
+                new FamilyBackgroundDefinition("poor", "family.poor.name", 1f, 1, new[] { new StatAmount(StatIds.Wealth, -20f) }),
+                new FamilyBackgroundDefinition("wealthy", "family.wealthy.name", 1f, 5, new[] { new StatAmount(StatIds.Wealth, 35f) }),
+            });
+        }
+
         public static CharacterCatalogs All()
         {
-            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags(), ReputationDomains(), HealthConditions());
+            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags(), ReputationDomains(), HealthConditions(), Countries(), FamilyBackgrounds());
         }
 
         public static Character NewCharacter(CharacterCatalogs catalogs = null)

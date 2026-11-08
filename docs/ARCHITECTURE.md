@@ -50,6 +50,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
         └──────────────► BetterLife.Presentation ─────────┘
 ```
 - ไม่มีใครอ้างถึง Bootstrap ได้ และ Presentation กับ Infrastructure ห้ามอ้างถึงกัน
+- **GameBootstrap** โหลด content → สร้าง `LifeSession` ผ่าน `CharacterCreator` + `LifeSessionFactory`
 - **GameBootstrap** สร้างตัวเองด้วย `[RuntimeInitializeOnLoadMethod(BeforeSceneLoad)]` และใช้ `DontDestroyOnLoad`
   จึงไม่ต้องวางอะไรในฉากและไม่ต้องผูกค่าใน Inspector
 
@@ -71,6 +72,9 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Karma` | KarmaLedger, หนี้กรรม, KarmaService |
 | `BetterLife.Core.Luck` | LuckCalculator (FinalChance), ChanceSpec |
 | `BetterLife.Core.LifeEvents` | Event System: เหตุการณ์ชีวิต, Inbox, Choices, Delayed consequences |
+| `BetterLife.Core.Domain.World` / `.Family` / `.Genetics` | ประเทศ/เมือง, ครอบครัว, พันธุกรรม |
+| `BetterLife.Core.Creation` | CharacterCreator, ChallengeCode, CreationRequest |
+| `BetterLife.Core.Sessions` | LifeSession: ประกอบทุกระบบของชีวิตหนึ่ง |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

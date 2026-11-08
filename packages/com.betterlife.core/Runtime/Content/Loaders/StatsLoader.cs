@@ -86,6 +86,14 @@ namespace BetterLife.Core.Content.Loaders
             }
 
             ContentDocument first = documents.FirstOrDefault();
+            foreach (StatId required in StatIds.RequiredByCode.Where(id => definitions.All(d => d.Id != id)))
+            {
+                context.ReportError(first, "$.stats", $"stat '{required}' is required by the game.");
+            }
+            if (context.ErrorCount > errorsBefore)
+            {
+                return;
+            }
             context.Guard(first, RuleReadContext.RootPath, () => context.Add(new StatCatalog(definitions, formulas)));
         }
 

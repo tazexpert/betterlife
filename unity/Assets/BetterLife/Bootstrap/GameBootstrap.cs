@@ -1,5 +1,8 @@
+using System;
 using BetterLife.Core.Content;
+using BetterLife.Core.Creation;
 using BetterLife.Core.Events;
+using BetterLife.Core.Sessions;
 using BetterLife.Infrastructure.Content;
 using UnityEngine;
 
@@ -18,6 +21,7 @@ namespace BetterLife.Bootstrap
 
         private IEventBus _eventBus;
         private IContentRepository _content;
+        private LifeSession _life;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -51,6 +55,8 @@ namespace BetterLife.Bootstrap
 
         private void OnDestroy()
         {
+            _life?.Dispose();
+            _life = null;
             if (_instance == this)
             {
                 _instance = null;
@@ -58,8 +64,8 @@ namespace BetterLife.Bootstrap
         }
 
         /// <summary>
-        /// Builds the object graph. Systems, infrastructure services and presenters are registered here
-        /// in later milestones.
+        /// Builds the object graph: event bus, validated content and the current life.
+        /// Infrastructure services and presenters are added in later tasks.
         /// </summary>
         private void Compose()
         {
@@ -68,7 +74,36 @@ namespace BetterLife.Bootstrap
             if (_content == null)
             {
                 enabled = false;
+                return;
             }
+
+            // Until the creation screen exists (UI tasks), every launch starts a new random life.
+            _life = StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
+        }
+
+        /// <summary>
+        /// Creates a life and composes all of its systems.
+        /// </summary>
+        /// <param name="request">Creation request.</param>
+        /// <returns>The running life.</returns>
+        private LifeSession StartNewLife(CreationRequest request)
+        {
+            _life?.Dispose();
+            CreationResult creation = new CharacterCreator(_content).Create(request);
+            LifeSession life = LifeSessionFactory.CreateNew(_content, creation, _eventBus);
+            Debug.Log(LogPrefix + "New life " + creation.ChallengeCode + ": " + life.Character.Name.GivenName + " " + life.Character.Name.FamilyName
+                + ", born " + life.Character.Birth.Date + " in " + life.Character.Residence.CityId + ".");
+            return life;
+        }
+
+        /// <summary>
+        /// Returns a fresh life seed. The clock is only the entropy source for the seed; all game randomness then
+        /// comes from the seeded PCG32 streams.
+        /// </summary>
+        /// <returns>A seed.</returns>
+        private static ulong NewSeed()
+        {
+            return unchecked((ulong)DateTime.UtcNow.Ticks);
         }
 
         /// <summary>

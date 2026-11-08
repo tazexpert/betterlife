@@ -64,6 +64,30 @@
     {
       "type": "events",
       "path": "events/karma.json"
+    },
+    {
+      "type": "countries",
+      "path": "countries.json"
+    },
+    {
+      "type": "family_backgrounds",
+      "path": "family_backgrounds.json"
+    },
+    {
+      "type": "parent_personalities",
+      "path": "parent_personalities.json"
+    },
+    {
+      "type": "genetics",
+      "path": "genetics.json"
+    },
+    {
+      "type": "names",
+      "path": "names.json"
+    },
+    {
+      "type": "creation_settings",
+      "path": "creation_settings.json"
     }
   ]
 }

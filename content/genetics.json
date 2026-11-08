@@ -1,0 +1,65 @@
+{
+  "population": {
+    "mean": 50,
+    "sd": 15
+  },
+  "stats": [
+    {
+      "stat": "intelligence.iq",
+      "heritability": 0.6,
+      "noise": 10
+    },
+    {
+      "stat": "hidden.looks",
+      "heritability": 0.5,
+      "noise": 12
+    },
+    {
+      "stat": "hidden.charisma",
+      "heritability": 0.4,
+      "noise": 12
+    },
+    {
+      "stat": "hidden.willpower",
+      "heritability": 0.3,
+      "noise": 12
+    },
+    {
+      "stat": "health.fitness",
+      "heritability": 0.3,
+      "noise": 10
+    }
+  ],
+  "traits": [
+    {
+      "trait": "anxious",
+      "prevalence": 0.15,
+      "heritability": 0.4
+    },
+    {
+      "trait": "calm",
+      "prevalence": 0.15,
+      "heritability": 0.4
+    },
+    {
+      "trait": "athletic",
+      "prevalence": 0.1,
+      "heritability": 0.4
+    },
+    {
+      "trait": "quick_learner",
+      "prevalence": 0.1,
+      "heritability": 0.4
+    },
+    {
+      "trait": "introvert",
+      "prevalence": 0.3,
+      "heritability": 0.35
+    },
+    {
+      "trait": "extrovert",
+      "prevalence": 0.3,
+      "heritability": 0.35
+    }
+  ]
+}
