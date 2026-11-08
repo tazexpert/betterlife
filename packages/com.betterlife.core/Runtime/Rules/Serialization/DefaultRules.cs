@@ -31,6 +31,7 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new KarmaConditionConverter())
                 .Register(new LocationConditionConverter())
                 .Register(new FamilyBackgroundConditionConverter())
+                .Register(new LifeStageConditionConverter())
                 .Register(new StatEffectConverter())
                 .Register(new CashEffectConverter())
                 .Register(new SetFlagEffectConverter())

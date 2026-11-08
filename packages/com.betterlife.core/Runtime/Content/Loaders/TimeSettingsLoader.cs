@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BetterLife.Core.Domain;
+using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Domain.Life;
 using BetterLife.Core.Rules.Serialization;
 using BetterLife.Core.Time.Budget;
 using Newtonsoft.Json.Linq;
@@ -13,7 +15,7 @@ namespace BetterLife.Core.Content.Loaders
     /// </summary>
     public sealed class TimeSettingsLoader : SingleDocumentLoader
     {
-        private static readonly string[] Dependencies = { ContentTypes.Activities };
+        private static readonly string[] Dependencies = { ContentTypes.Activities, ContentTypes.CharacterCatalogs };
 
         /// <inheritdoc />
         public override string TypeName => ContentTypes.TimeSettings;
@@ -24,12 +26,12 @@ namespace BetterLife.Core.Content.Loaders
         /// <inheritdoc />
         protected override void Read(JObject root, RuleReadContext context, ContentLoadContext content)
         {
-            content.Add(Read(root, context, content.Require<DefinitionCatalog<ActivityDefinition>>()));
+            content.Add(Read(root, context, content.Require<DefinitionCatalog<ActivityDefinition>>(), content.Require<CharacterCatalogs>().LifeStages));
         }
 
-        private static TimeSettings Read(JObject root, RuleReadContext context, DefinitionCatalog<ActivityDefinition> activities)
+        private static TimeSettings Read(JObject root, RuleReadContext context, DefinitionCatalog<ActivityDefinition> activities, LifeStageCatalog stages)
         {
-            RuleJson.RequireOnly(root, context, "defaultActivity", "learning", "defaultBudget", ContentReading.SchemaProperty);
+            RuleJson.RequireOnly(root, context, "defaultActivity", "learning", "defaultBudget", "stageBudgets", ContentReading.SchemaProperty);
             string defaultActivity = RuleJson.RequireId(root, "defaultActivity", context);
             if (!activities.Contains(defaultActivity))
             {
@@ -41,6 +43,40 @@ namespace BetterLife.Core.Content.Loaders
             RuleJson.RequireOnly(learning, learningContext, "multiplierAtZeroMental", "multiplierAtFullMental");
 
             var (budget, budgetContext) = RuleJson.RequireArrayProperty(root, "defaultBudget", context);
+            Dictionary<string, int> hours = ReadPlan(budget, budgetContext, activities, defaultActivity);
+            var stageBudgets = new Dictionary<string, IReadOnlyDictionary<string, int>>(StringComparer.Ordinal);
+            if (root["stageBudgets"] != null)
+            {
+                var (array, arrayContext) = RuleJson.RequireArrayProperty(root, "stageBudgets", context);
+                for (int i = 0; i < array.Count; i++)
+                {
+                    RuleReadContext stageContext = arrayContext.Index(i);
+                    JObject entry = RuleJson.RequireObject(array[i], stageContext);
+                    RuleJson.RequireOnly(entry, stageContext, "stage", "budget");
+                    string stage = RuleJson.RequireId(entry, "stage", stageContext);
+                    if (!stages.Contains(stage))
+                    {
+                        throw stageContext.Property("stage").Error($"unknown life stage '{stage}'.");
+                    }
+                    if (stageBudgets.ContainsKey(stage))
+                    {
+                        throw stageContext.Property("stage").Error($"'{stage}' is listed more than once.");
+                    }
+                    var (plan, planContext) = RuleJson.RequireArrayProperty(entry, "budget", stageContext);
+                    stageBudgets.Add(stage, ReadPlan(plan, planContext, activities, defaultActivity));
+                }
+            }
+
+            return new TimeSettings(
+                defaultActivity,
+                RuleJson.RequireFloat(learning, "multiplierAtZeroMental", learningContext),
+                RuleJson.RequireFloat(learning, "multiplierAtFullMental", learningContext),
+                hours,
+                stageBudgets);
+        }
+
+        private static Dictionary<string, int> ReadPlan(JArray budget, RuleReadContext budgetContext, DefinitionCatalog<ActivityDefinition> activities, string defaultActivity)
+        {
             var hours = new Dictionary<string, int>(StringComparer.Ordinal);
             for (int i = 0; i < budget.Count; i++)
             {
@@ -69,14 +105,9 @@ namespace BetterLife.Core.Content.Loaders
             }
             if (hours.Values.Sum() > TimeBudget.HoursPerWeek)
             {
-                throw budgetContext.Error($"default budget exceeds {TimeBudget.HoursPerWeek} hours.");
+                throw budgetContext.Error($"budget exceeds {TimeBudget.HoursPerWeek} hours.");
             }
-
-            return new TimeSettings(
-                defaultActivity,
-                RuleJson.RequireFloat(learning, "multiplierAtZeroMental", learningContext),
-                RuleJson.RequireFloat(learning, "multiplierAtFullMental", learningContext),
-                hours);
+            return hours;
         }
     }
 }

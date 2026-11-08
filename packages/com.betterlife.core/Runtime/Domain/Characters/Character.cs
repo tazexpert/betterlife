@@ -4,6 +4,7 @@ using System.Linq;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Genetics;
+using BetterLife.Core.Domain.Life;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
@@ -107,6 +108,44 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>The family the character was born into, or null before creation sets it.</summary>
         public FamilyInfo Family { get; private set; }
+
+        /// <summary>How the character died, or null while alive.</summary>
+        public DeathRecord Death { get; private set; }
+
+        /// <summary>True until the character dies.</summary>
+        public bool IsAlive => Death == null;
+
+        /// <summary>
+        /// Returns the life stage at a week.
+        /// </summary>
+        /// <param name="now">Week.</param>
+        /// <returns>The stage.</returns>
+        public LifeStageDefinition LifeStage(GameDate now) => Catalogs.LifeStages.StageFor(AgeAt(now));
+
+        /// <summary>
+        /// Ends the life. Dying twice is an error.
+        /// </summary>
+        /// <param name="causeId">Death cause id.</param>
+        /// <param name="week">Week of death.</param>
+        /// <returns>The death record.</returns>
+        public DeathRecord Die(string causeId, GameDate week)
+        {
+            if (!IsAlive)
+            {
+                throw new InvalidOperationException("The character is already dead.");
+            }
+            Death = new DeathRecord(week, causeId, AgeAt(week));
+            return Death;
+        }
+
+        /// <summary>
+        /// Restores a saved death.
+        /// </summary>
+        /// <param name="death">Saved record.</param>
+        public void RestoreDeath(DeathRecord death)
+        {
+            Death = death ?? throw new ArgumentNullException(nameof(death));
+        }
 
         /// <summary>
         /// Moves the character. The country and city must be declared, and the city must belong to the country.

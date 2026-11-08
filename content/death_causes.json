@@ -1,0 +1,166 @@
+{
+  "causes": [
+    {
+      "id": "illness",
+      "nameKey": "death.illness.name",
+      "eulogyKey": "eulogy.death.illness",
+      "weight": {
+        "base": 1,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "stat",
+              "stat": "health.disease_burden",
+              "op": ">=",
+              "value": 40
+            },
+            "multiplier": 4
+          },
+          {
+            "condition": {
+              "type": "healthCondition",
+              "condition": "diabetes"
+            },
+            "multiplier": 2
+          },
+          {
+            "condition": {
+              "type": "healthCondition",
+              "condition": "hypertension"
+            },
+            "multiplier": 1.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "old_age",
+      "nameKey": "death.old_age.name",
+      "eulogyKey": "eulogy.death.old_age",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 60
+      },
+      "weight": {
+        "base": 0.2,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "age",
+              "op": ">=",
+              "value": 75
+            },
+            "multiplier": 25
+          },
+          {
+            "condition": {
+              "type": "age",
+              "op": ">=",
+              "value": 85
+            },
+            "multiplier": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "heart_disease",
+      "nameKey": "death.heart_disease.name",
+      "eulogyKey": "eulogy.death.heart_disease",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 35
+      },
+      "weight": {
+        "base": 0.6,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "age",
+              "op": ">=",
+              "value": 55
+            },
+            "multiplier": 3
+          },
+          {
+            "condition": {
+              "type": "stat",
+              "stat": "mental.stress",
+              "op": ">=",
+              "value": 70
+            },
+            "multiplier": 2
+          },
+          {
+            "condition": {
+              "type": "healthCondition",
+              "condition": "hypertension"
+            },
+            "multiplier": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "cancer",
+      "nameKey": "death.cancer.name",
+      "eulogyKey": "eulogy.death.cancer",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 30
+      },
+      "weight": {
+        "base": 0.5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "age",
+              "op": ">=",
+              "value": 55
+            },
+            "multiplier": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "accident",
+      "nameKey": "death.accident.name",
+      "eulogyKey": "eulogy.death.accident",
+      "weight": {
+        "base": 0.8,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "lifeStage",
+              "stages": [
+                "teen",
+                "young_adult"
+              ]
+            },
+            "multiplier": 2.5
+          }
+        ]
+      }
+    },
+    {
+      "id": "infant_illness",
+      "nameKey": "death.infant_illness.name",
+      "eulogyKey": "eulogy.death.infant_illness",
+      "condition": {
+        "type": "lifeStage",
+        "stages": [
+          "infant",
+          "toddler"
+        ]
+      },
+      "weight": {
+        "base": 10,
+        "modifiers": []
+      }
+    }
+  ]
+}

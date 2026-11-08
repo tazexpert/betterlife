@@ -49,10 +49,7 @@ namespace BetterLife.Core.Time.Budget
         public static TimeBudget CreateDefault(DefinitionCatalog<ActivityDefinition> activities, TimeSettings settings)
         {
             var budget = new TimeBudget(activities, settings);
-            foreach (KeyValuePair<string, int> pair in settings.DefaultBudget)
-            {
-                budget.Set(pair.Key, pair.Value);
-            }
+            budget.Reset(settings.DefaultBudget);
             return budget;
         }
 
@@ -105,6 +102,23 @@ namespace BetterLife.Core.Time.Budget
                 _hours[activityId] = hours;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Replaces the whole plan (for example on entering a new life stage). Entries that break limits are skipped.
+        /// </summary>
+        /// <param name="plan">Hours per activity (the default activity is ignored).</param>
+        public void Reset(IReadOnlyDictionary<string, int> plan)
+        {
+            if (plan == null)
+            {
+                throw new ArgumentNullException(nameof(plan));
+            }
+            _hours.Clear();
+            foreach (KeyValuePair<string, int> pair in plan.Where(p => p.Key != DefaultActivityId && _activities.Contains(p.Key) && p.Value > 0))
+            {
+                Set(pair.Key, pair.Value);
+            }
         }
 
         /// <summary>

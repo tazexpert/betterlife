@@ -1,6 +1,7 @@
 using System;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
+using BetterLife.Core.Domain.Life;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
@@ -24,6 +25,7 @@ namespace BetterLife.Core.Domain.Characters
         /// <param name="healthConditions">Health condition catalog.</param>
         /// <param name="countries">Country catalog.</param>
         /// <param name="familyBackgrounds">Family background catalog.</param>
+        /// <param name="lifeStages">Life stage catalog.</param>
         public CharacterCatalogs(
             StatCatalog stats,
             DefinitionCatalog<TraitDefinition> traits,
@@ -32,7 +34,8 @@ namespace BetterLife.Core.Domain.Characters
             DefinitionCatalog<ReputationDomainDefinition> reputationDomains,
             DefinitionCatalog<HealthConditionDefinition> healthConditions,
             DefinitionCatalog<CountryDefinition> countries,
-            DefinitionCatalog<FamilyBackgroundDefinition> familyBackgrounds)
+            DefinitionCatalog<FamilyBackgroundDefinition> familyBackgrounds,
+            LifeStageCatalog lifeStages)
         {
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
             Traits = traits ?? throw new ArgumentNullException(nameof(traits));
@@ -42,6 +45,7 @@ namespace BetterLife.Core.Domain.Characters
             HealthConditions = healthConditions ?? throw new ArgumentNullException(nameof(healthConditions));
             Countries = countries ?? throw new ArgumentNullException(nameof(countries));
             FamilyBackgrounds = familyBackgrounds ?? throw new ArgumentNullException(nameof(familyBackgrounds));
+            LifeStages = lifeStages ?? throw new ArgumentNullException(nameof(lifeStages));
         }
 
         /// <summary>Stat catalog.</summary>
@@ -67,5 +71,8 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Family background catalog.</summary>
         public DefinitionCatalog<FamilyBackgroundDefinition> FamilyBackgrounds { get; }
+
+        /// <summary>Life stage catalog.</summary>
+        public LifeStageCatalog LifeStages { get; }
     }
 }

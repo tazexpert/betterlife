@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅
-**ถัดไป:** 09 Life Stages + Aging + Death
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅
+**ถัดไป:** 10 Economy + Finance
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -22,7 +22,7 @@
 | 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance (`docs/systems/astrology-karma-luck.md`) | ✅ |
 | 07 | Event System | Weighted pool, Cooldown, Choices, Delayed consequences, Storylines (`docs/systems/event-system.md`) | ✅ |
 | 08 | Character Creation | Birth, Country, Family, Genetics, Seed (`docs/systems/character-creation.md`) | ✅ |
-| 09 | Life Stages + Aging + Death | | ⬜ |
+| 09 | Life Stages + Aging + Death | ช่วงวัย 8 ช่วง, วันเกิด, โรค, ความเสี่ยงตาย, สาเหตุการตาย (`docs/systems/life-stages-aging-death.md`) | ✅ |
 | 10 | Economy + Finance | Macro, Income/Expense, Assets, Debt, Credit | ⬜ |
 | 11 | Education + Career | | ⬜ |
 | 12 | NPC + Relationships | | ⬜ |
@@ -52,3 +52,4 @@
 - 2026-11-08 — 06 Astrology + Karma + Luck เสร็จ: ดวง 5 ด้าน (ราศีไทย, วันเกิดรวมพุธกลางคืน, ธาตุปีนักษัตร, รอบ 12 ปี), กรรมดี/ชั่วแยกกัน + หนี้กรรม + ทำบุญ, FinalChance พร้อม Breakdown และเพดาน Item 5%, rule ใหม่ 5 ชนิด; `dotnet test` ผ่าน 305 + 8 tests
 - 2026-11-08 — 07 Event System เสร็จ: pool แบบสุ่มตามน้ำหนักพร้อมตัวคูณ, cooldown, จำนวนครั้ง, Inbox + ตอบอัตโนมัติ, ตัวเลือกที่ทอยโอกาสด้วย FinalChance, `event.schedule`, storyline, anti-frustration, เหตุจากหนี้กรรม, Save DTO, เหตุการณ์เริ่มต้น 9 อัน; `dotnet test` ผ่าน 331 + 8 tests
 - 2026-11-08 — 08 Character Creation เสร็จ: 3 โหมด (Random/Custom/Challenge) จาก seed เดียว, ประเทศ/เมือง + modifier, ฐานะครอบครัว, บุคลิกพ่อแม่, พันธุกรรม (stat + trait), ชื่อไทย/ญี่ปุ่น, Challenge Code, LifeSession, GameBootstrap สร้างชีวิตใหม่ตอนเปิดเกม; `dotnet test` ผ่าน 371 + 11 tests
+- 2026-11-08 — 09 Life Stages + Aging + Death เสร็จ: 8 ช่วงวัยพร้อม budget ตามวัย, ผลวันเกิด + ความเสี่ยงโรค, โรคมีผลรายสัปดาห์/หาย/เรื้อรัง, mortality (Gompertz × สุขภาพ × สาธารณสุข), สาเหตุการตาย 6 แบบ, `character.die`, เวลาหยุดเมื่อตาย; อายุเฉลี่ยตอนตาย 82 จาก 80 ชีวิต; `dotnet test` ผ่าน 391 + 12 tests

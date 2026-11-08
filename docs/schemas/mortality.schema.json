@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/mortality.schema.json",
+  "title": "Mortality",
+  "description": "Yearly death risk = (Gompertz + stage + conditions) x health x healthcare. Exactly one file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gompertz",
+    "maxAge",
+    "health",
+    "healthcare",
+    "maxWeeklyProbability"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "gompertz": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "referenceAge",
+        "annualAtReference",
+        "growthPerYear"
+      ],
+      "properties": {
+        "referenceAge": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "annualAtReference": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "growthPerYear": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "maxAge": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "multiplierAtZero",
+        "multiplierAtFull"
+      ],
+      "properties": {
+        "multiplierAtZero": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "multiplierAtFull": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "healthcare": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "multiplierAtZero",
+        "multiplierAtFull"
+      ],
+      "properties": {
+        "multiplierAtZero": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "multiplierAtFull": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "maxWeeklyProbability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

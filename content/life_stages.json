@@ -1,0 +1,122 @@
+{
+  "stages": [
+    {
+      "id": "infant",
+      "nameKey": "stage.infant.name",
+      "minAge": 0,
+      "playerControlsTime": false,
+      "extraAnnualMortality": 0.004,
+      "birthdayStats": [],
+      "conditionRisks": []
+    },
+    {
+      "id": "toddler",
+      "nameKey": "stage.toddler.name",
+      "minAge": 3,
+      "playerControlsTime": false,
+      "extraAnnualMortality": 0.0005,
+      "birthdayStats": [],
+      "conditionRisks": []
+    },
+    {
+      "id": "child",
+      "nameKey": "stage.child.name",
+      "minAge": 7,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [],
+      "conditionRisks": []
+    },
+    {
+      "id": "teen",
+      "nameKey": "stage.teen.name",
+      "minAge": 13,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [],
+      "conditionRisks": []
+    },
+    {
+      "id": "young_adult",
+      "nameKey": "stage.young_adult.name",
+      "minAge": 18,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [],
+      "conditionRisks": []
+    },
+    {
+      "id": "establishing",
+      "nameKey": "stage.establishing.name",
+      "minAge": 30,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -0.3
+        }
+      ],
+      "conditionRisks": [
+        {
+          "condition": "hypertension",
+          "annualChance": 0.004
+        }
+      ]
+    },
+    {
+      "id": "middle_age",
+      "nameKey": "stage.middle_age.name",
+      "minAge": 45,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -0.8
+        }
+      ],
+      "conditionRisks": [
+        {
+          "condition": "hypertension",
+          "annualChance": 0.012
+        },
+        {
+          "condition": "diabetes",
+          "annualChance": 0.006
+        },
+        {
+          "condition": "depression",
+          "annualChance": 0.004
+        }
+      ]
+    },
+    {
+      "id": "retirement",
+      "nameKey": "stage.retirement.name",
+      "minAge": 60,
+      "playerControlsTime": true,
+      "extraAnnualMortality": 0,
+      "birthdayStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -1.5
+        },
+        {
+          "stat": "intelligence.knowledge",
+          "amount": -0.3
+        }
+      ],
+      "conditionRisks": [
+        {
+          "condition": "hypertension",
+          "annualChance": 0.025
+        },
+        {
+          "condition": "diabetes",
+          "annualChance": 0.012
+        }
+      ]
+    }
+  ]
+}

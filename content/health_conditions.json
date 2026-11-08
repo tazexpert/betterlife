@@ -3,47 +3,139 @@
     {
       "id": "cold",
       "nameKey": "condition.cold.name",
-      "descKey": "condition.cold.desc"
+      "descKey": "condition.cold.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fatigue",
+          "amount": 3
+        }
+      ],
+      "recoveryChancePerWeek": 0.5,
+      "annualMortality": 0
     },
     {
       "id": "flu",
       "nameKey": "condition.flu.name",
-      "descKey": "condition.flu.desc"
+      "descKey": "condition.flu.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fatigue",
+          "amount": 5
+        },
+        {
+          "stat": "health.disease_burden",
+          "amount": 3
+        }
+      ],
+      "recoveryChancePerWeek": 0.35,
+      "annualMortality": 0.002
     },
     {
       "id": "food_poisoning",
       "nameKey": "condition.food_poisoning.name",
-      "descKey": "condition.food_poisoning.desc"
+      "descKey": "condition.food_poisoning.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fatigue",
+          "amount": 4
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -4
+        }
+      ],
+      "recoveryChancePerWeek": 0.7,
+      "annualMortality": 0
     },
     {
       "id": "sprained_ankle",
       "nameKey": "condition.sprained_ankle.name",
-      "descKey": "condition.sprained_ankle.desc"
+      "descKey": "condition.sprained_ankle.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -1
+        }
+      ],
+      "recoveryChancePerWeek": 0.15,
+      "annualMortality": 0
     },
     {
       "id": "broken_arm",
       "nameKey": "condition.broken_arm.name",
-      "descKey": "condition.broken_arm.desc"
+      "descKey": "condition.broken_arm.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -1.5
+        },
+        {
+          "stat": "mental.happiness",
+          "amount": -1
+        }
+      ],
+      "recoveryChancePerWeek": 0.08,
+      "annualMortality": 0
     },
     {
       "id": "depression",
       "nameKey": "condition.depression.name",
-      "descKey": "condition.depression.desc"
+      "descKey": "condition.depression.desc",
+      "weeklyStats": [
+        {
+          "stat": "mental.happiness",
+          "amount": -2
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 1
+        }
+      ],
+      "recoveryChancePerWeek": 0.02,
+      "annualMortality": 0.002
     },
     {
       "id": "anxiety_disorder",
       "nameKey": "condition.anxiety_disorder.name",
-      "descKey": "condition.anxiety_disorder.desc"
+      "descKey": "condition.anxiety_disorder.desc",
+      "weeklyStats": [
+        {
+          "stat": "mental.stress",
+          "amount": 2
+        }
+      ],
+      "recoveryChancePerWeek": 0.02,
+      "annualMortality": 0
     },
     {
       "id": "hypertension",
       "nameKey": "condition.hypertension.name",
-      "descKey": "condition.hypertension.desc"
+      "descKey": "condition.hypertension.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.disease_burden",
+          "amount": 0.4
+        }
+      ],
+      "recoveryChancePerWeek": null,
+      "annualMortality": 0.01
     },
     {
       "id": "diabetes",
       "nameKey": "condition.diabetes.name",
-      "descKey": "condition.diabetes.desc"
+      "descKey": "condition.diabetes.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.disease_burden",
+          "amount": 0.6
+        },
+        {
+          "stat": "health.fatigue",
+          "amount": 0.5
+        }
+      ],
+      "recoveryChancePerWeek": null,
+      "annualMortality": 0.015
     }
   ]
 }

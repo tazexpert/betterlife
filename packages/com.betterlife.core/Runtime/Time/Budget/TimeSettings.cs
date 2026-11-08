@@ -18,7 +18,9 @@ namespace BetterLife.Core.Time.Budget
         /// <param name="learningAtZeroMental">Skill gain multiplier at Mental 0; positive.</param>
         /// <param name="learningAtFullMental">Skill gain multiplier at Mental 100; positive.</param>
         /// <param name="defaultBudget">Starting hours per activity (excluding the default activity).</param>
-        public TimeSettings(string defaultActivityId, float learningAtZeroMental, float learningAtFullMental, IReadOnlyDictionary<string, int> defaultBudget)
+        /// <param name="stageBudgets">Plan per life stage id, applied when the stage begins; stages without one use the default.</param>
+        public TimeSettings(string defaultActivityId, float learningAtZeroMental, float learningAtFullMental, IReadOnlyDictionary<string, int> defaultBudget,
+            IReadOnlyDictionary<string, IReadOnlyDictionary<string, int>> stageBudgets = null)
         {
             if (!(learningAtZeroMental > 0f) || !(learningAtFullMental > 0f) || float.IsInfinity(learningAtZeroMental) || float.IsInfinity(learningAtFullMental))
             {
@@ -28,6 +30,20 @@ namespace BetterLife.Core.Time.Budget
             LearningAtZeroMental = learningAtZeroMental;
             LearningAtFullMental = learningAtFullMental;
             DefaultBudget = (defaultBudget ?? new Dictionary<string, int>()).ToDictionary(p => p.Key, p => p.Value, StringComparer.Ordinal);
+            StageBudgets = (stageBudgets ?? new Dictionary<string, IReadOnlyDictionary<string, int>>()).ToDictionary(p => p.Key, p => p.Value, StringComparer.Ordinal);
+        }
+
+        /// <summary>Plan per life stage id.</summary>
+        public IReadOnlyDictionary<string, IReadOnlyDictionary<string, int>> StageBudgets { get; }
+
+        /// <summary>
+        /// Returns the plan for a life stage, or the default plan.
+        /// </summary>
+        /// <param name="stageId">Life stage id.</param>
+        /// <returns>Hours per activity.</returns>
+        public IReadOnlyDictionary<string, int> BudgetFor(string stageId)
+        {
+            return stageId != null && StageBudgets.TryGetValue(stageId, out IReadOnlyDictionary<string, int> plan) ? plan : DefaultBudget;
         }
 
         /// <summary>Activity that receives unallocated hours.</summary>

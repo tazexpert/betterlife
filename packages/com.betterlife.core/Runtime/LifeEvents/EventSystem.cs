@@ -77,6 +77,10 @@ namespace BetterLife.Core.LifeEvents
             }
 
             Character character = tick.Character;
+            if (!character.IsAlive)
+            {
+                return;
+            }
             foreach (PendingEvent overdue in State.Inbox.Where(p => p.Deadline <= tick.Week).ToList())
             {
                 AutoResolve(character, overdue, tick.Week);

@@ -1,0 +1,17 @@
+{
+  "gompertz": {
+    "referenceAge": 30,
+    "annualAtReference": 0.0008,
+    "growthPerYear": 0.085
+  },
+  "maxAge": 120,
+  "health": {
+    "multiplierAtZero": 8,
+    "multiplierAtFull": 0.6
+  },
+  "healthcare": {
+    "multiplierAtZero": 1.4,
+    "multiplierAtFull": 0.85
+  },
+  "maxWeeklyProbability": 0.5
+}

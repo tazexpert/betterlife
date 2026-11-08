@@ -75,6 +75,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Domain.World` / `.Family` / `.Genetics` | ประเทศ/เมือง, ครอบครัว, พันธุกรรม |
 | `BetterLife.Core.Creation` | CharacterCreator, ChallengeCode, CreationRequest |
 | `BetterLife.Core.Sessions` | LifeSession: ประกอบทุกระบบของชีวิตหนึ่ง |
+| `BetterLife.Core.Domain.Life` / `BetterLife.Core.Life` | ช่วงวัย, การแก่ตัว, โรค, ความเสี่ยงตาย, การตาย |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

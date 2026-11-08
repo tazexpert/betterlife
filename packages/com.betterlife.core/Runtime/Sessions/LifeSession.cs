@@ -1,6 +1,7 @@
 using System;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Events;
+using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
 using BetterLife.Core.Randomness;
@@ -24,9 +25,10 @@ namespace BetterLife.Core.Sessions
         /// <param name="time">Time system.</param>
         /// <param name="events">Event system.</param>
         /// <param name="luck">Chance calculator.</param>
+        /// <param name="deaths">Death service.</param>
         /// <param name="bus">Event bus.</param>
         public LifeSession(Character character, RandomRegistry random, TimeState timeState, EventState eventState,
-            TimeSystem time, EventSystem events, LuckCalculator luck, IEventBus bus)
+            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, IEventBus bus)
         {
             Character = character ?? throw new ArgumentNullException(nameof(character));
             Random = random ?? throw new ArgumentNullException(nameof(random));
@@ -35,6 +37,7 @@ namespace BetterLife.Core.Sessions
             Time = time ?? throw new ArgumentNullException(nameof(time));
             Events = events ?? throw new ArgumentNullException(nameof(events));
             Luck = luck ?? throw new ArgumentNullException(nameof(luck));
+            Deaths = deaths ?? throw new ArgumentNullException(nameof(deaths));
             Bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
 
@@ -62,8 +65,14 @@ namespace BetterLife.Core.Sessions
         /// <summary>Chance calculator.</summary>
         public LuckCalculator Luck { get; }
 
+        /// <summary>Death service.</summary>
+        public DeathService Deaths { get; }
+
         /// <summary>Event bus.</summary>
         public IEventBus Bus { get; }
+
+        /// <summary>True once the character has died.</summary>
+        public bool IsOver => !Character.IsAlive;
 
         /// <summary>
         /// Skips time.
@@ -75,6 +84,10 @@ namespace BetterLife.Core.Sessions
         /// <summary>
         /// Releases event bus subscriptions.
         /// </summary>
-        public void Dispose() => Events.Dispose();
+        public void Dispose()
+        {
+            Events.Dispose();
+            Deaths.Dispose();
+        }
     }
 }

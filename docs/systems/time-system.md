@@ -104,3 +104,8 @@ budget เริ่มต้น: นอน 56, งานบ้าน 7, บั�
   - Loader: กิจกรรมและ time settings ผิด 7 แบบ
   - Save mapper
 - Content 1 test ใหม่: จำลอง 10 ปีด้วย content จริง ค่าทุกตัวต้องอยู่ในช่วง (หลังจำลอง: fatigue 11.8, health 77.1, mental 91.6)
+
+## 9. แก้ไขในข้อ 09
+- Phase ใหม่: `aging` (50), `health_conditions` (210), `death_check` (600)
+- `TimeSystem` หยุดทันทีเมื่อตัวละครตาย (แม้ในสัปดาห์สุดท้ายของการข้ามเวลา) และไม่เดินเวลาให้คนที่ตายแล้ว
+- `TimeBudget.Reset(plan)` + `TimeSettings.StageBudgets`: budget เปลี่ยนตามช่วงวัย

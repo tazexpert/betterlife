@@ -27,7 +27,8 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'healthCondition','condition':'flu'},
             {'type':'karma','kind':'bad','op':'>','value':30},
             {'type':'location','country':'thailand','city':'thailand.bangkok'},
-            {'type':'familyBackground','background':'wealthy'}]}";
+            {'type':'familyBackground','background':'wealthy'},
+            {'type':'lifeStage','stages':['child','adult']}]}";
 
         private const string AllEffects = @"[
             {'type':'stat','stat':'mental.stress','amount':{'min':3,'max':8},'source':'source.work'},
@@ -92,6 +93,7 @@ namespace BetterLife.Core.Tests.Rules
         [TestCase("{'type':'location','city':'atlantis.capital'}", "$.city", "unknown city")]
         [TestCase("{'type':'location'}", "$", "country or a city is required")]
         [TestCase("{'type':'familyBackground','background':'royal'}", "$.background", "unknown family background")]
+        [TestCase("{'type':'lifeStage','stages':['elder']}", "$.stages[0]", "unknown life stage")]
         [TestCase("{'type':'all','conditions':[]}", "$", "at least one")]
         [TestCase("{'type':'all','conditions':[{'type':'age','op':'<'}]}", "$.conditions[0].value", "is required")]
         [TestCase("[]", "$", "expected an object")]
@@ -156,7 +158,8 @@ namespace BetterLife.Core.Tests.Rules
                 .Register(new FortuneConditionConverter(new FortuneCalculator(Astrology.TestAstrology.Tables())))
                 .Register(new BadKarmaEffectConverter(karma))
                 .Register(new MeritEffectConverter(karma))
-                .Register(new BetterLife.Core.LifeEvents.ScheduleEventEffectConverter(new System.Collections.Generic.HashSet<string>()));
+                .Register(new BetterLife.Core.LifeEvents.ScheduleEventEffectConverter(new System.Collections.Generic.HashSet<string>()))
+                .Register(new BetterLife.Core.Life.DieEffectConverter(new System.Collections.Generic.HashSet<string>()));
 
             Assert.That(SchemaTypes(schema, "condition"), Is.EquivalentTo(_f.Registry.ConditionTypes));
             Assert.That(SchemaTypes(schema, "effect"), Is.EquivalentTo(_f.Registry.EffectTypes));

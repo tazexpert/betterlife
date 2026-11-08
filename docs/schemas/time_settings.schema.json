@@ -61,6 +61,43 @@
           }
         }
       }
+    },
+    "stageBudgets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stage",
+          "budget"
+        ],
+        "properties": {
+          "stage": {
+            "$ref": "#/$defs/id"
+          },
+          "budget": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "activity",
+                "hours"
+              ],
+              "properties": {
+                "activity": {
+                  "$ref": "#/$defs/id"
+                },
+                "hours": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 168
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -86,7 +86,11 @@
       "polarity": "lowerIsBetter",
       "default": 0,
       "nameKey": "stat.health.disease_burden.name",
-      "descKey": "stat.health.disease_burden.desc"
+      "descKey": "stat.health.disease_burden.desc",
+      "decay": {
+        "target": 0,
+        "ratePerWeek": 1
+      }
     },
     {
       "id": "mental.happiness",

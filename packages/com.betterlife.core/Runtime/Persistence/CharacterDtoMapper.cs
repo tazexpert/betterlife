@@ -7,6 +7,7 @@ using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Genetics;
+using BetterLife.Core.Domain.Life;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
@@ -90,6 +91,10 @@ namespace BetterLife.Core.Persistence
                     }).ToList(),
                 },
                 Genome = GenomeDto(character.Genome),
+                HasDied = !character.IsAlive,
+                DeathWeek = character.Death?.Week.TotalWeeks ?? 0,
+                DeathCauseId = character.Death?.CauseId,
+                DeathAge = character.Death?.AgeYears ?? 0,
                 Karma = new KarmaDto
                 {
                     Good = character.Karma.Good,
@@ -137,6 +142,10 @@ namespace BetterLife.Core.Persistence
             RestoreFlags(dto, character, catalogs.Flags, warnings);
             RestoreKarma(dto, character);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
+            if (dto.HasDied)
+            {
+                Wrap(() => character.RestoreDeath(new DeathRecord(new GameDate(dto.DeathWeek), dto.DeathCauseId, dto.DeathAge)), "death");
+            }
             RestoreChangeLog(dto, character, catalogs.Stats, warnings);
             RestoreHistory(dto, character, warnings);
             return new CharacterLoadResult(character, warnings);

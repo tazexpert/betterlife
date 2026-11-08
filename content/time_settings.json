@@ -21,5 +21,195 @@
       "activity": "socialize",
       "hours": 5
     }
+  ],
+  "stageBudgets": [
+    {
+      "stage": "infant",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 84
+        }
+      ]
+    },
+    {
+      "stage": "toddler",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 77
+        },
+        {
+          "activity": "entertainment",
+          "hours": 10
+        },
+        {
+          "activity": "socialize",
+          "hours": 5
+        }
+      ]
+    },
+    {
+      "stage": "child",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 70
+        },
+        {
+          "activity": "study",
+          "hours": 35
+        },
+        {
+          "activity": "chores",
+          "hours": 3
+        },
+        {
+          "activity": "entertainment",
+          "hours": 10
+        },
+        {
+          "activity": "socialize",
+          "hours": 6
+        },
+        {
+          "activity": "exercise",
+          "hours": 4
+        }
+      ]
+    },
+    {
+      "stage": "teen",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 63
+        },
+        {
+          "activity": "study",
+          "hours": 40
+        },
+        {
+          "activity": "chores",
+          "hours": 4
+        },
+        {
+          "activity": "entertainment",
+          "hours": 12
+        },
+        {
+          "activity": "socialize",
+          "hours": 8
+        },
+        {
+          "activity": "exercise",
+          "hours": 4
+        }
+      ]
+    },
+    {
+      "stage": "young_adult",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 56
+        },
+        {
+          "activity": "study",
+          "hours": 10
+        },
+        {
+          "activity": "chores",
+          "hours": 7
+        },
+        {
+          "activity": "entertainment",
+          "hours": 10
+        },
+        {
+          "activity": "socialize",
+          "hours": 8
+        },
+        {
+          "activity": "exercise",
+          "hours": 3
+        }
+      ]
+    },
+    {
+      "stage": "establishing",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 56
+        },
+        {
+          "activity": "chores",
+          "hours": 10
+        },
+        {
+          "activity": "entertainment",
+          "hours": 10
+        },
+        {
+          "activity": "socialize",
+          "hours": 6
+        },
+        {
+          "activity": "exercise",
+          "hours": 3
+        }
+      ]
+    },
+    {
+      "stage": "middle_age",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 56
+        },
+        {
+          "activity": "chores",
+          "hours": 10
+        },
+        {
+          "activity": "entertainment",
+          "hours": 10
+        },
+        {
+          "activity": "socialize",
+          "hours": 6
+        },
+        {
+          "activity": "exercise",
+          "hours": 3
+        }
+      ]
+    },
+    {
+      "stage": "retirement",
+      "budget": [
+        {
+          "activity": "sleep",
+          "hours": 63
+        },
+        {
+          "activity": "chores",
+          "hours": 12
+        },
+        {
+          "activity": "entertainment",
+          "hours": 14
+        },
+        {
+          "activity": "socialize",
+          "hours": 10
+        },
+        {
+          "activity": "exercise",
+          "hours": 3
+        }
+      ]
+    }
   ]
 }

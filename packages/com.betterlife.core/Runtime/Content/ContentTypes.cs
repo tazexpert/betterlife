@@ -43,6 +43,12 @@ namespace BetterLife.Core.Content
         public const string Names = "names";
         /// <summary>Character creation settings (exactly one file).</summary>
         public const string CreationSettings = "creation_settings";
+        /// <summary>Life stages.</summary>
+        public const string LifeStages = "life_stages";
+        /// <summary>Mortality settings (exactly one file).</summary>
+        public const string Mortality = "mortality";
+        /// <summary>Death causes.</summary>
+        public const string DeathCauses = "death_causes";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

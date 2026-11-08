@@ -67,6 +67,18 @@ namespace BetterLife.Core.Persistence
         /// <summary>Inherited potential.</summary>
         public List<StatValueDto> Genome = new List<StatValueDto>();
 
+        /// <summary>Whether the character has died.</summary>
+        public bool HasDied;
+
+        /// <summary>Week of death (GameDate.TotalWeeks) when HasDied.</summary>
+        public int DeathWeek;
+
+        /// <summary>Death cause id when HasDied.</summary>
+        public string DeathCauseId;
+
+        /// <summary>Age at death when HasDied.</summary>
+        public int DeathAge;
+
         /// <summary>Karma ledger.</summary>
         public KarmaDto Karma = new KarmaDto();
 

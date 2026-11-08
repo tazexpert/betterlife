@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Events;
 
@@ -12,6 +13,9 @@ namespace BetterLife.Core.Time.Ticking
     /// </summary>
     public sealed class TimeSystem
     {
+        /// <summary>Interrupt reason used when the character dies during a skip.</summary>
+        public const string DeathReasonKey = "interrupt.death";
+
         private readonly GameClock _clock;
         private readonly IEventBus _bus;
         private readonly List<ITickPhase> _phases;
@@ -88,7 +92,8 @@ namespace BetterLife.Core.Time.Ticking
         }
 
         /// <summary>
-        /// Simulates up to <paramref name="weeks"/> weeks, stopping after a week whose interrupts meet the policy.
+        /// Simulates up to <paramref name="weeks"/> weeks, stopping after a week whose interrupts meet the policy
+        /// or in which the character dies. Does nothing for a dead character.
         /// </summary>
         /// <param name="character">The player character.</param>
         /// <param name="weeks">Positive number of weeks.</param>
@@ -107,12 +112,17 @@ namespace BetterLife.Core.Time.Ticking
             GameDate from = _clock.Now;
             var interrupts = new List<InterruptRequest>();
             InterruptRequest stoppedBy = null;
-            for (int i = 0; i < weeks && stoppedBy == null; i++)
+            for (int i = 0; i < weeks && stoppedBy == null && character.IsAlive; i++)
             {
                 TickContext context = RunWeek(character);
                 interrupts.AddRange(context.Interrupts);
                 InterruptRequest stop = Policy.FindStop(context.Interrupts);
-                if (stop != null && i < weeks - 1)
+                if (!character.IsAlive)
+                {
+                    // A death always ends the skip, even in its last week or when caused by an event effect.
+                    stoppedBy = stop ?? new InterruptRequest(Severity.Critical, DeathReasonKey, character.Death.CauseId, context.Week);
+                }
+                else if (stop != null && i < weeks - 1)
                 {
                     stoppedBy = stop;
                 }

@@ -88,6 +88,18 @@
     {
       "type": "creation_settings",
       "path": "creation_settings.json"
+    },
+    {
+      "type": "life_stages",
+      "path": "life_stages.json"
+    },
+    {
+      "type": "mortality",
+      "path": "mortality.json"
+    },
+    {
+      "type": "death_causes",
+      "path": "death_causes.json"
     }
   ]
 }

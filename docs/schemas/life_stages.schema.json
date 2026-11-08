@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/life_stages.schema.json",
+  "title": "Life stages",
+  "description": "Stages of life by start age. One stage must start at age 0 and start ages are unique (checked by the loader).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "stages"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "minAge",
+          "playerControlsTime",
+          "extraAnnualMortality",
+          "birthdayStats",
+          "conditionRisks"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "minAge": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "playerControlsTime": {
+            "type": "boolean"
+          },
+          "extraAnnualMortality": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "birthdayStats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stat",
+                "amount"
+              ],
+              "properties": {
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "conditionRisks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "condition",
+                "annualChance"
+              ],
+              "properties": {
+                "condition": {
+                  "$ref": "#/$defs/id"
+                },
+                "annualChance": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

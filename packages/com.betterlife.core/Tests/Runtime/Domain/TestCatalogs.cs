@@ -3,6 +3,7 @@ using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Flags;
+using BetterLife.Core.Domain.Life;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
@@ -96,8 +97,8 @@ namespace BetterLife.Core.Tests.Domain
         {
             return new DefinitionCatalog<HealthConditionDefinition>(new[]
             {
-                new HealthConditionDefinition("flu", "condition.flu.name", "condition.flu.desc"),
-                new HealthConditionDefinition("cold", "condition.cold.name", "condition.cold.desc"),
+                new HealthConditionDefinition("flu", "condition.flu.name", "condition.flu.desc", new[] { new StatAmount(StatIds.Fatigue, 10f) }, null, 0.5f),
+                new HealthConditionDefinition("cold", "condition.cold.name", "condition.cold.desc", null, 1f),
             });
         }
 
@@ -126,9 +127,21 @@ namespace BetterLife.Core.Tests.Domain
             });
         }
 
+        public static LifeStageCatalog LifeStages()
+        {
+            return new LifeStageCatalog(new[]
+            {
+                new LifeStageDefinition("baby", "stage.baby.name", 0, false, 0.01f, null, null),
+                new LifeStageDefinition("child", "stage.child.name", 6, true, 0f, null, null),
+                new LifeStageDefinition("adult", "stage.adult.name", 18, true, 0f, new[] { new StatAmount(StatIds.Fitness, -1f) }, null),
+                new LifeStageDefinition("senior", "stage.senior.name", 60, true, 0f, new[] { new StatAmount(StatIds.Fitness, -2f) },
+                    new[] { new ConditionRisk("cold", 1f) }),
+            });
+        }
+
         public static CharacterCatalogs All()
         {
-            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags(), ReputationDomains(), HealthConditions(), Countries(), FamilyBackgrounds());
+            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags(), ReputationDomains(), HealthConditions(), Countries(), FamilyBackgrounds(), LifeStages());
         }
 
         public static Character NewCharacter(CharacterCatalogs catalogs = null)

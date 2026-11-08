@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/death_causes.schema.json",
+  "title": "Death causes",
+  "description": "Causes of death. Natural deaths pick an eligible cause by weight.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "causes"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "causes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "weight"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "eulogyKey": {
+            "$ref": "#/$defs/id"
+          },
+          "condition": {
+            "$ref": "rules.schema.json#/$defs/condition"
+          },
+          "weight": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "base"
+            ],
+            "properties": {
+              "base": {
+                "type": "number",
+                "minimum": 0
+              },
+              "modifiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "condition",
+                    "multiplier"
+                  ],
+                  "properties": {
+                    "condition": {
+                      "$ref": "rules.schema.json#/$defs/condition"
+                    },
+                    "multiplier": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

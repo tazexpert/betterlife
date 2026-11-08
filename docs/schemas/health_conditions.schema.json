@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://betterlife.game/schemas/health_conditions.schema.json",
   "title": "Health conditions",
-  "description": "Illness and injury types. The Life Stages task adds duration and effects.",
+  "description": "Illness and injury types: weekly effects at severity 100, weekly recovery chance (null = chronic) and added yearly mortality at severity 100.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -37,6 +37,38 @@
           },
           "descKey": {
             "$ref": "#/$defs/id"
+          },
+          "weeklyStats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stat",
+                "amount"
+              ],
+              "properties": {
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "recoveryChancePerWeek": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "annualMortality": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
           }
         }
       }
