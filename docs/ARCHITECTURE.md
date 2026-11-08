@@ -33,9 +33,9 @@ packages/com.betterlife.core/
 ## Namespace ที่วางแผนไว้ (Core)
 | Namespace | หน้าที่ |
 |---|---|
-| `BetterLife.Core.Time` | GameDate, CalendarDate, Tick pipeline |
-| `BetterLife.Core.Random` | IRandomProvider, Pcg32 |
-| `BetterLife.Core.Events` | IEventBus, IGameEvent |
+| `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver, Tick pipeline |
+| `BetterLife.Core.Randomness` | IRandomProvider, Pcg32, RandomRegistry (ไม่ใช้ชื่อ `Random` เพื่อไม่ชนกับ System.Random) |
+| `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ — ส่วนเหตุการณ์ชีวิตจะอยู่ที่ `Systems.LifeEvents`) |
 | `BetterLife.Core.Stats` | Stats 3 ชั้น + Breakdown |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |

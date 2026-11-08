@@ -1,87 +1,76 @@
-# System: Foundation (Time / Random / EventBus)
+# System: Foundation (Time / Randomness / EventBus)
 
-> สถานะ: **ข้อเสนอ Data Structure — รอผู้ใช้ยืนยัน** (ยังไม่มี Logic)
+> สถานะ: ✅ **Implemented** (Milestone 1) — 2026-11-08
 
-## 1. สรุปความเข้าใจ
-ระบบพื้นฐานที่ทุกระบบในเกมใช้ร่วมกัน 3 ส่วน:
-1. **เวลา** — `GameDate` (หน่วยสัปดาห์ ใช้เดินเกม) และ `CalendarDate` (หน่วยวัน ใช้กับวันเกิด/โหราศาสตร์)
-2. **การสุ่ม** — `IRandomProvider` + `Pcg32` แบบ seeded, แยก Stream ต่อระบบ เพื่อให้ Challenge Seed เล่นซ้ำได้ผลเดิม
-3. **การสื่อสาร** — `IEventBus` แบบ synchronous, type-safe
-ระบบนี้ไม่มีไฟล์ content JSON (ค่าคงที่เชิงโครงสร้างเป็น `const` ในโค้ด) จึงไม่มี JSON Schema
+## 1. สรุป
+ระบบพื้นฐาน 3 ส่วนที่ทุกระบบในเกมใช้ร่วมกัน
+1. **เวลา:** `GameDate` (หน่วยสัปดาห์ ใช้เดินเกม), `CalendarDate` (หน่วยวัน ใช้กับวันเกิด) และ `ThaiDayOfWeekResolver` (หาวันเกิดแบบโหราไทย)
+2. **การสุ่ม:** `IRandomProvider` + `Pcg32` + `RandomRegistry` แยก Stream ตามระบบ
+3. **การสื่อสาร:** `IEventBus` / `EventBus`
 
-## 2. Data Structure
+ระบบนี้ไม่มี content JSON (ค่าคงที่ทั้งหมดเป็นค่าเชิงโครงสร้าง จึงเก็บเป็น `const`) จึงไม่มี JSON Schema
 
-### 2.1 GameDate — `BetterLife.Core.Time.GameDate` (struct, immutable)
-| สมาชิก | ชนิด | ความหมาย |
-|---|---|---|
-| `TotalWeeks` | `int` | จำนวนสัปดาห์นับจาก Epoch (สัปดาห์แรกของปี `EpochYear`) — **ค่าเดียวที่เก็บจริง** |
-| `Year` | `int` (คำนวณ) | `EpochYear + TotalWeeks / WeeksPerYear` |
-| `WeekOfYear` | `int` (คำนวณ) | 0–51 |
-| `Month` | `int` (คำนวณ) | 1–12 จาก `WeekOfYear × 7` เทียบตารางวันสะสมของปีปกติ |
-| `IsMonthStart` / `IsYearStart` | `bool` (คำนวณ) | ใช้ให้ Tick pipeline รู้ว่าต้องรันรอบการเงิน/รอบปี |
+## 2. การตัดสินใจที่ผู้ใช้ยืนยันแล้ว
+| หัวข้อ | ผลการตัดสินใจ |
+|---|---|
+| ปฏิทิน | ปีละ 52 สัปดาห์ เดือนคำนวณจากวันในปี (เดือนละ 4–5 สัปดาห์ เดือนเปลี่ยนครบ 12 ครั้งต่อปีเสมอ) |
+| Epoch | ค.ศ. **1926** (= 2026 − 100) ในโค้ดใช้ ค.ศ. ส่วน UI แสดงเป็น พ.ศ. ปีก่อน 1926 ใช้ค่า `TotalWeeks` ติดลบได้ (เช่น ปีเกิดของปู่ย่าตายาย NPC) |
+| Publish ซ้อน | เข้าคิวรอ (FIFO) |
+| เวลาเกิด | เก็บชั่วโมงเกิด โดยฟิลด์ `BirthHour` จะอยู่ใน Character Creation ส่วน Foundation มีตัวคำนวณวันเกิดแบบโหราไทยไว้ให้แล้ว |
 
-ค่าคงที่: `WeeksPerYear = 52`, `DaysPerWeek = 7`, `EpochYear = 1900`
-พฤติกรรม: `AddWeeks(int)`, `WeeksUntil(GameDate)`, `==`, `<`, `IComparable`, `IEquatable`
-หมายเหตุ: ปีในเกม = 52 สัปดาห์ (364 วัน) ปฏิทินในเกมเป็นแบบ stylized ไม่ตรงปฏิทินจริง 100% — แต่ละเดือนมี 4 หรือ 5 สัปดาห์ และเดือนเปลี่ยนครบ 12 ครั้งต่อปีเสมอ
+### เรื่อง Publish ซ้อน อธิบายด้วยตัวอย่าง
+ระบบ Career ประกาศ `JobLost` แล้วระบบ Mental ที่ฟังอยู่ประกาศต่อว่า `StressRaised`
+→ `StressRaised` จะถูกส่ง **หลังจาก** `JobLost` ไปถึงทุกระบบครบแล้วเท่านั้น
+ผลคือลำดับเหตุการณ์คาดเดาได้เสมอ และไม่มีระบบไหนได้รับข่าวสองเรื่องสลับลำดับกัน
 
-### 2.2 CalendarDate — `BetterLife.Core.Time.CalendarDate` (struct, immutable)
-| สมาชิก | ชนิด | ความหมาย |
-|---|---|---|
-| `Year`, `Month`, `Day` | `int` | วันที่จริง (validate ตอนสร้าง, รองรับปีอธิกสุรทิน) |
-| `DayOfWeek` | `ThaiDayOfWeek` (คำนวณ) | วันเกิดแบบโหราไทย (อาทิตย์…เสาร์ + พุธกลางคืน ต้องใช้เวลาเกิดเพิ่ม → ดู Q4) |
+## 3. Domain (path: `packages/com.betterlife.core/Runtime/`)
+| ไฟล์ | หน้าที่ |
+|---|---|
+| `Time/GameCalendar.cs` | ค่าคงที่: `EpochYear=1926`, `WeeksPerYear=52`, ตารางวันเริ่มต้นของแต่ละเดือน |
+| `Time/GameDate.cs` | struct ที่เก็บค่าเดียวคือ `TotalWeeks` มี `Year`, `WeekOfYear`, `Month`, `IsMonthStart`, `IsYearStart`, `AddWeeks`, `WeeksUntil` |
+| `Time/CalendarDate.cs` | วันที่จริงที่ผ่านการตรวจแล้ว (รวมปีอธิกสุรทิน) มี `DayOfWeek`, `DayOfYear`, `ToGameDate()`, `AgeAt(GameDate)` |
+| `Time/ThaiDayOfWeek.cs` | enum 8 วัน (มีพุธกลางคืน) |
+| `Time/ThaiDayOfWeekResolver.cs` | วันทางโหราศาสตร์เริ่มตอน 06:00 ถ้าเกิดก่อน 06:00 นับเป็นวันก่อนหน้า และช่วงพุธ 18:00 ถึงพฤหัส 05:59 นับเป็นพุธกลางคืน (ราหู) |
+| `Randomness/IRandomProvider.cs` | สัญญาการสุ่ม |
+| `Randomness/Pcg32.cs` | PCG-XSH-RR 64/32 ให้ผลตรงกับ reference implementation |
+| `Randomness/RandomState.cs` | `Seed`, `State`, `Increment` |
+| `Randomness/StableHash.cs` | FNV-1a 64 บน UTF-8 ให้ค่าเดิมทุกเครื่องและทุก runtime |
+| `Randomness/RandomRegistry.cs` | Stream ตามชื่อของชีวิตนั้น สร้างเมื่อเรียกใช้ครั้งแรก และ Capture/Restore ได้ทั้งหมด |
+| `Events/IGameEvent.cs`, `IEventBus.cs`, `EventBus.cs` | Bus แบบ synchronous ส่งตามชนิด event ตรงตัว Publish ซ้อนจะเข้าคิว และถ้า handler ตัวใดพัง ตัวที่เหลือยังได้รับ event ต่อ จากนั้นจึงโยน `AggregateException` |
 
-พฤติกรรม: `ToGameDate()` (สัปดาห์ที่วันนั้นตกอยู่), `static AgeInYears(CalendarDate birth, GameDate now)`
+### กฎของการสุ่ม
+- `Chance(p)` ใช้ค่าสุ่ม 1 ค่าเสมอ แม้ p = 0 หรือ 1 ทำให้การปรับ balance ค่าโอกาสไม่ทำให้ผลสุ่มลำดับถัดไปเลื่อน
+- `Fork(name)` ขึ้นกับ seed กับชื่อเท่านั้น ไม่ขึ้นกับว่าใช้ค่าสุ่มไปแล้วกี่ค่า
+- ทุกระบบต้องรับ `IRandomProvider` ผ่าน constructor โดย GameBootstrap เป็นผู้ส่งให้จาก `registry.GetStream("<system>")`
 
-### 2.3 Random — `BetterLife.Core.Random`
-```
-interface IRandomProvider
-    uint  NextUInt()
-    int   NextInt(int minInclusive, int maxExclusive)
-    float NextFloat()                  // [0, 1)
-    bool  Chance(float probability01)  // clamps input to [0, 1]
-    IRandomProvider Fork(string streamName)
-    RandomState CaptureState()
-    void  RestoreState(RandomState state)
-
-struct RandomState { ulong State; ulong Increment; }
-```
-- `Pcg32` = PCG-XSH-RR 64/32 (อัลกอริทึมมาตรฐานของ O'Neill)
-- **Stream แยกต่อระบบ:** `Fork("events")`, `Fork("npc")` … สร้าง Stream ใหม่โดย hash ชื่อ (FNV-1a 64) ร่วมกับ seed ของชีวิต
-  → เพิ่มการสุ่มในระบบหนึ่งจะไม่ทำให้ผลสุ่มของระบบอื่นเลื่อน (สำคัญกับ Challenge Seed และ Undo)
-- `RandomRegistry` เก็บ Stream ทั้งหมดตามชื่อ เพื่อ Save/Load พร้อมกัน
-
-### 2.4 EventBus — `BetterLife.Core.Events`
-```
-interface IGameEvent { }                         // marker
-interface IEventBus
-    IDisposable Subscribe<T>(Action<T> handler) where T : IGameEvent
-    void        Publish<T>(T gameEvent)         where T : IGameEvent
-```
-- Synchronous, เรียก handler ตามลำดับการ Subscribe
-- Publish ซ้อนระหว่าง dispatch → **เข้าคิว** และส่งหลัง event ปัจจุบันจบ (FIFO) ป้องกันลำดับเพี้ยน
-- Handler throw → handler ที่เหลือยังทำงานต่อ แล้วโยน `AggregateException` หลัง dispatch จบ
-- Event เป็นข้อมูลชั่วคราว **ไม่ถูก Save**
-
-## 3. Save DTO — `BetterLife.Core.Persistence`
+## 4. Save DTO (`Runtime/Persistence/`)
 ```json
 {
-  "currentDate": { "totalWeeks": 4160 },
-  "random": {
-    "lifeSeed": "9f1c2a7b00000000",
-    "streams": {
-      "events": { "state": "0123456789abcdef", "increment": "fedcba9876543211" },
-      "npc":    { "state": "…", "increment": "…" }
-    }
+  "CurrentDate": { "TotalWeeks": 5245 },
+  "Random": {
+    "LifeSeed": "deadbeefcafef00d",
+    "Streams": [
+      { "Name": "events", "Seed": "…16 hex…", "State": "…", "Increment": "…" }
+    ]
   }
 }
 ```
-- `GameDateDto { int TotalWeeks }`
-- `CalendarDateDto { int Year; int Month; int Day }`
-- `RandomStateDto { string State; string Increment }` — เก็บ `ulong` เป็น hex string กันปัญหาความแม่นยำของ JSON number
-- `RandomRegistryDto { string LifeSeed; Dictionary<string, RandomStateDto> Streams }`
+- `GameDateDto`, `CalendarDateDto`, `RandomStreamDto`, `RandomRegistryDto` ใช้ public fields + `[Serializable]` ใช้ได้ทั้งกับ JsonUtility และ Newtonsoft
+- ค่า `ulong` เก็บเป็น hex 16 หลัก เพื่อไม่ให้ความแม่นยำตกหล่นเกิน 2^53
+- เก็บ Streams เป็น List ไม่ใช้ Dictionary เพราะ JsonUtility serialize Dictionary ไม่ได้ และเรียงตามชื่อเพื่อให้ diff ไฟล์ save อ่านง่าย
+- `FoundationDtoMapper` แปลงไป/กลับ และตรวจข้อมูลเสียด้วย `FormatException` / `ArgumentOutOfRangeException`
 
-## 4. คำถามที่ต้องยืนยัน
-1. **ปฏิทิน:** ปีละ 52 สัปดาห์ เดือนคำนวณจากวันในปี (แนะนำ) หรือ 48 สัปดาห์ (เดือนละ 4 สัปดาห์เท่ากันหมด แต่ปีสั้นกว่าจริง)?
-2. **Epoch = ค.ศ. 1900** พอสำหรับ "ยุคที่เกิด" ไหม? (ใช้ ค.ศ. ภายใน แล้วแสดงผลเป็น พ.ศ. ใน UI)
-3. **EventBus:** Publish ซ้อนให้เข้าคิว (แนะนำ) หรือส่งทันทีแบบ recursive?
-4. **วันพุธกลางคืน (ราหู):** ต้องเก็บเวลาเกิด (ชั่วโมง) ด้วยไหม? ถ้าใช่จะเพิ่ม `BirthHour` ใน CharacterCreation ไม่ใช่ใน CalendarDate
+**จุดที่เปลี่ยนจากข้อเสนอเดิม:** ใน `RandomState` เพิ่ม `Seed` เพื่อให้ `Fork` ยังได้ผลเดิมหลังโหลดเซฟ, Streams เปลี่ยนจาก Dictionary เป็น List, namespace `Random` เปลี่ยนเป็น `Randomness` เพื่อไม่ให้ชื่อชนกับ `System.Random`
+
+## 5. Tests (`Tests/Runtime/`) — 86 tests (รวม ArchitectureRulesTests)
+GameDate, CalendarDate (เทียบวันในสัปดาห์กับ `System.DateTime` ตลอดปี 1920–2040), ThaiDayOfWeekResolver,
+Pcg32 (reference vector seed 42/seq 54), StableHash (FNV test vectors), RandomRegistry, EventBus, FoundationDtoMapper
+
+## 6. Unity Integration (ทำใน Milestone 13 เมื่อมี Unity project)
+```csharp
+// GameBootstrap (composition root) — planned wiring
+var bus = new EventBus();
+var random = new RandomRegistry(lifeSeed);
+var eventStream = random.GetStream("events");   // pass to EventSystem constructor
+var npcStream   = random.GetStream("npc");      // pass to NpcSystem constructor
+```
