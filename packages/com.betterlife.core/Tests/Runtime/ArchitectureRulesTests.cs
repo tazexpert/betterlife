@@ -13,7 +13,6 @@ namespace BetterLife.Core.Tests
     public class ArchitectureRulesTests
     {
         private const string RuntimeRelativePath = "packages/com.betterlife.core/Runtime";
-        private const int MaxParentLookups = 10;
 
         private static readonly Dictionary<string, Regex> ForbiddenPatterns = new Dictionary<string, Regex>
         {
@@ -30,11 +29,7 @@ namespace BetterLife.Core.Tests
         [Test]
         public void RuntimeSources_DoNotUseForbiddenApisOrFeatures()
         {
-            string runtimeDir = FindRuntimeDirectory();
-            if (runtimeDir == null)
-            {
-                Assert.Ignore("Core runtime source folder not found from the test directory.");
-            }
+            string runtimeDir = Path.Combine(RepositoryPaths.RequireRoot(), RuntimeRelativePath);
 
             var violations = new List<string>();
             foreach (string file in Directory.GetFiles(runtimeDir, "*.cs", SearchOption.AllDirectories))
@@ -46,20 +41,6 @@ namespace BetterLife.Core.Tests
             }
 
             Assert.That(violations, Is.Empty, string.Join("\n", violations));
-        }
-
-        private static string FindRuntimeDirectory()
-        {
-            var dir = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
-            for (int i = 0; i < MaxParentLookups && dir != null; i++, dir = dir.Parent)
-            {
-                string candidate = Path.Combine(dir.FullName, RuntimeRelativePath);
-                if (Directory.Exists(candidate))
-                {
-                    return candidate;
-                }
-            }
-            return null;
         }
 
         private static string StripComments(string source)

@@ -1,0 +1,14 @@
+{
+  "name": "BetterLife.Bootstrap",
+  "rootNamespace": "BetterLife.Bootstrap",
+  "references": ["BetterLife.Core", "BetterLife.Infrastructure", "BetterLife.Presentation"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

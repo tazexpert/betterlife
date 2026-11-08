@@ -19,3 +19,8 @@
 dotnet/**/bin/
 dotnet/**/obj/
 TestResults/
+
+# Unity generated IDE files
+unity/*.csproj
+unity/*.sln
+unity/*.slnx

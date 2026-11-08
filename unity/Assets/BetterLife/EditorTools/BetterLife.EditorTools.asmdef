@@ -1,0 +1,14 @@
+{
+  "name": "BetterLife.EditorTools",
+  "rootNamespace": "BetterLife.EditorTools",
+  "references": [],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

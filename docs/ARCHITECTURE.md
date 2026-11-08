@@ -14,21 +14,42 @@ Core (packages/com.betterlife.core/Runtime — Pure C#, netstandard2.1, C# 9)
 
 ## โครงสร้างโฟลเดอร์
 ```
-CLAUDE.md                     กฎหลักของโปรเจกต์
-content/                      เนื้อหาเกม *.json
+CLAUDE.md                         กฎหลักของโปรเจกต์
+.github/workflows/core-tests.yml  CI: dotnet test ทุก push / PR
+content/                          เนื้อหาเกม *.json
 docs/
   GDD.md  ARCHITECTURE.md  PROGRESS.md
-  schemas/                    JSON Schema ของเนื้อหาแต่ละชนิด
-  systems/                    สเปกรายระบบ
+  schemas/                        JSON Schema ของเนื้อหาแต่ละชนิด
+  systems/                        สเปกรายระบบ
 dotnet/
   BetterLife.sln
-  BetterLife.Core.csproj      คอมไพล์ Runtime ของ Core
-  BetterLife.Core.Tests.csproj รันเทสต์ชุดเดียวกับ Unity Test Runner
-packages/com.betterlife.core/
+  BetterLife.Core.csproj          คอมไพล์ Runtime ของ Core
+  BetterLife.Core.Tests.csproj    รันเทสต์ชุดเดียวกับ Unity Test Runner
+  Directory.Build.props           แยก obj/bin ต่อโปรเจกต์
+packages/com.betterlife.core/     UPM package (Pure C#)
   package.json
-  Runtime/                    BetterLife.Core.asmdef + โค้ด Core
-  Tests/Runtime/              BetterLife.Core.Tests.asmdef + NUnit tests
+  Runtime/                        BetterLife.Core.asmdef (noEngineReferences) + โค้ด Core
+  Tests/Runtime/                  BetterLife.Core.Tests.asmdef + NUnit tests
+unity/                            Unity project
+  Packages/manifest.json          อ้าง Core ผ่าน file:../../packages/com.betterlife.core
+  ProjectSettings/ProjectVersion.txt
+  Assets/BetterLife/
+    Bootstrap/                    BetterLife.Bootstrap.asmdef + GameBootstrap (Composition Root)
+    Infrastructure/               BetterLife.Infrastructure.asmdef (→ Core)
+    Presentation/                 BetterLife.Presentation.asmdef (→ Core) + UI/Uxml, UI/Uss
+    EditorTools/                  BetterLife.EditorTools.asmdef (Editor only) + ProjectSetupMenu
+    Scenes/Main.unity             สร้างโดย ProjectSetupMenu (ฉากว่าง)
 ```
+
+## กราฟการอ้างอิง Assembly
+```
+BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Core
+        │                                                 ▲
+        └──────────────► BetterLife.Presentation ─────────┘
+```
+- ไม่มีใครอ้างถึง Bootstrap ได้ และ Presentation กับ Infrastructure ห้ามอ้างถึงกัน
+- **GameBootstrap** สร้างตัวเองด้วย `[RuntimeInitializeOnLoadMethod(BeforeSceneLoad)]` และใช้ `DontDestroyOnLoad`
+  จึงไม่ต้องวางอะไรในฉากและไม่ต้องผูกค่าใน Inspector
 
 ## Namespace ที่วางแผนไว้ (Core)
 | Namespace | หน้าที่ |
@@ -45,3 +66,5 @@ packages/com.betterlife.core/
 ## ตัวป้องกันกฎสถาปัตยกรรม
 - **คอมไพเลอร์:** C# 9 ปฏิเสธ file-scoped namespace / record struct, `TreatWarningsAsErrors` + `GenerateDocumentationFile` บังคับ XML doc
 - **ArchitectureRulesTests:** สแกน Runtime หา `UnityEngine`, `System.Random`, `record`, `init;`
+- **AssemblyDependencyRulesTests:** อ่าน asmdef ทุกไฟล์แล้วตรวจทิศทางการอ้างอิงตามกราฟข้างบน
+- **CI:** GitHub Actions รัน `dotnet test` ทุก push
