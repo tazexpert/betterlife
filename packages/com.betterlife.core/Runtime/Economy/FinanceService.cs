@@ -16,7 +16,7 @@ namespace BetterLife.Core.Economy
     /// plus the actions the finance screen offers. Cash shortfalls from anywhere become family help (children)
     /// or debt (adults: card first, then the loan shark).
     /// </summary>
-    public sealed class FinanceService : IDisposable
+    public sealed class FinanceService : IDisposable, IDependencyStatus, ILoanProvider
     {
         /// <summary>Flag set while owing a loan shark.</summary>
         public const string LoanSharkFlag = "finance.loan_shark";

@@ -105,6 +105,26 @@ namespace BetterLife.Core.Time.Budget
         }
 
         /// <summary>
+        /// Sets an activity to as many of the requested hours as the activity's maximum and the free hours allow
+        /// (used when school or a job claims time). Returns the hours granted.
+        /// </summary>
+        /// <param name="activityId">Known activity id other than the default.</param>
+        /// <param name="hours">Requested hours, non-negative.</param>
+        /// <returns>Hours now set.</returns>
+        public int Reserve(string activityId, int hours)
+        {
+            ActivityDefinition activity = _activities.Get(activityId);
+            if (hours < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(hours), hours, "Hours must be non-negative.");
+            }
+            int current = _hours.TryGetValue(activityId, out int existing) ? existing : 0;
+            int granted = Math.Min(Math.Min(hours, activity.MaxHours), current + Math.Max(0, FreeHours));
+            Set(activityId, granted);
+            return granted;
+        }
+
+        /// <summary>
         /// Replaces the whole plan (for example on entering a new life stage). Entries that break limits are skipped.
         /// </summary>
         /// <param name="plan">Hours per activity (the default activity is ignored).</param>

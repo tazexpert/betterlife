@@ -9,7 +9,9 @@ using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
 using BetterLife.Core.Domain.World;
+using BetterLife.Core.Careers;
 using BetterLife.Core.Economy;
+using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
@@ -103,6 +105,12 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Assets, loans and lifestyle.</summary>
         public CharacterFinances Finances { get; } = new CharacterFinances();
+
+        /// <summary>Schooling: current enrollment and credentials.</summary>
+        public CharacterEducation Education { get; } = new CharacterEducation();
+
+        /// <summary>Work: current job, past jobs and pension.</summary>
+        public CharacterCareer Career { get; } = new CharacterCareer();
 
         /// <summary>Cash + assets − debts.</summary>
         public decimal NetWorth => Finances.NetWorth(Wallet.Cash);
