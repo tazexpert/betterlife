@@ -7,7 +7,7 @@
 |---|---|
 | JSON | Newtonsoft.Json: Unity ใช้ `com.unity.nuget.newtonsoft-json` 3.2.1 (เพิ่มเป็น dependency ของ package Core แล้ว) ส่วน dotnet ใช้ NuGet 13.0.3 และ Core asmdef อ้างถึง `Newtonsoft.Json.dll` ผ่าน `precompiledReferences` |
 | เงินไม่พอ | จ่ายเท่าที่มีจนเงินเหลือ 0 แล้วรายงานยอดขาดใน `EffectResult.CashShortfall` ให้ข้อ 10 นำไปทำเป็นหนี้ |
-| ช่วงตัวเลข | สุ่มใหม่ทุกครั้งที่ Apply ส่วนค่าคงที่ไม่ใช้เลขสุ่ม (ปรับ content จากค่าคงที่เป็นค่าคงที่ ลำดับเลขสุ่มจะไม่เลื่อน) |
+| ช่วงตัวเลข | สุ่มใหม่ทุกครั้งที่ Apply ส่วนค่าคงที่ไม่ใช้เลขสุ่มเลย (แก้ตัวเลขคงที่ใน content ได้โดยลำดับเลขสุ่มไม่เลื่อน) |
 
 ## 1. สรุปความเข้าใจ
 Rules Engine คือ "ภาษากลาง" ที่ไฟล์ content ใช้บอกเกมว่า **เมื่อไร** (Condition) และ **เกิดอะไรขึ้น** (Effect)
