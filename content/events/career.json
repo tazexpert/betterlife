@@ -1,0 +1,87 @@
+{
+  "events": [
+    {
+      "id": "career.overtime_request",
+      "titleKey": "event.career.overtime_request.title",
+      "bodyKey": "event.career.overtime_request.body",
+      "category": "career",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 18
+      },
+      "cooldownWeeks": 26,
+      "weight": {
+        "base": 8,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "stat",
+              "stat": "mental.stress",
+              "op": ">=",
+              "value": 70
+            },
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "accept",
+          "textKey": "event.career.overtime_request.choice.accept",
+          "success": {
+            "resultKey": "event.career.overtime_request.choice.accept.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 3000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 6
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 5
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.career.overtime_request.choice.decline",
+          "chance": {
+            "base": 60,
+            "stats": [
+              {
+                "stat": "hidden.charisma",
+                "weight": 0.4
+              }
+            ],
+            "fortune": "career"
+          },
+          "success": {
+            "resultKey": "event.career.overtime_request.choice.decline.success",
+            "effects": []
+          },
+          "failure": {
+            "resultKey": "event.career.overtime_request.choice.decline.failure",
+            "effects": [
+              {
+                "type": "reputation",
+                "domain": "workplace",
+                "amount": -5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "accept"
+    }
+  ]
+}

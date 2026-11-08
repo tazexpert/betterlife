@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/events.schema.json",
+  "title": "Life events",
+  "description": "Life events. The loader also checks default choices, event.schedule targets across files, and that debtAmount is only used by karmic_debt events.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "events"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "resultKey"
+      ],
+      "properties": {
+        "resultKey": {
+          "$ref": "#/$defs/id"
+        },
+        "effects": {
+          "$ref": "rules.schema.json#/$defs/effects"
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "textKey",
+        "success"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "textKey": {
+          "$ref": "#/$defs/id"
+        },
+        "condition": {
+          "$ref": "rules.schema.json#/$defs/condition"
+        },
+        "hideWhenLocked": {
+          "type": "boolean"
+        },
+        "chance": {
+          "$ref": "rules.schema.json#/$defs/chance"
+        },
+        "success": {
+          "$ref": "#/$defs/outcome"
+        },
+        "failure": {
+          "$ref": "#/$defs/outcome"
+        }
+      },
+      "dependentRequired": {
+        "chance": [
+          "failure"
+        ],
+        "failure": [
+          "chance"
+        ]
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "titleKey",
+        "bodyKey",
+        "category",
+        "trigger",
+        "severity",
+        "tone",
+        "choices"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "titleKey": {
+          "$ref": "#/$defs/id"
+        },
+        "bodyKey": {
+          "$ref": "#/$defs/id"
+        },
+        "category": {
+          "$ref": "#/$defs/id"
+        },
+        "trigger": {
+          "enum": [
+            "random",
+            "scheduled",
+            "karmic_debt"
+          ]
+        },
+        "severity": {
+          "enum": [
+            "minor",
+            "normal",
+            "major",
+            "critical"
+          ]
+        },
+        "tone": {
+          "enum": [
+            "negative",
+            "neutral",
+            "positive"
+          ]
+        },
+        "storyline": {
+          "$ref": "#/$defs/id"
+        },
+        "condition": {
+          "$ref": "rules.schema.json#/$defs/condition"
+        },
+        "weight": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "base"
+          ],
+          "properties": {
+            "base": {
+              "type": "number",
+              "minimum": 0
+            },
+            "modifiers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "condition",
+                  "multiplier"
+                ],
+                "properties": {
+                  "condition": {
+                    "$ref": "rules.schema.json#/$defs/condition"
+                  },
+                  "multiplier": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        "cooldownWeeks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxOccurrences": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "debtAmount": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "onFire": {
+          "$ref": "rules.schema.json#/$defs/effects"
+        },
+        "defaultChoice": {
+          "$ref": "#/$defs/id"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/choice"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "choices": {
+            "minItems": 1
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "defaultChoice"
+        ]
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    }
+  }
+}

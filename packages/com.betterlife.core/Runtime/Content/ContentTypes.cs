@@ -27,6 +27,10 @@ namespace BetterLife.Core.Content
         public const string LuckSettings = "luck_settings";
         /// <summary>Barrier reached when every content-registered rule type is available (takes no files).</summary>
         public const string RuleTypes = "rule_types";
+        /// <summary>Life events (any number of files).</summary>
+        public const string Events = "events";
+        /// <summary>Event system settings (exactly one file).</summary>
+        public const string EventSettings = "event_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

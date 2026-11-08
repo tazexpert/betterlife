@@ -717,6 +717,49 @@
               "$ref": "#/$defs/nonNegativeRange"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "event",
+            "delayWeeks"
+          ],
+          "properties": {
+            "type": {
+              "const": "event.schedule"
+            },
+            "event": {
+              "$ref": "#/$defs/id"
+            },
+            "delayWeeks": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "min",
+                    "max"
+                  ],
+                  "properties": {
+                    "min": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "max": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              ]
+            }
+          }
         }
       ]
     },

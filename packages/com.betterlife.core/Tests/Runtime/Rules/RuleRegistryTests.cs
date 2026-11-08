@@ -149,7 +149,8 @@ namespace BetterLife.Core.Tests.Rules
             _f.Registry
                 .Register(new FortuneConditionConverter(new FortuneCalculator(Astrology.TestAstrology.Tables())))
                 .Register(new BadKarmaEffectConverter(karma))
-                .Register(new MeritEffectConverter(karma));
+                .Register(new MeritEffectConverter(karma))
+                .Register(new BetterLife.Core.LifeEvents.ScheduleEventEffectConverter(new System.Collections.Generic.HashSet<string>()));
 
             Assert.That(SchemaTypes(schema, "condition"), Is.EquivalentTo(_f.Registry.ConditionTypes));
             Assert.That(SchemaTypes(schema, "effect"), Is.EquivalentTo(_f.Registry.EffectTypes));

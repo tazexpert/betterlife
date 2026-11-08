@@ -137,3 +137,7 @@ Schema ของ content อื่น (events, vices ฯลฯ) ใช้ `$ref`
 - **ข้อ 07:** เพิ่ม Effect `scheduleEvent` ผ่าน Registry + Publish `EffectResult` ผ่าน EventBus
 - **ข้อ 10:** แปลง `CashShortfall` เป็นหนี้
 - **ข้อ 20:** ข้อความของ key `rule.cond.*` / `rule.effect.*` (argument ที่ชื่อลงท้ายด้วย `Key` ต้องแปลซ้ำอีกชั้น)
+
+## 9. แก้ไขในข้อ 07
+- `EffectResult.Messages` + `PublishTo(bus)`: ใครเป็นคน Apply effect ต้อง Publish messages ด้วย (`CashEffect` ส่ง `CashShortfallEvent`, `event.schedule` ส่ง `ScheduleEventRequest`)
+- `EventBus` เปลี่ยนมาส่ง event ตามชนิดจริงขณะรัน (runtime type) แทนชนิดที่ประกาศไว้ตอนคอมไพล์ จึง Publish ตัวแปรที่ประกาศเป็น `IGameEvent` ได้ (ไม่ใช้ `dynamic` เพราะ IL2CPP ไม่รองรับ)

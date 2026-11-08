@@ -27,6 +27,13 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": null
+    },
+    {
+      "id": "social.reconnected_old_friend",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.social.reconnected_old_friend"
     }
   ]
 }

@@ -1,0 +1,152 @@
+{
+  "events": [
+    {
+      "id": "social.old_friend_reunion",
+      "titleKey": "event.social.old_friend_reunion.title",
+      "bodyKey": "event.social.old_friend_reunion.body",
+      "category": "social",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "storyline": "social.old_friend",
+      "maxOccurrences": 1,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 20
+      },
+      "weight": {
+        "base": 3
+      },
+      "choices": [
+        {
+          "id": "meet",
+          "textKey": "event.social.old_friend_reunion.choice.meet",
+          "success": {
+            "resultKey": "event.social.old_friend_reunion.choice.meet.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": -12
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 5
+              },
+              {
+                "type": "flag.set",
+                "flag": "social.reconnected_old_friend"
+              },
+              {
+                "type": "event.schedule",
+                "event": "social.old_friend_business_offer",
+                "delayWeeks": {
+                  "min": 26,
+                  "max": 52
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "ignore",
+          "textKey": "event.social.old_friend_reunion.choice.ignore",
+          "success": {
+            "resultKey": "event.social.old_friend_reunion.choice.ignore.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": 3
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "ignore"
+    },
+    {
+      "id": "social.old_friend_business_offer",
+      "titleKey": "event.social.old_friend_business_offer.title",
+      "bodyKey": "event.social.old_friend_business_offer.body",
+      "category": "social",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "neutral",
+      "storyline": "social.old_friend",
+      "condition": {
+        "type": "flag",
+        "flag": "social.reconnected_old_friend"
+      },
+      "choices": [
+        {
+          "id": "invest",
+          "textKey": "event.social.old_friend_business_offer.choice.invest",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 20000
+          },
+          "chance": {
+            "base": 40,
+            "stats": [
+              {
+                "stat": "intelligence",
+                "weight": 0.3
+              }
+            ],
+            "fortune": "finance"
+          },
+          "success": {
+            "resultKey": "event.social.old_friend_business_offer.choice.invest.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": {
+                  "min": 20000,
+                  "max": 60000
+                }
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 6
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.social.old_friend_business_offer.choice.invest.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -20000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.social.old_friend_business_offer.choice.decline",
+          "success": {
+            "resultKey": "event.social.old_friend_business_offer.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "relationships",
+                "amount": -2
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline"
+    }
+  ]
+}

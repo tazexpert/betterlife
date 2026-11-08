@@ -1,0 +1,102 @@
+{
+  "events": [
+    {
+      "id": "health.flu_season",
+      "titleKey": "event.health.flu_season.title",
+      "bodyKey": "event.health.flu_season.body",
+      "category": "health",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "cooldownWeeks": 40,
+      "weight": {
+        "base": 5
+      },
+      "condition": {
+        "type": "not",
+        "condition": {
+          "type": "healthCondition",
+          "condition": "flu"
+        }
+      },
+      "onFire": [
+        {
+          "type": "healthCondition.add",
+          "condition": "flu",
+          "severity": {
+            "min": 20,
+            "max": 40
+          }
+        }
+      ],
+      "choices": [
+        {
+          "id": "rest",
+          "textKey": "event.health.flu_season.choice.rest",
+          "success": {
+            "resultKey": "event.health.flu_season.choice.rest.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": -10
+              },
+              {
+                "type": "healthCondition.remove",
+                "condition": "flu"
+              },
+              {
+                "type": "cash",
+                "amount": -500
+              }
+            ]
+          }
+        },
+        {
+          "id": "push_through",
+          "textKey": "event.health.flu_season.choice.push_through",
+          "chance": {
+            "base": 45,
+            "stats": [
+              {
+                "stat": "health.fitness",
+                "weight": 0.5
+              }
+            ],
+            "fortune": "health"
+          },
+          "success": {
+            "resultKey": "event.health.flu_season.choice.push_through.success",
+            "effects": [
+              {
+                "type": "healthCondition.remove",
+                "condition": "flu"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 2
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.health.flu_season.choice.push_through.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": 8
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 12
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "rest"
+    }
+  ]
+}

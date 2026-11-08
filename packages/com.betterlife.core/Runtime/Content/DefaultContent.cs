@@ -29,6 +29,8 @@ namespace BetterLife.Core.Content
                 new RuleTypesBarrier(),
                 new ActivitiesLoader(),
                 new TimeSettingsLoader(),
+                new EventSettingsLoader(),
+                new EventsLoader(),
             };
         }
 

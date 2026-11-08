@@ -60,7 +60,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Time.Budget` | กิจกรรม, TimeBudget 168 ชม., TimeSettings, TimeState |
 | `BetterLife.Core.Time.Ticking` (+ `.Phases`) | TimeSystem, ITickPhase, Interrupt, GameClock |
 | `BetterLife.Core.Randomness` | IRandomProvider, Pcg32, RandomRegistry (ไม่ใช้ชื่อ `Random` เพื่อไม่ชนกับ System.Random) |
-| `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ — ส่วนเหตุการณ์ชีวิตจะอยู่ที่ `Systems.LifeEvents`) |
+| `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ ส่วนเหตุการณ์ชีวิตอยู่ที่ `LifeEvents`) |
 | `BetterLife.Core.Domain` | ContentId, DefinitionCatalog |
 | `BetterLife.Core.Domain.Stats` | Stats 3 ชั้น, สูตร, Breakdown, ChangeLog, History, Reputation |
 | `BetterLife.Core.Domain.Traits` / `.Skills` / `.Flags` | Trait, Skill, Story flag |
@@ -70,6 +70,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Astrology` | ดวง 5 ด้าน, AstrologyTables, FortuneCalculator |
 | `BetterLife.Core.Karma` | KarmaLedger, หนี้กรรม, KarmaService |
 | `BetterLife.Core.Luck` | LuckCalculator (FinalChance), ChanceSpec |
+| `BetterLife.Core.LifeEvents` | Event System: เหตุการณ์ชีวิต, Inbox, Choices, Delayed consequences |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

@@ -16,43 +16,10 @@ namespace BetterLife.Core.Tests.Content
     [TestFixture]
     public class ContentPipelineTests
     {
-        private const string Stats = @"{ 'stats': [
-            { 'id': 'health', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.health.name', 'descKey': 'stat.health.desc' },
-            { 'id': 'health.fitness', 'layer': 'sub', 'parent': 'health', 'polarity': 'higherIsBetter', 'default': 40,
-              'nameKey': 'stat.health.fitness.name', 'descKey': 'stat.health.fitness.desc', 'decay': { 'target': 30, 'ratePerWeek': 0.5 } },
-            { 'id': 'mental.stress', 'layer': 'hidden', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.stress.name', 'descKey': 'stat.stress.desc' } ],
-          'formulas': [ { 'target': 'health', 'type': 'weighted', 'terms': [ { 'stat': 'health.fitness', 'weight': 1 } ] } ] }";
-
-        private const string Traits = @"{ 'traits': [ { 'id': 'anxious', 'nameKey': 'trait.anxious.name', 'descKey': 'trait.anxious.desc',
-            'category': 'personality', 'exclusiveGroup': 'temperament', 'startsHidden': true,
-            'statModifiers': [ { 'stat': 'mental.stress', 'direction': 'gain', 'multiplier': 1.25 } ] } ] }";
-
-        private const string Skills = @"{ 'skills': [ { 'id': 'cooking', 'nameKey': 'skill.cooking.name', 'category': 'life',
-            'gainFalloffExponent': 1.2, 'decay': { 'graceWeeks': 12, 'ratePerWeek': 0.2, 'retentionOfPeak': 0.6 } } ] }";
-
-        private const string Flags = @"{ 'flags': [
-            { 'id': 'career.fired_once', 'kind': 'bool', 'defaultExpiryWeeks': null, 'inheritable': false, 'eulogyKey': 'eulogy.fired' },
-            { 'id': 'vice.wins', 'kind': 'counter', 'defaultExpiryWeeks': 52, 'inheritable': true, 'eulogyKey': null } ] }";
-
-        private const string Domains = "{ 'domains': [ { 'id': 'business', 'nameKey': 'reputation.business.name' } ] }";
-
-        private const string Conditions = "{ 'conditions': [ { 'id': 'flu', 'nameKey': 'condition.flu.name', 'descKey': 'condition.flu.desc' } ] }";
-
-        private const string Activities = @"{ 'activities': [
-            { 'id': 'free_time', 'nameKey': 'activity.free_time.name', 'descKey': 'activity.free_time.desc', 'category': 'rest',
-              'minHours': 0, 'maxHours': 168, 'costPerHour': 0, 'stats': [], 'skills': [] },
-            { 'id': 'gym', 'nameKey': 'activity.gym.name', 'descKey': 'activity.gym.desc', 'category': 'health',
-              'minHours': 0, 'maxHours': 20, 'costPerHour': 15.5, 'condition': { 'type': 'age', 'op': '>=', 'value': 12 },
-              'stats': [ { 'stat': 'health.fitness', 'perHour': 0.3, 'maxHours': 10 } ], 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.1 } ] } ] }";
-
-        private const string TimeSettings = @"{ 'defaultActivity': 'free_time',
-            'learning': { 'multiplierAtZeroMental': 0.5, 'multiplierAtFullMental': 1.5 },
-            'defaultBudget': [ { 'activity': 'gym', 'hours': 5 } ] }";
-
         [Test]
         public void ValidContent_LoadsEveryProduct()
         {
-            ContentLoadResult result = Load(Valid());
+            ContentLoadResult result = Load(TestContent.Source());
 
             Assert.That(result.Errors, Is.Empty, string.Join("\n", result.Errors));
             IContentRepository repository = result.RequireRepository();
@@ -85,8 +52,8 @@ namespace BetterLife.Core.Tests.Content
         [TestCase("time_settings.json", "'activity': 'gym'", "'activity': 'free_time'", "$.defaultBudget[0].activity", "cannot be budgeted")]
         public void TimeContentProblems_AreReported(string file, string find, string replace, string path, string message)
         {
-            string original = file == "activities.json" ? Activities : TimeSettings;
-            InMemoryContentSource source = Valid().Add(file, original.Replace(find, replace));
+            string original = file == "activities.json" ? TestContent.Activities : TestContent.TimeSettings;
+            InMemoryContentSource source = TestContent.Source().Add(file, original.Replace(find, replace));
 
             ContentError error = Load(source).Errors.First();
 
@@ -98,8 +65,8 @@ namespace BetterLife.Core.Tests.Content
         [Test]
         public void TimeSettings_RequireExactlyOneFile()
         {
-            InMemoryContentSource source = Valid(extraFiles: "{ 'type': 'time_settings', 'path': 'time_settings_2.json' }")
-                .Add("time_settings_2.json", TimeSettings);
+            InMemoryContentSource source = TestContent.Source(extraFiles: "{ 'type': 'time_settings', 'path': 'time_settings_2.json' }")
+                .Add("time_settings_2.json", TestContent.TimeSettings);
 
             Assert.That(Load(source).Errors.First().Message, Does.Contain("Exactly one 'time_settings' file is required, found 2"));
         }
@@ -107,12 +74,12 @@ namespace BetterLife.Core.Tests.Content
         [Test]
         public void SameType_CanSpanFiles_ButIdsMustBeUnique()
         {
-            InMemoryContentSource source = Valid(extraFiles: "{ 'type': 'skills', 'path': 'more/skills_2.json' }")
-                .Add("more/skills_2.json", Skills.Replace("cooking", "baking"));
+            InMemoryContentSource source = TestContent.Source(extraFiles: "{ 'type': 'skills', 'path': 'more/skills_2.json' }")
+                .Add("more/skills_2.json", TestContent.Skills.Replace("cooking", "baking"));
             Assert.That(Load(source).RequireRepository().Get<DefinitionCatalog<BetterLife.Core.Domain.Skills.SkillDefinition>>().All, Has.Count.EqualTo(2));
 
-            InMemoryContentSource duplicate = Valid(extraFiles: "{ 'type': 'skills', 'path': 'more/skills_2.json' }")
-                .Add("more/skills_2.json", Skills);
+            InMemoryContentSource duplicate = TestContent.Source(extraFiles: "{ 'type': 'skills', 'path': 'more/skills_2.json' }")
+                .Add("more/skills_2.json", TestContent.Skills);
             ContentError error = Load(duplicate).Errors.First();
             Assert.That(error.File, Is.EqualTo("more/skills_2.json"));
             Assert.That(error.Path, Is.EqualTo("$.skills[0].id"));
@@ -122,9 +89,9 @@ namespace BetterLife.Core.Tests.Content
         [Test]
         public void Errors_AreCollected_WithFileAndPath_AndDependentsAreSkipped()
         {
-            InMemoryContentSource source = Valid()
-                .Add("traits.json", Traits.Replace("'mental.stress'", "'mental.stres'"))
-                .Add("skills.json", Skills.Replace("'graceWeeks': 12", "'graceWeeks': 'soon'"));
+            InMemoryContentSource source = TestContent.Source()
+                .Add("traits.json", TestContent.Traits.Replace("'mental.stress'", "'mental.stres'"))
+                .Add("skills.json", TestContent.Skills.Replace("'graceWeeks': 12", "'graceWeeks': 'soon'"));
 
             ContentLoadResult result = Load(source);
 
@@ -138,15 +105,16 @@ namespace BetterLife.Core.Tests.Content
                 "Skipped 'rule_types' because 'character_catalogs' has errors.",
                 "Skipped 'activities' because 'rule_types' has errors.",
                 "Skipped 'time_settings' because 'activities' has errors.",
+                "Skipped 'events' because 'rule_types' has errors.",
             }));
             var ex = Assert.Throws<ContentLoadException>(() => result.RequireRepository());
-            Assert.That(ex.Errors, Has.Count.EqualTo(6));
+            Assert.That(ex.Errors, Has.Count.EqualTo(7));
         }
 
         [Test]
         public void StatCatalogProblems_AreReported()
         {
-            InMemoryContentSource source = Valid().Add("stats.json", Stats.Replace("'weight': 1", "'weight': 0.5"));
+            InMemoryContentSource source = TestContent.Source().Add("stats.json", TestContent.Stats.Replace("'weight': 1", "'weight': 0.5"));
 
             ContentError error = Load(source).Errors.First();
 
@@ -177,14 +145,14 @@ namespace BetterLife.Core.Tests.Content
             Assert.That(Load(new InMemoryContentSource().Add(ContentPaths.ManifestFile, "{ nope")).Errors.Single().Message, Does.StartWith("Invalid JSON"));
             Assert.That(Load(new InMemoryContentSource().Add(ContentPaths.ManifestFile, "{ 'contentVersion': 0, 'files': [] }")).Errors.Single().Message, Does.Contain("at least 1"));
 
-            InMemoryContentSource missing = Valid(extraFiles: "{ 'type': 'skills', 'path': 'gone.json' }");
+            InMemoryContentSource missing = TestContent.Source(extraFiles: "{ 'type': 'skills', 'path': 'gone.json' }");
             Assert.That(Load(missing).Errors.Select(e => e.ToString()), Has.Some.EqualTo("gone.json: File listed in the manifest was not found."));
         }
 
         [Test]
         public void DuplicateJsonProperties_AreRejected()
         {
-            InMemoryContentSource source = Valid().Add("skills.json", "{ 'skills': [], 'skills': [] }");
+            InMemoryContentSource source = TestContent.Source().Add("skills.json", "{ 'skills': [], 'skills': [] }");
 
             ContentError error = Load(source).Errors.First();
 
@@ -195,7 +163,7 @@ namespace BetterLife.Core.Tests.Content
         [Test]
         public void NullableFields_MustBePresent()
         {
-            InMemoryContentSource source = Valid().Add("flags.json", "{ 'flags': [ { 'id': 'a.b', 'kind': 'bool', 'inheritable': false, 'eulogyKey': null } ] }");
+            InMemoryContentSource source = TestContent.Source().Add("flags.json", "{ 'flags': [ { 'id': 'a.b', 'kind': 'bool', 'inheritable': false, 'eulogyKey': null } ] }");
 
             ContentError error = Load(source).Errors.First();
 
@@ -206,7 +174,7 @@ namespace BetterLife.Core.Tests.Content
         [Test]
         public void UnknownFormulaType_IsReported()
         {
-            InMemoryContentSource source = Valid().Add("stats.json", Stats.Replace("'type': 'weighted'", "'type': 'magic'"));
+            InMemoryContentSource source = TestContent.Source().Add("stats.json", TestContent.Stats.Replace("'type': 'weighted'", "'type': 'magic'"));
 
             ContentError error = Load(source).Errors.First();
 
@@ -233,13 +201,13 @@ namespace BetterLife.Core.Tests.Content
 
             Assert.That(order.IndexOf(ContentTypes.Stats), Is.LessThan(order.IndexOf(ContentTypes.Traits)));
             Assert.That(order.IndexOf(ContentTypes.CharacterCatalogs), Is.LessThan(order.IndexOf(ContentTypes.Activities)));
-            Assert.That(order.Last(), Is.EqualTo(ContentTypes.TimeSettings));
+            Assert.That(order.IndexOf(ContentTypes.RuleTypes), Is.LessThan(order.IndexOf(ContentTypes.Events)));
         }
 
         [Test]
         public void Repository_ThrowsForMissingProducts()
         {
-            IContentRepository repository = Load(Valid()).RequireRepository();
+            IContentRepository repository = Load(TestContent.Source()).RequireRepository();
 
             Assert.That(repository.TryGet(out ContentPipelineTests _), Is.False);
             Assert.Throws<KeyNotFoundException>(() => repository.Get<ContentPipelineTests>());
@@ -260,28 +228,6 @@ namespace BetterLife.Core.Tests.Content
         private static ContentLoadResult Load(IContentSource source)
         {
             return DefaultContent.CreatePipeline(source).Load();
-        }
-
-        private static InMemoryContentSource Valid(string extraFiles = null)
-        {
-            string files = "{ 'type': 'stats', 'path': 'stats.json' }, { 'type': 'traits', 'path': 'traits.json' }, "
-                + "{ 'type': 'skills', 'path': 'skills.json' }, { 'type': 'flags', 'path': 'flags.json' }, "
-                + "{ 'type': 'reputation_domains', 'path': 'reputation_domains.json' }, { 'type': 'health_conditions', 'path': 'health_conditions.json' }, "
-                + "{ 'type': 'activities', 'path': 'activities.json' }, { 'type': 'time_settings', 'path': 'time_settings.json' }, "
-                + "{ 'type': 'astrology', 'path': 'astrology.json' }, { 'type': 'luck_settings', 'path': 'luck.json' }"
-                + (extraFiles == null ? string.Empty : ", " + extraFiles);
-            return new InMemoryContentSource()
-                .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
-                .Add("stats.json", Stats)
-                .Add("traits.json", Traits)
-                .Add("skills.json", Skills)
-                .Add("flags.json", Flags)
-                .Add("reputation_domains.json", Domains)
-                .Add("health_conditions.json", Conditions)
-                .Add("activities.json", Activities)
-                .Add("time_settings.json", TimeSettings)
-                .Add("astrology.json", Astrology.TestAstrology.Json())
-                .Add("luck.json", Astrology.TestAstrology.LuckJson);
         }
 
         private sealed class CycleLoader : IContentTypeLoader

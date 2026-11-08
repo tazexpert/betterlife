@@ -39,6 +39,7 @@ namespace BetterLife.Core.Content.Loaders
                 throw new ArgumentNullException(nameof(context));
             }
 
+            BeforeItems(documents, context);
             var definitions = new List<T>();
             var firstSeenIn = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (ContentDocument document in documents)
@@ -73,6 +74,15 @@ namespace BetterLife.Core.Content.Loaders
                 }
             }
             context.Add(new DefinitionCatalog<T>(definitions));
+        }
+
+        /// <summary>
+        /// Called once before any item is read (for example to collect ids across files). Default: nothing.
+        /// </summary>
+        /// <param name="documents">All files of this type.</param>
+        /// <param name="context">Load context.</param>
+        protected virtual void BeforeItems(IReadOnlyList<ContentDocument> documents, ContentLoadContext context)
+        {
         }
 
         /// <summary>

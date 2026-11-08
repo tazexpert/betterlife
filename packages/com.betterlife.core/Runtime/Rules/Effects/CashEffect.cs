@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using BetterLife.Core.Domain.Stats;
+using BetterLife.Core.Events;
 
 namespace BetterLife.Core.Rules.Effects
 {
     /// <summary>
     /// Adds or removes cash. A payment larger than the cash on hand takes everything and reports the shortfall,
-    /// which the Economy system turns into debt.
+    /// (also as a <see cref="CashShortfallEvent"/> message), which the Economy system turns into debt.
     /// </summary>
     public sealed class CashEffect : IEffect
     {
@@ -53,7 +54,10 @@ namespace BetterLife.Core.Rules.Effects
             {
                 lines.Add(RuleText.Of(RuleTextKeys.EffectCashShortfall, (RuleTextKeys.ArgValue, RuleText.Number(shortfall))));
             }
-            return new EffectResult(lines, new StatChangeResult[0], shortfall);
+            IGameEvent[] messages = shortfall > 0m
+                ? new IGameEvent[] { new CashShortfallEvent(shortfall, context.SourceKey, context.Now) }
+                : new IGameEvent[0];
+            return new EffectResult(lines, new StatChangeResult[0], shortfall, messages);
         }
 
         /// <inheritdoc />

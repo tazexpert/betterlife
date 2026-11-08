@@ -40,6 +40,30 @@
     {
       "type": "luck_settings",
       "path": "luck.json"
+    },
+    {
+      "type": "event_settings",
+      "path": "event_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/daily.json"
+    },
+    {
+      "type": "events",
+      "path": "events/career.json"
+    },
+    {
+      "type": "events",
+      "path": "events/health.json"
+    },
+    {
+      "type": "events",
+      "path": "events/social.json"
+    },
+    {
+      "type": "events",
+      "path": "events/karma.json"
     }
   ]
 }

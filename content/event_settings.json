@@ -1,0 +1,9 @@
+{
+  "weeklyEventChance": 0.15,
+  "responseWindowWeeks": 4,
+  "antiFrustration": {
+    "streakThreshold": 2,
+    "windowWeeks": 12,
+    "negativeWeightMultiplier": 0.4
+  }
+}

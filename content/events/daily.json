@@ -1,0 +1,99 @@
+{
+  "events": [
+    {
+      "id": "daily.lost_wallet",
+      "titleKey": "event.daily.lost_wallet.title",
+      "bodyKey": "event.daily.lost_wallet.body",
+      "category": "daily",
+      "trigger": "random",
+      "severity": "minor",
+      "tone": "negative",
+      "weight": {
+        "base": 6
+      },
+      "cooldownWeeks": 52,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 12
+      },
+      "onFire": [
+        {
+          "type": "cash",
+          "amount": {
+            "min": -800,
+            "max": -200
+          }
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "daily.found_temple_fair",
+      "titleKey": "event.daily.found_temple_fair.title",
+      "bodyKey": "event.daily.found_temple_fair.body",
+      "category": "spiritual",
+      "trigger": "random",
+      "severity": "minor",
+      "tone": "positive",
+      "weight": {
+        "base": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "karma",
+              "kind": "bad",
+              "op": ">",
+              "value": 20
+            },
+            "multiplier": 2
+          }
+        ]
+      },
+      "cooldownWeeks": 26,
+      "choices": [
+        {
+          "id": "make_merit",
+          "textKey": "event.daily.found_temple_fair.choice.make_merit",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 300
+          },
+          "success": {
+            "resultKey": "event.daily.found_temple_fair.choice.make_merit.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -300
+              },
+              {
+                "type": "karma.merit",
+                "amount": 6
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "walk_past",
+          "textKey": "event.daily.found_temple_fair.choice.walk_past",
+          "success": {
+            "resultKey": "event.daily.found_temple_fair.choice.walk_past.success",
+            "effects": []
+          }
+        }
+      ],
+      "defaultChoice": "walk_past"
+    }
+  ]
+}

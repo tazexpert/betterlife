@@ -1,0 +1,135 @@
+{
+  "events": [
+    {
+      "id": "karma.small_misfortune",
+      "titleKey": "event.karma.small_misfortune.title",
+      "bodyKey": "event.karma.small_misfortune.body",
+      "category": "karma",
+      "trigger": "karmic_debt",
+      "severity": "minor",
+      "tone": "negative",
+      "debtAmount": {
+        "min": 0,
+        "max": 5
+      },
+      "onFire": [
+        {
+          "type": "cash",
+          "amount": {
+            "min": -1500,
+            "max": -300
+          }
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "karma.accident",
+      "titleKey": "event.karma.accident.title",
+      "bodyKey": "event.karma.accident.body",
+      "category": "karma",
+      "trigger": "karmic_debt",
+      "severity": "major",
+      "tone": "negative",
+      "debtAmount": {
+        "min": 5,
+        "max": 100
+      },
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 8
+      },
+      "onFire": [
+        {
+          "type": "healthCondition.add",
+          "condition": "sprained_ankle",
+          "severity": {
+            "min": 30,
+            "max": 60
+          }
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        }
+      ],
+      "choices": [
+        {
+          "id": "hospital",
+          "textKey": "event.karma.accident.choice.hospital",
+          "success": {
+            "resultKey": "event.karma.accident.choice.hospital.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -4000
+              },
+              {
+                "type": "healthCondition.remove",
+                "condition": "sprained_ankle"
+              }
+            ]
+          }
+        },
+        {
+          "id": "tough_it_out",
+          "textKey": "event.karma.accident.choice.tough_it_out",
+          "success": {
+            "resultKey": "event.karma.accident.choice.tough_it_out.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": 6
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": -3
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "hospital"
+    },
+    {
+      "id": "karma.accident_child",
+      "titleKey": "event.karma.accident_child.title",
+      "bodyKey": "event.karma.accident_child.body",
+      "category": "karma",
+      "trigger": "karmic_debt",
+      "severity": "normal",
+      "tone": "negative",
+      "debtAmount": {
+        "min": 5,
+        "max": 100
+      },
+      "condition": {
+        "type": "age",
+        "op": "<",
+        "value": 8
+      },
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -6
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    }
+  ]
+}
