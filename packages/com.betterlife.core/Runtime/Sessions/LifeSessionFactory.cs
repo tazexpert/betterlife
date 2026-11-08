@@ -5,7 +5,9 @@ using BetterLife.Core.Astrology;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Domain;
+using BetterLife.Core.Careers;
 using BetterLife.Core.Economy;
+using BetterLife.Core.Education;
 using BetterLife.Core.Events;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Life;
@@ -30,6 +32,12 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>Random stream for the economy and markets.</summary>
         public const string EconomyStream = "economy";
+
+        /// <summary>Random stream for entrance exams and scholarships.</summary>
+        public const string EducationStream = "education";
+
+        /// <summary>Random stream for hiring, promotions, career risks and variable income.</summary>
+        public const string CareerStream = "career";
 
         /// <summary>
         /// Creates the session.
@@ -67,20 +75,34 @@ namespace BetterLife.Core.Sessions
             var economy = new EconomyService(economySettings,
                 EconomyService.CreateInitial(economySettings, creation.Character.Birth.Week.Year, economyRandom), economyRandom);
             var financeSettings = content.Get<FinanceSettings>();
+            var tracks = content.Get<DefinitionCatalog<CareerTrackDefinition>>();
+            var careerRandom = creation.Random.GetStream(CareerStream);
+            var incomeSources = new IIncomeSource[]
+            {
+                new FamilyAllowanceSource(financeSettings), new CareerIncomeSource(tracks, economy, careerRandom), new PensionIncomeSource(),
+            };
             var finance = new FinanceService(creation.Character, content.Get<DefinitionCatalog<AssetDefinition>>(),
                 content.Get<DefinitionCatalog<DebtProductDefinition>>(), content.Get<DefinitionCatalog<LifestyleTierDefinition>>(),
-                financeSettings, economy, new IIncomeSource[] { new FamilyAllowanceSource(financeSettings) }, bus, clock);
+                financeSettings, economy, incomeSources, bus, clock);
+            var programs = content.Get<DefinitionCatalog<EducationProgramDefinition>>();
+            var education = new EducationService(creation.Character, programs, content.Get<EducationSettings>(), settings, budget, luck,
+                creation.Random.GetStream(EducationStream), finance, finance, bus, clock);
+            var career = new CareerService(creation.Character, tracks, content.Get<CareerSettings>(), programs, budget, settings, luck,
+                careerRandom, economy, bus, clock);
             IEnumerable<ITickPhase> phases = new ITickPhase[]
             {
                 new AgingPhase(timeState, settings, creation.Random.GetStream(HealthStream), bus),
                 new HealthConditionPhase(creation.Random.GetStream(HealthStream), bus),
                 new EconomyYearPhase(economy),
                 new FinanceMonthPhase(finance),
+                new EducationWeekPhase(education),
+                new CareerWeekPhase(career),
+                new CareerMonthPhase(career),
                 new EventRollPhase(events),
                 new DeathCheckPhase(content.Get<MortalityModel>(), deaths, creation.Random.GetStream(DeathStream)),
             }.Concat(extraPhases ?? Enumerable.Empty<ITickPhase>());
             TimeSystem time = TimeSystemFactory.Create(content, timeState, creation.Random, bus, policy ?? new InterruptPolicy(), phases);
-            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, economy, finance, bus);
+            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, economy, finance, education, career, bus);
         }
     }
 }

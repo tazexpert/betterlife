@@ -48,6 +48,34 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": "eulogy.finance.bankrupt"
+    },
+    {
+      "id": "education.repeated_year",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "education.dropout",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.education.dropout"
+    },
+    {
+      "id": "education.expelled",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.education.expelled"
+    },
+    {
+      "id": "career.criminal_record",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.career.criminal_record"
     }
   ]
 }

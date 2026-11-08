@@ -1,0 +1,443 @@
+{
+  "$schema": "../docs/schemas/education_programs.schema.json",
+  "programs": [
+    {
+      "id": "kindergarten",
+      "nameKey": "education.kindergarten.name",
+      "rank": 1,
+      "years": 3,
+      "entryAge": {
+        "min": 3,
+        "max": 4
+      },
+      "requiresRank": 0,
+      "compulsory": false,
+      "autoEnroll": true,
+      "weeklyHours": 15,
+      "skills": [],
+      "institutions": [
+        {
+          "id": "kindergarten.public",
+          "nameKey": "institution.kindergarten.public.name",
+          "prestige": 40,
+          "tuitionPerYear": 0,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": 0
+        },
+        {
+          "id": "kindergarten.private",
+          "nameKey": "institution.kindergarten.private.name",
+          "prestige": 60,
+          "tuitionPerYear": 30000,
+          "difficulty": null,
+          "quality": 3,
+          "familyMinIncome": 4
+        }
+      ]
+    },
+    {
+      "id": "primary",
+      "nameKey": "education.primary.name",
+      "rank": 2,
+      "years": 6,
+      "entryAge": {
+        "min": 6,
+        "max": 8
+      },
+      "requiresRank": 0,
+      "compulsory": true,
+      "autoEnroll": true,
+      "weeklyHours": 30,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.01
+        }
+      ],
+      "institutions": [
+        {
+          "id": "primary.public",
+          "nameKey": "institution.primary.public.name",
+          "prestige": 40,
+          "tuitionPerYear": 0,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": 0
+        },
+        {
+          "id": "primary.private",
+          "nameKey": "institution.primary.private.name",
+          "prestige": 60,
+          "tuitionPerYear": 60000,
+          "difficulty": null,
+          "quality": 4,
+          "familyMinIncome": 4
+        },
+        {
+          "id": "primary.international",
+          "nameKey": "institution.primary.international.name",
+          "prestige": 80,
+          "tuitionPerYear": 400000,
+          "difficulty": null,
+          "quality": 8,
+          "familyMinIncome": 6
+        }
+      ]
+    },
+    {
+      "id": "lower_secondary",
+      "nameKey": "education.lower_secondary.name",
+      "rank": 3,
+      "years": 3,
+      "entryAge": {
+        "min": 11,
+        "max": 15
+      },
+      "requiresRank": 2,
+      "compulsory": true,
+      "autoEnroll": true,
+      "weeklyHours": 32,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.01
+        }
+      ],
+      "institutions": [
+        {
+          "id": "lower_secondary.public",
+          "nameKey": "institution.lower_secondary.public.name",
+          "prestige": 40,
+          "tuitionPerYear": 0,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": 0
+        },
+        {
+          "id": "lower_secondary.elite_public",
+          "nameKey": "institution.lower_secondary.elite_public.name",
+          "prestige": 70,
+          "tuitionPerYear": 5000,
+          "difficulty": 60,
+          "quality": 6,
+          "familyMinIncome": null
+        },
+        {
+          "id": "lower_secondary.private",
+          "nameKey": "institution.lower_secondary.private.name",
+          "prestige": 60,
+          "tuitionPerYear": 80000,
+          "difficulty": null,
+          "quality": 4,
+          "familyMinIncome": 4
+        },
+        {
+          "id": "lower_secondary.international",
+          "nameKey": "institution.lower_secondary.international.name",
+          "prestige": 80,
+          "tuitionPerYear": 500000,
+          "difficulty": null,
+          "quality": 8,
+          "familyMinIncome": 6
+        }
+      ]
+    },
+    {
+      "id": "upper_secondary",
+      "nameKey": "education.upper_secondary.name",
+      "rank": 4,
+      "years": 3,
+      "entryAge": {
+        "min": 14,
+        "max": 18
+      },
+      "requiresRank": 3,
+      "compulsory": false,
+      "autoEnroll": true,
+      "weeklyHours": 35,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.01
+        }
+      ],
+      "institutions": [
+        {
+          "id": "upper_secondary.public",
+          "nameKey": "institution.upper_secondary.public.name",
+          "prestige": 40,
+          "tuitionPerYear": 0,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": 0
+        },
+        {
+          "id": "upper_secondary.elite_public",
+          "nameKey": "institution.upper_secondary.elite_public.name",
+          "prestige": 75,
+          "tuitionPerYear": 5000,
+          "difficulty": 70,
+          "quality": 6,
+          "familyMinIncome": null
+        },
+        {
+          "id": "upper_secondary.private",
+          "nameKey": "institution.upper_secondary.private.name",
+          "prestige": 60,
+          "tuitionPerYear": 90000,
+          "difficulty": null,
+          "quality": 4,
+          "familyMinIncome": 4
+        },
+        {
+          "id": "upper_secondary.international",
+          "nameKey": "institution.upper_secondary.international.name",
+          "prestige": 85,
+          "tuitionPerYear": 600000,
+          "difficulty": null,
+          "quality": 8,
+          "familyMinIncome": 6
+        }
+      ]
+    },
+    {
+      "id": "vocational_certificate",
+      "nameKey": "education.vocational_certificate.name",
+      "rank": 4,
+      "years": 3,
+      "entryAge": {
+        "min": 14,
+        "max": 20
+      },
+      "requiresRank": 3,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 35,
+      "skills": [
+        {
+          "skill": "cooking",
+          "gainPerHour": 0.03
+        },
+        {
+          "skill": "programming",
+          "gainPerHour": 0.03
+        }
+      ],
+      "institutions": [
+        {
+          "id": "vocational_certificate.public",
+          "nameKey": "institution.vocational_certificate.public.name",
+          "prestige": 35,
+          "tuitionPerYear": 3000,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": null
+        },
+        {
+          "id": "vocational_certificate.private",
+          "nameKey": "institution.vocational_certificate.private.name",
+          "prestige": 45,
+          "tuitionPerYear": 30000,
+          "difficulty": null,
+          "quality": 2,
+          "familyMinIncome": null
+        }
+      ]
+    },
+    {
+      "id": "non_formal_secondary",
+      "nameKey": "education.non_formal_secondary.name",
+      "rank": 4,
+      "years": 2,
+      "entryAge": {
+        "min": 15,
+        "max": null
+      },
+      "requiresRank": 2,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 8,
+      "skills": [],
+      "institutions": [
+        {
+          "id": "non_formal_secondary.learning_center",
+          "nameKey": "institution.non_formal_secondary.learning_center.name",
+          "prestige": 20,
+          "tuitionPerYear": 0,
+          "difficulty": null,
+          "quality": -5,
+          "familyMinIncome": null
+        }
+      ]
+    },
+    {
+      "id": "high_vocational",
+      "nameKey": "education.high_vocational.name",
+      "rank": 5,
+      "years": 2,
+      "entryAge": {
+        "min": 17,
+        "max": null
+      },
+      "requiresRank": 4,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 30,
+      "skills": [
+        {
+          "skill": "cooking",
+          "gainPerHour": 0.05
+        },
+        {
+          "skill": "programming",
+          "gainPerHour": 0.05
+        }
+      ],
+      "institutions": [
+        {
+          "id": "high_vocational.public",
+          "nameKey": "institution.high_vocational.public.name",
+          "prestige": 40,
+          "tuitionPerYear": 8000,
+          "difficulty": null,
+          "quality": 0,
+          "familyMinIncome": null
+        }
+      ]
+    },
+    {
+      "id": "bachelor",
+      "nameKey": "education.bachelor.name",
+      "rank": 6,
+      "years": 4,
+      "entryAge": {
+        "min": 17,
+        "max": null
+      },
+      "requiresRank": 4,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 25,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.02
+        },
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.01
+        }
+      ],
+      "institutions": [
+        {
+          "id": "bachelor.top_public",
+          "nameKey": "institution.bachelor.top_public.name",
+          "prestige": 90,
+          "tuitionPerYear": 30000,
+          "difficulty": 75,
+          "quality": 5,
+          "familyMinIncome": null
+        },
+        {
+          "id": "bachelor.public",
+          "nameKey": "institution.bachelor.public.name",
+          "prestige": 65,
+          "tuitionPerYear": 25000,
+          "difficulty": 50,
+          "quality": 2,
+          "familyMinIncome": null
+        },
+        {
+          "id": "bachelor.private",
+          "nameKey": "institution.bachelor.private.name",
+          "prestige": 55,
+          "tuitionPerYear": 120000,
+          "difficulty": 20,
+          "quality": 1,
+          "familyMinIncome": null
+        },
+        {
+          "id": "bachelor.open",
+          "nameKey": "institution.bachelor.open.name",
+          "prestige": 30,
+          "tuitionPerYear": 10000,
+          "difficulty": null,
+          "quality": -3,
+          "familyMinIncome": null
+        }
+      ]
+    },
+    {
+      "id": "master",
+      "nameKey": "education.master.name",
+      "rank": 7,
+      "years": 2,
+      "entryAge": {
+        "min": 21,
+        "max": null
+      },
+      "requiresRank": 6,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 20,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.02
+        }
+      ],
+      "institutions": [
+        {
+          "id": "master.top_public",
+          "nameKey": "institution.master.top_public.name",
+          "prestige": 90,
+          "tuitionPerYear": 80000,
+          "difficulty": 70,
+          "quality": 5,
+          "familyMinIncome": null
+        },
+        {
+          "id": "master.private",
+          "nameKey": "institution.master.private.name",
+          "prestige": 55,
+          "tuitionPerYear": 200000,
+          "difficulty": 25,
+          "quality": 1,
+          "familyMinIncome": null
+        }
+      ]
+    },
+    {
+      "id": "doctorate",
+      "nameKey": "education.doctorate.name",
+      "rank": 8,
+      "years": 4,
+      "entryAge": {
+        "min": 23,
+        "max": null
+      },
+      "requiresRank": 7,
+      "compulsory": false,
+      "autoEnroll": false,
+      "weeklyHours": 30,
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.02
+        }
+      ],
+      "institutions": [
+        {
+          "id": "doctorate.top_public",
+          "nameKey": "institution.doctorate.top_public.name",
+          "prestige": 95,
+          "tuitionPerYear": 60000,
+          "difficulty": 80,
+          "quality": 5,
+          "familyMinIncome": null
+        }
+      ]
+    }
+  ]
+}

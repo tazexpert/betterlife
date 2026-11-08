@@ -9,9 +9,8 @@
       "severity": "normal",
       "tone": "neutral",
       "condition": {
-        "type": "age",
-        "op": ">=",
-        "value": 18
+        "type": "career",
+        "employed": true
       },
       "cooldownWeeks": 26,
       "weight": {
@@ -48,6 +47,10 @@
                 "type": "stat",
                 "stat": "health.fatigue",
                 "amount": 5
+              },
+              {
+                "type": "career.boss",
+                "amount": 5
               }
             ]
           }
@@ -76,6 +79,10 @@
                 "type": "reputation",
                 "domain": "workplace",
                 "amount": -5
+              },
+              {
+                "type": "career.boss",
+                "amount": -8
               }
             ]
           }

@@ -11,7 +11,7 @@ namespace BetterLife.Core.Content.Loaders
     {
         private static readonly string[] Dependencies =
         {
-            ContentTypes.CharacterCatalogs, ContentTypes.Astrology, ContentTypes.LuckSettings,
+            ContentTypes.CharacterCatalogs, ContentTypes.Astrology, ContentTypes.LuckSettings, ContentTypes.EducationPrograms,
         };
 
         /// <inheritdoc />

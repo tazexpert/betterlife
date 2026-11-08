@@ -40,6 +40,22 @@ namespace BetterLife.Core.Rules
         public const string CondYear = "rule.cond.year";
         /// <summary>Cash comparison.</summary>
         public const string CondCash = "rule.cond.cash";
+        /// <summary>Completed an education level.</summary>
+        public const string CondEducationCompleted = "rule.cond.education_completed";
+        /// <summary>Is studying.</summary>
+        public const string CondEducationEnrolled = "rule.cond.education_enrolled";
+        /// <summary>Is not studying.</summary>
+        public const string CondEducationNotEnrolled = "rule.cond.education_not_enrolled";
+        /// <summary>Is studying a program.</summary>
+        public const string CondEducationEnrolledIn = "rule.cond.education_enrolled_in";
+        /// <summary>Has a job.</summary>
+        public const string CondEmployed = "rule.cond.employed";
+        /// <summary>Has no job.</summary>
+        public const string CondUnemployed = "rule.cond.unemployed";
+        /// <summary>Works in a career category.</summary>
+        public const string CondCareerCategory = "rule.cond.career_category";
+        /// <summary>Works in a track (at least a level).</summary>
+        public const string CondCareerTrack = "rule.cond.career_track";
         /// <summary>Net worth comparison.</summary>
         public const string CondNetWorth = "rule.cond.net_worth";
         /// <summary>Total debt comparison.</summary>
@@ -51,6 +67,8 @@ namespace BetterLife.Core.Rules
         /// <summary>Has health condition.</summary>
         public const string CondHealthCondition = "rule.cond.health_condition";
 
+        /// <summary>Fired by an event.</summary>
+        public const string EffectCareerFired = "rule.effect.career_fired";
         /// <summary>Stat change (fixed or range).</summary>
         public const string EffectStat = "rule.effect.stat";
         /// <summary>Cash received.</summary>

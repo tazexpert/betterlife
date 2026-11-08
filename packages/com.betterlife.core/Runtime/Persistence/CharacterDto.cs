@@ -84,6 +84,10 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Personal finances (null in saves from before task 10).</summary>
         public FinancesDto Finances = new FinancesDto();
+        /// <summary>Schooling (null in saves from before task 11).</summary>
+        public EducationDto Education = new EducationDto();
+        /// <summary>Working life (null in saves from before task 11).</summary>
+        public CareerDto Career = new CareerDto();
         /// <summary>Recent stat changes.</summary>
         public List<StatChangeLogDto> ChangeLog = new List<StatChangeLogDto>();
 

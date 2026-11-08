@@ -59,6 +59,14 @@ namespace BetterLife.Core.Content
         public const string LifestyleTiers = "lifestyle_tiers";
         /// <summary>Personal finance settings (single file).</summary>
         public const string FinanceSettings = "finance_settings";
+        /// <summary>Education programs and institutions.</summary>
+        public const string EducationPrograms = "education_programs";
+        /// <summary>Education rules (single file).</summary>
+        public const string EducationSettings = "education_settings";
+        /// <summary>Career tracks.</summary>
+        public const string Careers = "careers";
+        /// <summary>Career rules (single file).</summary>
+        public const string CareerSettings = "career_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

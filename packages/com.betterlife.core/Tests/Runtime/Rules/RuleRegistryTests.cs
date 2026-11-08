@@ -47,6 +47,10 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'healthCondition.add','condition':'flu','severity':35},
             {'type':'healthCondition.remove','condition':'cold'},
             {'type':'karma.good','amount':5},
+            {'type':'education.performance','amount':-4},
+            {'type':'career.performance','amount':{'min':1,'max':3}},
+            {'type':'career.boss','amount':-10},
+            {'type':'career.fire'},
             {'type':'if','condition':{'type':'trait','trait':'calm'},'then':[{'type':'stat','stat':'mental.happiness','amount':-2}],
              'else':[{'type':'stat','stat':'mental.happiness','amount':-8}]}]";
 
@@ -162,7 +166,10 @@ namespace BetterLife.Core.Tests.Rules
                 .Register(new BadKarmaEffectConverter(karma))
                 .Register(new MeritEffectConverter(karma))
                 .Register(new BetterLife.Core.LifeEvents.ScheduleEventEffectConverter(new System.Collections.Generic.HashSet<string>()))
-                .Register(new BetterLife.Core.Life.DieEffectConverter(new System.Collections.Generic.HashSet<string>()));
+                .Register(new BetterLife.Core.Life.DieEffectConverter(new System.Collections.Generic.HashSet<string>()))
+                .Register(new BetterLife.Core.Education.EducationConditionConverter(
+                    new BetterLife.Core.Domain.DefinitionCatalog<BetterLife.Core.Education.EducationProgramDefinition>(new BetterLife.Core.Education.EducationProgramDefinition[0])))
+                .Register(new BetterLife.Core.Careers.CareerConditionConverter(new BetterLife.Core.Careers.CareerTrackIndex()));
 
             Assert.That(SchemaTypes(schema, "condition"), Is.EquivalentTo(_f.Registry.ConditionTypes));
             Assert.That(SchemaTypes(schema, "effect"), Is.EquivalentTo(_f.Registry.EffectTypes));
@@ -170,7 +177,7 @@ namespace BetterLife.Core.Tests.Rules
 
         private static IEnumerable<string> SchemaTypes(JObject schema, string def)
         {
-            return schema["$defs"][def]["oneOf"].Select(option => (string)option["properties"]["type"]["const"]);
+            return schema["$defs"][def]["oneOf"].Select(option => (string)option["properties"]["type"]["const"]).Distinct();
         }
 
         private sealed class AlwaysCondition : ICondition

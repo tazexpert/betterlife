@@ -23,6 +23,60 @@
       "skills": []
     },
     {
+      "id": "school",
+      "nameKey": "activity.school.name",
+      "descKey": "activity.school.desc",
+      "category": "education",
+      "minHours": 0,
+      "maxHours": 60,
+      "costPerHour": 0,
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "stats": [
+        {
+          "stat": "intelligence.knowledge",
+          "perHour": 0.08,
+          "maxHours": 40
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.1
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": 0.03
+        }
+      ],
+      "skills": []
+    },
+    {
+      "id": "work",
+      "nameKey": "activity.work.name",
+      "descKey": "activity.work.desc",
+      "category": "work",
+      "minHours": 0,
+      "maxHours": 84,
+      "costPerHour": 0,
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "stats": [
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.12
+        },
+        {
+          "stat": "mental.confidence",
+          "perHour": 0.02,
+          "maxHours": 40
+        }
+      ],
+      "skills": []
+    },
+    {
       "id": "free_time",
       "nameKey": "activity.free_time.name",
       "descKey": "activity.free_time.desc",

@@ -3,6 +3,7 @@ using System.Linq;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Rules.Serialization;
+using BetterLife.Core.Time.Budget;
 using Newtonsoft.Json.Linq;
 
 namespace BetterLife.Core.Content.Loaders
@@ -120,6 +121,28 @@ namespace BetterLife.Core.Content.Loaders
                 JObject item = RuleJson.RequireObject(token, itemContext);
                 RuleJson.RequireOnly(item, itemContext, "stat", "amount");
                 return new StatAmount(RequireStoredStat(item, "stat", itemContext, stats), RuleJson.RequireFloat(item, "amount", itemContext));
+            }).ToList();
+        }
+
+        /// <summary>
+        /// Reads an array of {"skill", "gainPerHour", "maxHours"?} objects (skills must exist in the character catalogs).
+        /// </summary>
+        /// <param name="obj">Object.</param>
+        /// <param name="name">Property name of the array.</param>
+        /// <param name="context">Read context of the object.</param>
+        /// <returns>The skill effects.</returns>
+        public static List<ActivitySkillEffect> ReadSkillEffects(JObject obj, string name, RuleReadContext context)
+        {
+            var (array, arrayContext) = RuleJson.RequireArrayProperty(obj, name, context);
+            return array.Select((token, i) =>
+            {
+                RuleReadContext itemContext = arrayContext.Index(i);
+                JObject effect = RuleJson.RequireObject(token, itemContext);
+                RuleJson.RequireOnly(effect, itemContext, "skill", "gainPerHour", "maxHours");
+                return new ActivitySkillEffect(
+                    RuleJson.RequireSkill(effect, "skill", itemContext),
+                    RuleJson.RequireFloat(effect, "gainPerHour", itemContext),
+                    RuleJson.OptionalInt(effect, "maxHours", itemContext));
             }).ToList();
         }
 

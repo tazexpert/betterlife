@@ -536,6 +536,113 @@
               }
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "completed"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "completed": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "enrolled"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "enrolled": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "enrolledIn"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "enrolledIn": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "employed"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "employed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "category"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "category": {
+              "enum": [
+                "corporate",
+                "government",
+                "freelance",
+                "business",
+                "high_risk",
+                "illegal",
+                "labor"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "track"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "track": {
+              "$ref": "#/$defs/id"
+            },
+            "minLevel": {
+              "$ref": "#/$defs/id"
+            }
+          }
         }
       ]
     },
@@ -891,6 +998,66 @@
             },
             "cause": {
               "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "education.performance"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.performance"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.boss"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.fire"
             }
           }
         }

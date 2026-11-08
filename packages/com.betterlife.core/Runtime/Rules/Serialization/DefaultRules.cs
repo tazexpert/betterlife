@@ -1,3 +1,5 @@
+using BetterLife.Core.Careers;
+using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Rules.Serialization.Converters;
 
@@ -5,7 +7,7 @@ namespace BetterLife.Core.Rules.Serialization
 {
     /// <summary>
     /// Builds a registry with every built-in condition and effect type that needs no content.
-    /// Content-dependent types (fortune, karma.bad, karma.merit) are registered by their loaders.
+    /// Content-dependent types (fortune, karma.bad, karma.merit, education, career...) are registered by their loaders.
     /// </summary>
     public static class DefaultRules
     {
@@ -47,7 +49,11 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new AddHealthConditionEffectConverter())
                 .Register(new RemoveHealthConditionEffectConverter())
                 .Register(new IfEffectConverter())
-                .Register(new GoodKarmaEffectConverter());
+                .Register(new GoodKarmaEffectConverter())
+                .Register(new EducationPerformanceEffectConverter())
+                .Register(new CareerPerformanceEffectConverter())
+                .Register(new BossSatisfactionEffectConverter())
+                .Register(new FireEffectConverter());
         }
     }
 }

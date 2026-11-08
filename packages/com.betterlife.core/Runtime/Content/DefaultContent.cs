@@ -35,7 +35,9 @@ namespace BetterLife.Core.Content
                 new CharacterCatalogsBuilder(),
                 new AstrologyLoader(),
                 new LuckSettingsLoader(),
+                new EducationProgramsLoader(),
                 new RuleTypesBarrier(),
+                new CareersLoader(),
                 new ActivitiesLoader(),
                 new TimeSettingsLoader(),
                 new EventSettingsLoader(),
@@ -45,6 +47,8 @@ namespace BetterLife.Core.Content
                 new DebtProductsLoader(),
                 new LifestyleTiersLoader(),
                 new FinanceSettingsLoader(),
+                new EducationSettingsLoader(),
+                new CareerSettingsLoader(),
             };
         }
 

@@ -120,6 +120,22 @@
     {
       "type": "finance_settings",
       "path": "finance_settings.json"
+    },
+    {
+      "type": "education_programs",
+      "path": "education_programs.json"
+    },
+    {
+      "type": "education_settings",
+      "path": "education_settings.json"
+    },
+    {
+      "type": "careers",
+      "path": "careers.json"
+    },
+    {
+      "type": "career_settings",
+      "path": "career_settings.json"
     }
   ]
 }

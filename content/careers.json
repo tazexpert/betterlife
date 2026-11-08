@@ -1,0 +1,638 @@
+{
+  "$schema": "../docs/schemas/careers.schema.json",
+  "tracks": [
+    {
+      "id": "labor_worker",
+      "nameKey": "career.labor_worker.name",
+      "category": "labor",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 85,
+        "fortune": "career"
+      },
+      "weeklyHours": 48,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.05,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.5,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "worker",
+          "titleKey": "career.labor_worker.worker",
+          "monthlySalary": 11000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "supervisor",
+          "titleKey": "career.labor_worker.supervisor",
+          "monthlySalary": 16000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "office_worker",
+      "nameKey": "career.office_worker.name",
+      "category": "corporate",
+      "premium": false,
+      "requirement": {
+        "type": "education",
+        "completed": "bachelor"
+      },
+      "hiring": {
+        "base": 45,
+        "stats": [
+          {
+            "stat": "hidden.charisma",
+            "weight": 0.2
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 45,
+      "performanceSkill": null,
+      "skills": [
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.02
+        }
+      ],
+      "stressPerHour": 0.07,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "staff",
+          "titleKey": "career.office_worker.staff",
+          "monthlySalary": 18000,
+          "promotionAfterMonths": 24,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "senior",
+          "titleKey": "career.office_worker.senior",
+          "monthlySalary": 28000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 65
+        },
+        {
+          "id": "manager",
+          "titleKey": "career.office_worker.manager",
+          "monthlySalary": 50000,
+          "promotionAfterMonths": 48,
+          "promotionPerformance": 72
+        },
+        {
+          "id": "director",
+          "titleKey": "career.office_worker.director",
+          "monthlySalary": 120000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "software_engineer",
+      "nameKey": "career.software_engineer.name",
+      "category": "corporate",
+      "premium": false,
+      "requirement": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "education",
+            "completed": "bachelor"
+          },
+          {
+            "type": "skill",
+            "skill": "programming",
+            "op": ">=",
+            "value": 40
+          }
+        ]
+      },
+      "hiring": {
+        "base": 40,
+        "stats": [
+          {
+            "stat": "intelligence.iq",
+            "weight": 0.3
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 45,
+      "performanceSkill": "programming",
+      "skills": [
+        {
+          "skill": "programming",
+          "gainPerHour": 0.05
+        }
+      ],
+      "stressPerHour": 0.08,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.2,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "junior",
+          "titleKey": "career.software_engineer.junior",
+          "monthlySalary": 30000,
+          "promotionAfterMonths": 24,
+          "promotionPerformance": 62
+        },
+        {
+          "id": "senior",
+          "titleKey": "career.software_engineer.senior",
+          "monthlySalary": 60000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 70
+        },
+        {
+          "id": "lead",
+          "titleKey": "career.software_engineer.lead",
+          "monthlySalary": 100000,
+          "promotionAfterMonths": 48,
+          "promotionPerformance": 78
+        },
+        {
+          "id": "principal",
+          "titleKey": "career.software_engineer.principal",
+          "monthlySalary": 180000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "civil_servant",
+      "nameKey": "career.civil_servant.name",
+      "category": "government",
+      "premium": false,
+      "requirement": {
+        "type": "education",
+        "completed": "bachelor"
+      },
+      "hiring": {
+        "base": 25,
+        "stats": [
+          {
+            "stat": "intelligence.knowledge",
+            "weight": 0.3
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 40,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.04,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 0,
+      "pensionRate": 0.5,
+      "risk": null,
+      "levels": [
+        {
+          "id": "officer",
+          "titleKey": "career.civil_servant.officer",
+          "monthlySalary": 16000,
+          "promotionAfterMonths": 48,
+          "promotionPerformance": 55
+        },
+        {
+          "id": "senior_officer",
+          "titleKey": "career.civil_servant.senior_officer",
+          "monthlySalary": 25000,
+          "promotionAfterMonths": 60,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "director",
+          "titleKey": "career.civil_servant.director",
+          "monthlySalary": 45000,
+          "promotionAfterMonths": 72,
+          "promotionPerformance": 65
+        },
+        {
+          "id": "executive",
+          "titleKey": "career.civil_servant.executive",
+          "monthlySalary": 75000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "teacher",
+      "nameKey": "career.teacher.name",
+      "category": "government",
+      "premium": false,
+      "requirement": {
+        "type": "education",
+        "completed": "bachelor"
+      },
+      "hiring": {
+        "base": 40,
+        "fortune": "career"
+      },
+      "weeklyHours": 45,
+      "performanceSkill": "public_speaking",
+      "skills": [
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.04
+        }
+      ],
+      "stressPerHour": 0.06,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 0,
+      "pensionRate": 0.5,
+      "risk": null,
+      "levels": [
+        {
+          "id": "teacher",
+          "titleKey": "career.teacher.teacher",
+          "monthlySalary": 16000,
+          "promotionAfterMonths": 60,
+          "promotionPerformance": 55
+        },
+        {
+          "id": "senior_teacher",
+          "titleKey": "career.teacher.senior_teacher",
+          "monthlySalary": 30000,
+          "promotionAfterMonths": 72,
+          "promotionPerformance": 62
+        },
+        {
+          "id": "expert_teacher",
+          "titleKey": "career.teacher.expert_teacher",
+          "monthlySalary": 45000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "chef",
+      "nameKey": "career.chef.name",
+      "category": "labor",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 55,
+        "stats": [
+          {
+            "stat": "health.fitness",
+            "weight": 0.1
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 50,
+      "performanceSkill": "cooking",
+      "skills": [
+        {
+          "skill": "cooking",
+          "gainPerHour": 0.08
+        }
+      ],
+      "stressPerHour": 0.07,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.3,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "cook",
+          "titleKey": "career.chef.cook",
+          "monthlySalary": 13000,
+          "promotionAfterMonths": 24,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "sous_chef",
+          "titleKey": "career.chef.sous_chef",
+          "monthlySalary": 22000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 68
+        },
+        {
+          "id": "head_chef",
+          "titleKey": "career.chef.head_chef",
+          "monthlySalary": 45000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "freelance_developer",
+      "nameKey": "career.freelance_developer.name",
+      "category": "freelance",
+      "premium": false,
+      "requirement": {
+        "type": "skill",
+        "skill": "programming",
+        "op": ">=",
+        "value": 30
+      },
+      "hiring": {
+        "base": 70,
+        "fortune": "career"
+      },
+      "weeklyHours": 35,
+      "performanceSkill": "programming",
+      "skills": [
+        {
+          "skill": "programming",
+          "gainPerHour": 0.06
+        }
+      ],
+      "stressPerHour": 0.05,
+      "incomeVolatility": 0.35,
+      "marketBeta": 0.5,
+      "layoffSensitivity": 0,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "freelancer",
+          "titleKey": "career.freelance_developer.freelancer",
+          "monthlySalary": 25000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 70
+        },
+        {
+          "id": "established",
+          "titleKey": "career.freelance_developer.established",
+          "monthlySalary": 50000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "business_owner",
+      "nameKey": "career.business_owner.name",
+      "category": "business",
+      "premium": false,
+      "requirement": {
+        "type": "netWorth",
+        "op": ">=",
+        "amount": 300000
+      },
+      "hiring": {
+        "base": 80,
+        "fortune": "finance"
+      },
+      "weeklyHours": 55,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.09,
+      "incomeVolatility": 0.5,
+      "marketBeta": 2,
+      "layoffSensitivity": 0,
+      "pensionRate": 0,
+      "risk": {
+        "monthlyChance": 0.008,
+        "endsJob": true,
+        "reasonKey": "career.risk.business_failed",
+        "effects": [
+          {
+            "type": "cash",
+            "amount": -100000
+          },
+          {
+            "type": "stat",
+            "stat": "mental.stress",
+            "amount": 15
+          }
+        ]
+      },
+      "levels": [
+        {
+          "id": "small_business",
+          "titleKey": "career.business_owner.small_business",
+          "monthlySalary": 40000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 65
+        },
+        {
+          "id": "established_business",
+          "titleKey": "career.business_owner.established_business",
+          "monthlySalary": 120000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "celebrity_chef",
+      "nameKey": "career.celebrity_chef.name",
+      "category": "business",
+      "premium": true,
+      "requirement": {
+        "type": "skill",
+        "skill": "cooking",
+        "op": ">=",
+        "value": 50
+      },
+      "hiring": {
+        "base": 40,
+        "stats": [
+          {
+            "stat": "hidden.charisma",
+            "weight": 0.3
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 55,
+      "performanceSkill": "cooking",
+      "skills": [
+        {
+          "skill": "cooking",
+          "gainPerHour": 0.06
+        },
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.02
+        }
+      ],
+      "stressPerHour": 0.08,
+      "incomeVolatility": 0.4,
+      "marketBeta": 1.5,
+      "layoffSensitivity": 0,
+      "pensionRate": 0,
+      "risk": {
+        "monthlyChance": 0.005,
+        "endsJob": true,
+        "reasonKey": "career.risk.restaurant_closed",
+        "effects": [
+          {
+            "type": "cash",
+            "amount": -80000
+          },
+          {
+            "type": "stat",
+            "stat": "mental.stress",
+            "amount": 12
+          }
+        ]
+      },
+      "levels": [
+        {
+          "id": "restaurant_owner",
+          "titleKey": "career.celebrity_chef.restaurant_owner",
+          "monthlySalary": 35000,
+          "promotionAfterMonths": 36,
+          "promotionPerformance": 70
+        },
+        {
+          "id": "celebrity",
+          "titleKey": "career.celebrity_chef.celebrity",
+          "monthlySalary": 100000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "pro_athlete",
+      "nameKey": "career.pro_athlete.name",
+      "category": "high_risk",
+      "premium": false,
+      "requirement": {
+        "type": "stat",
+        "stat": "health.fitness",
+        "op": ">=",
+        "value": 75
+      },
+      "hiring": {
+        "base": 20,
+        "stats": [
+          {
+            "stat": "health.fitness",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "career"
+      },
+      "weeklyHours": 40,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.05,
+      "incomeVolatility": 0.3,
+      "marketBeta": 0,
+      "layoffSensitivity": 0,
+      "pensionRate": 0,
+      "risk": {
+        "monthlyChance": 0.01,
+        "endsJob": true,
+        "reasonKey": "career.risk.career_injury",
+        "effects": [
+          {
+            "type": "stat",
+            "stat": "health.fitness",
+            "amount": -20
+          },
+          {
+            "type": "stat",
+            "stat": "mental.happiness",
+            "amount": -10
+          }
+        ]
+      },
+      "levels": [
+        {
+          "id": "rookie",
+          "titleKey": "career.pro_athlete.rookie",
+          "monthlySalary": 25000,
+          "promotionAfterMonths": 24,
+          "promotionPerformance": 70
+        },
+        {
+          "id": "star",
+          "titleKey": "career.pro_athlete.star",
+          "monthlySalary": 150000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "smuggler",
+      "nameKey": "career.smuggler.name",
+      "category": "illegal",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 70,
+        "karma": false
+      },
+      "weeklyHours": 30,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.12,
+      "incomeVolatility": 0.4,
+      "marketBeta": 0,
+      "layoffSensitivity": 0,
+      "pensionRate": 0,
+      "risk": {
+        "monthlyChance": 0.02,
+        "endsJob": true,
+        "reasonKey": "career.risk.arrested",
+        "effects": [
+          {
+            "type": "cash",
+            "amount": -50000
+          },
+          {
+            "type": "flag.set",
+            "flag": "career.criminal_record"
+          },
+          {
+            "type": "reputation",
+            "domain": "underworld",
+            "amount": 10
+          },
+          {
+            "type": "karma.bad",
+            "amount": 10
+          }
+        ]
+      },
+      "levels": [
+        {
+          "id": "runner",
+          "titleKey": "career.smuggler.runner",
+          "monthlySalary": 30000,
+          "promotionAfterMonths": 12,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "boss",
+          "titleKey": "career.smuggler.boss",
+          "monthlySalary": 120000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    }
+  ]
+}

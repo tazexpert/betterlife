@@ -16,7 +16,7 @@ namespace BetterLife.Core.Content.Loaders
     /// </summary>
     public sealed class EventsLoader : DefinitionLoader<LifeEventDefinition>
     {
-        private static readonly string[] Dependencies = { ContentTypes.RuleTypes, ContentTypes.DeathCauses };
+        private static readonly string[] Dependencies = { ContentTypes.RuleTypes, ContentTypes.DeathCauses, ContentTypes.Careers };
 
         private static readonly Dictionary<string, EventTrigger> Triggers = new Dictionary<string, EventTrigger>
         {

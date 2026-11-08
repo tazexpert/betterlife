@@ -14,6 +14,10 @@ namespace BetterLife.Core.Tests.Content
               'nameKey': 'stat.health.fitness.name', 'descKey': 'stat.health.fitness.desc', 'decay': { 'target': 30, 'ratePerWeek': 0.5 } },
             { 'id': 'mental', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.mental.name', 'descKey': 'stat.mental.desc' },
             { 'id': 'mental.stress', 'layer': 'hidden', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.stress.name', 'descKey': 'stat.stress.desc' },
+            { 'id': 'health.fatigue', 'layer': 'sub', 'parent': 'health', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.fatigue.name', 'descKey': 'stat.fatigue.desc' },
+            { 'id': 'intelligence', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.intelligence.name', 'descKey': 'stat.intelligence.desc' },
+            { 'id': 'intelligence.iq', 'layer': 'sub', 'parent': 'intelligence', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.iq.name', 'descKey': 'stat.iq.desc' },
+            { 'id': 'intelligence.knowledge', 'layer': 'sub', 'parent': 'intelligence', 'polarity': 'higherIsBetter', 'default': 40, 'nameKey': 'stat.knowledge.name', 'descKey': 'stat.knowledge.desc' },
             { 'id': 'wealth', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 30, 'nameKey': 'stat.wealth.name', 'descKey': 'stat.wealth.desc' },
             { 'id': 'wealth.credit_score', 'layer': 'sub', 'parent': 'wealth', 'polarity': 'higherIsBetter', 'default': 50,
               'nameKey': 'stat.credit.name', 'descKey': 'stat.credit.desc' } ],
@@ -41,7 +45,13 @@ namespace BetterLife.Core.Tests.Content
               'minHours': 0, 'maxHours': 168, 'costPerHour': 0, 'stats': [], 'skills': [] },
             { 'id': 'gym', 'nameKey': 'activity.gym.name', 'descKey': 'activity.gym.desc', 'category': 'health',
               'minHours': 0, 'maxHours': 20, 'costPerHour': 15.5, 'condition': { 'type': 'age', 'op': '>=', 'value': 12 },
-              'stats': [ { 'stat': 'health.fitness', 'perHour': 0.3, 'maxHours': 10 } ], 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.1 } ] } ] }";
+              'stats': [ { 'stat': 'health.fitness', 'perHour': 0.3, 'maxHours': 10 } ], 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.1 } ] },
+            { 'id': 'school', 'nameKey': 'activity.school.name', 'descKey': 'activity.school.desc', 'category': 'education',
+              'minHours': 0, 'maxHours': 60, 'costPerHour': 0, 'condition': { 'type': 'education', 'enrolled': true }, 'stats': [], 'skills': [] },
+            { 'id': 'study', 'nameKey': 'activity.study.name', 'descKey': 'activity.study.desc', 'category': 'learning',
+              'minHours': 0, 'maxHours': 60, 'costPerHour': 0, 'stats': [], 'skills': [] },
+            { 'id': 'work', 'nameKey': 'activity.work.name', 'descKey': 'activity.work.desc', 'category': 'work',
+              'minHours': 0, 'maxHours': 84, 'costPerHour': 0, 'condition': { 'type': 'career', 'employed': true }, 'stats': [], 'skills': [] } ] }";
 
         public const string TimeSettings = @"{ 'defaultActivity': 'free_time',
             'learning': { 'multiplierAtZeroMental': 0.5, 'multiplierAtFullMental': 1.5 },
@@ -142,6 +152,47 @@ namespace BetterLife.Core.Tests.Content
             'wealthCurve': [ { 'months': -24, 'score': 5 }, { 'months': 0, 'score': 30 }, { 'months': 6, 'score': 45 }, { 'months': 24, 'score': 60 },
                              { 'months': 120, 'score': 80 }, { 'months': 600, 'score': 95 } ] }";
 
+        public const string EducationPrograms = @"{ 'programs': [
+            { 'id': 'primary', 'nameKey': 'education.primary.name', 'rank': 2, 'years': 6, 'entryAge': { 'min': 6, 'max': 8 }, 'requiresRank': 0,
+              'compulsory': true, 'autoEnroll': true, 'weeklyHours': 30, 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.01 } ],
+              'institutions': [ { 'id': 'primary.public', 'nameKey': 'institution.primary.public.name', 'prestige': 40, 'tuitionPerYear': 0, 'difficulty': null, 'quality': 0, 'familyMinIncome': 0 },
+                                { 'id': 'primary.private', 'nameKey': 'institution.primary.private.name', 'prestige': 60, 'tuitionPerYear': 60000, 'difficulty': null, 'quality': 4, 'familyMinIncome': 5 } ] },
+            { 'id': 'secondary', 'nameKey': 'education.secondary.name', 'rank': 4, 'years': 6, 'entryAge': { 'min': 11, 'max': 15 }, 'requiresRank': 2,
+              'compulsory': false, 'autoEnroll': true, 'weeklyHours': 32, 'skills': [],
+              'institutions': [ { 'id': 'secondary.public', 'nameKey': 'institution.secondary.public.name', 'prestige': 40, 'tuitionPerYear': 0, 'difficulty': null, 'quality': 0, 'familyMinIncome': 0 } ] },
+            { 'id': 'bachelor', 'nameKey': 'education.bachelor.name', 'rank': 6, 'years': 4, 'entryAge': { 'min': 17, 'max': null }, 'requiresRank': 4,
+              'compulsory': false, 'autoEnroll': false, 'weeklyHours': 25, 'skills': [],
+              'institutions': [ { 'id': 'bachelor.top', 'nameKey': 'institution.bachelor.top.name', 'prestige': 90, 'tuitionPerYear': 30000, 'difficulty': 75, 'quality': 5, 'familyMinIncome': null },
+                                { 'id': 'bachelor.open', 'nameKey': 'institution.bachelor.open.name', 'prestige': 30, 'tuitionPerYear': 10000, 'difficulty': null, 'quality': -3, 'familyMinIncome': null } ] } ] }";
+
+        public const string EducationSettings = @"{ 'schoolActivity': 'school', 'studyActivity': 'study', 'startPerformance': 60,
+            'performance': { 'weeklySmoothing': 0.08, 'attendanceWeight': 0.45, 'iqWeight': 0.2, 'knowledgeWeight': 0.2, 'mentalWeight': 0.15,
+                             'studyBonusPerHour': 0.5, 'maxStudyBonus': 10 },
+            'yearEnd': { 'passPerformance': 40, 'maxRepeats': 2 },
+            'admission': { 'chance': { 'base': 50, 'fortune': 'study' }, 'perPointAboveDifficulty': 1.5, 'performanceWeight': 0.6, 'knowledgeWeight': 0.4, 'retryWeeks': 52 },
+            'scholarship': { 'minScore': 85, 'chance': { 'base': 40, 'fortune': 'study' }, 'keepPerformance': 75 },
+            'studentLoanProduct': 'student_loan' }";
+
+        public const string Careers = @"{ 'tracks': [
+            { 'id': 'clerk', 'nameKey': 'career.clerk.name', 'category': 'corporate', 'premium': false,
+              'requirement': { 'type': 'education', 'completed': 'bachelor' }, 'hiring': { 'base': 50, 'fortune': 'career' },
+              'weeklyHours': 40, 'performanceSkill': null, 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.01 } ], 'stressPerHour': 0.05,
+              'incomeVolatility': 0, 'marketBeta': 0, 'layoffSensitivity': 1, 'pensionRate': 0.5, 'risk': null,
+              'levels': [ { 'id': 'staff', 'titleKey': 'career.clerk.staff', 'monthlySalary': 20000, 'promotionAfterMonths': 12, 'promotionPerformance': 60 },
+                          { 'id': 'manager', 'titleKey': 'career.clerk.manager', 'monthlySalary': 40000, 'promotionAfterMonths': null, 'promotionPerformance': 0 } ] },
+            { 'id': 'courier', 'nameKey': 'career.courier.name', 'category': 'illegal', 'premium': false,
+              'requirement': null, 'hiring': { 'base': 80, 'karma': false }, 'weeklyHours': 30, 'performanceSkill': 'cooking', 'skills': [], 'stressPerHour': 0.1,
+              'incomeVolatility': 0.4, 'marketBeta': 0, 'layoffSensitivity': 0, 'pensionRate': 0,
+              'risk': { 'monthlyChance': 0.05, 'endsJob': true, 'reasonKey': 'career.risk.arrested', 'effects': [ { 'type': 'cash', 'amount': -5000 } ] },
+              'levels': [ { 'id': 'runner', 'titleKey': 'career.courier.runner', 'monthlySalary': 30000, 'promotionAfterMonths': null, 'promotionPerformance': 0 } ] } ] }";
+
+        public const string CareerSettings = @"{ 'workActivity': 'work', 'minWorkAge': 15, 'retirementAge': 60,
+            'performance': { 'weeklySmoothing': 0.06, 'attendanceWeight': 0.5, 'skillWeight': 0.2, 'mentalWeight': 0.2, 'restWeight': 0.1, 'start': 55 },
+            'boss': { 'weeklySmoothing': 0.03, 'start': 55, 'fireBelow': 20, 'fireAfterMonths': 3, 'stressFromDissatisfaction': 1 },
+            'hiring': { 'prestigePerPoint': 0.2, 'retryWeeks': 12 },
+            'promotion': { 'chance': { 'base': 40, 'fortune': 'career' }, 'perPointAbove': 1.5, 'minBoss': 50, 'reviewEveryMonths': 12 },
+            'layoffs': [ { 'phase': 'recession', 'monthlyChance': 0.01 } ] }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -165,7 +216,9 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'death_causes', 'path': 'death_causes.json' }, "
                 + "{ 'type': 'economy', 'path': 'economy.json' }, { 'type': 'assets', 'path': 'assets.json' }, "
                 + "{ 'type': 'debt_products', 'path': 'debts.json' }, { 'type': 'lifestyle_tiers', 'path': 'lifestyle_tiers.json' }, "
-                + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }"
+                + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }, "
+                + "{ 'type': 'education_programs', 'path': 'education_programs.json' }, { 'type': 'education_settings', 'path': 'education_settings.json' }, "
+                + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -193,7 +246,11 @@ namespace BetterLife.Core.Tests.Content
                 .Add("assets.json", Assets)
                 .Add("debts.json", DebtProducts)
                 .Add("lifestyle_tiers.json", LifestyleTiers)
-                .Add("finance_settings.json", FinanceSettings);
+                .Add("finance_settings.json", FinanceSettings)
+                .Add("education_programs.json", EducationPrograms)
+                .Add("education_settings.json", EducationSettings)
+                .Add("careers.json", Careers)
+                .Add("career_settings.json", CareerSettings);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

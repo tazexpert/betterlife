@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/career_settings.schema.json",
+  "title": "Career settings",
+  "description": "Weekly work performance, boss satisfaction, hiring, promotions, layoffs per economy phase and retirement. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workActivity",
+    "minWorkAge",
+    "retirementAge",
+    "performance",
+    "boss",
+    "hiring",
+    "promotion",
+    "layoffs"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "workActivity": {
+      "$ref": "#/$defs/id"
+    },
+    "minWorkAge": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "retirementAge": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weeklySmoothing",
+        "attendanceWeight",
+        "skillWeight",
+        "mentalWeight",
+        "restWeight",
+        "start"
+      ],
+      "properties": {
+        "weeklySmoothing": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "attendanceWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "skillWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "mentalWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "restWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "boss": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weeklySmoothing",
+        "start",
+        "fireBelow",
+        "fireAfterMonths",
+        "stressFromDissatisfaction"
+      ],
+      "properties": {
+        "weeklySmoothing": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "fireBelow": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "fireAfterMonths": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stressFromDissatisfaction": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "hiring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prestigePerPoint",
+        "retryWeeks"
+      ],
+      "properties": {
+        "prestigePerPoint": {
+          "type": "number",
+          "minimum": 0
+        },
+        "retryWeeks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chance",
+        "perPointAbove",
+        "minBoss",
+        "reviewEveryMonths"
+      ],
+      "properties": {
+        "chance": {
+          "$ref": "rules.schema.json#/$defs/chance"
+        },
+        "perPointAbove": {
+          "type": "number",
+          "minimum": 0
+        },
+        "minBoss": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "reviewEveryMonths": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "layoffs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phase",
+          "monthlyChance"
+        ],
+        "properties": {
+          "phase": {
+            "$ref": "#/$defs/id"
+          },
+          "monthlyChance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

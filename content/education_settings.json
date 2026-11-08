@@ -1,0 +1,38 @@
+{
+  "$schema": "../docs/schemas/education_settings.schema.json",
+  "schoolActivity": "school",
+  "studyActivity": "study",
+  "startPerformance": 60,
+  "performance": {
+    "weeklySmoothing": 0.08,
+    "attendanceWeight": 0.45,
+    "iqWeight": 0.2,
+    "knowledgeWeight": 0.2,
+    "mentalWeight": 0.15,
+    "studyBonusPerHour": 0.5,
+    "maxStudyBonus": 10
+  },
+  "yearEnd": {
+    "passPerformance": 40,
+    "maxRepeats": 2
+  },
+  "admission": {
+    "chance": {
+      "base": 50,
+      "fortune": "study"
+    },
+    "perPointAboveDifficulty": 1.5,
+    "performanceWeight": 0.6,
+    "knowledgeWeight": 0.4,
+    "retryWeeks": 52
+  },
+  "scholarship": {
+    "minScore": 85,
+    "chance": {
+      "base": 40,
+      "fortune": "study"
+    },
+    "keepPerformance": 75
+  },
+  "studentLoanProduct": "student_loan"
+}

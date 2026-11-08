@@ -58,7 +58,7 @@
         },
         {
           "activity": "study",
-          "hours": 35
+          "hours": 5
         },
         {
           "activity": "chores",
@@ -87,7 +87,7 @@
         },
         {
           "activity": "study",
-          "hours": 40
+          "hours": 8
         },
         {
           "activity": "chores",
@@ -116,7 +116,7 @@
         },
         {
           "activity": "study",
-          "hours": 10
+          "hours": 5
         },
         {
           "activity": "chores",
