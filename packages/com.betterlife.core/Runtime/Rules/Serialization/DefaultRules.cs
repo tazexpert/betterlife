@@ -1,9 +1,11 @@
+using BetterLife.Core.Karma;
 using BetterLife.Core.Rules.Serialization.Converters;
 
 namespace BetterLife.Core.Rules.Serialization
 {
     /// <summary>
-    /// Builds a registry with every built-in condition and effect type. Systems add their own types afterwards.
+    /// Builds a registry with every built-in condition and effect type that needs no content.
+    /// Content-dependent types (fortune, karma.bad, karma.merit) are registered by their loaders.
     /// </summary>
     public static class DefaultRules
     {
@@ -26,6 +28,7 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new CashConditionConverter())
                 .Register(new ReputationConditionConverter())
                 .Register(new HealthConditionConditionConverter())
+                .Register(new KarmaConditionConverter())
                 .Register(new StatEffectConverter())
                 .Register(new CashEffectConverter())
                 .Register(new SetFlagEffectConverter())
@@ -38,7 +41,8 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new ReputationEffectConverter())
                 .Register(new AddHealthConditionEffectConverter())
                 .Register(new RemoveHealthConditionEffectConverter())
-                .Register(new IfEffectConverter());
+                .Register(new IfEffectConverter())
+                .Register(new GoodKarmaEffectConverter());
         }
     }
 }

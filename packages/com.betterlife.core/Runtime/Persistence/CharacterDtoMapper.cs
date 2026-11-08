@@ -8,6 +8,7 @@ using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
 namespace BetterLife.Core.Persistence
@@ -69,6 +70,14 @@ namespace BetterLife.Core.Persistence
                         ExpiresWeek = f.ExpiresOn.HasValue ? f.ExpiresOn.Value.TotalWeeks : 0,
                     })
                     .OrderBy(f => f.Id, StringComparer.Ordinal).ToList(),
+                Karma = new KarmaDto
+                {
+                    Good = character.Karma.Good,
+                    Bad = character.Karma.Bad,
+                    Debts = character.Karma.Debts
+                        .Select(d => new KarmicDebtDto { Amount = d.Amount, DueWeek = d.DueOn.TotalWeeks, SourceKey = d.SourceKey })
+                        .ToList(),
+                },
                 ChangeLog = character.ChangeLog.Entries
                     .Select(e => new StatChangeLogDto { Week = e.Week.TotalWeeks, StatId = e.StatId.Value, Delta = e.Delta, SourceKey = e.SourceKey })
                     .ToList(),
@@ -106,6 +115,7 @@ namespace BetterLife.Core.Persistence
             RestoreTraits(dto, character, catalogs.Traits, warnings);
             RestoreSkills(dto, character, catalogs.Skills, warnings);
             RestoreFlags(dto, character, catalogs.Flags, warnings);
+            RestoreKarma(dto, character);
             RestoreChangeLog(dto, character, catalogs.Stats, warnings);
             RestoreHistory(dto, character, warnings);
             return new CharacterLoadResult(character, warnings);
@@ -217,6 +227,15 @@ namespace BetterLife.Core.Persistence
                 GameDate? expires = flag.HasExpiry ? new GameDate(flag.ExpiresWeek) : (GameDate?)null;
                 Wrap(() => character.Flags.Restore(new FlagEntry(flag.Id, flag.Value, new GameDate(flag.SetWeek), expires)), "flag");
             }
+        }
+
+        private static void RestoreKarma(CharacterDto dto, Character character)
+        {
+            KarmaDto karma = dto.Karma ?? new KarmaDto();
+            Wrap(() => character.Karma.Restore(
+                karma.Good,
+                karma.Bad,
+                Items(karma.Debts).Select(d => new KarmicDebt(d.Amount, new GameDate(d.DueWeek), d.SourceKey)).ToList()), "karma");
         }
 
         private static void RestoreChangeLog(CharacterDto dto, Character character, StatCatalog catalog, List<string> warnings)

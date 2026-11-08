@@ -21,6 +21,12 @@ namespace BetterLife.Core.Content
         public const string Activities = "activities";
         /// <summary>Global time settings (exactly one file).</summary>
         public const string TimeSettings = "time_settings";
+        /// <summary>Astrology tables (exactly one file).</summary>
+        public const string Astrology = "astrology";
+        /// <summary>Chance and karma settings (exactly one file).</summary>
+        public const string LuckSettings = "luck_settings";
+        /// <summary>Barrier reached when every content-registered rule type is available (takes no files).</summary>
+        public const string RuleTypes = "rule_types";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

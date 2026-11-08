@@ -5,6 +5,7 @@ using BetterLife.Core.Domain.Flags;
 using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
+using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
 namespace BetterLife.Core.Domain.Characters
@@ -45,6 +46,7 @@ namespace BetterLife.Core.Domain.Characters
             Traits = new TraitSet(catalogs.Traits);
             Skills = new SkillSet(catalogs.Skills);
             Flags = new FlagSet(catalogs.Flags);
+            Karma = new KarmaLedger();
         }
 
         /// <summary>Character id.</summary>
@@ -88,6 +90,9 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Story flags.</summary>
         public FlagSet Flags { get; }
+
+        /// <summary>Good and bad karma and pending karmic debts.</summary>
+        public KarmaLedger Karma { get; }
 
         /// <summary>
         /// Returns the age in whole years.

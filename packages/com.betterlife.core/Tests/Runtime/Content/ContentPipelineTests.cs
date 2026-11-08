@@ -73,6 +73,8 @@ namespace BetterLife.Core.Tests.Content
             Assert.That(gym.Condition, Is.Not.Null);
             var settings = repository.Get<BetterLife.Core.Time.Budget.TimeSettings>();
             Assert.That(settings.DefaultBudget["gym"], Is.EqualTo(5));
+            Assert.That(repository.Get<BetterLife.Core.Astrology.FortuneCalculator>(), Is.Not.Null);
+            Assert.That(repository.Get<BetterLife.Core.Karma.KarmaService>().Settings.DebtDelayMaxWeeks, Is.EqualTo(260));
         }
 
         [TestCase("activities.json", "'stat': 'health.fitness'", "'stat': 'health'", "$.activities[1].stats[0].stat", "derived")]
@@ -133,11 +135,12 @@ namespace BetterLife.Core.Tests.Content
                 "traits.json $.traits[0].statModifiers[0].stat: unknown stat 'mental.stres'.",
                 "skills.json $.skills[0].decay.graceWeeks: expected an integer.",
                 "Skipped 'character_catalogs' because 'traits' has errors.",
-                "Skipped 'activities' because 'character_catalogs' has errors.",
+                "Skipped 'rule_types' because 'character_catalogs' has errors.",
+                "Skipped 'activities' because 'rule_types' has errors.",
                 "Skipped 'time_settings' because 'activities' has errors.",
             }));
             var ex = Assert.Throws<ContentLoadException>(() => result.RequireRepository());
-            Assert.That(ex.Errors, Has.Count.EqualTo(5));
+            Assert.That(ex.Errors, Has.Count.EqualTo(6));
         }
 
         [Test]
@@ -264,7 +267,8 @@ namespace BetterLife.Core.Tests.Content
             string files = "{ 'type': 'stats', 'path': 'stats.json' }, { 'type': 'traits', 'path': 'traits.json' }, "
                 + "{ 'type': 'skills', 'path': 'skills.json' }, { 'type': 'flags', 'path': 'flags.json' }, "
                 + "{ 'type': 'reputation_domains', 'path': 'reputation_domains.json' }, { 'type': 'health_conditions', 'path': 'health_conditions.json' }, "
-                + "{ 'type': 'activities', 'path': 'activities.json' }, { 'type': 'time_settings', 'path': 'time_settings.json' }"
+                + "{ 'type': 'activities', 'path': 'activities.json' }, { 'type': 'time_settings', 'path': 'time_settings.json' }, "
+                + "{ 'type': 'astrology', 'path': 'astrology.json' }, { 'type': 'luck_settings', 'path': 'luck.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -275,7 +279,9 @@ namespace BetterLife.Core.Tests.Content
                 .Add("reputation_domains.json", Domains)
                 .Add("health_conditions.json", Conditions)
                 .Add("activities.json", Activities)
-                .Add("time_settings.json", TimeSettings);
+                .Add("time_settings.json", TimeSettings)
+                .Add("astrology.json", Astrology.TestAstrology.Json())
+                .Add("luck.json", Astrology.TestAstrology.LuckJson);
         }
 
         private sealed class CycleLoader : IContentTypeLoader

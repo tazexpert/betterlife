@@ -4,6 +4,7 @@ using System.Linq;
 using BetterLife.Core.Content;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Events;
+using BetterLife.Core.Karma;
 using BetterLife.Core.Randomness;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking.Phases;
@@ -54,6 +55,7 @@ namespace BetterLife.Core.Time.Ticking
             {
                 new TimeAllocationPhase(state, content.Get<DefinitionCatalog<ActivityDefinition>>(), content.Get<TimeSettings>(), random.GetStream(RandomStream), bus),
                 new NaturalDecayPhase(),
+                new KarmicDebtPhase(bus),
                 new WeeklyRecordPhase(),
             };
             phases.AddRange(extraPhases ?? Enumerable.Empty<ITickPhase>());

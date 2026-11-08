@@ -11,39 +11,20 @@ namespace BetterLife.Core.Content.Loaders
     /// <summary>
     /// Loads the single content/time_settings.json and checks it against the activity catalog.
     /// </summary>
-    public sealed class TimeSettingsLoader : IContentTypeLoader
+    public sealed class TimeSettingsLoader : SingleDocumentLoader
     {
         private static readonly string[] Dependencies = { ContentTypes.Activities };
 
         /// <inheritdoc />
-        public string TypeName => ContentTypes.TimeSettings;
+        public override string TypeName => ContentTypes.TimeSettings;
 
         /// <inheritdoc />
-        public IReadOnlyList<string> DependsOn => Dependencies;
+        public override IReadOnlyList<string> DependsOn => Dependencies;
 
         /// <inheritdoc />
-        public bool AcceptsFiles => true;
-
-        /// <inheritdoc />
-        public void Load(IReadOnlyList<ContentDocument> documents, ContentLoadContext context)
+        protected override void Read(JObject root, RuleReadContext context, ContentLoadContext content)
         {
-            if (documents == null)
-            {
-                throw new ArgumentNullException(nameof(documents));
-            }
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-            if (documents.Count != 1)
-            {
-                context.ReportError(documents.ElementAtOrDefault(1), string.Empty, $"Exactly one '{TypeName}' file is required, found {documents.Count}.");
-                return;
-            }
-
-            ContentDocument document = documents[0];
-            var activities = context.Require<DefinitionCatalog<ActivityDefinition>>();
-            context.Guard(document, RuleReadContext.RootPath, () => context.Add(Read(document.Root, context.ReadContext(), activities)));
+            content.Add(Read(root, context, content.Require<DefinitionCatalog<ActivityDefinition>>()));
         }
 
         private static TimeSettings Read(JObject root, RuleReadContext context, DefinitionCatalog<ActivityDefinition> activities)

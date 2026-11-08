@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/luck_settings.schema.json",
+  "title": "Luck settings",
+  "description": "FinalChance = Base + Stat + Luck + Karma + Item, clamped. Exactly one file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "chance",
+    "fortune",
+    "karma"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "chance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max",
+        "itemBonusCap"
+      ],
+      "properties": {
+        "min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "itemBonusCap": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "fortune": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "neutral",
+        "pointsPerFortune"
+      ],
+      "properties": {
+        "neutral": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "pointsPerFortune": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "karma": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goodWeight",
+        "badWeight",
+        "cap",
+        "debtRatio",
+        "debtDelayWeeks",
+        "meritOffsetRatio"
+      ],
+      "properties": {
+        "goodWeight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "badWeight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cap": {
+          "type": "number",
+          "minimum": 0
+        },
+        "debtRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "meritOffsetRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "debtDelayWeeks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

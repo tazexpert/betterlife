@@ -1,0 +1,22 @@
+{
+  "chance": {
+    "min": 5,
+    "max": 95,
+    "itemBonusCap": 5
+  },
+  "fortune": {
+    "neutral": 50,
+    "pointsPerFortune": 0.2
+  },
+  "karma": {
+    "goodWeight": 0.1,
+    "badWeight": 0.1,
+    "cap": 10,
+    "debtRatio": 0.5,
+    "debtDelayWeeks": {
+      "min": 26,
+      "max": 260
+    },
+    "meritOffsetRatio": 0.5
+  }
+}

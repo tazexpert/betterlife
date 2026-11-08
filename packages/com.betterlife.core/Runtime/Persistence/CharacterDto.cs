@@ -55,6 +55,9 @@ namespace BetterLife.Core.Persistence
         /// <summary>Active flags.</summary>
         public List<FlagDto> Flags = new List<FlagDto>();
 
+        /// <summary>Karma ledger.</summary>
+        public KarmaDto Karma = new KarmaDto();
+
         /// <summary>Recent stat changes.</summary>
         public List<StatChangeLogDto> ChangeLog = new List<StatChangeLogDto>();
 

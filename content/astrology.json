@@ -1,0 +1,315 @@
+{
+  "baseFortune": 50,
+  "cycle": {
+    "periodYears": 12,
+    "amplitude": 8,
+    "areaPhaseYears": {
+      "finance": 0,
+      "love": 3,
+      "health": 6,
+      "career": 9,
+      "study": 1.5
+    }
+  },
+  "yearlyNoise": 5,
+  "yearAnimalAnchorYear": 2020,
+  "zodiacSigns": [
+    {
+      "id": "aries",
+      "nameKey": "zodiac.aries.name",
+      "startMonth": 4,
+      "startDay": 13,
+      "modifiers": {
+        "career": 4,
+        "love": -2
+      }
+    },
+    {
+      "id": "taurus",
+      "nameKey": "zodiac.taurus.name",
+      "startMonth": 5,
+      "startDay": 14,
+      "modifiers": {
+        "finance": 4,
+        "health": 1
+      }
+    },
+    {
+      "id": "gemini",
+      "nameKey": "zodiac.gemini.name",
+      "startMonth": 6,
+      "startDay": 14,
+      "modifiers": {
+        "study": 4,
+        "love": 1
+      }
+    },
+    {
+      "id": "cancer",
+      "nameKey": "zodiac.cancer.name",
+      "startMonth": 7,
+      "startDay": 15,
+      "modifiers": {
+        "love": 4,
+        "career": -1
+      }
+    },
+    {
+      "id": "leo",
+      "nameKey": "zodiac.leo.name",
+      "startMonth": 8,
+      "startDay": 17,
+      "modifiers": {
+        "career": 3,
+        "finance": 1
+      }
+    },
+    {
+      "id": "virgo",
+      "nameKey": "zodiac.virgo.name",
+      "startMonth": 9,
+      "startDay": 17,
+      "modifiers": {
+        "study": 3,
+        "health": 2
+      }
+    },
+    {
+      "id": "libra",
+      "nameKey": "zodiac.libra.name",
+      "startMonth": 10,
+      "startDay": 17,
+      "modifiers": {
+        "love": 3,
+        "finance": 1
+      }
+    },
+    {
+      "id": "scorpio",
+      "nameKey": "zodiac.scorpio.name",
+      "startMonth": 11,
+      "startDay": 16,
+      "modifiers": {
+        "career": 2,
+        "health": -1,
+        "finance": 2
+      }
+    },
+    {
+      "id": "sagittarius",
+      "nameKey": "zodiac.sagittarius.name",
+      "startMonth": 12,
+      "startDay": 16,
+      "modifiers": {
+        "study": 2,
+        "love": 2
+      }
+    },
+    {
+      "id": "capricorn",
+      "nameKey": "zodiac.capricorn.name",
+      "startMonth": 1,
+      "startDay": 14,
+      "modifiers": {
+        "finance": 3,
+        "career": 2,
+        "love": -1
+      }
+    },
+    {
+      "id": "aquarius",
+      "nameKey": "zodiac.aquarius.name",
+      "startMonth": 2,
+      "startDay": 13,
+      "modifiers": {
+        "study": 3,
+        "love": -1,
+        "career": 1
+      }
+    },
+    {
+      "id": "pisces",
+      "nameKey": "zodiac.pisces.name",
+      "startMonth": 3,
+      "startDay": 14,
+      "modifiers": {
+        "love": 2,
+        "health": 2
+      }
+    }
+  ],
+  "birthDays": [
+    {
+      "day": "sunday",
+      "nameKey": "thaiday.sunday.name",
+      "modifiers": {
+        "career": 3,
+        "love": -1
+      }
+    },
+    {
+      "day": "monday",
+      "nameKey": "thaiday.monday.name",
+      "modifiers": {
+        "love": 3,
+        "finance": 1
+      }
+    },
+    {
+      "day": "tuesday",
+      "nameKey": "thaiday.tuesday.name",
+      "modifiers": {
+        "career": 2,
+        "health": 1
+      }
+    },
+    {
+      "day": "wednesday",
+      "nameKey": "thaiday.wednesday.name",
+      "modifiers": {
+        "study": 3,
+        "finance": 1
+      }
+    },
+    {
+      "day": "wednesday_night",
+      "nameKey": "thaiday.wednesday_night.name",
+      "modifiers": {
+        "finance": 3,
+        "love": 1,
+        "study": -1
+      }
+    },
+    {
+      "day": "thursday",
+      "nameKey": "thaiday.thursday.name",
+      "modifiers": {
+        "study": 3,
+        "career": 1
+      }
+    },
+    {
+      "day": "friday",
+      "nameKey": "thaiday.friday.name",
+      "modifiers": {
+        "love": 3,
+        "finance": 1
+      }
+    },
+    {
+      "day": "saturday",
+      "nameKey": "thaiday.saturday.name",
+      "modifiers": {
+        "health": 2,
+        "career": 1,
+        "love": -1
+      }
+    }
+  ],
+  "elements": [
+    {
+      "id": "earth",
+      "nameKey": "element.earth.name",
+      "modifiers": {
+        "finance": 2,
+        "health": 1
+      }
+    },
+    {
+      "id": "water",
+      "nameKey": "element.water.name",
+      "modifiers": {
+        "love": 2,
+        "study": 1
+      }
+    },
+    {
+      "id": "fire",
+      "nameKey": "element.fire.name",
+      "modifiers": {
+        "career": 2,
+        "health": -1,
+        "love": 1
+      }
+    },
+    {
+      "id": "wood",
+      "nameKey": "element.wood.name",
+      "modifiers": {
+        "health": 2,
+        "study": 1
+      }
+    },
+    {
+      "id": "metal",
+      "nameKey": "element.metal.name",
+      "modifiers": {
+        "finance": 2,
+        "career": 1,
+        "love": -1
+      }
+    }
+  ],
+  "yearAnimals": [
+    {
+      "id": "rat",
+      "nameKey": "animal.rat.name",
+      "element": "water"
+    },
+    {
+      "id": "ox",
+      "nameKey": "animal.ox.name",
+      "element": "earth"
+    },
+    {
+      "id": "tiger",
+      "nameKey": "animal.tiger.name",
+      "element": "wood"
+    },
+    {
+      "id": "rabbit",
+      "nameKey": "animal.rabbit.name",
+      "element": "wood"
+    },
+    {
+      "id": "dragon",
+      "nameKey": "animal.dragon.name",
+      "element": "earth"
+    },
+    {
+      "id": "snake",
+      "nameKey": "animal.snake.name",
+      "element": "fire"
+    },
+    {
+      "id": "horse",
+      "nameKey": "animal.horse.name",
+      "element": "fire"
+    },
+    {
+      "id": "goat",
+      "nameKey": "animal.goat.name",
+      "element": "earth"
+    },
+    {
+      "id": "monkey",
+      "nameKey": "animal.monkey.name",
+      "element": "metal"
+    },
+    {
+      "id": "rooster",
+      "nameKey": "animal.rooster.name",
+      "element": "metal"
+    },
+    {
+      "id": "dog",
+      "nameKey": "animal.dog.name",
+      "element": "earth"
+    },
+    {
+      "id": "pig",
+      "nameKey": "animal.pig.name",
+      "element": "water"
+    }
+  ]
+}

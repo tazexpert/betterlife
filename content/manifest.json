@@ -32,6 +32,14 @@
     {
       "type": "time_settings",
       "path": "time_settings.json"
+    },
+    {
+      "type": "astrology",
+      "path": "astrology.json"
+    },
+    {
+      "type": "luck_settings",
+      "path": "luck.json"
     }
   ]
 }

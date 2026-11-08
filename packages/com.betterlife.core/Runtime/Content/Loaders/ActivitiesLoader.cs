@@ -12,7 +12,7 @@ namespace BetterLife.Core.Content.Loaders
     /// </summary>
     public sealed class ActivitiesLoader : DefinitionLoader<ActivityDefinition>
     {
-        private static readonly string[] Dependencies = { ContentTypes.CharacterCatalogs };
+        private static readonly string[] Dependencies = { ContentTypes.RuleTypes };
 
         /// <inheritdoc />
         public override string TypeName => ContentTypes.Activities;

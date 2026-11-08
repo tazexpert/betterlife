@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BetterLife.Core.Astrology;
+using BetterLife.Core.Karma;
 using BetterLife.Core.Rules;
 using BetterLife.Core.Rules.Serialization;
 using Newtonsoft.Json.Linq;
@@ -22,7 +24,8 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'year','op':'>=','value':2000},
             {'type':'cash','op':'>=','amount':1500.25},
             {'type':'reputation','domain':'business','op':'<','value':30},
-            {'type':'healthCondition','condition':'flu'}]}";
+            {'type':'healthCondition','condition':'flu'},
+            {'type':'karma','kind':'bad','op':'>','value':30}]}";
 
         private const string AllEffects = @"[
             {'type':'stat','stat':'mental.stress','amount':{'min':3,'max':8},'source':'source.work'},
@@ -37,6 +40,7 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'reputation','domain':'business','amount':-3},
             {'type':'healthCondition.add','condition':'flu','severity':35},
             {'type':'healthCondition.remove','condition':'cold'},
+            {'type':'karma.good','amount':5},
             {'type':'if','condition':{'type':'trait','trait':'calm'},'then':[{'type':'stat','stat':'mental.happiness','amount':-2}],
              'else':[{'type':'stat','stat':'mental.happiness','amount':-8}]}]";
 
@@ -137,10 +141,15 @@ namespace BetterLife.Core.Tests.Rules
         }
 
         [Test]
-        public void Schema_ListsExactlyTheRegisteredTypes()
+        public void Schema_ListsExactlyTheRegisteredTypes_IncludingContentRegisteredOnes()
         {
             string root = RepositoryPaths.RequireRoot();
             JObject schema = JObject.Parse(File.ReadAllText(Path.Combine(root, "docs", "schemas", "rules.schema.json")));
+            KarmaService karma = Astrology.TestAstrology.Karma();
+            _f.Registry
+                .Register(new FortuneConditionConverter(new FortuneCalculator(Astrology.TestAstrology.Tables())))
+                .Register(new BadKarmaEffectConverter(karma))
+                .Register(new MeritEffectConverter(karma));
 
             Assert.That(SchemaTypes(schema, "condition"), Is.EquivalentTo(_f.Registry.ConditionTypes));
             Assert.That(SchemaTypes(schema, "effect"), Is.EquivalentTo(_f.Registry.EffectTypes));

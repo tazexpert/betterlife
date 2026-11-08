@@ -67,6 +67,9 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Domain.Characters` | Character (aggregate root), GenderProfile, BirthInfo, Wallet |
 | `BetterLife.Core.Rules` (+ `.Conditions`, `.Effects`, `.Serialization`) | Rules Engine: Condition/Effect + Registry + JSON converters |
 | `BetterLife.Core.Content` (+ `.Loaders`) | Content Pipeline: manifest, loaders, IContentRepository |
+| `BetterLife.Core.Astrology` | ดวง 5 ด้าน, AstrologyTables, FortuneCalculator |
+| `BetterLife.Core.Karma` | KarmaLedger, หนี้กรรม, KarmaService |
+| `BetterLife.Core.Luck` | LuckCalculator (FinalChance), ChanceSpec |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

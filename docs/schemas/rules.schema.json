@@ -358,6 +358,67 @@
               "$ref": "#/$defs/id"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "area",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "fortune"
+            },
+            "area": {
+              "enum": [
+                "finance",
+                "love",
+                "health",
+                "career",
+                "study"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "kind",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma"
+            },
+            "kind": {
+              "enum": [
+                "good",
+                "bad"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
         }
       ]
     },
@@ -608,6 +669,54 @@
               "$ref": "#/$defs/effects"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.good"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.bad"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.merit"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
         }
       ]
     },
@@ -615,6 +724,51 @@
       "type": "array",
       "items": {
         "$ref": "#/$defs/effect"
+      }
+    },
+    "chance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base"
+      ],
+      "properties": {
+        "base": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stat",
+              "weight"
+            ],
+            "properties": {
+              "stat": {
+                "$ref": "#/$defs/id"
+              },
+              "weight": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "fortune": {
+          "enum": [
+            "finance",
+            "love",
+            "health",
+            "career",
+            "study"
+          ]
+        },
+        "karma": {
+          "type": "boolean"
+        }
       }
     }
   }
