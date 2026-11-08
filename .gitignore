@@ -24,3 +24,7 @@ TestResults/
 unity/*.csproj
 unity/*.sln
 unity/*.slnx
+
+# Content copied into Unity Resources at build time (source of truth is /content)
+unity/Assets/BetterLife/Resources/Content/
+unity/Assets/BetterLife/Resources/Content.meta

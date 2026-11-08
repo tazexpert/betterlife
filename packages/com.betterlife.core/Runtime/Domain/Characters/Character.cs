@@ -40,7 +40,7 @@ namespace BetterLife.Core.Domain.Characters
             Stats = new StatBlock(catalogs.Stats);
             ChangeLog = new StatChangeLog();
             History = new StatHistory(catalogs.Stats.CoreStatIds);
-            Reputation = new ReputationBook();
+            Reputation = new ReputationBook(catalogs.ReputationDomains);
             Wallet = new Wallet();
             Traits = new TraitSet(catalogs.Traits);
             Skills = new SkillSet(catalogs.Skills);
@@ -153,13 +153,14 @@ namespace BetterLife.Core.Domain.Characters
         /// <summary>
         /// Adds or replaces a health condition with the same id.
         /// </summary>
-        /// <param name="condition">The condition.</param>
+        /// <param name="condition">A condition of a declared type.</param>
         public void SetCondition(HealthCondition condition)
         {
             if (condition == null)
             {
                 throw new ArgumentNullException(nameof(condition));
             }
+            Catalogs.HealthConditions.Get(condition.ConditionId);
             RemoveCondition(condition.ConditionId);
             _conditions.Add(condition);
         }

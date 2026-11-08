@@ -1,0 +1,29 @@
+{
+  "contentVersion": 1,
+  "files": [
+    {
+      "type": "stats",
+      "path": "stats.json"
+    },
+    {
+      "type": "traits",
+      "path": "traits.json"
+    },
+    {
+      "type": "skills",
+      "path": "skills.json"
+    },
+    {
+      "type": "flags",
+      "path": "flags.json"
+    },
+    {
+      "type": "reputation_domains",
+      "path": "reputation_domains.json"
+    },
+    {
+      "type": "health_conditions",
+      "path": "health_conditions.json"
+    }
+  ]
+}

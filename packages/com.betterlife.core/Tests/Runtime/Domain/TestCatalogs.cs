@@ -81,9 +81,27 @@ namespace BetterLife.Core.Tests.Domain
             });
         }
 
+        public static DefinitionCatalog<ReputationDomainDefinition> ReputationDomains()
+        {
+            return new DefinitionCatalog<ReputationDomainDefinition>(new[]
+            {
+                new ReputationDomainDefinition("business", "reputation.business.name"),
+                new ReputationDomainDefinition("underworld", "reputation.underworld.name"),
+            });
+        }
+
+        public static DefinitionCatalog<HealthConditionDefinition> HealthConditions()
+        {
+            return new DefinitionCatalog<HealthConditionDefinition>(new[]
+            {
+                new HealthConditionDefinition("flu", "condition.flu.name", "condition.flu.desc"),
+                new HealthConditionDefinition("cold", "condition.cold.name", "condition.cold.desc"),
+            });
+        }
+
         public static CharacterCatalogs All()
         {
-            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags());
+            return new CharacterCatalogs(Stats(), Traits(), Skills(), Flags(), ReputationDomains(), HealthConditions());
         }
 
         public static Character NewCharacter(CharacterCatalogs catalogs = null)

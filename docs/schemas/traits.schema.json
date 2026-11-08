@@ -5,34 +5,76 @@
   "description": "Trait definitions. Stat references are checked by the content validator.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["traits"],
+  "required": [
+    "traits"
+  ],
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
   },
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "traits": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "nameKey", "descKey", "category", "startsHidden", "statModifiers"],
+        "required": [
+          "id",
+          "nameKey",
+          "descKey",
+          "category",
+          "startsHidden",
+          "statModifiers"
+        ],
         "properties": {
-          "id": { "$ref": "#/$defs/id" },
-          "nameKey": { "$ref": "#/$defs/id" },
-          "descKey": { "$ref": "#/$defs/id" },
-          "category": { "$ref": "#/$defs/id" },
-          "exclusiveGroup": { "$ref": "#/$defs/id" },
-          "startsHidden": { "type": "boolean" },
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "descKey": {
+            "$ref": "#/$defs/id"
+          },
+          "category": {
+            "$ref": "#/$defs/id"
+          },
+          "exclusiveGroup": {
+            "$ref": "#/$defs/id"
+          },
+          "startsHidden": {
+            "type": "boolean"
+          },
           "statModifiers": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["stat", "direction", "multiplier"],
+              "required": [
+                "stat",
+                "direction",
+                "multiplier"
+              ],
               "properties": {
-                "stat": { "$ref": "#/$defs/id" },
-                "direction": { "enum": ["gain", "loss", "both"] },
-                "multiplier": { "type": "number", "exclusiveMinimum": 0 }
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "direction": {
+                  "enum": [
+                    "gain",
+                    "loss",
+                    "both"
+                  ]
+                },
+                "multiplier": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
               }
             }
           }

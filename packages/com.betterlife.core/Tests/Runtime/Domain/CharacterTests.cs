@@ -101,6 +101,7 @@ namespace BetterLife.Core.Tests.Domain
             Assert.That(_character.RemoveCondition("flu"), Is.True);
             Assert.That(_character.HasCondition("flu"), Is.False);
             Assert.Throws<ArgumentOutOfRangeException>(() => new HealthCondition("flu", 101f, _now));
+            Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => _character.SetCondition(new HealthCondition("plague", 10f, _now)));
         }
 
         [Test]

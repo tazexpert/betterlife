@@ -272,11 +272,11 @@ namespace BetterLife.Core.Rules.Serialization
         public static StatId RequireStat(JObject obj, string name, RuleReadContext context, bool requireStored)
         {
             var id = new StatId(RequireId(obj, name, context));
-            if (!context.Catalogs.Stats.Contains(id))
+            if (!context.RequireCatalogs().Stats.Contains(id))
             {
                 throw context.Property(name).Error($"unknown stat '{id}'.");
             }
-            if (requireStored && context.Catalogs.Stats.IsDerived(id))
+            if (requireStored && context.RequireCatalogs().Stats.IsDerived(id))
             {
                 throw context.Property(name).Error($"stat '{id}' is derived and cannot be changed directly; change one of its inputs.");
             }
@@ -294,7 +294,7 @@ namespace BetterLife.Core.Rules.Serialization
         public static string RequireFlag(JObject obj, string name, RuleReadContext context, FlagKind? kind)
         {
             string id = RequireId(obj, name, context);
-            if (!context.Catalogs.Flags.TryGet(id, out FlagDefinition definition))
+            if (!context.RequireCatalogs().Flags.TryGet(id, out FlagDefinition definition))
             {
                 throw context.Property(name).Error($"undeclared flag '{id}' (declare it in flags.json).");
             }
@@ -315,7 +315,7 @@ namespace BetterLife.Core.Rules.Serialization
         public static string RequireTrait(JObject obj, string name, RuleReadContext context)
         {
             string id = RequireId(obj, name, context);
-            if (!context.Catalogs.Traits.Contains(id))
+            if (!context.RequireCatalogs().Traits.Contains(id))
             {
                 throw context.Property(name).Error($"unknown trait '{id}'.");
             }
@@ -332,9 +332,43 @@ namespace BetterLife.Core.Rules.Serialization
         public static string RequireSkill(JObject obj, string name, RuleReadContext context)
         {
             string id = RequireId(obj, name, context);
-            if (!context.Catalogs.Skills.Contains(id))
+            if (!context.RequireCatalogs().Skills.Contains(id))
             {
                 throw context.Property(name).Error($"unknown skill '{id}'.");
+            }
+            return id;
+        }
+
+        /// <summary>
+        /// Reads a declared reputation domain id.
+        /// </summary>
+        /// <param name="obj">Object.</param>
+        /// <param name="name">Property name.</param>
+        /// <param name="context">Read context of the object.</param>
+        /// <returns>The domain id.</returns>
+        public static string RequireReputationDomain(JObject obj, string name, RuleReadContext context)
+        {
+            string id = RequireId(obj, name, context);
+            if (!context.RequireCatalogs().ReputationDomains.Contains(id))
+            {
+                throw context.Property(name).Error($"unknown reputation domain '{id}'.");
+            }
+            return id;
+        }
+
+        /// <summary>
+        /// Reads a declared health condition id.
+        /// </summary>
+        /// <param name="obj">Object.</param>
+        /// <param name="name">Property name.</param>
+        /// <param name="context">Read context of the object.</param>
+        /// <returns>The condition id.</returns>
+        public static string RequireHealthCondition(JObject obj, string name, RuleReadContext context)
+        {
+            string id = RequireId(obj, name, context);
+            if (!context.RequireCatalogs().HealthConditions.Contains(id))
+            {
+                throw context.Property(name).Error($"unknown health condition '{id}'.");
             }
             return id;
         }

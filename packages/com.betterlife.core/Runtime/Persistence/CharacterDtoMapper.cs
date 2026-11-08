@@ -100,8 +100,8 @@ namespace BetterLife.Core.Persistence
             var warnings = new List<string>();
             Character character = CreateShell(dto, catalogs);
             RestoreStats(dto, character, catalogs.Stats, warnings);
-            RestoreReputation(dto, character);
-            RestoreConditions(dto, character);
+            RestoreReputation(dto, character, catalogs.ReputationDomains, warnings);
+            RestoreConditions(dto, character, catalogs.HealthConditions, warnings);
             RestoreWallet(dto, character);
             RestoreTraits(dto, character, catalogs.Traits, warnings);
             RestoreSkills(dto, character, catalogs.Skills, warnings);
@@ -141,18 +141,28 @@ namespace BetterLife.Core.Persistence
             }
         }
 
-        private static void RestoreReputation(CharacterDto dto, Character character)
+        private static void RestoreReputation(CharacterDto dto, Character character, DefinitionCatalog<ReputationDomainDefinition> catalog, List<string> warnings)
         {
             foreach (ReputationDto reputation in Items(dto.Reputation))
             {
+                if (!catalog.Contains(reputation.DomainId))
+                {
+                    warnings.Add($"Skipped reputation '{reputation.DomainId}': not in current content.");
+                    continue;
+                }
                 Wrap(() => character.Reputation.Set(reputation.DomainId, reputation.Value), "reputation");
             }
         }
 
-        private static void RestoreConditions(CharacterDto dto, Character character)
+        private static void RestoreConditions(CharacterDto dto, Character character, DefinitionCatalog<HealthConditionDefinition> catalog, List<string> warnings)
         {
             foreach (HealthConditionDto condition in Items(dto.Conditions))
             {
+                if (!catalog.Contains(condition.Id))
+                {
+                    warnings.Add($"Skipped health condition '{condition.Id}': not in current content.");
+                    continue;
+                }
                 Wrap(() => character.SetCondition(new HealthCondition(condition.Id, condition.Severity, new GameDate(condition.StartedWeek))), "condition");
             }
         }

@@ -1,4 +1,6 @@
+using BetterLife.Core.Content;
 using BetterLife.Core.Events;
+using BetterLife.Infrastructure.Content;
 using UnityEngine;
 
 namespace BetterLife.Bootstrap
@@ -10,10 +12,12 @@ namespace BetterLife.Bootstrap
     public sealed class GameBootstrap : MonoBehaviour
     {
         private const string HostObjectName = "[BetterLife] GameBootstrap";
+        private const string LogPrefix = "[BetterLife] ";
 
         private static GameBootstrap _instance;
 
         private IEventBus _eventBus;
+        private IContentRepository _content;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -60,6 +64,31 @@ namespace BetterLife.Bootstrap
         private void Compose()
         {
             _eventBus = new EventBus();
+            _content = LoadContent();
+            if (_content == null)
+            {
+                enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Loads and validates all content. On failure every error is logged and null is returned.
+        /// </summary>
+        /// <returns>The repository, or null.</returns>
+        private static IContentRepository LoadContent()
+        {
+            ContentLoadResult result = DefaultContent.CreatePipeline(ContentSourceFactory.CreateForCurrentPlatform()).Load();
+            if (result.Succeeded)
+            {
+                Debug.Log(LogPrefix + "Content v" + result.Repository.ContentVersion + " loaded.");
+                return result.Repository;
+            }
+
+            foreach (ContentError error in result.Errors)
+            {
+                Debug.LogError(LogPrefix + "Content error: " + error);
+            }
+            return null;
         }
     }
 }

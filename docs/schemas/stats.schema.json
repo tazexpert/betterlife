@@ -5,34 +5,83 @@
   "description": "Stat definitions and formulas of derived core stats. Weight sums and reference checks are enforced by the content validator.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["stats", "formulas"],
+  "required": [
+    "stats",
+    "formulas"
+  ],
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" },
-    "statValue": { "type": "number", "minimum": 0, "maximum": 100 }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "statValue": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
   },
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "stats": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "layer", "polarity", "default", "nameKey", "descKey"],
+        "required": [
+          "id",
+          "layer",
+          "polarity",
+          "default",
+          "nameKey",
+          "descKey"
+        ],
         "properties": {
-          "id": { "$ref": "#/$defs/id" },
-          "layer": { "enum": ["core", "sub", "hidden"] },
-          "parent": { "$ref": "#/$defs/id" },
-          "polarity": { "enum": ["higherIsBetter", "lowerIsBetter"] },
-          "default": { "$ref": "#/$defs/statValue" },
-          "nameKey": { "$ref": "#/$defs/id" },
-          "descKey": { "$ref": "#/$defs/id" },
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "layer": {
+            "enum": [
+              "core",
+              "sub",
+              "hidden"
+            ]
+          },
+          "parent": {
+            "$ref": "#/$defs/id"
+          },
+          "polarity": {
+            "enum": [
+              "higherIsBetter",
+              "lowerIsBetter"
+            ]
+          },
+          "default": {
+            "$ref": "#/$defs/statValue"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "descKey": {
+            "$ref": "#/$defs/id"
+          },
           "decay": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["target", "ratePerWeek"],
+            "required": [
+              "target",
+              "ratePerWeek"
+            ],
             "properties": {
-              "target": { "$ref": "#/$defs/statValue" },
-              "ratePerWeek": { "type": "number", "minimum": 0 }
+              "target": {
+                "$ref": "#/$defs/statValue"
+              },
+              "ratePerWeek": {
+                "type": "number",
+                "minimum": 0
+              }
             }
           }
         }
@@ -43,21 +92,40 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["target", "type", "terms"],
+        "required": [
+          "target",
+          "type",
+          "terms"
+        ],
         "properties": {
-          "target": { "$ref": "#/$defs/id" },
-          "type": { "const": "weighted" },
+          "target": {
+            "$ref": "#/$defs/id"
+          },
+          "type": {
+            "const": "weighted"
+          },
           "terms": {
             "type": "array",
             "minItems": 1,
             "items": {
               "type": "object",
               "additionalProperties": false,
-              "required": ["stat", "weight"],
+              "required": [
+                "stat",
+                "weight"
+              ],
               "properties": {
-                "stat": { "$ref": "#/$defs/id" },
-                "weight": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
-                "invert": { "type": "boolean" }
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "weight": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "invert": {
+                  "type": "boolean"
+                }
               }
             }
           }

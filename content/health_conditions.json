@@ -1,0 +1,49 @@
+{
+  "conditions": [
+    {
+      "id": "cold",
+      "nameKey": "condition.cold.name",
+      "descKey": "condition.cold.desc"
+    },
+    {
+      "id": "flu",
+      "nameKey": "condition.flu.name",
+      "descKey": "condition.flu.desc"
+    },
+    {
+      "id": "food_poisoning",
+      "nameKey": "condition.food_poisoning.name",
+      "descKey": "condition.food_poisoning.desc"
+    },
+    {
+      "id": "sprained_ankle",
+      "nameKey": "condition.sprained_ankle.name",
+      "descKey": "condition.sprained_ankle.desc"
+    },
+    {
+      "id": "broken_arm",
+      "nameKey": "condition.broken_arm.name",
+      "descKey": "condition.broken_arm.desc"
+    },
+    {
+      "id": "depression",
+      "nameKey": "condition.depression.name",
+      "descKey": "condition.depression.desc"
+    },
+    {
+      "id": "anxiety_disorder",
+      "nameKey": "condition.anxiety_disorder.name",
+      "descKey": "condition.anxiety_disorder.desc"
+    },
+    {
+      "id": "hypertension",
+      "nameKey": "condition.hypertension.name",
+      "descKey": "condition.hypertension.desc"
+    },
+    {
+      "id": "diabetes",
+      "nameKey": "condition.diabetes.name",
+      "descKey": "condition.diabetes.desc"
+    }
+  ]
+}

@@ -1,10 +1,11 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅
-**กำลังทำ:** 04 Content Pipeline ⏸ รอผู้ใช้ยืนยัน Data Structure (`docs/systems/content-pipeline.md`)
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅
+**ถัดไป:** 05 Time System + Time Budget
 
 ## กติกาการทำงาน
+- ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
 - ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
 - เริ่มข้อถัดไปได้เมื่อ `dotnet test dotnet/BetterLife.sln` ของข้อก่อนผ่านครบแล้วเท่านั้น
 - ตอนเริ่ม Session ใหม่ ให้พิมพ์เลขข้อ เช่น "เริ่มข้อ 02"
@@ -16,7 +17,7 @@
 | 01 | GameDate + Pcg32Random + IEventBus | พื้นฐานที่ทุกระบบใช้ (`docs/systems/foundation.md`) | ✅ |
 | 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet (`docs/systems/domain-model.md`) | ✅ |
 | 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters (`docs/systems/rules-engine.md`) | ✅ |
-| 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⏸ Data Structure proposed |
+| 04 | Content Pipeline | IContentRepository, Schema, Validator Test (`docs/systems/content-pipeline.md`) | ✅ |
 | 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
 | 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance | ⬜ |
 | 07 | Event System | Weighted pool, Cooldown, Choices, Delayed consequences, Storylines | ⬜ |
@@ -46,3 +47,4 @@
 - 2026-11-08 — รับ Roadmap 00–23 จากผู้ใช้ แทนตาราง Milestone เดิม ข้อ 00 และ 01 เสร็จแล้ว (90 tests ผ่าน)
 - 2026-11-08 — 02 Domain Model + Stats เสร็จ: Core คำนวณจากค่าย่อย, GenderProfile (เพศกำเนิด/เพศสภาพ/รูปแบบการพูด), Traits/Skills/Flags, Save DTO, schemas + content เริ่มต้น; `dotnet test` ผ่าน 151 tests
 - 2026-11-08 — 03 Rules Engine เสร็จ: Condition 12 / Effect 13 ชนิด, Registry + converters (Newtonsoft.Json), ข้อความ error ชี้ JSON path, rules.schema.json; `dotnet test` ผ่าน 207 tests
+- 2026-11-08 — 04 Content Pipeline เสร็จ: manifest, loader ตามชนิดพร้อม dependency, รวบรวม error พร้อมไฟล์และ path, content ใหม่ 2 ชนิด, ฝั่ง Unity (Resources + ตรวจก่อน Build), test ตรวจ content ด้วย JsonSchema.Net; `dotnet test` ผ่าน 226 + 6 tests

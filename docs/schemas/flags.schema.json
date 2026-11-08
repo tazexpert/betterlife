@@ -5,23 +5,61 @@
   "description": "Declared story flags. Events may only reference flags declared here.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["flags"],
+  "required": [
+    "flags"
+  ],
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" }
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
   },
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "flags": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "kind", "defaultExpiryWeeks", "inheritable", "eulogyKey"],
+        "required": [
+          "id",
+          "kind",
+          "defaultExpiryWeeks",
+          "inheritable",
+          "eulogyKey"
+        ],
         "properties": {
-          "id": { "$ref": "#/$defs/id" },
-          "kind": { "enum": ["bool", "counter"] },
-          "defaultExpiryWeeks": { "type": ["integer", "null"], "minimum": 1 },
-          "inheritable": { "type": "boolean" },
-          "eulogyKey": { "oneOf": [ { "$ref": "#/$defs/id" }, { "type": "null" } ] }
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "kind": {
+            "enum": [
+              "bool",
+              "counter"
+            ]
+          },
+          "defaultExpiryWeeks": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "inheritable": {
+            "type": "boolean"
+          },
+          "eulogyKey": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
         }
       }
     }

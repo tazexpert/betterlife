@@ -76,13 +76,13 @@ namespace BetterLife.Core.Tests.Domain
         [Test]
         public void Reputation_DefaultsToUnknown_AndClamps()
         {
-            var book = new ReputationBook();
+            var book = new ReputationBook(TestCatalogs.ReputationDomains());
 
             Assert.That(book.Get("business"), Is.EqualTo(ReputationBook.Unknown));
             Assert.That(book.Change("business", 30f), Is.EqualTo(30f));
             Assert.That(book.Change("business", 200f), Is.EqualTo(100f));
             Assert.That(book.Change("underworld", -10f), Is.EqualTo(0f));
-            Assert.Throws<ArgumentException>(() => book.Get("Bad Domain"));
+            Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => book.Get("politics"));
             Assert.Throws<ArgumentException>(() => book.Change("business", float.NaN));
         }
     }

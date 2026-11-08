@@ -18,7 +18,7 @@ namespace BetterLife.Core.Rules.Serialization.Converters
         protected override ReputationEffect ReadTyped(JObject json, RuleReadContext context, RuleRegistry registry)
         {
             RuleJson.RequireOnly(json, context, "domain", "amount");
-            return new ReputationEffect(RuleJson.RequireId(json, "domain", context), RuleJson.RequireFloatRange(json, "amount", context));
+            return new ReputationEffect(RuleJson.RequireReputationDomain(json, "domain", context), RuleJson.RequireFloatRange(json, "amount", context));
         }
 
         /// <inheritdoc />

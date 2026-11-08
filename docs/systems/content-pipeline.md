@@ -1,6 +1,14 @@
 # Task 04: Content Pipeline
 
-> สถานะ: ⏸ **ข้อเสนอ Data Structure — รอผู้ใช้ยืนยัน** (ยังไม่มี Logic)
+> สถานะ: ✅ **Implemented** — 2026-11-08
+
+## 0. การตัดสินใจที่ผู้ใช้ยืนยันแล้ว
+| หัวข้อ | ผลการตัดสินใจ |
+|---|---|
+| รายชื่อไฟล์ | `content/manifest.json` |
+| ใส่ content ลงในเกมที่ Build แล้ว | คัดลอกไปที่ `Resources/Content` อัตโนมัติก่อน Build (และ Build จะล้มถ้า content มี error) |
+| ตรวจ Schema ใน test | JsonSchema.Net 7.3.4 (MIT) ในโปรเจกต์ `dotnet/BetterLife.Content.Tests` |
+| Content ใหม่ | `reputation_domains` (9 วงการ) + `health_conditions` (9 อาการ) |
 
 ## 1. สรุปความเข้าใจ
 ระบบที่อ่านไฟล์ `content/*.json` ทั้งหมด → ตรวจความถูกต้อง → แปลงเป็น catalog จากข้อ 02/03 → ส่งให้ระบบเกมใช้ผ่าน `IContentRepository`
@@ -78,9 +86,42 @@
 ## 3. Save DTO
 **ไม่มี**: content ไม่ถูกเซฟ (ข้อ 14 จะเก็บแค่ `contentVersion` ลงในไฟล์เซฟ)
 
-## 4. คำถามที่ต้องยืนยัน
-1. **ใช้ manifest.json** ระบุรายชื่อไฟล์ (แนะนำ: จำเป็นสำหรับ Android และมี test กันลืมใส่ชื่อไฟล์) หรือให้ระบบเดาชนิดจากชื่อโฟลเดอร์เอง?
-2. **วิธีใส่ content ลงในเกมที่ Build แล้ว:** คัดลอกไปไว้ใน `Resources` อัตโนมัติตอน Build (แนะนำ: อ่านได้ทันทีทุก platform และโค้ดง่าย) หรือใช้ `StreamingAssets` (เปิดให้ทำ mod ได้ภายหลัง แต่บน Android ต้องอ่านแบบ async)?
-3. **ไลบรารีตรวจ Schema สำหรับ test:** `JsonSchema.Net` (แนะนำ: MIT, รองรับ draft 2020-12 เต็มรูปแบบ, ใช้แค่ใน test ไม่ติดไปกับเกม) หรือ `NJsonSchema`?
-   (หมายเหตุ: `Newtonsoft.Json.Schema` ใช้ไม่ได้ เพราะเป็น license AGPL/เชิงพาณิชย์)
-4. **เพิ่ม content 2 ชนิดใหม่** (วงการชื่อเสียง + โรค/อาการ แบบขั้นต่ำ) ตอนนี้เลย (แนะนำ) หรือรอไปทำในข้อ 09?
+## 4. ไฟล์ที่ได้
+- `Runtime/Content/`: `IContentSource`, `FileSystemContentSource`, `InMemoryContentSource`, `ContentPaths`, `ContentJson`, `ContentManifest`, `ContentFileEntry`, `ContentDocument`, `IContentTypeLoader`, `ContentLoadContext`, `ContentPipeline`, `IContentRepository`, `ContentRepository`, `ContentError`, `ContentLoadException`, `ContentLoadResult`, `ContentTypes`, `DefaultContent`
+- `Runtime/Content/Loaders/`: `DefinitionLoader<T>` (base), `StatsLoader` + `IStatFormulaReader`/`WeightedStatFormulaReader`, `TraitsLoader`, `SkillsLoader`, `FlagsLoader`, `ReputationDomainsLoader`, `HealthConditionsLoader`, `CharacterCatalogsBuilder`, `ContentReading`
+- Domain: `ReputationDomainDefinition`, `HealthConditionDefinition` + เพิ่มเข้า `CharacterCatalogs` ตอนนี้ `ReputationBook` และ `Character.SetCondition` รับเฉพาะ id ที่ประกาศไว้ และ Rules ตรวจ id ของวงการและโรคตั้งแต่ตอนโหลด
+- `content/manifest.json`, `content/reputation_domains.json`, `content/health_conditions.json`
+- `docs/schemas/manifest.schema.json`, `reputation_domains.schema.json`, `health_conditions.schema.json` (ทุก Schema ของ content รับ `$schema` ได้ เพื่อให้ VS Code ช่วยเติมคำ)
+- Unity: `Infrastructure/Content/{ContentLocations, ResourcesContentSource, ContentSourceFactory}.cs`, `EditorTools/{ContentSync, ContentBuildStep}.cs`, `GameBootstrap` โหลด content ตอนเริ่มเกม
+
+## 5. Tests
+- **Core (`ContentPipelineTests`, 17 test):**
+  - โหลดครบทุกชนิด
+  - หลายไฟล์ต่อชนิด และ id ซ้ำข้ามไฟล์
+  - รวบรวม error พร้อมไฟล์และ path แล้วข้ามชนิดที่ขึ้นกับชนิดที่พัง
+  - น้ำหนักสูตรผิด
+  - manifest ผิด 5 แบบ
+  - ไฟล์หาย / JSON เสีย / property ซ้ำ
+  - ฟิลด์ nullable ต้องมีอยู่
+  - formula ชนิดที่ไม่รู้จัก
+  - การตั้งค่า loader ผิด (ซ้ำ / dependency ไม่มี / วน)
+  - ลำดับการโหลด
+  - การตรวจ path
+- **Content (`ContentValidationTests`, 6 test):** ตรวจโฟลเดอร์ `content/` จริง
+  - manifest และทุกไฟล์ผ่าน Schema
+  - ทุกชนิดมี Schema
+  - manifest ตรงกับไฟล์ในโฟลเดอร์
+  - โหลดผ่าน Pipeline ได้โดยไม่มี error
+  - Schema จับฟิลด์ที่พิมพ์ผิดได้
+
+## 6. วิธีเพิ่ม content ชนิดใหม่ (ข้อ 07 เป็นต้นไป)
+1. เขียน loader (สืบทอด `DefinitionLoader<T>` หรือ implement `IContentTypeLoader` เอง) และใส่ `DependsOn` = `character_catalogs` ถ้าใน content มี rule
+2. ใช้ `context.ReadContext(path)` + `context.Rules.ParseCondition/ParseEffects` อ่าน rule
+3. เพิ่ม loader ลงใน `DefaultContent.CreateLoaders()`
+4. สร้าง `docs/schemas/<type>.schema.json` (อ้างถึง rule ด้วย `"$ref": "rules.schema.json#/$defs/effects"`)
+5. ใส่ไฟล์ลงใน `content/manifest.json`
+
+## 7. งานที่ส่งต่อ
+- **ข้อ 09:** เพิ่มฟิลด์ของ `health_conditions` (ระยะเวลา และผลต่อ disease burden)
+- **ข้อ 14:** เก็บ `ContentVersion` ลงไฟล์เซฟ
+- **ข้อ 20:** test ตรวจว่าทุก Loc key ใน content มีข้อความแปล

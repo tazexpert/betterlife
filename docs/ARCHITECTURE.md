@@ -26,6 +26,7 @@ dotnet/
   BetterLife.sln
   BetterLife.Core.csproj          คอมไพล์ Runtime ของ Core
   BetterLife.Core.Tests.csproj    รันเทสต์ชุดเดียวกับ Unity Test Runner
+  BetterLife.Content.Tests/       ตรวจ content จริงด้วย JSON Schema (dotnet อย่างเดียว)
   Directory.Build.props           แยก obj/bin ต่อโปรเจกต์
 packages/com.betterlife.core/     UPM package (Pure C#)
   package.json
@@ -36,9 +37,9 @@ unity/                            Unity project
   ProjectSettings/ProjectVersion.txt
   Assets/BetterLife/
     Bootstrap/                    BetterLife.Bootstrap.asmdef + GameBootstrap (Composition Root)
-    Infrastructure/               BetterLife.Infrastructure.asmdef (→ Core)
+    Infrastructure/               BetterLife.Infrastructure.asmdef (→ Core) + Content/ (ResourcesContentSource)
     Presentation/                 BetterLife.Presentation.asmdef (→ Core) + UI/Uxml, UI/Uss
-    EditorTools/                  BetterLife.EditorTools.asmdef (Editor only) + ProjectSetupMenu
+    EditorTools/                  BetterLife.EditorTools.asmdef (Editor only, → Core, Infrastructure) + ProjectSetupMenu, ContentSync, ContentBuildStep
     Scenes/Main.unity             สร้างโดย ProjectSetupMenu (ฉากว่าง)
 ```
 
@@ -63,6 +64,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Domain.Traits` / `.Skills` / `.Flags` | Trait, Skill, Story flag |
 | `BetterLife.Core.Domain.Characters` | Character (aggregate root), GenderProfile, BirthInfo, Wallet |
 | `BetterLife.Core.Rules` (+ `.Conditions`, `.Effects`, `.Serialization`) | Rules Engine: Condition/Effect + Registry + JSON converters |
+| `BetterLife.Core.Content` (+ `.Loaders`) | Content Pipeline: manifest, loaders, IContentRepository |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

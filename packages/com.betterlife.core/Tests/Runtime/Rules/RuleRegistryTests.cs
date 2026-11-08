@@ -80,6 +80,8 @@ namespace BetterLife.Core.Tests.Rules
         [TestCase("{'type':'flag','flag':'career.fired_once','op':'>'}", "$", "must be given together")]
         [TestCase("{'type':'flag','flag':'career.fired'}", "$.flag", "undeclared flag")]
         [TestCase("{'type':'trait','trait':'brave'}", "$.trait", "unknown trait")]
+        [TestCase("{'type':'reputation','domain':'politics','op':'<','value':30}", "$.domain", "unknown reputation domain")]
+        [TestCase("{'type':'healthCondition','condition':'plague'}", "$.condition", "unknown health condition")]
         [TestCase("{'type':'all','conditions':[]}", "$", "at least one")]
         [TestCase("{'type':'all','conditions':[{'type':'age','op':'<'}]}", "$.conditions[0].value", "is required")]
         [TestCase("[]", "$", "expected an object")]

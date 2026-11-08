@@ -19,7 +19,7 @@ namespace BetterLife.Core.Rules.Serialization.Converters
         protected override RemoveHealthConditionEffect ReadTyped(JObject json, RuleReadContext context, RuleRegistry registry)
         {
             RuleJson.RequireOnly(json, context, "condition");
-            return new RemoveHealthConditionEffect(RuleJson.RequireId(json, "condition", context));
+            return new RemoveHealthConditionEffect(RuleJson.RequireHealthCondition(json, "condition", context));
         }
 
         /// <inheritdoc />

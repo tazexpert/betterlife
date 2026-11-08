@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/manifest.schema.json",
+  "title": "Content manifest",
+  "description": "Lists every content file. Required because Android builds cannot list folders.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contentVersion",
+    "files"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "contentVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "path"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^([a-z0-9_\\-]+/)*[a-z0-9_\\-]+\\.json$"
+          }
+        }
+      }
+    }
+  }
+}

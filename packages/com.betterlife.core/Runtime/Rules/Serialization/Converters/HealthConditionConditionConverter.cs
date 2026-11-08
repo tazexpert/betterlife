@@ -18,7 +18,7 @@ namespace BetterLife.Core.Rules.Serialization.Converters
         protected override HealthConditionCondition ReadTyped(JObject json, RuleReadContext context, RuleRegistry registry)
         {
             RuleJson.RequireOnly(json, context, "condition");
-            return new HealthConditionCondition(RuleJson.RequireId(json, "condition", context));
+            return new HealthConditionCondition(RuleJson.RequireHealthCondition(json, "condition", context));
         }
 
         /// <inheritdoc />

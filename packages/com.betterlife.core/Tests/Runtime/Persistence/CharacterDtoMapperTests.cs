@@ -67,10 +67,12 @@ namespace BetterLife.Core.Tests.Persistence
             dto.Flags.Add(new FlagDto { Id = "removed.flag", Value = 1 });
             dto.Stats.Add(new StatValueDto { Id = "removed.stat", Value = 10f });
             dto.Stats.Add(new StatValueDto { Id = "health", Value = 10f });
+            dto.Reputation.Add(new ReputationDto { DomainId = "politics", Value = 5f });
+            dto.Conditions.Add(new HealthConditionDto { Id = "plague", Severity = 5f });
 
             CharacterLoadResult loaded = CharacterDtoMapper.FromDto(dto, TestCatalogs.All());
 
-            Assert.That(loaded.Warnings, Has.Count.EqualTo(5));
+            Assert.That(loaded.Warnings, Has.Count.EqualTo(7));
             Assert.That(loaded.Character.Traits.Instances, Has.Count.EqualTo(2));
         }
 

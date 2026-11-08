@@ -15,16 +15,29 @@ namespace BetterLife.Core.Rules.Serialization
         /// <summary>
         /// Creates a context.
         /// </summary>
-        /// <param name="catalogs">Catalogs used to validate ids.</param>
+        /// <param name="catalogs">Catalogs used to validate ids; null while reading the catalogs themselves.</param>
         /// <param name="path">Current JSON path.</param>
         public RuleReadContext(CharacterCatalogs catalogs, string path = RootPath)
         {
-            Catalogs = catalogs ?? throw new ArgumentNullException(nameof(catalogs));
+            Catalogs = catalogs;
             Path = string.IsNullOrEmpty(path) ? RootPath : path;
         }
 
-        /// <summary>Catalogs used to validate ids.</summary>
+        /// <summary>Catalogs used to validate ids, or null.</summary>
         public CharacterCatalogs Catalogs { get; }
+
+        /// <summary>
+        /// Returns the catalogs, or throws when this context was created without them.
+        /// </summary>
+        /// <returns>The catalogs.</returns>
+        public CharacterCatalogs RequireCatalogs()
+        {
+            if (Catalogs == null)
+            {
+                throw new InvalidOperationException("This read context has no catalogs; id references cannot be checked here.");
+            }
+            return Catalogs;
+        }
 
         /// <summary>Current JSON path.</summary>
         public string Path { get; }

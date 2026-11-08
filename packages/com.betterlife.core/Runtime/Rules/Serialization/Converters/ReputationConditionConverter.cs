@@ -18,7 +18,7 @@ namespace BetterLife.Core.Rules.Serialization.Converters
         protected override ReputationCondition ReadTyped(JObject json, RuleReadContext context, RuleRegistry registry)
         {
             RuleJson.RequireOnly(json, context, "domain", "op", "value");
-            return new ReputationCondition(RuleJson.RequireId(json, "domain", context), RuleJson.RequireOperator(json, context), RuleJson.RequireFloat(json, "value", context));
+            return new ReputationCondition(RuleJson.RequireReputationDomain(json, "domain", context), RuleJson.RequireOperator(json, context), RuleJson.RequireFloat(json, "value", context));
         }
 
         /// <inheritdoc />

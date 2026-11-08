@@ -18,16 +18,22 @@ namespace BetterLife.Core.Domain.Characters
         /// <param name="traits">Trait catalog.</param>
         /// <param name="skills">Skill catalog.</param>
         /// <param name="flags">Flag catalog.</param>
+        /// <param name="reputationDomains">Reputation domain catalog.</param>
+        /// <param name="healthConditions">Health condition catalog.</param>
         public CharacterCatalogs(
             StatCatalog stats,
             DefinitionCatalog<TraitDefinition> traits,
             DefinitionCatalog<SkillDefinition> skills,
-            DefinitionCatalog<FlagDefinition> flags)
+            DefinitionCatalog<FlagDefinition> flags,
+            DefinitionCatalog<ReputationDomainDefinition> reputationDomains,
+            DefinitionCatalog<HealthConditionDefinition> healthConditions)
         {
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
             Traits = traits ?? throw new ArgumentNullException(nameof(traits));
             Skills = skills ?? throw new ArgumentNullException(nameof(skills));
             Flags = flags ?? throw new ArgumentNullException(nameof(flags));
+            ReputationDomains = reputationDomains ?? throw new ArgumentNullException(nameof(reputationDomains));
+            HealthConditions = healthConditions ?? throw new ArgumentNullException(nameof(healthConditions));
         }
 
         /// <summary>Stat catalog.</summary>
@@ -41,5 +47,11 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Flag catalog.</summary>
         public DefinitionCatalog<FlagDefinition> Flags { get; }
+
+        /// <summary>Reputation domain catalog.</summary>
+        public DefinitionCatalog<ReputationDomainDefinition> ReputationDomains { get; }
+
+        /// <summary>Health condition catalog.</summary>
+        public DefinitionCatalog<HealthConditionDefinition> HealthConditions { get; }
     }
 }
