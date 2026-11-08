@@ -1,0 +1,94 @@
+{
+  "$schema": "../docs/schemas/assets.schema.json",
+  "assets": [
+    {
+      "id": "savings_account",
+      "nameKey": "asset.savings_account.name",
+      "class": "deposit",
+      "minPurchase": 100,
+      "sellFeeRate": 0,
+      "rateSpread": -0.005
+    },
+    {
+      "id": "fixed_deposit",
+      "nameKey": "asset.fixed_deposit.name",
+      "class": "deposit",
+      "minPurchase": 1000,
+      "sellFeeRate": 0.005,
+      "rateSpread": 0.0
+    },
+    {
+      "id": "government_bond",
+      "nameKey": "asset.government_bond.name",
+      "class": "bond",
+      "minPurchase": 1000,
+      "sellFeeRate": 0.001,
+      "rateSpread": 0.01
+    },
+    {
+      "id": "index_fund",
+      "nameKey": "asset.index_fund.name",
+      "class": "fund",
+      "minPurchase": 500,
+      "sellFeeRate": 0.005
+    },
+    {
+      "id": "siam_tech",
+      "nameKey": "asset.siam_tech.name",
+      "class": "stock",
+      "minPurchase": 1000,
+      "sellFeeRate": 0.002,
+      "beta": 1.4,
+      "idiosyncraticVolatility": 0.3
+    },
+    {
+      "id": "chao_phraya_energy",
+      "nameKey": "asset.chao_phraya_energy.name",
+      "class": "stock",
+      "minPurchase": 1000,
+      "sellFeeRate": 0.002,
+      "beta": 0.8,
+      "idiosyncraticVolatility": 0.2
+    },
+    {
+      "id": "golden_bowl_foods",
+      "nameKey": "asset.golden_bowl_foods.name",
+      "class": "stock",
+      "minPurchase": 1000,
+      "sellFeeRate": 0.002,
+      "beta": 0.6,
+      "idiosyncraticVolatility": 0.15
+    },
+    {
+      "id": "condo_city",
+      "nameKey": "asset.condo_city.name",
+      "class": "real_estate",
+      "minPurchase": 1500000,
+      "sellFeeRate": 0.06,
+      "rentalYield": 0.04
+    },
+    {
+      "id": "house_suburb",
+      "nameKey": "asset.house_suburb.name",
+      "class": "real_estate",
+      "minPurchase": 3000000,
+      "sellFeeRate": 0.05,
+      "rentalYield": 0.03
+    },
+    {
+      "id": "city_car",
+      "nameKey": "asset.city_car.name",
+      "class": "vehicle",
+      "minPurchase": 400000,
+      "sellFeeRate": 0.1,
+      "depreciation": 0.15
+    },
+    {
+      "id": "crypto_coin",
+      "nameKey": "asset.crypto_coin.name",
+      "class": "crypto",
+      "minPurchase": 100,
+      "sellFeeRate": 0.005
+    }
+  ]
+}

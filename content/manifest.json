@@ -100,6 +100,26 @@
     {
       "type": "death_causes",
       "path": "death_causes.json"
+    },
+    {
+      "type": "economy",
+      "path": "economy.json"
+    },
+    {
+      "type": "assets",
+      "path": "assets.json"
+    },
+    {
+      "type": "debt_products",
+      "path": "debts.json"
+    },
+    {
+      "type": "lifestyle_tiers",
+      "path": "lifestyle_tiers.json"
+    },
+    {
+      "type": "finance_settings",
+      "path": "finance_settings.json"
     }
   ]
 }

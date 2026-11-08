@@ -5,6 +5,7 @@ using BetterLife.Core.Astrology;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Domain;
+using BetterLife.Core.Economy;
 using BetterLife.Core.Events;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Life;
@@ -26,6 +27,9 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>Random stream for death rolls.</summary>
         public const string DeathStream = "death";
+
+        /// <summary>Random stream for the economy and markets.</summary>
+        public const string EconomyStream = "economy";
 
         /// <summary>
         /// Creates the session.
@@ -58,15 +62,25 @@ namespace BetterLife.Core.Sessions
             var luck = new LuckCalculator(content.Get<LuckSettings>(), content.Get<FortuneCalculator>(), content.Get<KarmaService>(), bonusSources);
             EventSystem events = EventSystemFactory.Create(content, eventState, luck, creation.Random, bus, clock);
             var deaths = new DeathService(content.Get<DefinitionCatalog<DeathCauseDefinition>>(), bus);
+            var economySettings = content.Get<EconomySettings>();
+            var economyRandom = creation.Random.GetStream(EconomyStream);
+            var economy = new EconomyService(economySettings,
+                EconomyService.CreateInitial(economySettings, creation.Character.Birth.Week.Year, economyRandom), economyRandom);
+            var financeSettings = content.Get<FinanceSettings>();
+            var finance = new FinanceService(creation.Character, content.Get<DefinitionCatalog<AssetDefinition>>(),
+                content.Get<DefinitionCatalog<DebtProductDefinition>>(), content.Get<DefinitionCatalog<LifestyleTierDefinition>>(),
+                financeSettings, economy, new IIncomeSource[] { new FamilyAllowanceSource(financeSettings) }, bus, clock);
             IEnumerable<ITickPhase> phases = new ITickPhase[]
             {
                 new AgingPhase(timeState, settings, creation.Random.GetStream(HealthStream), bus),
                 new HealthConditionPhase(creation.Random.GetStream(HealthStream), bus),
+                new EconomyYearPhase(economy),
+                new FinanceMonthPhase(finance),
                 new EventRollPhase(events),
                 new DeathCheckPhase(content.Get<MortalityModel>(), deaths, creation.Random.GetStream(DeathStream)),
             }.Concat(extraPhases ?? Enumerable.Empty<ITickPhase>());
             TimeSystem time = TimeSystemFactory.Create(content, timeState, creation.Random, bus, policy ?? new InterruptPolicy(), phases);
-            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, bus);
+            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, economy, finance, bus);
         }
     }
 }

@@ -49,6 +49,16 @@ namespace BetterLife.Core.Content
         public const string Mortality = "mortality";
         /// <summary>Death causes.</summary>
         public const string DeathCauses = "death_causes";
+        /// <summary>Macro economy settings and business-cycle phases (single file).</summary>
+        public const string Economy = "economy";
+        /// <summary>Investable assets.</summary>
+        public const string Assets = "assets";
+        /// <summary>Loan products.</summary>
+        public const string DebtProducts = "debt_products";
+        /// <summary>Lifestyle tiers (monthly living costs).</summary>
+        public const string LifestyleTiers = "lifestyle_tiers";
+        /// <summary>Personal finance settings (single file).</summary>
+        public const string FinanceSettings = "finance_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

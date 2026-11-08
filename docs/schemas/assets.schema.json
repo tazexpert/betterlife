@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/assets.schema.json",
+  "title": "Assets",
+  "description": "Investable assets. Returns follow the economy's markets by asset class.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assets"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "class",
+          "minPurchase",
+          "sellFeeRate"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "class": {
+            "enum": [
+              "deposit",
+              "bond",
+              "fund",
+              "stock",
+              "real_estate",
+              "vehicle",
+              "crypto"
+            ]
+          },
+          "minPurchase": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "sellFeeRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "rateSpread": {
+            "type": "number"
+          },
+          "beta": {
+            "type": "number"
+          },
+          "idiosyncraticVolatility": {
+            "type": "number",
+            "minimum": 0
+          },
+          "rentalYield": {
+            "type": "number",
+            "minimum": 0
+          },
+          "depreciation": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

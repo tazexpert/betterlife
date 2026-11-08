@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/lifestyle_tiers.schema.json",
+  "title": "Lifestyle tiers",
+  "description": "Monthly living cost tiers (before the city's cost-of-living multiplier) and their monthly stat effects.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tiers"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "tiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "monthlyCost",
+          "monthlyStats"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "monthlyCost": {
+            "type": "number",
+            "minimum": 0
+          },
+          "monthlyStats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stat",
+                "amount"
+              ],
+              "properties": {
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

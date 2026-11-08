@@ -81,6 +81,8 @@ namespace BetterLife.Core.Tests.Domain
                 new FlagDefinition("career.fired_once", FlagKind.Bool, null, false, "eulogy.career.fired_once"),
                 new FlagDefinition("relationship.recent_breakup", FlagKind.Bool, 26, false, null),
                 new FlagDefinition("vice.gambling_wins", FlagKind.Counter, null, false, null),
+                new FlagDefinition("finance.loan_shark", FlagKind.Bool, null, false, null),
+                new FlagDefinition("finance.bankrupt", FlagKind.Bool, null, false, null),
             });
         }
 

@@ -61,6 +61,32 @@ namespace BetterLife.Core.Content.Loaders
         }
 
         /// <summary>
+        /// Reads a property that must be present but may be null, holding a number.
+        /// </summary>
+        /// <param name="obj">Object.</param>
+        /// <param name="name">Property name.</param>
+        /// <param name="context">Read context of the object.</param>
+        /// <returns>The number, or null when the value is null.</returns>
+        public static float? RequireNullableFloat(JObject obj, string name, RuleReadContext context)
+        {
+            RequirePresent(obj, name, context);
+            return obj[name].Type == JTokenType.Null ? (float?)null : RuleJson.RequireFloat(obj, name, context);
+        }
+
+        /// <summary>
+        /// Reads an optional number, returning a fallback when the property is absent.
+        /// </summary>
+        /// <param name="obj">Object.</param>
+        /// <param name="name">Property name.</param>
+        /// <param name="context">Read context of the object.</param>
+        /// <param name="fallback">Value when absent.</param>
+        /// <returns>The number.</returns>
+        public static float OptionalFloat(JObject obj, string name, RuleReadContext context, float fallback)
+        {
+            return obj.ContainsKey(name) ? RuleJson.RequireFloat(obj, name, context) : fallback;
+        }
+
+        /// <summary>
         /// Reads a required boolean.
         /// </summary>
         /// <param name="obj">Object.</param>

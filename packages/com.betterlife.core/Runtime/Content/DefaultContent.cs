@@ -40,6 +40,11 @@ namespace BetterLife.Core.Content
                 new TimeSettingsLoader(),
                 new EventSettingsLoader(),
                 new EventsLoader(),
+                new EconomySettingsLoader(),
+                new AssetsLoader(),
+                new DebtProductsLoader(),
+                new LifestyleTiersLoader(),
+                new FinanceSettingsLoader(),
             };
         }
 

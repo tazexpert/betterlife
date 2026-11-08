@@ -40,6 +40,12 @@ namespace BetterLife.Core.Rules
         public const string CondYear = "rule.cond.year";
         /// <summary>Cash comparison.</summary>
         public const string CondCash = "rule.cond.cash";
+        /// <summary>Net worth comparison.</summary>
+        public const string CondNetWorth = "rule.cond.net_worth";
+        /// <summary>Total debt comparison.</summary>
+        public const string CondTotalDebt = "rule.cond.total_debt";
+        /// <summary>Total debt of one kind comparison.</summary>
+        public const string CondTotalDebtKind = "rule.cond.total_debt_kind";
         /// <summary>Reputation comparison.</summary>
         public const string CondReputation = "rule.cond.reputation";
         /// <summary>Has health condition.</summary>

@@ -103,6 +103,7 @@ namespace BetterLife.Core.Persistence
                         .Select(d => new KarmicDebtDto { Amount = d.Amount, DueWeek = d.DueOn.TotalWeeks, SourceKey = d.SourceKey })
                         .ToList(),
                 },
+                Finances = FinancesDtoMapper.ToDto(character.Finances),
                 ChangeLog = character.ChangeLog.Entries
                     .Select(e => new StatChangeLogDto { Week = e.Week.TotalWeeks, StatId = e.StatId.Value, Delta = e.Delta, SourceKey = e.SourceKey })
                     .ToList(),
@@ -141,6 +142,7 @@ namespace BetterLife.Core.Persistence
             RestoreSkills(dto, character, catalogs.Skills, warnings);
             RestoreFlags(dto, character, catalogs.Flags, warnings);
             RestoreKarma(dto, character);
+            FinancesDtoMapper.Restore(dto.Finances, character.Finances);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
             if (dto.HasDied)
             {

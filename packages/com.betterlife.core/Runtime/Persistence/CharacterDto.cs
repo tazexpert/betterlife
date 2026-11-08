@@ -82,6 +82,8 @@ namespace BetterLife.Core.Persistence
         /// <summary>Karma ledger.</summary>
         public KarmaDto Karma = new KarmaDto();
 
+        /// <summary>Personal finances (null in saves from before task 10).</summary>
+        public FinancesDto Finances = new FinancesDto();
         /// <summary>Recent stat changes.</summary>
         public List<StatChangeLogDto> ChangeLog = new List<StatChangeLogDto>();
 

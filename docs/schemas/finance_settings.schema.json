@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/finance_settings.schema.json",
+  "title": "Finance settings",
+  "description": "Personal finance rules: independence, family support, shortfalls, defaults, credit score, bankruptcy, debt stress and the Wealth curve. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "independenceAge",
+    "allowanceStartAge",
+    "defaultLifestyle",
+    "referenceLifestyle",
+    "familySupport",
+    "fallbackProduct",
+    "defaultAfterMissed",
+    "forcedSaleDiscount",
+    "creditScore",
+    "bankruptcy",
+    "debtStress",
+    "wealthCurve"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "independenceAge": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "allowanceStartAge": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "defaultLifestyle": {
+      "$ref": "#/$defs/id"
+    },
+    "referenceLifestyle": {
+      "$ref": "#/$defs/id"
+    },
+    "familySupport": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "incomeLevel",
+          "monthlyAllowance",
+          "independenceGift"
+        ],
+        "properties": {
+          "incomeLevel": {
+            "type": "integer"
+          },
+          "monthlyAllowance": {
+            "type": "number",
+            "minimum": 0
+          },
+          "independenceGift": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "fallbackProduct": {
+      "$ref": "#/$defs/id"
+    },
+    "defaultAfterMissed": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "forcedSaleDiscount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "creditScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "onTimeGain",
+        "missedLoss",
+        "defaultLoss",
+        "foreclosureLoss",
+        "bankruptcyScore",
+        "highUtilization",
+        "utilizationLoss"
+      ],
+      "properties": {
+        "onTimeGain": {
+          "type": "number",
+          "minimum": 0
+        },
+        "missedLoss": {
+          "type": "number",
+          "minimum": 0
+        },
+        "defaultLoss": {
+          "type": "number",
+          "minimum": 0
+        },
+        "foreclosureLoss": {
+          "type": "number",
+          "minimum": 0
+        },
+        "bankruptcyScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "highUtilization": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "utilizationLoss": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "bankruptcy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "netWorthBelow",
+        "flagWeeks"
+      ],
+      "properties": {
+        "netWorthBelow": {
+          "type": "number"
+        },
+        "flagWeeks": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "debtStress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "perYearOfCosts",
+        "max",
+        "informalExtra"
+      ],
+      "properties": {
+        "perYearOfCosts": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        },
+        "informalExtra": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "wealthCurve": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "months",
+          "score"
+        ],
+        "properties": {
+          "months": {
+            "type": "number"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

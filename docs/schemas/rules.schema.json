@@ -322,6 +322,57 @@
           "additionalProperties": false,
           "required": [
             "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "netWorth"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "totalDebt"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "kind": {
+              "enum": [
+                "credit_card",
+                "personal",
+                "mortgage",
+                "car",
+                "student",
+                "informal"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
             "domain",
             "op",
             "value"

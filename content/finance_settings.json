@@ -1,0 +1,86 @@
+{
+  "$schema": "../docs/schemas/finance_settings.schema.json",
+  "independenceAge": 18,
+  "allowanceStartAge": 7,
+  "defaultLifestyle": "modest",
+  "referenceLifestyle": "modest",
+  "familySupport": [
+    {
+      "incomeLevel": 1,
+      "monthlyAllowance": 500,
+      "independenceGift": 0
+    },
+    {
+      "incomeLevel": 2,
+      "monthlyAllowance": 1000,
+      "independenceGift": 10000
+    },
+    {
+      "incomeLevel": 3,
+      "monthlyAllowance": 2000,
+      "independenceGift": 50000
+    },
+    {
+      "incomeLevel": 4,
+      "monthlyAllowance": 4000,
+      "independenceGift": 200000
+    },
+    {
+      "incomeLevel": 5,
+      "monthlyAllowance": 8000,
+      "independenceGift": 1000000
+    },
+    {
+      "incomeLevel": 6,
+      "monthlyAllowance": 20000,
+      "independenceGift": 5000000
+    }
+  ],
+  "fallbackProduct": "loan_shark",
+  "defaultAfterMissed": 3,
+  "forcedSaleDiscount": 0.3,
+  "creditScore": {
+    "onTimeGain": 0.2,
+    "missedLoss": 5,
+    "defaultLoss": 15,
+    "foreclosureLoss": 20,
+    "bankruptcyScore": 5,
+    "highUtilization": 0.7,
+    "utilizationLoss": 0.5
+  },
+  "bankruptcy": {
+    "netWorthBelow": -500000,
+    "flagWeeks": 520
+  },
+  "debtStress": {
+    "perYearOfCosts": 2,
+    "max": 6,
+    "informalExtra": 2
+  },
+  "wealthCurve": [
+    {
+      "months": -24,
+      "score": 5
+    },
+    {
+      "months": 0,
+      "score": 30
+    },
+    {
+      "months": 6,
+      "score": 45
+    },
+    {
+      "months": 24,
+      "score": 60
+    },
+    {
+      "months": 120,
+      "score": 80
+    },
+    {
+      "months": 600,
+      "score": 95
+    }
+  ]
+}

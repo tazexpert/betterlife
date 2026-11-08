@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/debt_products.schema.json",
+  "title": "Debt products",
+  "description": "Loan products. termMonths 0 = revolving (credit line); exactly one of annualRate / rateSpread (over the policy rate) is set.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "products"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "kind",
+          "annualRate",
+          "rateSpread",
+          "termMonths",
+          "minPaymentRate",
+          "minPayment",
+          "limitIncomeMultiple",
+          "minCreditScore",
+          "maxIncomeMultiple",
+          "collateralClass",
+          "downPaymentRate",
+          "dischargeable",
+          "graceMonths",
+          "lateFee"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "kind": {
+            "enum": [
+              "credit_card",
+              "personal",
+              "mortgage",
+              "car",
+              "student",
+              "informal"
+            ]
+          },
+          "annualRate": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "rateSpread": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "termMonths": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minPaymentRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "minPayment": {
+            "type": "number",
+            "minimum": 0
+          },
+          "limitIncomeMultiple": {
+            "type": "number",
+            "minimum": 0
+          },
+          "minCreditScore": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "maxIncomeMultiple": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "collateralClass": {
+            "enum": [
+              "deposit",
+              "bond",
+              "fund",
+              "stock",
+              "real_estate",
+              "vehicle",
+              "crypto",
+              null
+            ]
+          },
+          "downPaymentRate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "dischargeable": {
+            "type": "boolean"
+          },
+          "graceMonths": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lateFee": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

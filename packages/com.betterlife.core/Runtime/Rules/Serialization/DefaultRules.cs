@@ -26,6 +26,8 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new AgeConditionConverter())
                 .Register(new YearConditionConverter())
                 .Register(new CashConditionConverter())
+                .Register(new NetWorthConditionConverter())
+                .Register(new TotalDebtConditionConverter())
                 .Register(new ReputationConditionConverter())
                 .Register(new HealthConditionConditionConverter())
                 .Register(new KarmaConditionConverter())

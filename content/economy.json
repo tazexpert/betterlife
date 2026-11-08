@@ -1,0 +1,132 @@
+{
+  "$schema": "../docs/schemas/economy.schema.json",
+  "baseYear": 2026,
+  "historicalInflation": 0.035,
+  "maxDebtBalance": 1000000000,
+  "phases": [
+    {
+      "id": "expansion",
+      "nameKey": "economy.expansion.name",
+      "next": "peak",
+      "durationYears": {
+        "min": 3,
+        "max": 6
+      },
+      "inflation": {
+        "min": 0.02,
+        "max": 0.04
+      },
+      "policyRate": {
+        "min": 0.02,
+        "max": 0.035
+      },
+      "markets": {
+        "stocks": {
+          "mean": 0.08,
+          "volatility": 0.15
+        },
+        "property": {
+          "mean": 0.04,
+          "volatility": 0.05
+        },
+        "crypto": {
+          "mean": 0.3,
+          "volatility": 0.8
+        }
+      }
+    },
+    {
+      "id": "peak",
+      "nameKey": "economy.peak.name",
+      "next": "recession",
+      "durationYears": {
+        "min": 1,
+        "max": 2
+      },
+      "inflation": {
+        "min": 0.035,
+        "max": 0.06
+      },
+      "policyRate": {
+        "min": 0.035,
+        "max": 0.055
+      },
+      "markets": {
+        "stocks": {
+          "mean": 0.02,
+          "volatility": 0.2
+        },
+        "property": {
+          "mean": 0.02,
+          "volatility": 0.06
+        },
+        "crypto": {
+          "mean": 0.0,
+          "volatility": 1.0
+        }
+      }
+    },
+    {
+      "id": "recession",
+      "nameKey": "economy.recession.name",
+      "next": "recovery",
+      "durationYears": {
+        "min": 1,
+        "max": 2
+      },
+      "inflation": {
+        "min": 0.0,
+        "max": 0.02
+      },
+      "policyRate": {
+        "min": 0.005,
+        "max": 0.02
+      },
+      "markets": {
+        "stocks": {
+          "mean": -0.15,
+          "volatility": 0.3
+        },
+        "property": {
+          "mean": -0.05,
+          "volatility": 0.08
+        },
+        "crypto": {
+          "mean": -0.4,
+          "volatility": 1.0
+        }
+      }
+    },
+    {
+      "id": "recovery",
+      "nameKey": "economy.recovery.name",
+      "next": "expansion",
+      "durationYears": {
+        "min": 1,
+        "max": 3
+      },
+      "inflation": {
+        "min": 0.01,
+        "max": 0.03
+      },
+      "policyRate": {
+        "min": 0.01,
+        "max": 0.025
+      },
+      "markets": {
+        "stocks": {
+          "mean": 0.12,
+          "volatility": 0.2
+        },
+        "property": {
+          "mean": 0.02,
+          "volatility": 0.05
+        },
+        "crypto": {
+          "mean": 0.4,
+          "volatility": 0.9
+        }
+      }
+    }
+  ]
+}

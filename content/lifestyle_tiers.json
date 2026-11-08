@@ -1,0 +1,83 @@
+{
+  "$schema": "../docs/schemas/lifestyle_tiers.schema.json",
+  "tiers": [
+    {
+      "id": "frugal",
+      "nameKey": "lifestyle.frugal.name",
+      "monthlyCost": 6000,
+      "monthlyStats": [
+        {
+          "stat": "mental.happiness",
+          "amount": -1.5
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 1
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -1
+        }
+      ]
+    },
+    {
+      "id": "modest",
+      "nameKey": "lifestyle.modest.name",
+      "monthlyCost": 12000,
+      "monthlyStats": []
+    },
+    {
+      "id": "comfortable",
+      "nameKey": "lifestyle.comfortable.name",
+      "monthlyCost": 25000,
+      "monthlyStats": [
+        {
+          "stat": "mental.happiness",
+          "amount": 1
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 0.5
+        }
+      ]
+    },
+    {
+      "id": "affluent",
+      "nameKey": "lifestyle.affluent.name",
+      "monthlyCost": 50000,
+      "monthlyStats": [
+        {
+          "stat": "mental.happiness",
+          "amount": 1.5
+        },
+        {
+          "stat": "mental.stress",
+          "amount": -0.5
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "luxury",
+      "nameKey": "lifestyle.luxury.name",
+      "monthlyCost": 120000,
+      "monthlyStats": [
+        {
+          "stat": "mental.happiness",
+          "amount": 2
+        },
+        {
+          "stat": "mental.stress",
+          "amount": -1
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 1
+        }
+      ]
+    }
+  ]
+}

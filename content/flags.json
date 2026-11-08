@@ -34,6 +34,20 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": "eulogy.social.reconnected_old_friend"
+    },
+    {
+      "id": "finance.loan_shark",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.finance.loan_shark"
+    },
+    {
+      "id": "finance.bankrupt",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.finance.bankrupt"
     }
   ]
 }

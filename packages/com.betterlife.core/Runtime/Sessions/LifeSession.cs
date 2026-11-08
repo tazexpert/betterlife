@@ -1,5 +1,6 @@
 using System;
 using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Economy;
 using BetterLife.Core.Events;
 using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
@@ -26,10 +27,14 @@ namespace BetterLife.Core.Sessions
         /// <param name="events">Event system.</param>
         /// <param name="luck">Chance calculator.</param>
         /// <param name="deaths">Death service.</param>
+        /// <param name="economy">Macro economy.</param>
+        /// <param name="finance">Personal finance.</param>
         /// <param name="bus">Event bus.</param>
         public LifeSession(Character character, RandomRegistry random, TimeState timeState, EventState eventState,
-            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, IEventBus bus)
+            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, IEventBus bus)
         {
+            Economy = economy ?? throw new ArgumentNullException(nameof(economy));
+            Finance = finance ?? throw new ArgumentNullException(nameof(finance));
             Character = character ?? throw new ArgumentNullException(nameof(character));
             Random = random ?? throw new ArgumentNullException(nameof(random));
             TimeState = timeState ?? throw new ArgumentNullException(nameof(timeState));
@@ -40,6 +45,12 @@ namespace BetterLife.Core.Sessions
             Deaths = deaths ?? throw new ArgumentNullException(nameof(deaths));
             Bus = bus ?? throw new ArgumentNullException(nameof(bus));
         }
+
+        /// <summary>Macro economy (cycle, inflation, markets).</summary>
+        public EconomyService Economy { get; }
+
+        /// <summary>Personal finance (income, costs, investments, loans).</summary>
+        public FinanceService Finance { get; }
 
         /// <summary>The player character.</summary>
         public Character Character { get; }
@@ -88,6 +99,7 @@ namespace BetterLife.Core.Sessions
         {
             Events.Dispose();
             Deaths.Dispose();
+            Finance.Dispose();
         }
     }
 }
