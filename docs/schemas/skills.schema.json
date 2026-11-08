@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/skills.schema.json",
+  "title": "Skills",
+  "description": "Skill definitions with diminishing gains and decay when unused.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["skills"],
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" }
+  },
+  "properties": {
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "nameKey", "category", "gainFalloffExponent", "decay"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "nameKey": { "$ref": "#/$defs/id" },
+          "category": { "$ref": "#/$defs/id" },
+          "gainFalloffExponent": { "type": "number", "minimum": 0 },
+          "decay": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["graceWeeks", "ratePerWeek", "retentionOfPeak"],
+            "properties": {
+              "graceWeeks": { "type": "integer", "minimum": 0 },
+              "ratePerWeek": { "type": "number", "minimum": 0 },
+              "retentionOfPeak": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -57,7 +57,10 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver, Tick pipeline |
 | `BetterLife.Core.Randomness` | IRandomProvider, Pcg32, RandomRegistry (ไม่ใช้ชื่อ `Random` เพื่อไม่ชนกับ System.Random) |
 | `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ — ส่วนเหตุการณ์ชีวิตจะอยู่ที่ `Systems.LifeEvents`) |
-| `BetterLife.Core.Stats` | Stats 3 ชั้น + Breakdown |
+| `BetterLife.Core.Domain` | ContentId, DefinitionCatalog |
+| `BetterLife.Core.Domain.Stats` | Stats 3 ชั้น, สูตร, Breakdown, ChangeLog, History, Reputation |
+| `BetterLife.Core.Domain.Traits` / `.Skills` / `.Flags` | Trait, Skill, Story flag |
+| `BetterLife.Core.Domain.Characters` | Character (aggregate root), GenderProfile, BirthInfo, Wallet |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

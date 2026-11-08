@@ -1,0 +1,32 @@
+{
+  "flags": [
+    {
+      "id": "career.fired_once",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.career.fired_once"
+    },
+    {
+      "id": "family.disowned",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": true,
+      "eulogyKey": "eulogy.family.disowned"
+    },
+    {
+      "id": "relationship.recent_breakup",
+      "kind": "bool",
+      "defaultExpiryWeeks": 26,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "vice.gambling_wins",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    }
+  ]
+}

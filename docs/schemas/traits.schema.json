@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/traits.schema.json",
+  "title": "Traits",
+  "description": "Trait definitions. Stat references are checked by the content validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["traits"],
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$" }
+  },
+  "properties": {
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "nameKey", "descKey", "category", "startsHidden", "statModifiers"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "nameKey": { "$ref": "#/$defs/id" },
+          "descKey": { "$ref": "#/$defs/id" },
+          "category": { "$ref": "#/$defs/id" },
+          "exclusiveGroup": { "$ref": "#/$defs/id" },
+          "startsHidden": { "type": "boolean" },
+          "statModifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["stat", "direction", "multiplier"],
+              "properties": {
+                "stat": { "$ref": "#/$defs/id" },
+                "direction": { "enum": ["gain", "loss", "both"] },
+                "multiplier": { "type": "number", "exclusiveMinimum": 0 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,14 @@
 # Task 02: Domain Model + Stats
 
-> สถานะ: ⏸ **ข้อเสนอ Data Structure — รอผู้ใช้ยืนยัน** (ยังไม่มี Logic)
+> สถานะ: ✅ **Implemented** — 2026-11-08
+
+## 0. การตัดสินใจที่ผู้ใช้ยืนยันแล้ว
+| หัวข้อ | ผลการตัดสินใจ |
+|---|---|
+| Core | คำนวณจากค่าย่อยด้วยสูตรถ่วงน้ำหนัก (Wealth/Relationships เก็บค่าตรงๆ ไปก่อน จนถึงข้อ 10/12) |
+| เพศ | `GenderProfile` = `BiologicalSex` (Female/Male ใช้กับพันธุกรรม) + `GenderIdentity` (Woman/Man/NonBinary ผู้เล่นเลือก) + `SpeechStyle` (Masculine/Feminine/Neutral คุมคำลงท้าย ครับ/ค่ะ: ตั้งตามเพศสภาพอัตโนมัติ แต่ผู้เล่นเปลี่ยนได้) เพศกำเนิดเปลี่ยนไม่ได้ ส่วนเพศสภาพเปลี่ยนได้ทุกเมื่อ |
+| Credit Score | เก็บ 0–100 แสดงผล 300–900 ผ่าน `CreditScoreScale` |
+| อื่นๆ | Trait ซ่อนจนกว่าจะเปิดเผย, Skill เสื่อมไม่ต่ำกว่า peak × retention, Log 4 สัปดาห์, Sparkline 52 สัปดาห์ |
 
 ## 1. สรุปความเข้าใจ
 สร้างโมเดลข้อมูลของตัวละครผู้เล่น: `Character` ซึ่งประกอบด้วย Stats 3 ชั้น (Core / ค่าย่อย / Hidden), Traits, Skills และ FlagSet (ความทรงจำของชีวิต สำหรับ Butterfly Effect)
@@ -137,14 +145,16 @@ Localization key ทั้งหมดใช้รูปแบบ `<type>.<id>.n
 | | `FlagSet` | `Set`, `Increment`, `Clear`, `IsSet`, `GetCount`, `RemoveExpired(date)` |
 | `Domain.Characters` | `CharacterId` (struct) | id ที่สร้างจาก seed (ได้ค่าเดิมทุกครั้ง) |
 | | `PersonName` | ชื่อ/นามสกุล (เป็นข้อมูล ไม่ใช่ข้อความ UI จึงไม่ใช้ Loc key) |
-| | `Sex` (enum) | ใช้กับพันธุกรรม (ข้อ 08) และคำลงท้าย ครับ/ค่ะ |
+| | `BiologicalSex`, `GenderIdentity`, `SpeechStyle`, `GenderProfile` | ดูตารางการตัดสินใจข้อ 0 |
+| | `BirthInfo` | วันเกิด, ชั่วโมงเกิด, ประเทศ, `ThaiDay` (วันเกิดแบบโหราไทย) |
+| | `CharacterCatalogs` | รวม catalog ทั้ง 4 ชนิด ให้ Bootstrap สร้างครั้งเดียวแล้วใช้ร่วมกัน |
 | | `Wallet` | `decimal Cash` |
 | | `HealthCondition` | `ConditionId`, `Severity` 0–100, `StartedOn` |
 | | `Character` | Aggregate root ที่รวมทุกอย่าง และ `ApplyStatChange(StatChange)` คือทางเดียวที่ใช้แก้ Stat |
 
 ```
 Character
-├─ Id, Name, Sex, BirthDate (CalendarDate), BirthHour, BirthCountryId
+├─ Id, Name, Gender (GenderProfile), Birth (BirthInfo)
 ├─ Stats: StatBlock ──(StatCatalog)──► Core ที่คำนวณได้ + Breakdown
 ├─ ChangeLog: StatChangeLog · History: StatHistory
 ├─ Reputation: ReputationBook
@@ -159,7 +169,7 @@ Character
 ## 5. Save DTO (`Runtime/Persistence/`)
 ```
 CharacterDto
-  Id, GivenName, FamilyName, Sex (string)
+  Id, GivenName, FamilyName, Sex, GenderIdentity, SpeechStyle (string ชื่อ enum)
   Birth: CalendarDateDto, BirthHour, BirthCountryId
   Stats:       List<StatValueDto      { Id, Value }>            ← เฉพาะค่าที่เก็บจริง (Core ที่คำนวณได้ไม่ถูกเซฟ)
   Reputation:  List<ReputationDto     { DomainId, Value }>
@@ -169,13 +179,27 @@ CharacterDto
   Skills:      List<SkillDto          { Id, Level, Peak, LastPracticedWeek }>
   Flags:       List<FlagDto           { Id, Value, SetWeek, HasExpiry, ExpiresWeek }>
   ChangeLog:   List<StatChangeLogDto  { Week, StatId, Delta, SourceKey }>
-  History:     List<StatHistoryDto    { StatId, Values: List<float> }>
+  History:     List<StatHistoryDto    { StatId, Values: List<float> }>, HasHistory, HistoryLastWeek
 ```
 - ใช้ List ทั้งหมด (JsonUtility ใช้กับ Dictionary ไม่ได้) และใช้ `HasExpiry` แทน nullable ด้วยเหตุผลเดียวกัน
 - ถ้าเจอ id ที่ไม่มีใน content แล้ว (เช่น Trait ที่ถูกลบออกจากเกม) ตอนโหลดจะข้ามไปและบันทึก warning ไม่ทำให้เซฟเสีย
 
-## 6. คำถามที่ต้องยืนยัน
-1. **Core คำนวณจากค่าย่อย** ตามข้อ 2.1 (แนะนำ) หรือให้ Core เก็บค่าเองแยกจากค่าย่อย?
-2. **เพศ:** `Sex` มีแค่ Female / Male (ใช้กับพันธุกรรมและคำลงท้าย ครับ/ค่ะ) พอไหม หรือต้องการให้ผู้เล่นเลือกเพศสภาพแยกต่างหากด้วย?
-3. **Credit Score:** เก็บภายในเป็น 0–100 เหมือน Stat อื่น แล้วค่อยแปลงเป็นช่วง 300–900 ตอนแสดงผลแบบเครดิตบูโรไทย (แนะนำ) หรือเก็บ 300–900 ตรงๆ?
-4. **ข้อเสนอที่ไม่ต้องตอบถ้าเห็นด้วย:** Trait ซ่อนอยู่จนกว่าจะเปิดเผย / Skill เสื่อมแต่ไม่ต่ำกว่าครึ่งของระดับสูงสุดที่เคยทำได้ / Log ย้อนหลัง 4 สัปดาห์ / Sparkline 52 สัปดาห์
+## 6. ไฟล์ที่ได้
+- `Runtime/Domain/`: `ContentId`, `IDefinition`, `DefinitionCatalog<T>`
+- `Runtime/Domain/Stats/`: `StatId`, `StatIds`, `StatBounds`, `StatLayer`, `StatPolarity`, `StatDecayRule`, `StatDefinition`, `IStatReader`, `IStatFormula`, `StatFormulaTerm`, `WeightedStatFormula`, `StatCatalog`, `StatBlock`, `StatChange`, `StatChangeResult`, `StatChangeLogEntry`, `StatChangeLog`, `StatHistory`, `StatBreakdown`, `StatBreakdownLine`, `StatBreakdownKind`, `ReputationBook`, `CreditScoreScale`
+- `Runtime/Domain/Traits/`: `ModifierDirection`, `TraitStatModifier`, `TraitDefinition`, `TraitInstance`, `TraitAddOutcome`, `TraitSet`
+- `Runtime/Domain/Skills/`: `SkillDecayRule`, `SkillDefinition`, `SkillProgress`, `SkillSet`
+- `Runtime/Domain/Flags/`: `FlagKind`, `FlagDefinition`, `FlagEntry`, `FlagSet`
+- `Runtime/Domain/Characters/`: `CharacterId`, `PersonName`, `BiologicalSex`, `GenderIdentity`, `SpeechStyle`, `GenderProfile`, `BirthInfo`, `Wallet`, `HealthCondition`, `CharacterCatalogs`, `Character`
+- `Runtime/Persistence/`: DTO 9 ตัว + `CharacterDtoMapper`, `CharacterLoadResult`
+- `docs/schemas/{stats,traits,skills,flags}.schema.json` และ `content/{stats,traits,skills,flags}.json` (เนื้อหาเริ่มต้น: 19 stats, 6 traits, 4 skills, 4 flags)
+
+## 7. Tests
+61 test ใหม่ (รวมทั้งหมด 151): ContentId/Catalog, สูตรและ Breakdown, การตรวจความถูกต้องของ StatCatalog, StatBlock, ChangeLog/History/Reputation, CreditScore, TraitSet, SkillSet, FlagSet, Character, CharacterDtoMapper (save/load ครบทุกฟิลด์ + ข้าม content ที่ถูกลบ + ปฏิเสธข้อมูลเสีย)
+
+## 8. งานที่ส่งต่อให้ข้อถัดไป
+- **ข้อ 03/04:** แปลง JSON เป็น Definition (converters) + ตรวจไฟล์ content ด้วย Schema ใน C# + ตรวจผลรวมน้ำหนัก = 1 และ id ที่อ้างอิงถึง
+- **ข้อ 05:** เรียก `StatDecayRule`, `SkillSet.ApplyWeeklyDecay`, `FlagSet.RemoveExpired`, `Character.RecordWeeklyHistory` ทุกสัปดาห์ + คำนวณตัวคูณการเรียนรู้จาก Mental ก่อนเรียก `Practice`
+- **ข้อ 08:** สร้าง `Character` จริง (ค่าเริ่มต้น, Trait จากพันธุกรรม) + หน้าเลือกเพศสภาพ
+- **ข้อ 10 / 12:** เพิ่มสูตรของ Wealth / Relationships (ใช้ `IStatFormula` ตัวใหม่)
+- **ข้อ 20:** ข้อความของทุก Loc key ที่ประกาศไว้ใน content

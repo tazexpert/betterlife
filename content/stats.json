@@ -1,0 +1,259 @@
+{
+  "stats": [
+    {
+      "id": "health",
+      "layer": "core",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.health.name",
+      "descKey": "stat.health.desc"
+    },
+    {
+      "id": "mental",
+      "layer": "core",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.mental.name",
+      "descKey": "stat.mental.desc"
+    },
+    {
+      "id": "intelligence",
+      "layer": "core",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.intelligence.name",
+      "descKey": "stat.intelligence.desc"
+    },
+    {
+      "id": "wealth",
+      "layer": "core",
+      "polarity": "higherIsBetter",
+      "default": 30,
+      "nameKey": "stat.wealth.name",
+      "descKey": "stat.wealth.desc"
+    },
+    {
+      "id": "relationships",
+      "layer": "core",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.relationships.name",
+      "descKey": "stat.relationships.desc"
+    },
+    {
+      "id": "health.fitness",
+      "layer": "sub",
+      "parent": "health",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.health.fitness.name",
+      "descKey": "stat.health.fitness.desc",
+      "decay": {
+        "target": 40,
+        "ratePerWeek": 0.5
+      }
+    },
+    {
+      "id": "health.nutrition",
+      "layer": "sub",
+      "parent": "health",
+      "polarity": "higherIsBetter",
+      "default": 60,
+      "nameKey": "stat.health.nutrition.name",
+      "descKey": "stat.health.nutrition.desc",
+      "decay": {
+        "target": 50,
+        "ratePerWeek": 0.5
+      }
+    },
+    {
+      "id": "health.fatigue",
+      "layer": "sub",
+      "parent": "health",
+      "polarity": "lowerIsBetter",
+      "default": 20,
+      "nameKey": "stat.health.fatigue.name",
+      "descKey": "stat.health.fatigue.desc",
+      "decay": {
+        "target": 20,
+        "ratePerWeek": 2.0
+      }
+    },
+    {
+      "id": "health.disease_burden",
+      "layer": "sub",
+      "parent": "health",
+      "polarity": "lowerIsBetter",
+      "default": 0,
+      "nameKey": "stat.health.disease_burden.name",
+      "descKey": "stat.health.disease_burden.desc"
+    },
+    {
+      "id": "mental.happiness",
+      "layer": "sub",
+      "parent": "mental",
+      "polarity": "higherIsBetter",
+      "default": 60,
+      "nameKey": "stat.mental.happiness.name",
+      "descKey": "stat.mental.happiness.desc",
+      "decay": {
+        "target": 50,
+        "ratePerWeek": 1.0
+      }
+    },
+    {
+      "id": "mental.stress",
+      "layer": "sub",
+      "parent": "mental",
+      "polarity": "lowerIsBetter",
+      "default": 20,
+      "nameKey": "stat.mental.stress.name",
+      "descKey": "stat.mental.stress.desc",
+      "decay": {
+        "target": 20,
+        "ratePerWeek": 1.5
+      }
+    },
+    {
+      "id": "mental.confidence",
+      "layer": "sub",
+      "parent": "mental",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.mental.confidence.name",
+      "descKey": "stat.mental.confidence.desc"
+    },
+    {
+      "id": "mental.loneliness",
+      "layer": "sub",
+      "parent": "mental",
+      "polarity": "lowerIsBetter",
+      "default": 20,
+      "nameKey": "stat.mental.loneliness.name",
+      "descKey": "stat.mental.loneliness.desc",
+      "decay": {
+        "target": 30,
+        "ratePerWeek": 0.5
+      }
+    },
+    {
+      "id": "intelligence.iq",
+      "layer": "sub",
+      "parent": "intelligence",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.intelligence.iq.name",
+      "descKey": "stat.intelligence.iq.desc"
+    },
+    {
+      "id": "intelligence.knowledge",
+      "layer": "sub",
+      "parent": "intelligence",
+      "polarity": "higherIsBetter",
+      "default": 0,
+      "nameKey": "stat.intelligence.knowledge.name",
+      "descKey": "stat.intelligence.knowledge.desc",
+      "decay": {
+        "target": 0,
+        "ratePerWeek": 0.1
+      }
+    },
+    {
+      "id": "wealth.credit_score",
+      "layer": "sub",
+      "parent": "wealth",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.wealth.credit_score.name",
+      "descKey": "stat.wealth.credit_score.desc"
+    },
+    {
+      "id": "hidden.charisma",
+      "layer": "hidden",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.hidden.charisma.name",
+      "descKey": "stat.hidden.charisma.desc"
+    },
+    {
+      "id": "hidden.looks",
+      "layer": "hidden",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.hidden.looks.name",
+      "descKey": "stat.hidden.looks.desc"
+    },
+    {
+      "id": "hidden.willpower",
+      "layer": "hidden",
+      "polarity": "higherIsBetter",
+      "default": 50,
+      "nameKey": "stat.hidden.willpower.name",
+      "descKey": "stat.hidden.willpower.desc"
+    }
+  ],
+  "formulas": [
+    {
+      "target": "health",
+      "type": "weighted",
+      "terms": [
+        {
+          "stat": "health.fitness",
+          "weight": 0.35
+        },
+        {
+          "stat": "health.nutrition",
+          "weight": 0.25
+        },
+        {
+          "stat": "health.fatigue",
+          "weight": 0.15,
+          "invert": true
+        },
+        {
+          "stat": "health.disease_burden",
+          "weight": 0.25,
+          "invert": true
+        }
+      ]
+    },
+    {
+      "target": "mental",
+      "type": "weighted",
+      "terms": [
+        {
+          "stat": "mental.happiness",
+          "weight": 0.35
+        },
+        {
+          "stat": "mental.stress",
+          "weight": 0.3,
+          "invert": true
+        },
+        {
+          "stat": "mental.confidence",
+          "weight": 0.15
+        },
+        {
+          "stat": "mental.loneliness",
+          "weight": 0.2,
+          "invert": true
+        }
+      ]
+    },
+    {
+      "target": "intelligence",
+      "type": "weighted",
+      "terms": [
+        {
+          "stat": "intelligence.iq",
+          "weight": 0.5
+        },
+        {
+          "stat": "intelligence.knowledge",
+          "weight": 0.5
+        }
+      ]
+    }
+  ]
+}

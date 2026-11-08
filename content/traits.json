@@ -1,0 +1,102 @@
+{
+  "traits": [
+    {
+      "id": "anxious",
+      "nameKey": "trait.anxious.name",
+      "descKey": "trait.anxious.desc",
+      "category": "personality",
+      "exclusiveGroup": "temperament",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "mental.stress",
+          "direction": "gain",
+          "multiplier": 1.25
+        }
+      ]
+    },
+    {
+      "id": "calm",
+      "nameKey": "trait.calm.name",
+      "descKey": "trait.calm.desc",
+      "category": "personality",
+      "exclusiveGroup": "temperament",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "mental.stress",
+          "direction": "gain",
+          "multiplier": 0.8
+        }
+      ]
+    },
+    {
+      "id": "athletic",
+      "nameKey": "trait.athletic.name",
+      "descKey": "trait.athletic.desc",
+      "category": "physical",
+      "startsHidden": false,
+      "statModifiers": [
+        {
+          "stat": "health.fitness",
+          "direction": "gain",
+          "multiplier": 1.2
+        },
+        {
+          "stat": "health.fitness",
+          "direction": "loss",
+          "multiplier": 0.8
+        }
+      ]
+    },
+    {
+      "id": "quick_learner",
+      "nameKey": "trait.quick_learner.name",
+      "descKey": "trait.quick_learner.desc",
+      "category": "mental",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "intelligence.knowledge",
+          "direction": "gain",
+          "multiplier": 1.2
+        }
+      ]
+    },
+    {
+      "id": "introvert",
+      "nameKey": "trait.introvert.name",
+      "descKey": "trait.introvert.desc",
+      "category": "social",
+      "exclusiveGroup": "sociability",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "mental.loneliness",
+          "direction": "gain",
+          "multiplier": 0.8
+        },
+        {
+          "stat": "health.fatigue",
+          "direction": "gain",
+          "multiplier": 1.1
+        }
+      ]
+    },
+    {
+      "id": "extrovert",
+      "nameKey": "trait.extrovert.name",
+      "descKey": "trait.extrovert.desc",
+      "category": "social",
+      "exclusiveGroup": "sociability",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "mental.loneliness",
+          "direction": "gain",
+          "multiplier": 1.2
+        }
+      ]
+    }
+  ]
+}
