@@ -28,7 +28,7 @@ namespace BetterLife.Core.Economy
         public IEnumerable<IncomeItem> MonthlyIncome(Character character, GameDate week)
         {
             int age = character.AgeAt(week);
-            if (character.Family == null || age < _settings.AllowanceStartAge || age >= _settings.IndependenceAge)
+            if (character.Family == null || age < _settings.AllowanceStartAge || !_settings.IsDependent(character, week))
             {
                 yield break;
             }

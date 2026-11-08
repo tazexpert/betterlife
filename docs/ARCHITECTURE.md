@@ -77,6 +77,8 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Sessions` | LifeSession: ประกอบทุกระบบของชีวิตหนึ่ง |
 | `BetterLife.Core.Domain.Life` / `BetterLife.Core.Life` | ช่วงวัย, การแก่ตัว, โรค, ความเสี่ยงตาย, การตาย |
 | `BetterLife.Core.Economy` | เศรษฐกิจมหภาค (วัฏจักร/เงินเฟ้อ/ตลาด), การเงินส่วนตัว (รายรับ-รายจ่าย, สินทรัพย์, หนี้, Credit, ล้มละลาย) |
+| `BetterLife.Core.Education` | การศึกษา: หลักสูตร/สถานศึกษา, เข้าเรียน, สอบ, ทุน, ค่าเทอม, ผลการเรียน, จบการศึกษา |
+| `BetterLife.Core.Careers` | อาชีพ: Career ladder, สมัครงาน, Performance, หัวหน้า, เลื่อนตำแหน่ง, ความเสี่ยง, เลิกจ้าง, เกษียณ, รายได้ |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

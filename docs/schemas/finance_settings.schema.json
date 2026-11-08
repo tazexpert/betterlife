@@ -8,6 +8,7 @@
   "required": [
     "independenceAge",
     "allowanceStartAge",
+    "studentSupportUntilAge",
     "defaultLifestyle",
     "referenceLifestyle",
     "familySupport",
@@ -28,6 +29,10 @@
       "minimum": 0
     },
     "allowanceStartAge": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "studentSupportUntilAge": {
       "type": "integer",
       "minimum": 0
     },

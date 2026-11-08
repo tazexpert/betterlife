@@ -35,6 +35,7 @@
 | Content ที่โค้ดต้องใช้ | `FinanceSettingsLoader` ตรวจว่ามี stat ที่เก็บค่าได้ `wealth`, `wealth.credit_score`, `mental.stress` และ bool flag `finance.loan_shark`, `finance.bankrupt` | ถ้าไม่มี โหลด content ไม่ผ่านตั้งแต่แรก ไม่ไปพังกลางเกม |
 | เซฟเก่า / content ถูกลบ | `CharacterDto.Finances` เป็น null ได้ (ได้การเงินว่าง) ส่วน `FinancesDtoMapper.DropUnknown` ลบสินทรัพย์/หนี้/Lifestyle ที่ไม่มีใน content แล้วพร้อมคำเตือน (ข้อ 14 จะเรียกตอนโหลด LifeSession) และ Phase ที่ไม่มีแล้วจะเริ่มที่ Phase แรก | ตามแนวทางเซฟของข้อก่อนๆ |
 | Random stream | `economy` (ช่วงเศรษฐกิจ + ตลาด + หุ้นรายตัว) | ไม่กระทบลำดับสุ่มของระบบอื่น |
+| แก้ไขในข้อ 11 | นักศึกษาอายุ < 25 ยังนับว่าพึ่งพ่อแม่ (`studentSupportUntilAge`), การกู้/ลงทุนใช้เกณฑ์อายุ ≥ 18, ยอดจ่ายขั้นต่ำของหนี้นอกระบบเปลี่ยนเป็น 25% | ดูรายละเอียดใน `education-career.md` |
 | รายได้จากงาน | ยังไม่มีจนถึงข้อ 11 (ตอนนี้ผู้ใหญ่จะติดหนี้หลังเงินตั้งตัวหมด ซึ่งเป็นสภาพชั่วคราวที่ตั้งใจไว้) จุดเสียบคือ `IIncomeSource` | |
 
 ## 3. JSON Schema (content ใหม่ 5 ชนิด)

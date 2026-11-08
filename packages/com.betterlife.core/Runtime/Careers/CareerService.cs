@@ -141,7 +141,7 @@ namespace BetterLife.Core.Careers
             }
 
             float adjustment = (Prestige() - NeutralPrestige) * _settings.PrestigePerPoint;
-            ChanceBreakdown chance = _luck.Explain(Adjusted(track.Hiring, adjustment), _character, now);
+            ChanceBreakdown chance = _luck.Explain(track.Hiring.WithBonus(adjustment), _character, now);
             return new HiringQuote(reasons, adjustment, chance, track.Levels[0].MonthlySalary);
         }
 
@@ -161,7 +161,7 @@ namespace BetterLife.Core.Careers
             CareerTrackDefinition track = _tracks.Get(trackId);
             GameDate now = _clock.Now;
             _character.Career.RecordAttempt(trackId, now);
-            ChanceRoll roll = _luck.Roll(Adjusted(track.Hiring, quote.PrestigeAdjustment), _character, now, _random);
+            ChanceRoll roll = _luck.Roll(track.Hiring.WithBonus(quote.PrestigeAdjustment), _character, now, _random);
             if (!roll.Success)
             {
                 return new HiringResult(quote, roll, null);
@@ -326,7 +326,7 @@ namespace BetterLife.Core.Careers
             PromotionRules rules = _settings.Promotion;
             bool considered = job.Performance >= level.PromotionPerformance && job.BossSatisfaction >= rules.MinBoss;
             float adjustment = (job.Performance - level.PromotionPerformance) * rules.PerPointAbove;
-            if (considered && _luck.Roll(Adjusted(rules.Chance, adjustment), _character, week, _random).Success)
+            if (considered && _luck.Roll(rules.Chance.WithBonus(adjustment), _character, week, _random).Success)
             {
                 job.Promote(week, ReviewAfter(week, track.Levels[job.LevelIndex + 1].PromotionAfterMonths));
                 _bus.Publish(new PromotedEvent(job, week));
@@ -372,11 +372,6 @@ namespace BetterLife.Core.Careers
         private static GameDate? ReviewAfter(GameDate week, int? months)
         {
             return months.HasValue ? week.AddWeeks(months.Value * GameCalendar.WeeksPerYear / MonthsPerYear) : (GameDate?)null;
-        }
-
-        private static ChanceSpec Adjusted(ChanceSpec spec, float points)
-        {
-            return new ChanceSpec(spec.BasePercent + points, spec.StatTerms, spec.FortuneArea, spec.UseKarma);
         }
     }
 }

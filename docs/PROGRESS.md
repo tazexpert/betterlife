@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅
-**ถัดไป:** 11 Education + Career
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅
+**ถัดไป:** 12 NPC + Relationships
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -24,7 +24,7 @@
 | 08 | Character Creation | Birth, Country, Family, Genetics, Seed (`docs/systems/character-creation.md`) | ✅ |
 | 09 | Life Stages + Aging + Death | ช่วงวัย 8 ช่วง, วันเกิด, โรค, ความเสี่ยงตาย, สาเหตุการตาย (`docs/systems/life-stages-aging-death.md`) | ✅ |
 | 10 | Economy + Finance | Macro, Income/Expense, Assets, Debt, Credit (`docs/systems/economy-finance.md`) | ✅ |
-| 11 | Education + Career | | ⬜ |
+| 11 | Education + Career | การศึกษาไทย, สอบ, ทุน, กยศ., Career ladder, หัวหน้า, เลิกจ้าง, เสี่ยง/ผิดกฎหมาย, เกษียณ (`docs/systems/education-career.md`) | ✅ |
 | 12 | NPC + Relationships | | ⬜ |
 | 13 | Vice System | | ⬜ |
 | 14 | Save System | JSON + Migration + Undo snapshot | ⬜ |
@@ -54,3 +54,4 @@
 - 2026-11-08 — 08 Character Creation เสร็จ: 3 โหมด (Random/Custom/Challenge) จาก seed เดียว, ประเทศ/เมือง + modifier, ฐานะครอบครัว, บุคลิกพ่อแม่, พันธุกรรม (stat + trait), ชื่อไทย/ญี่ปุ่น, Challenge Code, LifeSession, GameBootstrap สร้างชีวิตใหม่ตอนเปิดเกม; `dotnet test` ผ่าน 371 + 11 tests
 - 2026-11-08 — 09 Life Stages + Aging + Death เสร็จ: 8 ช่วงวัยพร้อม budget ตามวัย, ผลวันเกิด + ความเสี่ยงโรค, โรคมีผลรายสัปดาห์/หาย/เรื้อรัง, mortality (Gompertz × สุขภาพ × สาธารณสุข), สาเหตุการตาย 6 แบบ, `character.die`, เวลาหยุดเมื่อตาย; อายุเฉลี่ยตอนตาย 82 จาก 80 ชีวิต; `dotnet test` ผ่าน 391 + 12 tests
 - 2026-11-08 — 10 Economy + Finance เสร็จ: วัฏจักรเศรษฐกิจ 4 ช่วง + เงินเฟ้อ + ดอกเบี้ยนโยบาย + ตลาดรายเดือน (เงินทั้งหมดเป็นบาทมูลค่าจริงปี 2026), เงินช่วยจากครอบครัว/เงินตั้งตัวตอนอายุ 18, Lifestyle 5 ระดับ, สินทรัพย์ 11 ตัว 7 ประเภท, สินเชื่อ 6 แบบ, ยอดขาด → บัตร → หนี้นอกระบบ, ผิดนัด → default → ยึดทรัพย์ → ล้มละลาย, Credit score, หนี้ทำให้เครียด, Wealth จากทรัพย์สินสุทธิ, Rule `netWorth`/`totalDebt`, content 5 ชนิด, Save DTO; `dotnet test` ผ่าน 430 + 13 tests (ผู้ใหญ่ยังไม่มีรายได้จนถึงข้อ 11 จึงติดหนี้นอกระบบในการจำลอง)
+- 2026-11-08 — 11 Education + Career เสร็จ: หลักสูตร 10 ระดับ (อนุบาล–ป.เอก, ปวช./ปวส., กศน.) พร้อมสถานศึกษา 24 แห่ง, เข้าเรียนอัตโนมัติตามฐานะ, ผลการเรียนจากชั่วโมงเรียนจริง, สอบแข่งขัน/ทุน/กยศ., อาชีพ 11 สาย 7 หมวด (รวมพรีเมียม 1 สาย), Performance/หัวหน้า/ความเครียด, เลื่อนตำแหน่ง, ไล่ออก/เลิกจ้างตามเศรษฐกิจ, ความเสี่ยงจับกุม/บาดเจ็บ, เกษียณ + บำนาญ, Rule ใหม่ 2 condition + 4 effect, content 4 ชนิด, Save DTO, นักศึกษาได้ครอบครัวช่วยถึงอายุ 25; `dotnet test` ผ่าน 485 + 15 tests (ทรัพย์สินสุทธิมัธยฐานตอนอายุ 30 ≈ +3.2 ล้าน จากเดิม −1,000 ล้าน)

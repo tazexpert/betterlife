@@ -94,15 +94,18 @@ namespace BetterLife.Core.Economy
             _subscription = _bus.Subscribe<CashShortfallEvent>(e => CoverShortfall(e.Amount, e.SourceKey, e.Week));
         }
 
+        /// <summary>Lifestyle tiers the character can choose from.</summary>
+        public DefinitionCatalog<LifestyleTierDefinition> LifestyleTiers => _lifestyles;
+
         /// <summary>The latest monthly report, or null before the first month.</summary>
         public FinanceMonthReport LastReport { get; private set; }
 
         /// <summary>
-        /// Returns true once the character pays their own way.
+        /// Returns true once the character pays their own way (adults who are not full-time students supported by family).
         /// </summary>
         /// <param name="now">Week.</param>
         /// <returns>True when independent.</returns>
-        public bool IsIndependent(GameDate now) => _character.AgeAt(now) >= _settings.IndependenceAge;
+        public bool IsIndependent(GameDate now) => !_settings.IsDependent(_character, now);
 
         /// <summary>
         /// Returns the monthly cost of a lifestyle where the character lives.
@@ -112,12 +115,12 @@ namespace BetterLife.Core.Economy
         public decimal LifestyleCost(string tierId) => Money.Round(_lifestyles.Get(tierId).MonthlyCost * CostOfLiving);
 
         /// <summary>
-        /// Chooses a lifestyle (independent characters only).
+        /// Chooses a lifestyle (adults only; it applies once they pay their own way).
         /// </summary>
         /// <param name="tierId">Tier id.</param>
         public void SetLifestyle(string tierId)
         {
-            RequireIndependent();
+            RequireAdult();
             _lifestyles.Get(tierId);
             _character.Finances.SetLifestyle(tierId);
         }
@@ -130,7 +133,7 @@ namespace BetterLife.Core.Economy
         /// <returns>The new holding.</returns>
         public Holding Buy(string assetId, decimal amount)
         {
-            RequireIndependent();
+            RequireAdult();
             AssetDefinition asset = _assets.Get(assetId);
             if (amount < asset.MinPurchase)
             {
@@ -184,7 +187,7 @@ namespace BetterLife.Core.Economy
             DebtProductDefinition product = _products.Get(productId);
             GameDate now = _clock.Now;
             var reasons = new List<string>();
-            if (!IsIndependent(now))
+            if (!IsAdult(now))
             {
                 reasons.Add(LoanQuote.ReasonTooYoung);
             }
@@ -713,9 +716,11 @@ namespace BetterLife.Core.Economy
             }
         }
 
-        private void RequireIndependent()
+        private bool IsAdult(GameDate now) => _character.AgeAt(now) >= _settings.IndependenceAge;
+
+        private void RequireAdult()
         {
-            if (!IsIndependent(_clock.Now))
+            if (!IsAdult(_clock.Now))
             {
                 throw new InvalidOperationException(LoanQuote.ReasonTooYoung);
             }

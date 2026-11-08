@@ -2,6 +2,7 @@
   "$schema": "../docs/schemas/finance_settings.schema.json",
   "independenceAge": 18,
   "allowanceStartAge": 7,
+  "studentSupportUntilAge": 25,
   "defaultLifestyle": "modest",
   "referenceLifestyle": "modest",
   "familySupport": [

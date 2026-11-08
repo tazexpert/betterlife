@@ -41,5 +41,13 @@ namespace BetterLife.Core.Luck
 
         /// <summary>Whether karma applies.</summary>
         public bool UseKarma { get; }
+
+        /// <summary>
+        /// Returns a copy whose base chance is moved by a number of points (clamped to 0-100), for situational bonuses
+        /// such as an exam score above the difficulty.
+        /// </summary>
+        /// <param name="points">Points to add (negative to subtract).</param>
+        /// <returns>The adjusted spec.</returns>
+        public ChanceSpec WithBonus(float points) => new ChanceSpec(StatBounds.Clamp(BasePercent + points), StatTerms, FortuneArea, UseKarma);
     }
 }

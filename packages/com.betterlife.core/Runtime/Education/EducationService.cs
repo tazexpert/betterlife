@@ -153,7 +153,7 @@ namespace BetterLife.Core.Education
 
             float score = ExamScore();
             float adjustment = institution.HasExam ? (score - institution.Difficulty.Value) * _settings.Admission.PerPointAboveDifficulty : 0f;
-            ChanceBreakdown chance = institution.HasExam ? _luck.Explain(Adjusted(_settings.Admission.Chance, adjustment), _character, now) : null;
+            ChanceBreakdown chance = institution.HasExam ? _luck.Explain(_settings.Admission.Chance.WithBonus(adjustment), _character, now) : null;
             bool scholarship = institution.TuitionPerYear > 0m && score >= _settings.Scholarship.MinScore;
             return new AdmissionQuote(reasons, score, adjustment, chance, institution.TuitionPerYear, scholarship);
         }
@@ -180,7 +180,7 @@ namespace BetterLife.Core.Education
             if (institution.HasExam)
             {
                 _character.Education.RecordAttempt(programId, now);
-                roll = _luck.Roll(Adjusted(_settings.Admission.Chance, quote.ExamAdjustment), _character, now, _random);
+                roll = _luck.Roll(_settings.Admission.Chance.WithBonus(quote.ExamAdjustment), _character, now, _random);
                 if (!roll.Success)
                 {
                     return new AdmissionResult(quote, roll, null);
@@ -267,11 +267,6 @@ namespace BetterLife.Core.Education
             CharacterEducation education = _character.Education;
             float academic = education.Current?.Performance ?? education.Highest(_programs)?.FinalPerformance ?? _settings.StartPerformance;
             return _settings.Admission.Score(academic, _character.Stats.GetValue(StatIds.Knowledge));
-        }
-
-        private static ChanceSpec Adjusted(ChanceSpec spec, float points)
-        {
-            return new ChanceSpec(spec.BasePercent + points, spec.StatTerms, spec.FortuneArea, spec.UseKarma);
         }
 
         private Enrollment Enroll(string programId, string institutionId, GameDate week, bool scholarship, TuitionFunding funding)
@@ -385,9 +380,10 @@ namespace BetterLife.Core.Education
             {
                 return;
             }
-            if (enrollment.Funding == TuitionFunding.StudentLoan && _loans.Quote(_settings.StudentLoanProductId, tuition).Approved)
+            bool borrow = enrollment.Funding == TuitionFunding.StudentLoan || _character.Wallet.Cash < tuition;
+            if (borrow && _loans.Quote(_settings.StudentLoanProductId, tuition).Approved)
             {
-                _loans.TakeLoan(_settings.StudentLoanProductId, tuition);
+                _loans.TakeLoan(_settings.StudentLoanProductId, enrollment.Funding == TuitionFunding.StudentLoan ? tuition : tuition - _character.Wallet.Cash);
             }
             decimal paid = _character.Wallet.Cash > 0m ? _character.Wallet.WithdrawUpTo(tuition) : 0m;
             if (paid < tuition)

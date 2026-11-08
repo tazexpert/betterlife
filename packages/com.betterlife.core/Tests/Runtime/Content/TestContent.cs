@@ -142,7 +142,7 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'modest', 'nameKey': 'lifestyle.modest.name', 'monthlyCost': 12000, 'monthlyStats': [] },
             { 'id': 'luxury', 'nameKey': 'lifestyle.luxury.name', 'monthlyCost': 120000, 'monthlyStats': [ { 'stat': 'mental.stress', 'amount': -1 } ] } ] }";
 
-        public const string FinanceSettings = @"{ 'independenceAge': 18, 'allowanceStartAge': 7, 'defaultLifestyle': 'modest', 'referenceLifestyle': 'modest',
+        public const string FinanceSettings = @"{ 'independenceAge': 18, 'allowanceStartAge': 7, 'studentSupportUntilAge': 25, 'defaultLifestyle': 'modest', 'referenceLifestyle': 'modest',
             'familySupport': [ { 'incomeLevel': 1, 'monthlyAllowance': 500, 'independenceGift': 0 },
                                { 'incomeLevel': 5, 'monthlyAllowance': 8000, 'independenceGift': 1000000 } ],
             'fallbackProduct': 'loan_shark', 'defaultAfterMissed': 3, 'forcedSaleDiscount': 0.3,

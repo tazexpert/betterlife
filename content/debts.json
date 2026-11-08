@@ -98,7 +98,7 @@
       "annualRate": 2.4,
       "rateSpread": null,
       "termMonths": 0,
-      "minPaymentRate": 0.1,
+      "minPaymentRate": 0.25,
       "minPayment": 500,
       "limitIncomeMultiple": 0,
       "minCreditScore": 0,

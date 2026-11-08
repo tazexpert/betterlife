@@ -12,8 +12,9 @@ using NUnit.Framework;
 namespace BetterLife.Content.Tests
 {
     /// <summary>
-    /// Plays lives with the real content up to age 30 and checks finance invariants. Until careers exist (task 11)
-    /// adults have no job income, so living on the independence gift and then debt is the expected outcome.
+    /// Plays lives with the real content up to age 30 without any player decisions and checks finance invariants.
+    /// Nobody applies for university or jobs here, so living on the independence gift and then debt is the expected
+    /// outcome; <see cref="CareerSimulationTests"/> plays with a player policy.
     /// </summary>
     [TestFixture]
     public class FinanceSimulationTests

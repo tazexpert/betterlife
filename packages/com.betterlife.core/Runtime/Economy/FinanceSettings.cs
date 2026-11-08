@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BetterLife.Core.Domain;
+using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Time;
 
 namespace BetterLife.Core.Economy
 {
@@ -15,6 +17,7 @@ namespace BetterLife.Core.Economy
         /// </summary>
         /// <param name="independenceAge">Age at which the character pays their own way.</param>
         /// <param name="allowanceStartAge">Age from which the family pays an allowance.</param>
+        /// <param name="studentSupportUntilAge">Students younger than this stay dependent while enrolled; at least the independence age.</param>
         /// <param name="defaultLifestyleId">Lifestyle chosen at independence.</param>
         /// <param name="referenceLifestyleId">Lifestyle whose cost measures wealth and debt stress.</param>
         /// <param name="familySupport">Support per household income level.</param>
@@ -28,12 +31,13 @@ namespace BetterLife.Core.Economy
         /// <param name="debtStressMax">Cap of monthly debt stress; non-negative.</param>
         /// <param name="informalDebtStress">Extra monthly stress while owing a loan shark; non-negative.</param>
         /// <param name="wealthCurve">Wealth score curve.</param>
-        public FinanceSettings(int independenceAge, int allowanceStartAge, string defaultLifestyleId, string referenceLifestyleId,
+        public FinanceSettings(int independenceAge, int allowanceStartAge, int studentSupportUntilAge, string defaultLifestyleId, string referenceLifestyleId,
             IEnumerable<FamilySupportLevel> familySupport, string fallbackProductId, int defaultAfterMissed, decimal forcedSaleDiscount,
             CreditScoreRules credit, decimal bankruptcyNetWorth, int bankruptcyWeeks, float debtStressPerYearOfCosts, float debtStressMax,
             float informalDebtStress, WealthCurve wealthCurve)
         {
-            if (independenceAge < 1 || allowanceStartAge < 0 || allowanceStartAge > independenceAge || defaultAfterMissed < 1 || bankruptcyWeeks < 1)
+            if (independenceAge < 1 || allowanceStartAge < 0 || allowanceStartAge > independenceAge || studentSupportUntilAge < independenceAge
+                || defaultAfterMissed < 1 || bankruptcyWeeks < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(independenceAge), "Ages and counts are out of range.");
             }
@@ -47,6 +51,7 @@ namespace BetterLife.Core.Economy
             }
             IndependenceAge = independenceAge;
             AllowanceStartAge = allowanceStartAge;
+            StudentSupportUntilAge = studentSupportUntilAge;
             DefaultLifestyleId = ContentId.Require(defaultLifestyleId, nameof(defaultLifestyleId));
             ReferenceLifestyleId = ContentId.Require(referenceLifestyleId, nameof(referenceLifestyleId));
             FamilySupport = (familySupport ?? Enumerable.Empty<FamilySupportLevel>()).ToDictionary(l => l.IncomeLevel);
@@ -67,6 +72,26 @@ namespace BetterLife.Core.Economy
 
         /// <summary>Age the allowance starts.</summary>
         public int AllowanceStartAge { get; }
+
+        /// <summary>Students younger than this stay dependent on their family while enrolled.</summary>
+        public int StudentSupportUntilAge { get; }
+
+        /// <summary>
+        /// Returns true while the family supports the character: before the independence age, and while studying before
+        /// <see cref="StudentSupportUntilAge"/>.
+        /// </summary>
+        /// <param name="character">Character.</param>
+        /// <param name="now">Week.</param>
+        /// <returns>True when dependent.</returns>
+        public bool IsDependent(Character character, GameDate now)
+        {
+            if (character == null)
+            {
+                throw new ArgumentNullException(nameof(character));
+            }
+            int age = character.AgeAt(now);
+            return age < IndependenceAge || (character.Education.IsEnrolled && age < StudentSupportUntilAge);
+        }
 
         /// <summary>Lifestyle chosen at independence.</summary>
         public string DefaultLifestyleId { get; }

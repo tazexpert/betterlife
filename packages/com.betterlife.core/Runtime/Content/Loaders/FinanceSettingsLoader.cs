@@ -33,7 +33,7 @@ namespace BetterLife.Core.Content.Loaders
         /// <inheritdoc />
         protected override void Read(JObject root, RuleReadContext context, ContentLoadContext content)
         {
-            RuleJson.RequireOnly(root, context, "independenceAge", "allowanceStartAge", "defaultLifestyle", "referenceLifestyle",
+            RuleJson.RequireOnly(root, context, "independenceAge", "allowanceStartAge", "studentSupportUntilAge", "defaultLifestyle", "referenceLifestyle",
                 "familySupport", "fallbackProduct", "defaultAfterMissed", "forcedSaleDiscount", "creditScore", "bankruptcy",
                 "debtStress", "wealthCurve", ContentReading.SchemaProperty);
             RequireCodeContent(context, content);
@@ -70,6 +70,7 @@ namespace BetterLife.Core.Content.Loaders
             content.Add(new FinanceSettings(
                 RuleJson.RequireInt(root, "independenceAge", context),
                 RuleJson.RequireInt(root, "allowanceStartAge", context),
+                RuleJson.RequireInt(root, "studentSupportUntilAge", context),
                 defaultLifestyle,
                 referenceLifestyle,
                 levels,

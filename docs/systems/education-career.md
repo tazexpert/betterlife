@@ -34,6 +34,12 @@
 | อายุทำงาน | ขั้นต่ำ 15 ปี | |
 | ที่เก็บ | `CharacterEducation` และ `CharacterCareer` อยู่ใน Character (เพื่อให้ Rule อ่านได้) ส่วน `EducationService` / `CareerService` อยู่ใน LifeSession | เหมือน CharacterFinances |
 | Random stream | `education` (สอบ/ทุน) และ `career` (สมัครงาน/เลื่อนตำแหน่ง/ความเสี่ยง/รายได้ผันผวน) | |
+| **ครอบครัวส่งเรียน** (ตัดสินใจระหว่างเขียน) | นักศึกษาที่ลงทะเบียนเรียนอยู่และอายุ < 25 (`finance_settings.studentSupportUntilAge`) ยังนับเป็น "พึ่งพ่อแม่" ทางการเงิน: ได้เงินช่วย, ไม่ต้องจ่ายค่าครองชีพ, ครอบครัวช่วยส่วนที่ขาด ส่วนเงินตั้งตัวจะได้ตอนเรียนจบ แต่ค่าเทอมยังเป็นของนักศึกษาเอง | จากการจำลอง: ถ้าให้นักศึกษาจ่ายค่าครองชีพเองตั้งแต่ 18 เกือบทุกคนจะติดหนี้นอกระบบระหว่างเรียน |
+| กยศ. อัตโนมัติ | ถ้าเลือกจ่ายค่าเทอมด้วยเงินสดแต่เงินไม่พอ จะกู้ กยศ. ส่วนที่ขาดให้อัตโนมัติ (ถ้าไม่ผ่านเกณฑ์จึงเป็นยอดขาด) | เหมือนนักศึกษาจริงที่ใช้ กยศ. เป็นตาข่ายรองรับ |
+| กู้/ลงทุน/เลือก Lifestyle | ใช้เกณฑ์ "อายุ ≥ 18" แทนคำว่า "ไม่พึ่งพ่อแม่" | นักศึกษาต้องกู้ กยศ. ได้ |
+| หนี้นอกระบบ | ยอดจ่ายขั้นต่ำเปลี่ยนจาก 10% เป็น 25% ต่อเดือน (มากกว่าดอกเบี้ย 20%) | ถ้ามีรายได้พอ หนี้จะลดลงได้ ส่วนคนที่จ่ายไม่ไหวยังคงติดวงจรหนี้ |
+| โบนัสโอกาสตามสถานการณ์ | `ChanceSpec.WithBonus(points)` บวกคะแนน (เช่น คะแนนสอบ − ความยาก) เข้าไปใน Base แล้ว Clamp 0–100 | คะแนนต่ำมากๆ ไม่ทำให้เกิด error |
+| จองชั่วโมง | `TimeBudget.Reserve(activity, hours)` ให้ชั่วโมงเท่าที่ชั่วโมงว่างและเพดานของกิจกรรมอนุญาต | |
 
 ## 3. JSON Schema (content ใหม่ 4 ชนิด)
 ```jsonc
@@ -69,7 +75,7 @@
 // career_settings.json (ไฟล์เดียว)
 { "workActivity": "work", "minWorkAge": 15, "retirementAge": 60,
   "performance": { "weeklySmoothing": 0.06, "attendanceWeight": 0.5, "skillWeight": 0.2, "mentalWeight": 0.2, "restWeight": 0.1, "start": 55 },
-  "boss": { "weeklySmoothing": 0.03, "start": 55, "fireBelow": 20, "fireAfterMonths": 3 },
+  "boss": { "weeklySmoothing": 0.03, "start": 55, "fireBelow": 20, "fireAfterMonths": 3, "stressFromDissatisfaction": 1 },
   "hiring": { "prestigePerPoint": 0.2, "retryWeeks": 12 },
   "promotion": { "chance": { "base": 40, "fortune": "career" }, "perPointAbove": 1.5, "minBoss": 50, "reviewEveryMonths": 12 },
   "layoffs": [ { "phase": "recession", "monthlyChance": 0.01 } ] }
@@ -92,9 +98,15 @@
 - `CharacterDto.Career = CareerDto { Current: JobDto?, History[PastJobDto], PensionMonthly, Retired, Attempts[AttemptDto] }`
 - ชั่วโมงที่จองไว้อยู่ใน `TimeStateDto` อยู่แล้ว · `EducationDtoMapper.DropUnknown` / `CareerDtoMapper.DropUnknown` ลบหลักสูตร/อาชีพที่ถูกลบออกจาก content
 
-## 6. ส่งต่อ
+## 6. Tests
+- `EducationServiceTests` (11): เข้าเรียนอัตโนมัติตามอายุ + จองชั่วโมง, เลือกโรงเรียนตามฐานะ, Performance ตามการเข้าเรียน, เลื่อนชั้น/ซ้ำชั้น/ให้ออก, จบแล้วเรียนต่อระดับถัดไป, ห้ามลาออกจากภาคบังคับ, เหตุผลที่สมัครไม่ได้, โอกาสสอบตามคะแนน + รอปีถัดไป, ค่าเทอม (เงินสด/ยอดขาด/กยศ./กยศ.อัตโนมัติ), ทุน, จองชั่วโมงใหม่หลังเปลี่ยนช่วงวัย
+- `CareerServiceTests` (10): เหตุผลที่สมัครไม่ได้, ชื่อเสียงสถาบัน, อัตราการได้งานใกล้โอกาสที่แสดง, Performance/หัวหน้า/ความเครียด, ไล่ออกหลัง 3 เดือน, เลื่อนตำแหน่ง, เกษียณ + บำนาญ, ความเสี่ยงจับกุม, เลิกจ้างตามช่วงเศรษฐกิจ, รายได้คงที่/ผันผวน
+- `SchoolWorkRuleTests` (19), `SchoolWorkPersistenceTests` (3), `SchoolWorkContentTests` (12), `LifeSessionTests` (มี Phase ใหม่)
+- `CareerSimulationTests` (content จริง 40 ชีวิตถึงอายุ 30 พร้อมผู้เล่นจำลองที่ตัดสินใจทุกเดือน): จบ ม.ปลาย 40/40, ปริญญาตรีขึ้นไป 35, มีงาน 38, ทรัพย์สินสุทธิมัธยฐาน ≈ 3.2 ล้าน, ติดหนี้นอกระบบ 11 (ส่วนใหญ่เป็นธุรกิจ/อาชีพรายได้ผันผวน) และ Test ว่าอาชีพพรีเมียมรายได้ไม่สูงกว่าอาชีพปกติ
+
+## 7. ส่งต่อ
 - ข้อ 12: เพื่อนร่วมงาน/หัวหน้าเป็น NPC, Network ทางธุรกิจช่วยสมัครงาน
 - ข้อ 13: อบายมุขทำให้ Performance ตก, สายผิดกฎหมายเชื่อมกับการพนัน/หนี้
 - ข้อ 16–17: หน้าการศึกษา/อาชีพ (ใช้ `Quote` ที่มีเหตุผลเป็น Loc key และ ChanceBreakdown)
 - ข้อ 19: ปลดล็อกอาชีพ `premium`
-- ข้อ 21: ปรับสมดุลเงินเดือน/โอกาส ด้วย Balancing Simulator
+- ข้อ 21: ปรับสมดุลเงินเดือน/โอกาส ด้วย Balancing Simulator (ตอนนี้ผู้เล่นจำลองเลือก `celebrity_chef` และ `business_owner` บ่อยเกินไป เพราะเงินเดือนเริ่มต้นสูงสุด)
