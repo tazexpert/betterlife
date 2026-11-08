@@ -4,5 +4,10 @@
   "displayName": "BetterLife Core",
   "description": "Pure C# simulation core for BetterLife. No UnityEngine dependency.",
   "unity": "2022.3",
-  "author": { "name": "BetterLife" }
+  "author": {
+    "name": "BetterLife"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
 }

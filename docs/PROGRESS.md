@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅
-**กำลังทำ:** 03 Rules Engine ⏸ รอผู้ใช้ยืนยัน Data Structure (`docs/systems/rules-engine.md`)
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅
+**ถัดไป:** 04 Content Pipeline (เริ่มใน Session ใหม่)
 
 ## กติกาการทำงาน
 - ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
@@ -15,7 +15,7 @@
 | 00 | Repo Setup | โครงสร้างโฟลเดอร์, asmdef, package.json, csproj, manifest.json, ProjectSetupMenu, GameBootstrap ว่าง | ✅ |
 | 01 | GameDate + Pcg32Random + IEventBus | พื้นฐานที่ทุกระบบใช้ (`docs/systems/foundation.md`) | ✅ |
 | 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet (`docs/systems/domain-model.md`) | ✅ |
-| 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters | ⏸ Data Structure proposed |
+| 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters (`docs/systems/rules-engine.md`) | ✅ |
 | 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⬜ |
 | 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
 | 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance | ⬜ |
@@ -45,3 +45,4 @@
 - 2026-11-08 — 00 Repo Setup: เพิ่ม Unity project (`unity/`), asmdef ของ Bootstrap/Infrastructure/Presentation/EditorTools, ProjectSetupMenu, GameBootstrap, AssemblyDependencyRulesTests, CI; `dotnet test` ผ่าน 90 tests
 - 2026-11-08 — รับ Roadmap 00–23 จากผู้ใช้ แทนตาราง Milestone เดิม ข้อ 00 และ 01 เสร็จแล้ว (90 tests ผ่าน)
 - 2026-11-08 — 02 Domain Model + Stats เสร็จ: Core คำนวณจากค่าย่อย, GenderProfile (เพศกำเนิด/เพศสภาพ/รูปแบบการพูด), Traits/Skills/Flags, Save DTO, schemas + content เริ่มต้น; `dotnet test` ผ่าน 151 tests
+- 2026-11-08 — 03 Rules Engine เสร็จ: Condition 12 / Effect 13 ชนิด, Registry + converters (Newtonsoft.Json), ข้อความ error ชี้ JSON path, rules.schema.json; `dotnet test` ผ่าน 207 tests

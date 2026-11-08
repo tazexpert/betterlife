@@ -49,6 +49,19 @@ namespace BetterLife.Core.Domain.Characters
             return true;
         }
 
+        /// <summary>
+        /// Removes as much of <paramref name="amount"/> as is available, never going below zero.
+        /// </summary>
+        /// <param name="amount">Positive amount requested.</param>
+        /// <returns>The amount actually withdrawn.</returns>
+        public decimal WithdrawUpTo(decimal amount)
+        {
+            RequirePositive(amount);
+            decimal taken = Math.Min(amount, Cash);
+            Cash -= taken;
+            return taken;
+        }
+
         private static void RequirePositive(decimal amount)
         {
             if (amount <= 0m)

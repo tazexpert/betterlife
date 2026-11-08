@@ -10,6 +10,7 @@ Infrastructure (Unity: Save, Ads, IAP, Analytics, Content loader)
 Core (packages/com.betterlife.core/Runtime — Pure C#, netstandard2.1, C# 9)
 ```
 - Core ไม่รู้จัก Unity เลย (`noEngineReferences: true`) และคอมไพล์ด้วย `dotnet/BetterLife.Core.csproj`
+- Dependency ภายนอกตัวเดียวของ Core: **Newtonsoft.Json** (Unity: `com.unity.nuget.newtonsoft-json`, dotnet: NuGet)
 - **GameBootstrap** (ใน Unity) เป็น Composition Root ที่เดียว สร้างทุก Object ด้วยโค้ด ไม่ใช้ Inspector
 
 ## โครงสร้างโฟลเดอร์
@@ -61,6 +62,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Domain.Stats` | Stats 3 ชั้น, สูตร, Breakdown, ChangeLog, History, Reputation |
 | `BetterLife.Core.Domain.Traits` / `.Skills` / `.Flags` | Trait, Skill, Story flag |
 | `BetterLife.Core.Domain.Characters` | Character (aggregate root), GenderProfile, BirthInfo, Wallet |
+| `BetterLife.Core.Rules` (+ `.Conditions`, `.Effects`, `.Serialization`) | Rules Engine: Condition/Effect + Registry + JSON converters |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

@@ -1,0 +1,621 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/rules.schema.json",
+  "title": "Rules",
+  "description": "Conditions and effects shared by all content types. Reference checks (ids exist, stats are stored, flag kinds, min <= max) are enforced by the C# rule parser.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "op": {
+      "enum": [
+        "==",
+        "!=",
+        "<",
+        "<=",
+        ">",
+        ">="
+      ]
+    },
+    "range": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "nonNegativeRange": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "statRange": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "conditions"
+          ],
+          "properties": {
+            "type": {
+              "const": "all"
+            },
+            "conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "conditions"
+          ],
+          "properties": {
+            "type": {
+              "const": "any"
+            },
+            "conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "not"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "stat",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "stat"
+            },
+            "stat": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "dependentRequired": {
+            "op": [
+              "value"
+            ],
+            "value": [
+              "op"
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            },
+            "revealed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "skill",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "skill"
+            },
+            "skill": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "age"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "year"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "cash"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "domain",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "reputation"
+            },
+            "domain": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "stat",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "stat"
+            },
+            "stat": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            },
+            "source": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "cash"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.set"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "expiryWeeks": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.clear"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.increment"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "expiryWeeks": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.add"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.remove"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.reveal"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "skill",
+            "gain"
+          ],
+          "properties": {
+            "type": {
+              "const": "skill.practice"
+            },
+            "skill": {
+              "$ref": "#/$defs/id"
+            },
+            "gain": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "domain",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "reputation"
+            },
+            "domain": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition",
+            "severity"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition.add"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            },
+            "severity": {
+              "$ref": "#/$defs/statRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition.remove"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition",
+            "then"
+          ],
+          "properties": {
+            "type": {
+              "const": "if"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            },
+            "then": {
+              "$ref": "#/$defs/effects"
+            },
+            "else": {
+              "$ref": "#/$defs/effects"
+            }
+          }
+        }
+      ]
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/effect"
+      }
+    }
+  }
+}

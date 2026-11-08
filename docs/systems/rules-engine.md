@@ -1,6 +1,13 @@
 # Task 03: Rules Engine
 
-> สถานะ: ⏸ **ข้อเสนอ Data Structure — รอผู้ใช้ยืนยัน** (ยังไม่มี Logic)
+> สถานะ: ✅ **Implemented** — 2026-11-08
+
+## 0. การตัดสินใจที่ผู้ใช้ยืนยันแล้ว
+| หัวข้อ | ผลการตัดสินใจ |
+|---|---|
+| JSON | Newtonsoft.Json: Unity ใช้ `com.unity.nuget.newtonsoft-json` 3.2.1 (เพิ่มเป็น dependency ของ package Core แล้ว) ส่วน dotnet ใช้ NuGet 13.0.3 และ Core asmdef อ้างถึง `Newtonsoft.Json.dll` ผ่าน `precompiledReferences` |
+| เงินไม่พอ | จ่ายเท่าที่มีจนเงินเหลือ 0 แล้วรายงานยอดขาดใน `EffectResult.CashShortfall` ให้ข้อ 10 นำไปทำเป็นหนี้ |
+| ช่วงตัวเลข | สุ่มใหม่ทุกครั้งที่ Apply ส่วนค่าคงที่ไม่ใช้เลขสุ่ม (ปรับ content จากค่าคงที่เป็นค่าคงที่ ลำดับเลขสุ่มจะไม่เลื่อน) |
 
 ## 1. สรุปความเข้าใจ
 Rules Engine คือ "ภาษากลาง" ที่ไฟล์ content ใช้บอกเกมว่า **เมื่อไร** (Condition) และ **เกิดอะไรขึ้น** (Effect)
@@ -97,7 +104,36 @@ Schema ของ content อื่น (events, vices ฯลฯ) ใช้ `$ref`
 ## 4. Save DTO
 **ไม่มี**: Rule เป็น content ไม่ใช่สถานะของเกม ส่วนผลที่ตั้งเวลาไว้ล่วงหน้า (ข้อ 07) จะเซฟเป็น id ของเหตุการณ์ ไม่เซฟตัว Effect
 
-## 5. คำถามที่ต้องยืนยัน
-1. **ไลบรารี JSON:** ใช้ **Newtonsoft.Json** (แนะนำ: Unity มีให้เป็นแพ็กเกจทางการ `com.unity.nuget.newtonsoft-json` ซึ่งใส่ไว้ใน manifest แล้ว และ dotnet ใช้ผ่าน NuGet) หรือเขียนตัวอ่าน JSON เองใน Core (ไม่มี dependency แต่โค้ดเยอะกว่าและเสี่ยงบั๊กกว่า)?
-2. **จ่ายเงินแต่เงินไม่พอ (ก่อนมีระบบหนี้ในข้อ 10):** จ่ายเท่าที่มีจนเงินเหลือ 0 แล้วรายงานยอดที่ขาด เพื่อให้ข้อ 10 นำไปทำเป็นหนี้ (แนะนำ) หรือให้ Effect นั้นล้มเหลวไปเลย?
-3. **ตัวเลขแบบช่วง** สุ่มใหม่ทุกครั้งที่เกิดผล (แนะนำ) หรือสุ่มครั้งเดียวตอนโหลด content?
+## 5. ไฟล์ที่ได้
+- `Runtime/Rules/`: `RuleContext`, `ICondition`, `IEffect`, `ComparisonOperator`, `Comparison`, `FloatRange`, `DecimalRange`, `RuleText`, `RuleTextKeys`, `RangeText`, `ConditionTrace`, `EffectResult`, `EffectSequence`
+- `Runtime/Rules/Conditions/`: `CompositeCondition` + 12 condition
+- `Runtime/Rules/Effects/`: 13 effect
+- `Runtime/Rules/Serialization/`: `RuleRegistry`, `RuleReadContext`, `RuleParseException`, `RuleJson`, `IConditionConverter`/`IEffectConverter`, `ConditionConverter<T>`/`EffectConverter<T>`, `DefaultRules`, `Converters/` (25 ไฟล์)
+- `Domain/Characters/Wallet.cs`: เพิ่ม `WithdrawUpTo`
+- `docs/schemas/rules.schema.json`
+
+## 6. กติกาการแสดงผลให้ผู้เล่น (Pillar: อ่านตัวเลขได้ แต่ความลับยังเป็นความลับ)
+| สิ่งที่ซ่อน | ผล |
+|---|---|
+| Flag | Condition มี `IsVisibleToPlayer = false` ส่วน Effect ไม่มีข้อความ |
+| Hidden stat / reputation | Condition ซ่อน ส่วน Effect เปลี่ยนค่าเงียบๆ (แต่ยังอยู่ใน `StatChanges` ให้ระบบอื่นใช้ได้) |
+| Trait ที่ `startsHidden` | ได้รับมาแบบเงียบ จะมีข้อความก็ต่อเมื่อถูก `trait.reveal` และไม่แสดงในพรีวิว |
+
+## 7. Tests
+56 test ใหม่ (รวมทั้งหมด 207):
+- Comparison/Range
+- Condition และ Effect ทุกชนิด
+- Explain trace
+- พรีวิว
+- เงินไม่พอ
+- เลขสุ่มได้ผลเดิมเมื่อใช้ seed เดิม
+- JSON round-trip ครบทุกชนิด
+- ข้อความ error พร้อม path 20 กรณี
+- เพิ่มชนิดใหม่ได้โดยไม่ต้องแก้ Engine
+- Schema ตรงกับชนิดที่ลงทะเบียนไว้ใน Registry
+
+## 8. งานที่ส่งต่อ
+- **ข้อ 04:** ตรวจไฟล์ content ด้วย `rules.schema.json` + ใช้ `RuleRegistry` แปลง rule ในทุกไฟล์ + ตั้ง `FloatParseHandling.Decimal` ตอนโหลดเพื่อความแม่นยำของเงิน + catalog ของโรคและวงการชื่อเสียง (ตอนนี้ตรวจแค่รูปแบบ id)
+- **ข้อ 07:** เพิ่ม Effect `scheduleEvent` ผ่าน Registry + Publish `EffectResult` ผ่าน EventBus
+- **ข้อ 10:** แปลง `CashShortfall` เป็นหนี้
+- **ข้อ 20:** ข้อความของ key `rule.cond.*` / `rule.effect.*` (argument ที่ชื่อลงท้ายด้วย `Key` ต้องแปลซ้ำอีกชั้น)
