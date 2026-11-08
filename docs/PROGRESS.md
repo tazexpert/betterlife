@@ -1,29 +1,46 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 — Repo Setup** ✅
-**Milestone 1 — Foundation** ✅
-**ถัดไป:** Milestone 2 — Tick Pipeline + Interrupt
+**00 Repo Setup** ✅ · **01 Foundation** ✅
+**ถัดไป:** 02 Domain Model + Stats (เริ่มใน Session ใหม่)
 
-## Milestones
-| # | งาน | สถานะ |
-|---|---|---|
-| 00 | Repo Setup: โครงสร้างโฟลเดอร์, asmdef 5 ตัว, package.json, csproj, manifest.json, ProjectSetupMenu, GameBootstrap ว่าง, CI | ✅ Done |
-| 1 | Foundation: GameDate, CalendarDate, ThaiDayOfWeekResolver, IRandomProvider/Pcg32/RandomRegistry, IEventBus, Save DTO | ✅ Done |
-| 2 | Tick Pipeline + Interrupt | ⬜ |
-| 3 | Stats 3 ชั้น + Breakdown | ⬜ |
-| 4 | Content pipeline: JSON Schema + validation test + Localization keys | ⬜ |
-| 5 | Event Engine (Condition/Effect Registry, Choices, Delayed consequences) | ⬜ |
-| 6 | Character Creation + Astrology & Karma | ⬜ |
-| 7 | Economy | ⬜ |
-| 8 | Education & Career | ⬜ |
-| 9 | Relationships & NPC | ⬜ |
-| 10 | Vice System | ⬜ |
-| 11 | Death & Legacy | ⬜ |
-| 12 | Service interfaces + Fakes (Ads, IAP, Analytics, Cloud Save) | ⬜ |
-| 13 | Unity: GameBootstrap, Save, UI Toolkit Dashboard | ⬜ |
+## กติกาการทำงาน
+- ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
+- เริ่มข้อถัดไปได้เมื่อ `dotnet test dotnet/BetterLife.sln` ของข้อก่อนผ่านครบแล้วเท่านั้น
+- ตอนเริ่ม Session ใหม่ ให้พิมพ์เลขข้อ เช่น "เริ่มข้อ 02"
+
+## Roadmap
+| # | Task | ผลลัพธ์ | สถานะ |
+|---|---|---|---|
+| 00 | Repo Setup | โครงสร้างโฟลเดอร์, asmdef, package.json, csproj, manifest.json, ProjectSetupMenu, GameBootstrap ว่าง | ✅ |
+| 01 | GameDate + Pcg32Random + IEventBus | พื้นฐานที่ทุกระบบใช้ (`docs/systems/foundation.md`) | ✅ |
+| 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet | ⬜ |
+| 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters | ⬜ |
+| 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⬜ |
+| 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
+| 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance | ⬜ |
+| 07 | Event System | Weighted pool, Cooldown, Choices, Delayed consequences, Storylines | ⬜ |
+| 08 | Character Creation | Birth, Country, Family, Genetics, Seed (รวม BirthHour) | ⬜ |
+| 09 | Life Stages + Aging + Death | | ⬜ |
+| 10 | Economy + Finance | Macro, Income/Expense, Assets, Debt, Credit | ⬜ |
+| 11 | Education + Career | | ⬜ |
+| 12 | NPC + Relationships | | ⬜ |
+| 13 | Vice System | | ⬜ |
+| 14 | Save System | JSON + Migration + Undo snapshot | ⬜ |
+| 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav | ⬜ |
+| 16 | Dashboard + Inbox + Event Dialog | | ⬜ |
+| 17 | หน้าจอย่อย | Finance, Relationships, Astrology, Timeline | ⬜ |
+| 18 | Legacy + Life Summary + Achievements | | ⬜ |
+| 19 | Ads + IAP | Fake ก่อน → SDK จริง | ⬜ |
+| 20 | Localization TH/EN + Settings | | ⬜ |
+| 21 | Balancing Simulator | รัน 10,000 ชีวิต แล้วออกรายงาน | ⬜ |
+| 22 | Content Batch | เขียนเหตุการณ์เป็นชุดละ 30–50 อัน | ⬜ |
+| 23 | Build Checklist Android/iOS | | ⬜ |
+
+หมายเหตุข้อ 01: คลาสที่ Roadmap เรียกว่า "Pcg32Random" ในโค้ดใช้ชื่อ `Pcg32` (namespace `BetterLife.Core.Randomness`) และมี `RandomRegistry` สำหรับแยกชุดการสุ่มตามระบบ
 
 ## Log
 - 2026-11-08 — สร้างโครงโปรเจกต์, `dotnet test` ผ่าน (1 test: ArchitectureRulesTests)
 - 2026-11-08 — Foundation เสร็จ: Epoch 1926, ปฏิทิน 52 สัปดาห์, PCG32 + stream registry, EventBus แบบคิว, Save DTO; `dotnet test` ผ่าน 86 tests
 - 2026-11-08 — 00 Repo Setup: เพิ่ม Unity project (`unity/`), asmdef ของ Bootstrap/Infrastructure/Presentation/EditorTools, ProjectSetupMenu, GameBootstrap, AssemblyDependencyRulesTests, CI; `dotnet test` ผ่าน 90 tests
+- 2026-11-08 — รับ Roadmap 00–23 จากผู้ใช้ แทนตาราง Milestone เดิม ข้อ 00 และ 01 เสร็จแล้ว (90 tests ผ่าน)
