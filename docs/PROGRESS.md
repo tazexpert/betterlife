@@ -2,7 +2,7 @@
 
 ## สถานะปัจจุบัน
 **00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅
-**ถัดไป:** 04 Content Pipeline (เริ่มใน Session ใหม่)
+**กำลังทำ:** 04 Content Pipeline ⏸ รอผู้ใช้ยืนยัน Data Structure (`docs/systems/content-pipeline.md`)
 
 ## กติกาการทำงาน
 - ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
@@ -16,7 +16,7 @@
 | 01 | GameDate + Pcg32Random + IEventBus | พื้นฐานที่ทุกระบบใช้ (`docs/systems/foundation.md`) | ✅ |
 | 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet (`docs/systems/domain-model.md`) | ✅ |
 | 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters (`docs/systems/rules-engine.md`) | ✅ |
-| 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⬜ |
+| 04 | Content Pipeline | IContentRepository, Schema, Validator Test | ⏸ Data Structure proposed |
 | 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
 | 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance | ⬜ |
 | 07 | Event System | Weighted pool, Cooldown, Choices, Delayed consequences, Storylines | ⬜ |
