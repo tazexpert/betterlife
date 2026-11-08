@@ -38,6 +38,17 @@ namespace BetterLife.Core.Tests.Content
 
         private const string Conditions = "{ 'conditions': [ { 'id': 'flu', 'nameKey': 'condition.flu.name', 'descKey': 'condition.flu.desc' } ] }";
 
+        private const string Activities = @"{ 'activities': [
+            { 'id': 'free_time', 'nameKey': 'activity.free_time.name', 'descKey': 'activity.free_time.desc', 'category': 'rest',
+              'minHours': 0, 'maxHours': 168, 'costPerHour': 0, 'stats': [], 'skills': [] },
+            { 'id': 'gym', 'nameKey': 'activity.gym.name', 'descKey': 'activity.gym.desc', 'category': 'health',
+              'minHours': 0, 'maxHours': 20, 'costPerHour': 15.5, 'condition': { 'type': 'age', 'op': '>=', 'value': 12 },
+              'stats': [ { 'stat': 'health.fitness', 'perHour': 0.3, 'maxHours': 10 } ], 'skills': [ { 'skill': 'cooking', 'gainPerHour': 0.1 } ] } ] }";
+
+        private const string TimeSettings = @"{ 'defaultActivity': 'free_time',
+            'learning': { 'multiplierAtZeroMental': 0.5, 'multiplierAtFullMental': 1.5 },
+            'defaultBudget': [ { 'activity': 'gym', 'hours': 5 } ] }";
+
         [Test]
         public void ValidContent_LoadsEveryProduct()
         {
@@ -57,6 +68,38 @@ namespace BetterLife.Core.Tests.Content
             CharacterCatalogs catalogs = repository.Get<CharacterCatalogs>();
             Assert.That(catalogs.HealthConditions.Contains("flu"), Is.True);
             Assert.That(catalogs.ReputationDomains.Contains("business"), Is.True);
+            var gym = repository.Get<DefinitionCatalog<BetterLife.Core.Time.Budget.ActivityDefinition>>().Get("gym");
+            Assert.That(gym.CostPerHour, Is.EqualTo(15.5m));
+            Assert.That(gym.Condition, Is.Not.Null);
+            var settings = repository.Get<BetterLife.Core.Time.Budget.TimeSettings>();
+            Assert.That(settings.DefaultBudget["gym"], Is.EqualTo(5));
+        }
+
+        [TestCase("activities.json", "'stat': 'health.fitness'", "'stat': 'health'", "$.activities[1].stats[0].stat", "derived")]
+        [TestCase("activities.json", "'value': 12", "'value': 'twelve'", "$.activities[1].condition.value", "expected an integer")]
+        [TestCase("activities.json", "'maxHours': 20", "'maxHours': 200", "$.activities[1]", "Hours must satisfy")]
+        [TestCase("time_settings.json", "'defaultActivity': 'free_time'", "'defaultActivity': 'nap'", "$.defaultActivity", "unknown activity 'nap'")]
+        [TestCase("time_settings.json", "'hours': 5", "'hours': 25", "$.defaultBudget[0].hours", "within 0-20")]
+        [TestCase("time_settings.json", "'activity': 'gym'", "'activity': 'free_time'", "$.defaultBudget[0].activity", "cannot be budgeted")]
+        public void TimeContentProblems_AreReported(string file, string find, string replace, string path, string message)
+        {
+            string original = file == "activities.json" ? Activities : TimeSettings;
+            InMemoryContentSource source = Valid().Add(file, original.Replace(find, replace));
+
+            ContentError error = Load(source).Errors.First();
+
+            Assert.That(error.File, Is.EqualTo(file));
+            Assert.That(error.Path, Is.EqualTo(path));
+            Assert.That(error.Message, Does.Contain(message));
+        }
+
+        [Test]
+        public void TimeSettings_RequireExactlyOneFile()
+        {
+            InMemoryContentSource source = Valid(extraFiles: "{ 'type': 'time_settings', 'path': 'time_settings_2.json' }")
+                .Add("time_settings_2.json", TimeSettings);
+
+            Assert.That(Load(source).Errors.First().Message, Does.Contain("Exactly one 'time_settings' file is required, found 2"));
         }
 
         [Test]
@@ -90,9 +133,11 @@ namespace BetterLife.Core.Tests.Content
                 "traits.json $.traits[0].statModifiers[0].stat: unknown stat 'mental.stres'.",
                 "skills.json $.skills[0].decay.graceWeeks: expected an integer.",
                 "Skipped 'character_catalogs' because 'traits' has errors.",
+                "Skipped 'activities' because 'character_catalogs' has errors.",
+                "Skipped 'time_settings' because 'activities' has errors.",
             }));
             var ex = Assert.Throws<ContentLoadException>(() => result.RequireRepository());
-            Assert.That(ex.Errors, Has.Count.EqualTo(3));
+            Assert.That(ex.Errors, Has.Count.EqualTo(5));
         }
 
         [Test]
@@ -184,7 +229,8 @@ namespace BetterLife.Core.Tests.Content
             List<string> order = DefaultContent.CreatePipeline(new InMemoryContentSource()).Loaders.Select(l => l.TypeName).ToList();
 
             Assert.That(order.IndexOf(ContentTypes.Stats), Is.LessThan(order.IndexOf(ContentTypes.Traits)));
-            Assert.That(order.Last(), Is.EqualTo(ContentTypes.CharacterCatalogs));
+            Assert.That(order.IndexOf(ContentTypes.CharacterCatalogs), Is.LessThan(order.IndexOf(ContentTypes.Activities)));
+            Assert.That(order.Last(), Is.EqualTo(ContentTypes.TimeSettings));
         }
 
         [Test]
@@ -217,7 +263,8 @@ namespace BetterLife.Core.Tests.Content
         {
             string files = "{ 'type': 'stats', 'path': 'stats.json' }, { 'type': 'traits', 'path': 'traits.json' }, "
                 + "{ 'type': 'skills', 'path': 'skills.json' }, { 'type': 'flags', 'path': 'flags.json' }, "
-                + "{ 'type': 'reputation_domains', 'path': 'reputation_domains.json' }, { 'type': 'health_conditions', 'path': 'health_conditions.json' }"
+                + "{ 'type': 'reputation_domains', 'path': 'reputation_domains.json' }, { 'type': 'health_conditions', 'path': 'health_conditions.json' }, "
+                + "{ 'type': 'activities', 'path': 'activities.json' }, { 'type': 'time_settings', 'path': 'time_settings.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -226,7 +273,9 @@ namespace BetterLife.Core.Tests.Content
                 .Add("skills.json", Skills)
                 .Add("flags.json", Flags)
                 .Add("reputation_domains.json", Domains)
-                .Add("health_conditions.json", Conditions);
+                .Add("health_conditions.json", Conditions)
+                .Add("activities.json", Activities)
+                .Add("time_settings.json", TimeSettings);
         }
 
         private sealed class CycleLoader : IContentTypeLoader

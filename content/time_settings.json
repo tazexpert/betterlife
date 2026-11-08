@@ -1,0 +1,25 @@
+{
+  "defaultActivity": "free_time",
+  "learning": {
+    "multiplierAtZeroMental": 0.5,
+    "multiplierAtFullMental": 1.5
+  },
+  "defaultBudget": [
+    {
+      "activity": "sleep",
+      "hours": 56
+    },
+    {
+      "activity": "chores",
+      "hours": 7
+    },
+    {
+      "activity": "entertainment",
+      "hours": 10
+    },
+    {
+      "activity": "socialize",
+      "hours": 5
+    }
+  ]
+}

@@ -21,9 +21,9 @@ namespace BetterLife.Core.Tests.Domain
             var definitions = new List<StatDefinition>
             {
                 Core(StatIds.Health), Core(StatIds.Mental), Core(StatIds.Intelligence), Core(StatIds.Wealth, 30f), Core(StatIds.Relationships),
-                Sub(StatIds.Fitness, StatIds.Health, 50f), Sub(StatIds.Nutrition, StatIds.Health, 60f),
+                Sub(StatIds.Fitness, StatIds.Health, 50f, decay: new StatDecayRule(30f, 2f)), Sub(StatIds.Nutrition, StatIds.Health, 60f),
                 Sub(StatIds.Fatigue, StatIds.Health, 20f, StatPolarity.LowerIsBetter), Sub(StatIds.DiseaseBurden, StatIds.Health, 0f, StatPolarity.LowerIsBetter),
-                Sub(StatIds.Happiness, StatIds.Mental, 60f), Sub(StatIds.Stress, StatIds.Mental, 20f, StatPolarity.LowerIsBetter),
+                Sub(StatIds.Happiness, StatIds.Mental, 60f), Sub(StatIds.Stress, StatIds.Mental, 20f, StatPolarity.LowerIsBetter, new StatDecayRule(20f, 1.5f)),
                 Sub(StatIds.Confidence, StatIds.Mental, 50f), Sub(StatIds.Loneliness, StatIds.Mental, 20f, StatPolarity.LowerIsBetter),
                 Sub(StatIds.Iq, StatIds.Intelligence, 50f), Sub(StatIds.Knowledge, StatIds.Intelligence, 0f),
                 Sub(StatIds.CreditScore, StatIds.Wealth, 50f),
@@ -119,9 +119,9 @@ namespace BetterLife.Core.Tests.Domain
             return new StatDefinition(id, StatLayer.Core, StatPolarity.HigherIsBetter, value, Key(id, "name"), Key(id, "desc"));
         }
 
-        private static StatDefinition Sub(StatId id, StatId parent, float value, StatPolarity polarity = StatPolarity.HigherIsBetter)
+        private static StatDefinition Sub(StatId id, StatId parent, float value, StatPolarity polarity = StatPolarity.HigherIsBetter, StatDecayRule decay = null)
         {
-            return new StatDefinition(id, StatLayer.Sub, polarity, value, Key(id, "name"), Key(id, "desc"), parent);
+            return new StatDefinition(id, StatLayer.Sub, polarity, value, Key(id, "name"), Key(id, "desc"), parent, decay);
         }
 
         private static StatDefinition Hidden(StatId id)

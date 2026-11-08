@@ -56,7 +56,9 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 ## Namespace ที่วางแผนไว้ (Core)
 | Namespace | หน้าที่ |
 |---|---|
-| `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver, Tick pipeline |
+| `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver |
+| `BetterLife.Core.Time.Budget` | กิจกรรม, TimeBudget 168 ชม., TimeSettings, TimeState |
+| `BetterLife.Core.Time.Ticking` (+ `.Phases`) | TimeSystem, ITickPhase, Interrupt, GameClock |
 | `BetterLife.Core.Randomness` | IRandomProvider, Pcg32, RandomRegistry (ไม่ใช้ชื่อ `Random` เพื่อไม่ชนกับ System.Random) |
 | `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ — ส่วนเหตุการณ์ชีวิตจะอยู่ที่ `Systems.LifeEvents`) |
 | `BetterLife.Core.Domain` | ContentId, DefinitionCatalog |

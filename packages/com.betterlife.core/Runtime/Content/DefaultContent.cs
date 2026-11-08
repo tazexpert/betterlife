@@ -24,6 +24,8 @@ namespace BetterLife.Core.Content
                 new ReputationDomainsLoader(),
                 new HealthConditionsLoader(),
                 new CharacterCatalogsBuilder(),
+                new ActivitiesLoader(),
+                new TimeSettingsLoader(),
             };
         }
 

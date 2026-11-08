@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅
-**ถัดไป:** 05 Time System + Time Budget
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅
+**ถัดไป:** 06 Astrology + Karma + LuckCalculator
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -18,7 +18,7 @@
 | 02 | Domain Model + Stats | Character, CoreStats, Traits, Skills, FlagSet (`docs/systems/domain-model.md`) | ✅ |
 | 03 | Rules Engine | ICondition, IEffect, Registry, JSON converters (`docs/systems/rules-engine.md`) | ✅ |
 | 04 | Content Pipeline | IContentRepository, Schema, Validator Test (`docs/systems/content-pipeline.md`) | ✅ |
-| 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง | ⬜ |
+| 05 | Time System + Time Budget | Tick, Interrupt, การจัดสรร 168 ชั่วโมง (`docs/systems/time-system.md`) | ✅ |
 | 06 | Astrology + Karma + LuckCalculator | สูตร FinalChance | ⬜ |
 | 07 | Event System | Weighted pool, Cooldown, Choices, Delayed consequences, Storylines | ⬜ |
 | 08 | Character Creation | Birth, Country, Family, Genetics, Seed (รวม BirthHour) | ⬜ |
@@ -48,3 +48,4 @@
 - 2026-11-08 — 02 Domain Model + Stats เสร็จ: Core คำนวณจากค่าย่อย, GenderProfile (เพศกำเนิด/เพศสภาพ/รูปแบบการพูด), Traits/Skills/Flags, Save DTO, schemas + content เริ่มต้น; `dotnet test` ผ่าน 151 tests
 - 2026-11-08 — 03 Rules Engine เสร็จ: Condition 12 / Effect 13 ชนิด, Registry + converters (Newtonsoft.Json), ข้อความ error ชี้ JSON path, rules.schema.json; `dotnet test` ผ่าน 207 tests
 - 2026-11-08 — 04 Content Pipeline เสร็จ: manifest, loader ตามชนิดพร้อม dependency, รวบรวม error พร้อมไฟล์และ path, content ใหม่ 2 ชนิด, ฝั่ง Unity (Resources + ตรวจก่อน Build), test ตรวจ content ด้วย JsonSchema.Net; `dotnet test` ผ่าน 226 + 6 tests
+- 2026-11-08 — 05 Time System เสร็จ: TimeBudget 168 ชม. + กิจกรรม 8 อย่าง, TimeSystem ที่มี Phase ตามลำดับ GDD + cadence + Interrupt, Natural decay, Save DTO; `dotnet test` ผ่าน 260 + 7 tests

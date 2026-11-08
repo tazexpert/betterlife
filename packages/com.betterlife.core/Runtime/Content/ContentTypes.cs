@@ -17,6 +17,10 @@ namespace BetterLife.Core.Content
         public const string ReputationDomains = "reputation_domains";
         /// <summary>Health condition types.</summary>
         public const string HealthConditions = "health_conditions";
+        /// <summary>Time budget activities.</summary>
+        public const string Activities = "activities";
+        /// <summary>Global time settings (exactly one file).</summary>
+        public const string TimeSettings = "time_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

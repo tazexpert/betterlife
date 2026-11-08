@@ -1,0 +1,251 @@
+{
+  "activities": [
+    {
+      "id": "sleep",
+      "nameKey": "activity.sleep.name",
+      "descKey": "activity.sleep.desc",
+      "category": "rest",
+      "minHours": 28,
+      "maxHours": 84,
+      "costPerHour": 0,
+      "stats": [
+        {
+          "stat": "health.fatigue",
+          "perHour": -0.3,
+          "maxHours": 56
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": -0.04,
+          "maxHours": 56
+        }
+      ],
+      "skills": []
+    },
+    {
+      "id": "free_time",
+      "nameKey": "activity.free_time.name",
+      "descKey": "activity.free_time.desc",
+      "category": "rest",
+      "minHours": 0,
+      "maxHours": 168,
+      "costPerHour": 0,
+      "stats": [
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.1
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": -0.02,
+          "maxHours": 30
+        }
+      ],
+      "skills": []
+    },
+    {
+      "id": "chores",
+      "nameKey": "activity.chores.name",
+      "descKey": "activity.chores.desc",
+      "category": "life",
+      "minHours": 0,
+      "maxHours": 40,
+      "costPerHour": 0,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 5
+      },
+      "stats": [
+        {
+          "stat": "health.nutrition",
+          "perHour": 0.2,
+          "maxHours": 10
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.05
+        }
+      ],
+      "skills": [
+        {
+          "skill": "cooking",
+          "gainPerHour": 0.2,
+          "maxHours": 10
+        }
+      ]
+    },
+    {
+      "id": "exercise",
+      "nameKey": "activity.exercise.name",
+      "descKey": "activity.exercise.desc",
+      "category": "health",
+      "minHours": 0,
+      "maxHours": 28,
+      "costPerHour": 0,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 4
+      },
+      "stats": [
+        {
+          "stat": "health.fitness",
+          "perHour": 0.3,
+          "maxHours": 10
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.3
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": -0.1,
+          "maxHours": 7
+        },
+        {
+          "stat": "mental.happiness",
+          "perHour": 0.05,
+          "maxHours": 7
+        }
+      ],
+      "skills": []
+    },
+    {
+      "id": "study",
+      "nameKey": "activity.study.name",
+      "descKey": "activity.study.desc",
+      "category": "learning",
+      "minHours": 0,
+      "maxHours": 70,
+      "costPerHour": 0,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 6
+      },
+      "stats": [
+        {
+          "stat": "intelligence.knowledge",
+          "perHour": 0.12,
+          "maxHours": 40
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.15
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": 0.04
+        }
+      ],
+      "skills": [
+        {
+          "skill": "english",
+          "gainPerHour": 0.15,
+          "maxHours": 10
+        }
+      ]
+    },
+    {
+      "id": "socialize",
+      "nameKey": "activity.socialize.name",
+      "descKey": "activity.socialize.desc",
+      "category": "social",
+      "minHours": 0,
+      "maxHours": 40,
+      "costPerHour": 30,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 3
+      },
+      "stats": [
+        {
+          "stat": "mental.loneliness",
+          "perHour": -0.4,
+          "maxHours": 15
+        },
+        {
+          "stat": "mental.happiness",
+          "perHour": 0.1,
+          "maxHours": 15
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.05
+        }
+      ],
+      "skills": [
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.05,
+          "maxHours": 10
+        }
+      ]
+    },
+    {
+      "id": "entertainment",
+      "nameKey": "activity.entertainment.name",
+      "descKey": "activity.entertainment.desc",
+      "category": "leisure",
+      "minHours": 0,
+      "maxHours": 60,
+      "costPerHour": 10,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 2
+      },
+      "stats": [
+        {
+          "stat": "mental.happiness",
+          "perHour": 0.08,
+          "maxHours": 15
+        },
+        {
+          "stat": "mental.stress",
+          "perHour": -0.06,
+          "maxHours": 15
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.02
+        }
+      ],
+      "skills": []
+    },
+    {
+      "id": "side_project",
+      "nameKey": "activity.side_project.name",
+      "descKey": "activity.side_project.desc",
+      "category": "learning",
+      "minHours": 0,
+      "maxHours": 40,
+      "costPerHour": 0,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 12
+      },
+      "stats": [
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.12
+        },
+        {
+          "stat": "mental.confidence",
+          "perHour": 0.05,
+          "maxHours": 10
+        }
+      ],
+      "skills": [
+        {
+          "skill": "programming",
+          "gainPerHour": 0.3,
+          "maxHours": 20
+        }
+      ]
+    }
+  ]
+}

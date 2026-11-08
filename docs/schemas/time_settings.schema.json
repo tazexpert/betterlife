@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/time_settings.schema.json",
+  "title": "Time settings",
+  "description": "Global time budget settings. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "defaultActivity",
+    "learning",
+    "defaultBudget"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "defaultActivity": {
+      "$ref": "#/$defs/id"
+    },
+    "learning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "multiplierAtZeroMental",
+        "multiplierAtFullMental"
+      ],
+      "properties": {
+        "multiplierAtZeroMental": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "multiplierAtFullMental": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "defaultBudget": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "activity",
+          "hours"
+        ],
+        "properties": {
+          "activity": {
+            "$ref": "#/$defs/id"
+          },
+          "hours": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 168
+          }
+        }
+      }
+    }
+  }
+}
