@@ -9,6 +9,7 @@ using BetterLife.Core.Domain.Skills;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Domain.Traits;
 using BetterLife.Core.Domain.World;
+using BetterLife.Core.Economy;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Time;
 
@@ -99,6 +100,12 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Good and bad karma and pending karmic debts.</summary>
         public KarmaLedger Karma { get; }
+
+        /// <summary>Assets, loans and lifestyle.</summary>
+        public CharacterFinances Finances { get; } = new CharacterFinances();
+
+        /// <summary>Cash + assets − debts.</summary>
+        public decimal NetWorth => Finances.NetWorth(Wallet.Cash);
 
         /// <summary>Inherited potential, passed on to children.</summary>
         public Genome Genome { get; }
