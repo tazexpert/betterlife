@@ -29,6 +29,12 @@
 | Wealth | กราฟจาก content: จำนวนเดือนที่ครอบคลุมค่าครองชีพระดับ `modest` เช่น −24 เดือน → 5, 0 → 30, 6 → 45, 24 → 60, 120 → 80, 600 → 95 ระบบตั้งค่าให้ทุกต้นเดือน (มีที่มา `finance.net_worth`) | สูตรอยู่ใน content ปรับได้ |
 | ที่เก็บ | `CharacterFinances` (พอร์ต + หนี้ + Lifestyle) อยู่ใน Character เพื่อให้ Rule อ่านได้ ส่วน `EconomyState` (มหภาค) อยู่ใน LifeSession | |
 | Phase | `economy_year` (รายปี ลำดับ 60) และ `finance_month` (รายเดือน ลำดับ 250) | |
+| ชื่อใน JSON | enum ใช้ snake_case (`real_estate`, `credit_card`, `informal` ...) ผ่าน `EconomyNames` | ตรงกับ content ชนิดอื่น |
+| ค่าที่ไม่ใส่ของสินทรัพย์ | `rateSpread`/`idiosyncraticVolatility`/`rentalYield`/`depreciation` = 0 และ `beta` = 1 เมื่อไม่ใส่ | ไฟล์สั้นลง ใส่เฉพาะค่าที่เกี่ยวกับประเภทนั้น |
+| ยอดขาด | ใช้บัตรก่อนเสมอ (ตัด `revolvingFirst` ออกจาก JSON) และย้าย `fallbackProduct` ขึ้นมาไว้ระดับบนสุด | ไม่มีกรณีที่อยากให้ข้ามบัตร |
+| Content ที่โค้ดต้องใช้ | `FinanceSettingsLoader` ตรวจว่ามี stat ที่เก็บค่าได้ `wealth`, `wealth.credit_score`, `mental.stress` และ bool flag `finance.loan_shark`, `finance.bankrupt` | ถ้าไม่มี โหลด content ไม่ผ่านตั้งแต่แรก ไม่ไปพังกลางเกม |
+| เซฟเก่า / content ถูกลบ | `CharacterDto.Finances` เป็น null ได้ (ได้การเงินว่าง) ส่วน `FinancesDtoMapper.DropUnknown` ลบสินทรัพย์/หนี้/Lifestyle ที่ไม่มีใน content แล้วพร้อมคำเตือน (ข้อ 14 จะเรียกตอนโหลด LifeSession) และ Phase ที่ไม่มีแล้วจะเริ่มที่ Phase แรก | ตามแนวทางเซฟของข้อก่อนๆ |
+| Random stream | `economy` (ช่วงเศรษฐกิจ + ตลาด + หุ้นรายตัว) | ไม่กระทบลำดับสุ่มของระบบอื่น |
 | รายได้จากงาน | ยังไม่มีจนถึงข้อ 11 (ตอนนี้ผู้ใหญ่จะติดหนี้หลังเงินตั้งตัวหมด ซึ่งเป็นสภาพชั่วคราวที่ตั้งใจไว้) จุดเสียบคือ `IIncomeSource` | |
 
 ## 3. JSON Schema (content ใหม่ 5 ชนิด)
@@ -46,7 +52,7 @@
   { "id": "siam_tech", "class": "stock", "minPurchase": 1000, "sellFeeRate": 0.002, "beta": 1.4, "idiosyncraticVolatility": 0.3 },
   { "id": "condo_bangkok", "class": "real_estate", "minPurchase": 1500000, "sellFeeRate": 0.06, "rentalYield": 0.04 } ] }
 
-// debts.json
+// debts.json (ชนิด content: debt_products)
 { "products": [ { "id": "credit_card", "nameKey": "debt.credit_card.name", "kind": "credit_card",
     "annualRate": 0.16, "rateSpread": null, "termMonths": 0, "minPaymentRate": 0.08, "minPayment": 300,
     "limitIncomeMultiple": 1.5, "minCreditScore": 40, "maxIncomeMultiple": null, "collateralClass": null,
@@ -58,12 +64,12 @@
 // finance_settings.json (ไฟล์เดียว)
 { "independenceAge": 18, "allowanceStartAge": 7, "defaultLifestyle": "modest", "referenceLifestyle": "modest",
   "familySupport": [ { "incomeLevel": 3, "monthlyAllowance": 2000, "independenceGift": 50000 } ],
-  "shortfall": { "revolvingFirst": true, "fallbackProduct": "loan_shark" },
+  "fallbackProduct": "loan_shark",
   "defaultAfterMissed": 3, "forcedSaleDiscount": 0.3,
   "creditScore": { "onTimeGain": 0.2, "missedLoss": 5, "defaultLoss": 15, "foreclosureLoss": 20, "bankruptcyScore": 5,
                    "highUtilization": 0.7, "utilizationLoss": 0.5 },
   "bankruptcy": { "netWorthBelow": -500000, "flagWeeks": 520 },
-  "debtStress": { "perMonthAtOneYearOfCosts": 2, "max": 6, "informalExtra": 2 },
+  "debtStress": { "perYearOfCosts": 2, "max": 6, "informalExtra": 2 },
   "wealthCurve": [ { "months": -24, "score": 5 }, { "months": 0, "score": 30 } ] }
 ```
 **Rule ใหม่:** Condition `{ "type": "netWorth", "op": "<", "amount": 0 }` และ `{ "type": "totalDebt", "op": ">", "amount": 100000, "kind": "informal" }`
@@ -75,18 +81,26 @@
 | สินทรัพย์ | `AssetClass`, `AssetDefinition`, `Holding`, `Portfolio` |
 | หนี้ | `DebtKind`, `DebtProductDefinition`, `Debt`, `DebtBook`, `LoanQuote` |
 | ค่าตั้ง | `LifestyleTierDefinition`, `FamilySupportLevel`, `CreditScoreRules`, `WealthCurve`, `FinanceSettings` |
-| บุคคล | `CharacterFinances` (ใน Character), `FinanceSnapshot` |
+| บุคคล | `CharacterFinances` (ใน Character), `EconomyNames` (ชื่อ enum ใน JSON) |
 | บริการ | `IIncomeSource`, `FamilyAllowanceSource`, `FinanceService` (ซื้อ/ขาย/กู้/เปิดบัตร/จ่ายหนี้/ตั้ง Lifestyle/ประมวลผลรายเดือน/จัดการยอดขาด), `FinanceMonthPhase`, `FinanceLine`, `FinanceMonthReport` |
 | Events | `FinanceMonthReportEvent`, `DebtDefaultedEvent`, `ForeclosureEvent`, `BankruptcyEvent` |
 | Rules | `NetWorthCondition`, `TotalDebtCondition` |
 
 ## 5. Save DTO
-- `CharacterDto.Finances = { LifestyleTierId, BankruptUntilWeek?, Holdings[{Id, AssetId, Value, CostBasis, AcquiredWeek}], Debts[{Id, ProductId, Balance, AnnualRate, MonthlyPayment, MonthsRemaining, CreditLimit, CollateralHoldingId, MissedPayments, Defaulted, StartedWeek}], NextHoldingId, NextDebtId }`
-- `EconomyStateDto = { PhaseId, YearsLeftInPhase, AnnualInflation, PolicyRate, PriceLevel }` (ข้อ 14 รวมไว้ในเซฟของ LifeSession)
+- `CharacterDto.Finances = FinancesDto { LifestyleTierId, IsBankrupt, BankruptUntilWeek, LastMonthlyIncome, Holdings[HoldingDto {Id, AssetId, Value, CostBasis, AcquiredWeek}], Debts[DebtDto {Id, ProductId, Kind, Balance, AnnualRate, MonthlyPayment, MonthsRemaining, CreditLimit, HasCollateral, CollateralHoldingId, MissedPayments, Defaulted, StartedWeek}], NextHoldingId, NextDebtId }`
+  (เงินทุกช่องเป็น decimal string แบบ invariant culture) · Mapper: `FinancesDtoMapper` (เรียกจาก `CharacterDtoMapper`)
+- `EconomyStateDto = { PhaseId, YearsLeftInPhase, AnnualInflation, PolicyRate, PriceLevel }` · Mapper: `EconomyStateDtoMapper` (ข้อ 14 รวมไว้ในเซฟของ LifeSession)
 
-## 6. ส่งต่อ
+## 6. Tests
+- `EconomyServiceTests`: PriceLevel ตามยุค, เงินเฟ้อสะสมรายปี + ลำดับ Phase, ตลาด deterministic ตาม seed, Phase ถัดไปที่ไม่มีอยู่, Wealth curve
+- `FinanceServiceTests`: เงินช่วยของเด็ก + ครอบครัวจ่ายยอดขาด, อายุ 18 ได้เงินตั้งตัว + ค่าครองชีพ, เงินเฟ้อกัดเงินสด, ซื้อ/ขาย + ค่าธรรมเนียม, เด็กลงทุน/กู้ไม่ได้, เหตุผลไม่อนุมัติ, ค่างวดแบบ annuity, จ่ายตรงเวลา +Credit, ยอดขาด → บัตร → หนี้นอกระบบ, ผิดนัด 3 งวด → ยึดบ้าน, ล้มละลาย (ยกหนี้ในระบบ เหลือหนี้นอกระบบ), หนี้ทำให้เครียด, Wealth ตามจำนวนเดือน, ค่าครองชีพตามประเทศ
+- `FinanceConditionTests`, `FinancePersistenceTests`, `FinanceContentTests` (error ของ content 7 แบบ), `LifeSessionTests` (มี Phase ใหม่ + รายงานรายเดือน)
+- `FinanceSimulationTests` (content จริง 30 ชีวิต): เด็กไม่มีหนี้, ค่าทุกตัวอยู่ในช่วง และพิมพ์ทรัพย์สินสุทธิตอนอายุ 30
+
+## 7. ส่งต่อ
 - ข้อ 11: `IIncomeSource` ของงาน/ฟรีแลนซ์/ธุรกิจ + ความเสี่ยงตกงานตามช่วงเศรษฐกิจ + สินทรัพย์ประเภทธุรกิจ
 - ข้อ 13: Effect กู้นอกระบบเพื่อเล่นพนัน, เหตุการณ์ทวงหนี้ (ใช้ Flag `finance.loan_shark`)
 - ข้อ 14: เซฟ `EconomyState`
-- ข้อ 17: หน้า Finance (ใช้ `FinanceSnapshot` + `FinanceMonthReport` + `PriceLevel` แปลงเป็นราคาตามยุค)
+- ข้อ 17: หน้า Finance (ใช้ `CharacterFinances` + `FinanceMonthReport` + `PriceLevel` แปลงเป็นราคาตามยุค)
+- ข้อ 21: ปรับสมดุลอัตราหนี้นอกระบบ (ตอนนี้ 240%/ปี ทำให้ผู้ใหญ่ที่ไม่มีรายได้ชนเพดานหนี้ 1,000 ล้านก่อนอายุ 30)
 - ข้อ 18: มรดก/ภาษีมรดก/หนี้ตกทอด (ใช้ `CharacterFinances`)

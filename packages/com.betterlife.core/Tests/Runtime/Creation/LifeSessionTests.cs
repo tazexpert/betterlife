@@ -26,11 +26,16 @@ namespace BetterLife.Core.Tests.Creation
                 Assert.That(session.Seed, Is.EqualTo(2026UL));
                 Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "event_roll"));
                 Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "karmic_debt"));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "economy_year"));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "finance_month"));
+                decimal priceLevel = session.Economy.State.PriceLevel;
 
                 AdvanceResult result = session.Advance(TimeSkip.Year);
 
                 Assert.That(result.To.IsYearStart, Is.True);
                 Assert.That(session.Character.History.LastRecordedWeek, Is.EqualTo(result.To));
+                Assert.That(session.Finance.LastReport, Is.Not.Null);
+                Assert.That(session.Economy.State.PriceLevel, Is.Not.EqualTo(priceLevel));
             }
         }
     }

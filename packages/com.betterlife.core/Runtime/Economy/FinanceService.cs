@@ -278,7 +278,7 @@ namespace BetterLife.Core.Economy
             decimal down = Money.Round(price * (decimal)product.DownPaymentRate);
             decimal principal = price - down;
             LoanQuote quote = RequireApproved(productId, principal);
-            if (!_character.Wallet.TryWithdraw(down))
+            if (down > 0m && !_character.Wallet.TryWithdraw(down))
             {
                 throw new InvalidOperationException(LoanQuote.ReasonCash);
             }
@@ -542,7 +542,7 @@ namespace BetterLife.Core.Economy
                     ? Math.Min(debt.Balance, Math.Max(product.MinPayment, Money.Round(debt.Balance * (decimal)product.MinPaymentRate)))
                     : Math.Min(debt.Balance, debt.MonthlyPayment);
                 anyDue = true;
-                if (_character.Wallet.TryWithdraw(due))
+                if (due <= 0m || _character.Wallet.TryWithdraw(due))
                 {
                     debt.Pay(due);
                     debt.CountInstallment();
@@ -612,7 +612,10 @@ namespace BetterLife.Core.Economy
                 pool += Money.Round(holding.Value * (1m - _settings.ForcedSaleDiscount));
                 finances.Portfolio.Remove(holding.Id);
             }
-            pool += _character.Wallet.WithdrawUpTo(Math.Max(0m, _character.Wallet.Cash));
+            if (_character.Wallet.Cash > 0m)
+            {
+                pool += _character.Wallet.WithdrawUpTo(_character.Wallet.Cash);
+            }
             decimal discharged = 0m;
             foreach (Debt debt in finances.Debts.Debts.Where(d => _products.Get(d.ProductId).Dischargeable).ToList())
             {
