@@ -8,7 +8,7 @@
       "blocksUndo": false,
       "activity": null,
       "temptation": {
-        "baseWeekly": 0.05,
+        "baseWeekly": 0.08,
         "stages": [
           {
             "stage": "young_adult",
@@ -34,8 +34,8 @@
         "happiness": 3
       },
       "addiction": {
-        "gainPerUse": 2,
-        "decayPerCleanWeek": 0.5,
+        "gainPerUse": 3,
+        "decayPerCleanWeek": 0.15,
         "tolerancePerUse": 1.5,
         "toleranceDecay": 0.5
       },
@@ -103,7 +103,7 @@
       "blocksUndo": false,
       "activity": null,
       "temptation": {
-        "baseWeekly": 0.03,
+        "baseWeekly": 0.015,
         "stages": [
           {
             "stage": "young_adult",
@@ -129,8 +129,8 @@
         "happiness": 1
       },
       "addiction": {
-        "gainPerUse": 3,
-        "decayPerCleanWeek": 0.3,
+        "gainPerUse": 4,
+        "decayPerCleanWeek": 0.1,
         "tolerancePerUse": 1,
         "toleranceDecay": 0.3
       },
@@ -181,7 +181,7 @@
       "blocksUndo": false,
       "activity": null,
       "temptation": {
-        "baseWeekly": 0.01,
+        "baseWeekly": 0.0015,
         "stages": [
           {
             "stage": "young_adult",
@@ -207,8 +207,8 @@
         "happiness": 8
       },
       "addiction": {
-        "gainPerUse": 6,
-        "decayPerCleanWeek": 0.4,
+        "gainPerUse": 8,
+        "decayPerCleanWeek": 0.2,
         "tolerancePerUse": 4,
         "toleranceDecay": 0.5
       },
@@ -319,8 +319,8 @@
         "happiness": 5
       },
       "addiction": {
-        "gainPerUse": 1.5,
-        "decayPerCleanWeek": 0.8,
+        "gainPerUse": 2,
+        "decayPerCleanWeek": 0.3,
         "tolerancePerUse": 1,
         "toleranceDecay": 1
       },
@@ -413,7 +413,7 @@
       "blocksUndo": true,
       "activity": null,
       "temptation": {
-        "baseWeekly": 0.02,
+        "baseWeekly": 0.01,
         "stages": [
           {
             "stage": "young_adult",
@@ -439,8 +439,8 @@
         "happiness": 4
       },
       "addiction": {
-        "gainPerUse": 3,
-        "decayPerCleanWeek": 0.3,
+        "gainPerUse": 4,
+        "decayPerCleanWeek": 0.15,
         "tolerancePerUse": 0,
         "toleranceDecay": 0
       },

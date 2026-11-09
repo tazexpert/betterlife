@@ -45,15 +45,16 @@
 | ปิดเนื้อหา | `ViceService.ContentEnabled = false`: ไม่มีความยั่วยุ ใช้เองไม่ได้ ไม่มีการจับได้ (Addiction ยังลดลงได้) ส่วนหน้าตั้งค่าเป็นงานข้อ 20 | |
 | Undo / IAP | `ViceDefinition.BlocksUndo` (การพนัน = true) ทุกครั้งที่ใช้จะตั้ง `CharacterVices.LastIrreversibleWeek` ข้อ 14 ต้องห้าม Undo ย้อนก่อนสัปดาห์นี้ ข้อ 19 ห้ามผูก Ads/IAP กับ `BlocksUndo` | |
 | Random stream | `vices` | |
+| ค่าที่ปรับหลังจำลอง | ความยั่วยุครั้งแรก/สัปดาห์: ดื่ม 8%, บุหรี่ 1.5%, สารสังเคราะห์ 0.15%, เที่ยวกลางคืน 4%, พนัน 1% และ Addiction ลดลงช้า (0.1–0.3/สัปดาห์) | แบบแรก: เกือบทุกคนลองทุกอย่าง (สารเสพติด 22/40) แต่ไม่มีใครติดเลย เพราะ Addiction หายเร็วเกินไป |
 
 ## 3. JSON Schema (content ใหม่ 3 ชนิด)
 ```jsonc
 // vices.json
 { "vices": [ { "id": "drinking", "nameKey": "vice.drinking.name", "minAge": 18, "blocksUndo": false,
-    "activity": null,   // หรือ { "id": "entertainment", "hoursPerUse": 10 }
-    "temptation": { "baseWeekly": 0.06, "stages": [ { "stage": "teen", "multiplier": 0.5 } ] },
+    "activity": null,   // หรือ { "id": "entertainment", "freeHours": 14, "hoursPerUse": 7 } (ชั่วโมงที่เกินจำนวนปกติเท่านั้นที่นับ)
+    "temptation": { "baseWeekly": 0.08, "stages": [ { "stage": "teen", "multiplier": 0.5 } ] },
     "costPerUse": 300, "relief": { "stress": -4, "happiness": 3 },
-    "addiction": { "gainPerUse": 2, "decayPerCleanWeek": 0.5, "tolerancePerUse": 1.5, "toleranceDecay": 0.5 },
+    "addiction": { "gainPerUse": 3, "decayPerCleanWeek": 0.15, "tolerancePerUse": 1.5, "toleranceDecay": 0.5 },
     "withdrawalFrom": 40, "withdrawal": { "stress": 3, "happiness": -2 },
     "useEffects": [ { "type": "stat", "stat": "health.disease_burden", "amount": 0.2 } ],
     "risks": [ { "chance": 0.002, "reasonKey": "vice.risk.drunk_accident", "severity": "major", "effects": [] } ],
@@ -90,7 +91,12 @@
 `CharacterDto.Vices = VicesDto { States[ViceStateDto {ViceId, Addiction, Tolerance, Uses, HasLastUse, LastUseWeek, Bets, NetWinnings, Discovered, Relapses, Quits,
 QuitMethodId?, QuitStartWeek, QuitEndWeek}], HasIrreversible, LastIrreversibleWeek }`
 
-## 6. ส่งต่อ
+## 6. Tests
+- `ViceServiceTests` (13): ตัวคูณความยั่วยุครบทุกตัว, โอกาสต้าน (Addiction/Support/วิธีเลิก), ผลระยะสั้นลดตาม Tolerance + Addiction สะสม, อายุไม่ถึง/ปิดเนื้อหา/ไม่มีเงิน/คนติดยอมเป็นหนี้, Addiction ลด + Withdrawal, ชั่วโมงกิจกรรมนับเป็นการใช้, เผลอใช้/ต้านได้ + Willpower, การพนัน (Beginner's luck, EV ติดลบ, เดิมพันโตตาม Addiction, ห้าม Undo), ครอบครัวจับได้, เหตุผลที่เลิกไม่ได้, เลิกสำเร็จ, Relapse, การ์ด Habits
+- `ViceRuleTests` (8), `VicePersistenceTests` (2), `ViceContentTests` (7), `LifeSessionTests` (มี Phase `vice_week`)
+- `ViceSimulationTests` (content จริง 40 ชีวิตถึงอายุ 40 ไม่มีการเลือกใช้เอง): เคยดื่ม 39 / ติดหนัก 9, บุหรี่ 21, สารสังเคราะห์ 3, เที่ยวกลางคืน 37, บันเทิงเกินขนาด 38, พนัน 13 (ไม่มีใครติด), ครอบครัวจับได้ 9 ครั้ง
+
+## 7. ส่งต่อ
 - ข้อ 14: Undo ห้ามย้อนก่อน `LastIrreversibleWeek`
 - ข้อ 16–17: การ์ด Habits (เฉพาะ `IsVisible`), หน้าวิธีเลิก (`QuoteQuit`) และ Breakdown ของความยั่วยุ/การต้าน
 - ข้อ 18: คำไว้อาลัยจาก Flag `vice.relapse` / `vice.quit_success` / `career.criminal_record`

@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅
-**ถัดไป:** 13 Vice System
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅
+**ถัดไป:** 14 Save System
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -26,7 +26,7 @@
 | 10 | Economy + Finance | Macro, Income/Expense, Assets, Debt, Credit (`docs/systems/economy-finance.md`) | ✅ |
 | 11 | Education + Career | การศึกษาไทย, สอบ, ทุน, กยศ., Career ladder, หัวหน้า, เลิกจ้าง, เสี่ยง/ผิดกฎหมาย, เกษียณ (`docs/systems/education-career.md`) | ✅ |
 | 12 | NPC + Relationships | NPC + พันธุกรรม, ความสัมพันธ์ 9 ประเภท, การกระทำ 11 แบบ, Compatibility, แต่งงาน/หย่า/ลูก, NPC เสียชีวิต, Network (`docs/systems/relationships.md`) | ✅ |
-| 13 | Vice System | | ⬜ |
+| 13 | Vice System | อบายมุข 6, Temptation/Resist, Addiction/Tolerance/Withdrawal, พนัน EV ติดลบ, ครอบครัวจับได้, วิธีเลิก 5 แบบ (`docs/systems/vices.md`) | ✅ |
 | 14 | Save System | JSON + Migration + Undo snapshot | ⬜ |
 | 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav | ⬜ |
 | 16 | Dashboard + Inbox + Event Dialog | | ⬜ |
@@ -56,3 +56,4 @@
 - 2026-11-08 — 10 Economy + Finance เสร็จ: วัฏจักรเศรษฐกิจ 4 ช่วง + เงินเฟ้อ + ดอกเบี้ยนโยบาย + ตลาดรายเดือน (เงินทั้งหมดเป็นบาทมูลค่าจริงปี 2026), เงินช่วยจากครอบครัว/เงินตั้งตัวตอนอายุ 18, Lifestyle 5 ระดับ, สินทรัพย์ 11 ตัว 7 ประเภท, สินเชื่อ 6 แบบ, ยอดขาด → บัตร → หนี้นอกระบบ, ผิดนัด → default → ยึดทรัพย์ → ล้มละลาย, Credit score, หนี้ทำให้เครียด, Wealth จากทรัพย์สินสุทธิ, Rule `netWorth`/`totalDebt`, content 5 ชนิด, Save DTO; `dotnet test` ผ่าน 430 + 13 tests (ผู้ใหญ่ยังไม่มีรายได้จนถึงข้อ 11 จึงติดหนี้นอกระบบในการจำลอง)
 - 2026-11-08 — 11 Education + Career เสร็จ: หลักสูตร 10 ระดับ (อนุบาล–ป.เอก, ปวช./ปวส., กศน.) พร้อมสถานศึกษา 24 แห่ง, เข้าเรียนอัตโนมัติตามฐานะ, ผลการเรียนจากชั่วโมงเรียนจริง, สอบแข่งขัน/ทุน/กยศ., อาชีพ 11 สาย 7 หมวด (รวมพรีเมียม 1 สาย), Performance/หัวหน้า/ความเครียด, เลื่อนตำแหน่ง, ไล่ออก/เลิกจ้างตามเศรษฐกิจ, ความเสี่ยงจับกุม/บาดเจ็บ, เกษียณ + บำนาญ, Rule ใหม่ 2 condition + 4 effect, content 4 ชนิด, Save DTO, นักศึกษาได้ครอบครัวช่วยถึงอายุ 25; `dotnet test` ผ่าน 485 + 15 tests (ทรัพย์สินสุทธิมัธยฐานตอนอายุ 30 ≈ +3.2 ล้าน จากเดิม −1,000 ล้าน)
 - 2026-11-09 — 12 NPC + Relationships เสร็จ: พ่อแม่จากการสร้างตัวละครเป็น NPC + พี่น้องสุ่ม, ความสัมพันธ์ −100..100 ประเภท 9 แบบพร้อมความทรงจำ, ดูแลด้วยชั่วโมง socialize (ผลตอบแทนลดลงตามความสนิท) และจางหายเอง, พบเพื่อน/เพื่อนร่วมชั้น/เพื่อนร่วมงาน, Compatibility พร้อม Breakdown, การกระทำ 11 แบบจาก content (เดท ขอแต่งงาน เลิก หย่า มีลูก รับบุตรบุญธรรม ...), ลูกสืบพันธุกรรม + ค่าเลี้ยงดู, แฟน/คู่สมรสจากไปเอง, NPC เสียชีวิต + ความเศร้า, Relationships/Loneliness อัตโนมัติ, Network ช่วยสมัครงาน, Rule ใหม่ `relationship` (condition + effect), content 2 ชนิด, Save DTO; `dotnet test` ผ่าน 521 + 16 tests
+- 2026-11-09 — 13 Vice System เสร็จ: อบายมุข 6 (สาร 3 หมวดสมมติ, เที่ยวกลางคืน, บันเทิงเกินขนาด, พนัน + ตัวคูณคบคนชั่ว/เกียจคร้าน), TemptationWeight และ ResistChance ตาม GDD พร้อม Breakdown, Addiction/Tolerance/Withdrawal/Clean streak, พนันมี Beginner's luck แต่ EV −10% และเล่นต่อจนเป็นหนี้เมื่อติด, ครอบครัวจับได้, วิธีเลิก 5 แบบ (รวมบวช/ปฏิบัติธรรม) + Relapse, ปิดเนื้อหาได้, ห้าม Undo การพนัน (`LastIrreversibleWeek`), Trait ใหม่ reckless/disciplined, กิจกรรม nightlife, Rule ใหม่ `vice` + `vice.addiction`, content 3 ชนิด + เหตุการณ์ 1, Save DTO; `dotnet test` ผ่าน 551 + 17 tests
