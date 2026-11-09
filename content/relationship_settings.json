@@ -70,7 +70,7 @@
   "attention": {
     "gainPerHour": 0.6,
     "closestCount": 5,
-    "familyMonthlyGain": 1
+    "familyMonthlyGain": 2
   },
   "family": {
     "parentStart": [

@@ -19,7 +19,8 @@ using BetterLife.Core.Time.Ticking.Phases;
 namespace BetterLife.Core.Relationships
 {
     /// <summary>
-    /// The people in the character's life: the starting family, meeting new people, attention and neglect, interactions
+    /// The people in the character's life: the starting family, meeting new people, attention (with diminishing returns)
+    /// and a steady monthly fade, interactions
     /// (dating, marriage, children...), partners leaving, NPC deaths, child costs, the Relationships and Loneliness stats,
     /// and the professional network that helps job applications.
     /// </summary>
@@ -277,8 +278,8 @@ namespace BetterLife.Core.Relationships
             }
             GameDate week = tick.Week;
             DeliverBirths(week, tick);
-            HashSet<int> attended = GiveAttention(hours, week);
-            Decay(attended);
+            GiveAttention(hours, week);
+            Decay();
             CheckPartners(week, tick);
             Meet(hours, week);
             Prune();
@@ -389,9 +390,8 @@ namespace BetterLife.Core.Relationships
             }
         }
 
-        private HashSet<int> GiveAttention(int hours, GameDate week)
+        private void GiveAttention(int hours, GameDate week)
         {
-            var attended = new HashSet<int>();
             AttentionRules rules = _settings.Attention;
             List<Relationship> closest = _character.Relationships.Living()
                 .Where(r => !RelationshipNames.IsFamily(r.Type) && r.Type != RelationshipType.Ex)
@@ -401,9 +401,8 @@ namespace BetterLife.Core.Relationships
                 float each = hours * rules.GainPerHour / closest.Count;
                 foreach (Relationship relationship in closest)
                 {
-                    relationship.Change(each);
+                    relationship.Change(Diminished(each, relationship));
                     relationship.Touch(null, week);
-                    attended.Add(relationship.NpcId);
                 }
             }
             if (!_dependency.IsIndependent(week))
@@ -411,17 +410,18 @@ namespace BetterLife.Core.Relationships
                 foreach (Relationship relationship in _character.Relationships.Living()
                     .Where(r => r.Type == RelationshipType.Parent || r.Type == RelationshipType.Sibling))
                 {
-                    relationship.Change(rules.FamilyMonthlyGain);
+                    relationship.Change(Diminished(rules.FamilyMonthlyGain, relationship));
                     relationship.Touch(null, week);
-                    attended.Add(relationship.NpcId);
                 }
             }
-            return attended;
         }
 
-        private void Decay(HashSet<int> attended)
+        // Gains shrink as a relationship gets closer, so steady attention settles where gain equals decay.
+        private static float Diminished(float gain, Relationship relationship) => gain * (1f - Math.Max(0f, relationship.Value) / Relationship.Max);
+
+        private void Decay()
         {
-            foreach (Relationship relationship in _character.Relationships.Living().Where(r => !attended.Contains(r.NpcId)))
+            foreach (Relationship relationship in _character.Relationships.Living())
             {
                 RelationshipTypeRules rules = _settings.Types[relationship.Type];
                 float gap = rules.Floor - relationship.Value;

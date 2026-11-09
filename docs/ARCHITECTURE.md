@@ -79,6 +79,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Economy` | เศรษฐกิจมหภาค (วัฏจักร/เงินเฟ้อ/ตลาด), การเงินส่วนตัว (รายรับ-รายจ่าย, สินทรัพย์, หนี้, Credit, ล้มละลาย) |
 | `BetterLife.Core.Education` | การศึกษา: หลักสูตร/สถานศึกษา, เข้าเรียน, สอบ, ทุน, ค่าเทอม, ผลการเรียน, จบการศึกษา |
 | `BetterLife.Core.Careers` | อาชีพ: Career ladder, สมัครงาน, Performance, หัวหน้า, เลื่อนตำแหน่ง, ความเสี่ยง, เลิกจ้าง, เกษียณ, รายได้ |
+| `BetterLife.Core.Relationships` | NPC, ความสัมพันธ์, การกระทำกับ NPC (เดท/แต่งงาน/มีลูก), Compatibility, NPC แก่ตัว/เสียชีวิต, Network |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper |

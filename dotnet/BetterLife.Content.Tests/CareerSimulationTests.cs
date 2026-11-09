@@ -91,7 +91,7 @@ namespace BetterLife.Content.Tests
             }
         }
 
-        private static void Decide(LifeSession life)
+        internal static void Decide(LifeSession life)
         {
             var character = life.Character;
             int age = character.AgeAt(life.TimeState.Clock.Now);

@@ -19,7 +19,7 @@
 | ที่เก็บ | `CharacterRelationships` (NPC ทุกคน + ความสัมพันธ์ + การตั้งครรภ์) อยู่ใน Character เพื่อให้ Rule อ่าน/แก้ได้ ส่วน `RelationshipService` อยู่ใน LifeSession | เหมือน Finances/Career |
 | ประเภท | `parent, sibling, child, partner, spouse, ex, friend, colleague, contact` (enum ในโค้ด แต่ค่าตัวเลขของแต่ละประเภทอยู่ใน content) | Rule และ UI ต้องใช้ชื่อคงที่ |
 | เริ่มชีวิต | พ่อแม่จาก `FamilyInfo` กลายเป็น NPC ค่าเริ่มต้นตามบุคลิกพ่อแม่ (warm 70, neglectful 20 ...) + สุ่มพี่น้อง 0–3 คน อายุห่าง ±8 ปี | |
-| การดูแล | ทุกเดือน: ชั่วโมง socialize รวม 4 สัปดาห์ × 0.6 แบ่งให้คนที่สนิทที่สุด 5 คน (ไม่รวมครอบครัว) ส่วนครอบครัวที่อยู่ด้วยกัน (ตอนยังพึ่งพ่อแม่) ได้ +1/เดือน คนที่ไม่ได้รับการดูแลจะลดลงหาค่าพื้นตาม `monthlyDecay` ของประเภท | เวลาเป็นต้นทุนของความสัมพันธ์ |
+| การดูแล | ทุกเดือน: ชั่วโมง socialize รวม 4 สัปดาห์ × 0.6 แบ่งให้คนที่สนิทที่สุด 5 คน (ไม่รวมครอบครัว) ส่วนครอบครัวที่อยู่ด้วยกัน (ตอนยังพึ่งพ่อแม่) ได้ +2/เดือน **ค่าที่ได้จะลดลงตามความสนิท** (× (1 − ค่า/100)) และทุกความสัมพันธ์จะลดลงหาค่าพื้นตาม `monthlyDecay` ทุกเดือน ความสัมพันธ์จึงไปหยุดที่จุดสมดุล (เพื่อนที่ดูแลปกติ ≈ 60, ครอบครัวที่อยู่ด้วยกัน ≈ 75) | เวลาเป็นต้นทุนของความสัมพันธ์ (ตัดสินใจเพิ่มหลังการจำลอง: แบบเดิมทุกคนได้ Relationships = 100) |
 | พบคนใหม่ | ทุกเดือนสุ่ม: ฐาน 5% + 0.4%/ชม. socialize (เป็นเพื่อน) / 25% ถ้าเรียนอยู่ (เพื่อนร่วมชั้น) / 20% ถ้าทำงาน (เพื่อนร่วมงาน) อายุใกล้เคียง ±5 ปี ค่าเริ่ม 5–25 ถ้าเกินเพดาน 25 คน จะตัดคนนอกครอบครัวที่ค่าต่ำสุด | |
 | Compatibility | 50 + 8×Trait ที่ตรงกัน − 12×Trait ที่ขัดกัน (กลุ่ม exclusive เดียวกันแต่คนละตัว) − 2×อายุห่าง (ปี) + 0.2×(Looks−50) + 0.1×(Charisma−50) แล้ว Clamp 0–100 พร้อม Breakdown ทุกบรรทัด | อ่านตัวเลขได้ทุกตัว |
 | โอกาสของการกระทำ | FinalChance ของ content + (Compatibility − 50) × `compatibilityPerPoint` (ถ้าเปิดใช้) | ใช้ระบบโอกาสเดียวกับทั้งเกม |
@@ -37,7 +37,7 @@
 // relationship_settings.json (ไฟล์เดียว)
 { "socialActivity": "socialize", "maxRelationships": 25,
   "types": [ { "type": "friend", "monthlyDecay": 1.5, "floor": 0, "griefStress": 10, "griefHappiness": -8 } ],   // ครบทุกประเภท
-  "attention": { "gainPerHour": 0.6, "closestCount": 5, "familyMonthlyGain": 1 },
+  "attention": { "gainPerHour": 0.6, "closestCount": 5, "familyMonthlyGain": 2 },
   "family": { "parentStart": [ { "personality": "warm", "value": 70 } ], "defaultParentStart": 50, "siblingStart": 40, "childStart": 70,
               "siblings": [ { "count": 0, "weight": 3 } ], "siblingAgeGapYears": 8 },
   "meeting": { "monthlyBase": 0.05, "perSocialHour": 0.004, "school": 0.25, "work": 0.2, "startValue": { "min": 5, "max": 25 }, "ageGapYears": 5 },
@@ -75,7 +75,12 @@
 Relationships[RelationshipDto {NpcId, Type, Value, SinceWeek, LastContactWeek, LowMonths, Memories[{Key, Week, Delta}], Cooldowns[AttemptDto]}],
 Pregnancies[{PartnerNpcId, DueWeek}], NextNpcId }`
 
-## 6. ส่งต่อ
+## 6. Tests
+- `RelationshipServiceTests` (16): ครอบครัวเริ่มต้น, การดูแล/จางหาย, ครอบครัวที่อยู่ด้วยกัน, พบคนใหม่ + ตัดคนที่ห่าง, Compatibility, เหตุผลที่ทำไม่ได้, ของขวัญ + ความทรงจำ + cooldown, ชวนเดทตามโอกาสที่แสดง, ขอแต่งงาน, มีลูก (เพศ/อายุ/40 สัปดาห์), รับบุตรบุญธรรม, ค่าเลี้ยงดู, แฟน/คู่สมรสที่ไม่มีความสุขจากไปเอง, NPC เสียชีวิต + ความเศร้า, Relationships/Loneliness, Network
+- `RelationshipRuleTests` (10), `RelationshipPersistenceTests` (2), `RelationshipContentTests` (8, รวมโบนัส Network ใน CareerService), `LifeSessionTests` (พ่อแม่เป็น NPC ตั้งแต่เกิด)
+- `RelationshipSimulationTests` (content จริง 30 ชีวิตถึงอายุ 40 พร้อมผู้เล่นจำลองที่ชวนเดท/ขอแต่งงาน/มีลูก): มีชีวิต 28, เคยมีแฟน 28, แต่งงาน 28, มีลูก 14 คน (28 คน), เพื่อนเฉลี่ย 12 คน, Relationships ≈ 78
+
+## 7. ส่งต่อ
 - ข้อ 13: เพื่อนชั่ว (คบคนชั่ว = ตัวคูณ) ใช้ Trait/Flag ของ NPC, ครอบครัวจับได้ว่ามีอบายมุข
 - ข้อ 16–17: หน้า Relationships (ใช้ `Options` / `Quote` / `Compatibility` ที่มี Breakdown)
 - ข้อ 18: เล่นต่อเป็นลูก (NPC ประเภท child มีพันธุกรรมจริง), มรดก, ต้นไม้ครอบครัว
