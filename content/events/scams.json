@@ -1,0 +1,197 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "scam.ponzi_pitch",
+      "titleKey": "event.scam.ponzi_pitch.title",
+      "bodyKey": "event.scam.ponzi_pitch.body",
+      "category": "finance",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "weight": {
+        "base": 3,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "scam",
+              "measure": "victims",
+              "op": ">=",
+              "value": 1
+            },
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "cooldownWeeks": 52,
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 20
+          },
+          {
+            "type": "cash",
+            "op": ">=",
+            "amount": 20000
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "invest",
+          "textKey": "event.scam.ponzi_pitch.choice.invest",
+          "chance": {
+            "base": 10,
+            "fortune": "finance"
+          },
+          "success": {
+            "resultKey": "event.scam.ponzi_pitch.choice.invest.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": {
+                  "min": 3000,
+                  "max": 10000
+                }
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.scam.ponzi_pitch.choice.invest.failure",
+            "effects": [
+              {
+                "type": "scam.loss",
+                "scam": "ponzi_scheme",
+                "cashShare": 0.5,
+                "min": 5000,
+                "max": 2000000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.scam.ponzi_pitch.choice.decline",
+          "success": {
+            "resultKey": "event.scam.ponzi_pitch.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline"
+    },
+    {
+      "id": "scam.online_lover_request",
+      "titleKey": "event.scam.online_lover_request.title",
+      "bodyKey": "event.scam.online_lover_request.body",
+      "category": "social",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "weight": {
+        "base": 2
+      },
+      "cooldownWeeks": 52,
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 25
+          },
+          {
+            "type": "stat",
+            "stat": "mental.loneliness",
+            "op": ">=",
+            "value": 60
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "==",
+              "value": 0
+            }
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "send_money",
+          "textKey": "event.scam.online_lover_request.choice.send_money",
+          "success": {
+            "resultKey": "event.scam.online_lover_request.choice.send_money.success",
+            "effects": [
+              {
+                "type": "scam.loss",
+                "scam": "romance_scam",
+                "cashShare": 0.4,
+                "min": 5000,
+                "max": 500000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -10
+              }
+            ]
+          }
+        },
+        {
+          "id": "refuse",
+          "textKey": "event.scam.online_lover_request.choice.refuse",
+          "chance": {
+            "base": 50,
+            "stats": [
+              {
+                "stat": "hidden.street_smarts",
+                "weight": 0.5
+              }
+            ]
+          },
+          "success": {
+            "resultKey": "event.scam.online_lover_request.choice.refuse.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 3
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.scam.online_lover_request.choice.refuse.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": 5
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -3
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "refuse"
+    }
+  ]
+}

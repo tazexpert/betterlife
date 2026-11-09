@@ -92,6 +92,8 @@ namespace BetterLife.Core.Persistence
         public RelationshipsDto Relationships = new RelationshipsDto();
         /// <summary>Habits (null in saves from before task 13).</summary>
         public VicesDto Vices = new VicesDto();
+        /// <summary>History with scammers (null in older saves).</summary>
+        public ScamsDto Scams = new ScamsDto();
         /// <summary>Recent stat changes.</summary>
         public List<StatChangeLogDto> ChangeLog = new List<StatChangeLogDto>();
 

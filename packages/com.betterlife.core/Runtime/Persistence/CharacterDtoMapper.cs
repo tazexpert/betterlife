@@ -108,6 +108,7 @@ namespace BetterLife.Core.Persistence
                 Career = CareerDtoMapper.ToDto(character.Career),
                 Relationships = RelationshipsDtoMapper.ToDto(character.Relationships),
                 Vices = VicesDtoMapper.ToDto(character.Vices),
+                Scams = ScamsDtoMapper.ToDto(character.Scams),
                 ChangeLog = character.ChangeLog.Entries
                     .Select(e => new StatChangeLogDto { Week = e.Week.TotalWeeks, StatId = e.StatId.Value, Delta = e.Delta, SourceKey = e.SourceKey })
                     .ToList(),
@@ -151,6 +152,7 @@ namespace BetterLife.Core.Persistence
             CareerDtoMapper.Restore(dto.Career, character.Career);
             RelationshipsDtoMapper.Restore(dto.Relationships, character.Relationships);
             VicesDtoMapper.Restore(dto.Vices, character.Vices);
+            ScamsDtoMapper.Restore(dto.Scams, character.Scams);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
             if (dto.HasDied)
             {

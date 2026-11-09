@@ -194,6 +194,14 @@
       "default": 50,
       "nameKey": "stat.hidden.willpower.name",
       "descKey": "stat.hidden.willpower.desc"
+    },
+    {
+      "id": "hidden.street_smarts",
+      "layer": "hidden",
+      "polarity": "higherIsBetter",
+      "default": 30,
+      "nameKey": "stat.hidden.street_smarts.name",
+      "descKey": "stat.hidden.street_smarts.desc"
     }
   ],
   "formulas": [

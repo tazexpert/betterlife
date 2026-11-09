@@ -30,7 +30,7 @@ namespace BetterLife.Core.Tests.Domain
                 Sub(StatIds.Confidence, StatIds.Mental, 50f), Sub(StatIds.Loneliness, StatIds.Mental, 20f, StatPolarity.LowerIsBetter),
                 Sub(StatIds.Iq, StatIds.Intelligence, 50f), Sub(StatIds.Knowledge, StatIds.Intelligence, 0f),
                 Sub(StatIds.CreditScore, StatIds.Wealth, 50f),
-                Hidden(StatIds.Charisma), Hidden(StatIds.Looks), Hidden(StatIds.Willpower),
+                Hidden(StatIds.Charisma), Hidden(StatIds.Looks), Hidden(StatIds.Willpower), Hidden(StatIds.StreetSmarts),
             };
             var formulas = new List<IStatFormula>
             {

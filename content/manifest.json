@@ -160,6 +160,18 @@
     {
       "type": "events",
       "path": "events/vices.json"
+    },
+    {
+      "type": "scams",
+      "path": "scams.json"
+    },
+    {
+      "type": "scam_settings",
+      "path": "scam_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/scams.json"
     }
   ]
 }

@@ -1,0 +1,541 @@
+{
+  "$schema": "../docs/schemas/scams.schema.json",
+  "scams": [
+    {
+      "id": "call_center_police",
+      "nameKey": "scam.call_center_police.name",
+      "channel": "phone",
+      "minAge": 20,
+      "monthlyChance": 0.01,
+      "ageBands": [
+        {
+          "minAge": 50,
+          "multiplier": 1.5
+        },
+        {
+          "minAge": 60,
+          "multiplier": 2.5
+        }
+      ],
+      "lonelinessWeight": 0.5,
+      "wealthWeight": 0.3,
+      "modifiers": [],
+      "detection": {
+        "base": 55,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.6
+          },
+          {
+            "stat": "intelligence.knowledge",
+            "weight": 0.2
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.4,
+        "savingsShare": 0.6,
+        "min": 3000,
+        "max": 3000000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -8
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 40,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 8,
+        "windowWeeks": 8,
+        "share": 0.4
+      }
+    },
+    {
+      "id": "sms_phishing",
+      "nameKey": "scam.sms_phishing.name",
+      "channel": "sms",
+      "minAge": 15,
+      "monthlyChance": 0.012,
+      "ageBands": [
+        {
+          "minAge": 60,
+          "multiplier": 2
+        }
+      ],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0.2,
+      "modifiers": [],
+      "detection": {
+        "base": 65,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.2,
+        "savingsShare": 0.3,
+        "min": 1000,
+        "max": 500000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 50,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 10,
+        "windowWeeks": 4,
+        "share": 0.5
+      }
+    },
+    {
+      "id": "fake_online_shop",
+      "nameKey": "scam.fake_online_shop.name",
+      "channel": "online",
+      "minAge": 13,
+      "monthlyChance": 0.015,
+      "ageBands": [],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0,
+      "modifiers": [],
+      "detection": {
+        "base": 60,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.4
+          },
+          {
+            "stat": "intelligence.knowledge",
+            "weight": 0.2
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.05,
+        "savingsShare": 0,
+        "min": 300,
+        "max": 20000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 30,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 5,
+        "windowWeeks": 4,
+        "share": 0.8
+      }
+    },
+    {
+      "id": "romance_scam",
+      "nameKey": "scam.romance_scam.name",
+      "channel": "romance",
+      "minAge": 25,
+      "monthlyChance": 0.005,
+      "ageBands": [
+        {
+          "minAge": 50,
+          "multiplier": 1.5
+        }
+      ],
+      "lonelinessWeight": 2,
+      "wealthWeight": 0.3,
+      "modifiers": [
+        {
+          "condition": {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "==",
+              "value": 0
+            }
+          },
+          "multiplier": 2
+        }
+      ],
+      "detection": {
+        "base": 60,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.6,
+        "savingsShare": 0.5,
+        "min": 10000,
+        "max": 2000000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 10
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 15,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 2,
+        "windowWeeks": 12,
+        "share": 0.3
+      }
+    },
+    {
+      "id": "investment_scam",
+      "nameKey": "scam.investment_scam.name",
+      "channel": "online",
+      "minAge": 20,
+      "monthlyChance": 0.008,
+      "ageBands": [
+        {
+          "minAge": 40,
+          "multiplier": 1.3
+        }
+      ],
+      "lonelinessWeight": 0.3,
+      "wealthWeight": 0.6,
+      "modifiers": [],
+      "detection": {
+        "base": 55,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          },
+          {
+            "stat": "intelligence.knowledge",
+            "weight": 0.3
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.5,
+        "savingsShare": 0.5,
+        "min": 5000,
+        "max": 5000000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 12
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 20,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 3,
+        "windowWeeks": 12,
+        "share": 0.3
+      }
+    },
+    {
+      "id": "job_scam",
+      "nameKey": "scam.job_scam.name",
+      "channel": "online",
+      "minAge": 18,
+      "monthlyChance": 0.01,
+      "ageBands": [],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0,
+      "modifiers": [
+        {
+          "condition": {
+            "type": "all",
+            "conditions": [
+              {
+                "type": "career",
+                "employed": false
+              },
+              {
+                "type": "education",
+                "enrolled": false
+              }
+            ]
+          },
+          "multiplier": 3
+        }
+      ],
+      "detection": {
+        "base": 60,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.1,
+        "savingsShare": 0,
+        "min": 2000,
+        "max": 50000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 6
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 30,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 5,
+        "windowWeeks": 6,
+        "share": 0.5
+      }
+    },
+    {
+      "id": "loan_fee_scam",
+      "nameKey": "scam.loan_fee_scam.name",
+      "channel": "sms",
+      "minAge": 20,
+      "monthlyChance": 0.005,
+      "ageBands": [],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0,
+      "modifiers": [
+        {
+          "condition": {
+            "type": "flag",
+            "flag": "finance.loan_shark"
+          },
+          "multiplier": 4
+        },
+        {
+          "condition": {
+            "type": "netWorth",
+            "op": "<",
+            "amount": 0
+          },
+          "multiplier": 2
+        }
+      ],
+      "detection": {
+        "base": 55,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.3,
+        "savingsShare": 0,
+        "min": 2000,
+        "max": 30000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 20,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 5,
+        "windowWeeks": 4,
+        "share": 0.3
+      }
+    },
+    {
+      "id": "prize_scam",
+      "nameKey": "scam.prize_scam.name",
+      "channel": "phone",
+      "minAge": 18,
+      "monthlyChance": 0.006,
+      "ageBands": [
+        {
+          "minAge": 60,
+          "multiplier": 2
+        }
+      ],
+      "lonelinessWeight": 0.3,
+      "wealthWeight": 0,
+      "modifiers": [],
+      "detection": {
+        "base": 65,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.1,
+        "savingsShare": 0,
+        "min": 1000,
+        "max": 50000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 25,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 5,
+        "windowWeeks": 4,
+        "share": 0.5
+      }
+    },
+    {
+      "id": "game_item_scam",
+      "nameKey": "scam.game_item_scam.name",
+      "channel": "game",
+      "minAge": 9,
+      "monthlyChance": 0.02,
+      "ageBands": [
+        {
+          "minAge": 20,
+          "multiplier": 0.3
+        }
+      ],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0,
+      "modifiers": [],
+      "detection": {
+        "base": 55,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.6
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.5,
+        "savingsShare": 0,
+        "min": 0,
+        "max": 3000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -5
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 10,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 2,
+        "windowWeeks": 2,
+        "share": 1
+      }
+    },
+    {
+      "id": "ponzi_scheme",
+      "nameKey": "scam.ponzi_scheme.name",
+      "channel": "in_person",
+      "minAge": 20,
+      "monthlyChance": 0,
+      "ageBands": [],
+      "lonelinessWeight": 0,
+      "wealthWeight": 0,
+      "modifiers": [],
+      "detection": {
+        "base": 50,
+        "stats": [
+          {
+            "stat": "hidden.street_smarts",
+            "weight": 0.5
+          }
+        ],
+        "fortune": "finance"
+      },
+      "loss": {
+        "cashShare": 0.5,
+        "savingsShare": 0,
+        "min": 5000,
+        "max": 2000000
+      },
+      "effects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        }
+      ],
+      "recovery": {
+        "chance": {
+          "base": 10,
+          "fortune": "finance"
+        },
+        "decayPerWeek": 1,
+        "windowWeeks": 26,
+        "share": 0.2
+      }
+    }
+  ]
+}

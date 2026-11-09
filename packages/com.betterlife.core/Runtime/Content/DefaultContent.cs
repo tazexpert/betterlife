@@ -40,6 +40,7 @@ namespace BetterLife.Core.Content
                 new CareersLoader(),
                 new VicesLoader(),
                 new QuitMethodsLoader(),
+                new ScamsLoader(),
                 new ActivitiesLoader(),
                 new TimeSettingsLoader(),
                 new EventSettingsLoader(),
@@ -54,6 +55,7 @@ namespace BetterLife.Core.Content
                 new RelationshipSettingsLoader(),
                 new InteractionsLoader(),
                 new ViceSettingsLoader(),
+                new ScamSettingsLoader(),
             };
         }
 

@@ -28,6 +28,7 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'totalDebt','op':'<=','amount':0},
             {'type':'relationship','relation':'spouse','count':{'op':'>=','value':1}},
             {'type':'relationship','relation':'any','op':'>=','value':60.5},
+            {'type':'scam','measure':'victims','op':'>=','value':1},
             {'type':'reputation','domain':'business','op':'<','value':30},
             {'type':'healthCondition','condition':'flu'},
             {'type':'karma','kind':'bad','op':'>','value':30},
@@ -174,7 +175,8 @@ namespace BetterLife.Core.Tests.Rules
                     new BetterLife.Core.Domain.DefinitionCatalog<BetterLife.Core.Education.EducationProgramDefinition>(new BetterLife.Core.Education.EducationProgramDefinition[0])))
                 .Register(new BetterLife.Core.Careers.CareerConditionConverter(new BetterLife.Core.Careers.CareerTrackIndex()))
                 .Register(new BetterLife.Core.Vices.ViceConditionConverter(new System.Collections.Generic.HashSet<string>()))
-                .Register(new BetterLife.Core.Vices.ViceAddictionEffectConverter(new System.Collections.Generic.HashSet<string>()));
+                .Register(new BetterLife.Core.Vices.ViceAddictionEffectConverter(new System.Collections.Generic.HashSet<string>()))
+                .Register(new BetterLife.Core.Scams.ScamLossEffectConverter(new System.Collections.Generic.HashSet<string>()));
 
             Assert.That(SchemaTypes(schema, "condition"), Is.EquivalentTo(_f.Registry.ConditionTypes));
             Assert.That(SchemaTypes(schema, "effect"), Is.EquivalentTo(_f.Registry.EffectTypes));

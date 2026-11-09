@@ -757,6 +757,34 @@
               ]
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "measure",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "scam"
+            },
+            "measure": {
+              "enum": [
+                "victims",
+                "lost",
+                "detected"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number"
+            }
+          }
         }
       ]
     },
@@ -1232,6 +1260,38 @@
             },
             "amount": {
               "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "scam",
+            "cashShare",
+            "min",
+            "max"
+          ],
+          "properties": {
+            "type": {
+              "const": "scam.loss"
+            },
+            "scam": {
+              "$ref": "#/$defs/id"
+            },
+            "cashShare": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
             }
           }
         }

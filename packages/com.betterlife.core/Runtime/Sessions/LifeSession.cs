@@ -9,6 +9,7 @@ using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
 using BetterLife.Core.Relationships;
+using BetterLife.Core.Scams;
 using BetterLife.Core.Randomness;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking;
@@ -38,11 +39,12 @@ namespace BetterLife.Core.Sessions
         /// <param name="career">Working life.</param>
         /// <param name="relationships">People in the character's life.</param>
         /// <param name="vices">Habits.</param>
+        /// <param name="scams">Scammers.</param>
         /// <param name="bus">Event bus.</param>
         /// <param name="mode">How the life was created.</param>
         /// <param name="ironman">True for Ironman (no Undo).</param>
         public LifeSession(Character character, RandomRegistry random, TimeState timeState, EventState eventState,
-            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, RelationshipService relationships, ViceService vices, IEventBus bus, CreationMode mode = CreationMode.Random, bool ironman = false)
+            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, RelationshipService relationships, ViceService vices, ScamService scams, IEventBus bus, CreationMode mode = CreationMode.Random, bool ironman = false)
         {
             Economy = economy ?? throw new ArgumentNullException(nameof(economy));
             Finance = finance ?? throw new ArgumentNullException(nameof(finance));
@@ -50,6 +52,7 @@ namespace BetterLife.Core.Sessions
             Career = career ?? throw new ArgumentNullException(nameof(career));
             Relationships = relationships ?? throw new ArgumentNullException(nameof(relationships));
             Vices = vices ?? throw new ArgumentNullException(nameof(vices));
+            Scams = scams ?? throw new ArgumentNullException(nameof(scams));
             Mode = mode;
             IsIronman = ironman;
             Character = character ?? throw new ArgumentNullException(nameof(character));
@@ -83,6 +86,9 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>True for Ironman lives (Undo is disabled).</summary>
         public bool IsIronman { get; }
+
+        /// <summary>Scammers (targeting, losses, reports).</summary>
+        public ScamService Scams { get; }
 
         /// <summary>Habits (vices).</summary>
         public ViceService Vices { get; }
@@ -139,6 +145,7 @@ namespace BetterLife.Core.Sessions
             Career.Dispose();
             Relationships.Dispose();
             Vices.Dispose();
+            Scams.Dispose();
         }
     }
 }

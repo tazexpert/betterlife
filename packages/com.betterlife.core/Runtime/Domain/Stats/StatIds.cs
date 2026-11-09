@@ -49,6 +49,9 @@ namespace BetterLife.Core.Domain.Stats
         /// <summary>Hidden stat.</summary>
         public static readonly StatId Willpower = new StatId("hidden.willpower");
 
+        /// <summary>Hidden: knowing how scammers work.</summary>
+        public static readonly StatId StreetSmarts = new StatId("hidden.street_smarts");
+
         /// <summary>
         /// Stats that game code reads directly; content must define them (checked when stats load).
         /// </summary>

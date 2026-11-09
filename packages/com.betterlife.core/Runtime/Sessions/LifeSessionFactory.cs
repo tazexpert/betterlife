@@ -18,6 +18,7 @@ using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
 using BetterLife.Core.Relationships;
+using BetterLife.Core.Scams;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking;
 using BetterLife.Core.Vices;
@@ -53,6 +54,9 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>Random stream for vices.</summary>
         public const string ViceStream = "vices";
+
+        /// <summary>Random stream for scams.</summary>
+        public const string ScamStream = "scams";
 
         /// <summary>
         /// Creates the session for a newly created life.
@@ -175,6 +179,8 @@ namespace BetterLife.Core.Sessions
                 random.GetStream(RelationshipStream), finance, bus, clock);
             var vices = new ViceService(character, content.Get<DefinitionCatalog<ViceDefinition>>(),
                 content.Get<DefinitionCatalog<QuitMethodDefinition>>(), content.Get<ViceSettings>(), luck, random.GetStream(ViceStream), bus, clock);
+            var scams = new ScamService(character, content.Get<DefinitionCatalog<ScamDefinition>>(), content.Get<ScamSettings>(),
+                content.Get<DefinitionCatalog<AssetDefinition>>(), luck, random.GetStream(ScamStream), bus, clock);
             var career = new CareerService(character, tracks, content.Get<CareerSettings>(), programs, budget, settings, luck,
                 careerRandom, economy, bus, clock, relationships);
             IEnumerable<ITickPhase> phases = new ITickPhase[]
@@ -189,12 +195,13 @@ namespace BetterLife.Core.Sessions
                 new RelationshipMonthPhase(relationships),
                 new RelationshipYearPhase(relationships),
                 new ViceWeekPhase(vices),
+                new ScamMonthPhase(scams),
                 new EventRollPhase(events),
                 new DeathCheckPhase(content.Get<MortalityModel>(), deaths, random.GetStream(DeathStream)),
             }.Concat(extraPhases ?? Enumerable.Empty<ITickPhase>());
             TimeSystem time = TimeSystemFactory.Create(content, timeState, random, bus, policy ?? new InterruptPolicy(), phases);
             return new LifeSession(character, random, timeState, eventState, time, events, luck, deaths, economy, finance, education, career,
-                relationships, vices, bus, mode, ironman);
+                relationships, vices, scams, bus, mode, ironman);
         }
     }
 }

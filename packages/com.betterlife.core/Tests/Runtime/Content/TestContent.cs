@@ -22,6 +22,7 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'mental.loneliness', 'layer': 'sub', 'parent': 'mental', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.loneliness.name', 'descKey': 'stat.loneliness.desc' },
             { 'id': 'relationships', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.relationships.name', 'descKey': 'stat.relationships.desc' },
             { 'id': 'hidden.willpower', 'layer': 'hidden', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.willpower.name', 'descKey': 'stat.willpower.desc' },
+            { 'id': 'hidden.street_smarts', 'layer': 'hidden', 'polarity': 'higherIsBetter', 'default': 30, 'nameKey': 'stat.street.name', 'descKey': 'stat.street.desc' },
             { 'id': 'wealth', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 30, 'nameKey': 'stat.wealth.name', 'descKey': 'stat.wealth.desc' },
             { 'id': 'wealth.credit_score', 'layer': 'sub', 'parent': 'wealth', 'polarity': 'higherIsBetter', 'default': 50,
               'nameKey': 'stat.credit.name', 'descKey': 'stat.credit.desc' } ],
@@ -283,6 +284,23 @@ namespace BetterLife.Core.Tests.Content
             'laziness': { 'activities': [ 'free_time' ], 'baselineHours': 30, 'perHour': 0.02, 'max': 2 },
             'traits': [ { 'trait': 'anxious', 'multiplier': 1.5 } ], 'helplineKey': 'vice.helpline' }";
 
+        public const string Scams = @"{ 'scams': [
+            { 'id': 'phone_gang', 'nameKey': 'scam.phone_gang.name', 'channel': 'phone', 'minAge': 18, 'monthlyChance': 0.1,
+              'ageBands': [ { 'minAge': 60, 'multiplier': 2.5 } ], 'lonelinessWeight': 1, 'wealthWeight': 0.5,
+              'modifiers': [ { 'condition': { 'type': 'flag', 'flag': 'career.fired_once' }, 'multiplier': 3 } ],
+              'detection': { 'base': 50, 'stats': [ { 'stat': 'hidden.street_smarts', 'weight': 0.5 } ] },
+              'loss': { 'cashShare': 0.5, 'savingsShare': 0.5, 'min': 1000, 'max': 100000 },
+              'effects': [ { 'type': 'stat', 'stat': 'mental.stress', 'amount': 10 } ],
+              'recovery': { 'chance': { 'base': 60 }, 'decayPerWeek': 10, 'windowWeeks': 4, 'share': 0.5 } },
+            { 'id': 'ponzi', 'nameKey': 'scam.ponzi.name', 'channel': 'in_person', 'minAge': 18, 'monthlyChance': 0,
+              'ageBands': [], 'lonelinessWeight': 0, 'wealthWeight': 0, 'modifiers': [],
+              'detection': { 'base': 50 }, 'loss': { 'cashShare': 0.5, 'savingsShare': 0, 'min': 0, 'max': 1000000 }, 'effects': [],
+              'recovery': { 'chance': { 'base': 10 }, 'decayPerWeek': 1, 'windowWeeks': 26, 'share': 0.2 } } ] }";
+
+        public const string ScamSettings = @"{ 'onlineActivities': [ 'socialize' ], 'onlineBaselineHours': 10, 'perOnlineHour': 0.02, 'maxOnline': 2,
+            'wealthReference': 10000, 'stressPenaltyPerPoint': -0.2, 'support': { 'minValue': 50, 'perTie': 5, 'max': 15 },
+            'lessonGain': 15, 'detectedGain': 3, 'maxIncidents': 3, 'maxMonthlyChance': 0.5, 'helplineKey': 'scam.helpline', 'majorLoss': 20000 }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -310,7 +328,8 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'education_programs', 'path': 'education_programs.json' }, { 'type': 'education_settings', 'path': 'education_settings.json' }, "
                 + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }, "
                 + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }, "
-                + "{ 'type': 'vices', 'path': 'vices.json' }, { 'type': 'quit_methods', 'path': 'quit_methods.json' }, { 'type': 'vice_settings', 'path': 'vice_settings.json' }"
+                + "{ 'type': 'vices', 'path': 'vices.json' }, { 'type': 'quit_methods', 'path': 'quit_methods.json' }, { 'type': 'vice_settings', 'path': 'vice_settings.json' }, "
+                + "{ 'type': 'scams', 'path': 'scams.json' }, { 'type': 'scam_settings', 'path': 'scam_settings.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -347,7 +366,9 @@ namespace BetterLife.Core.Tests.Content
                 .Add("interactions.json", Interactions)
                 .Add("vices.json", Vices)
                 .Add("quit_methods.json", QuitMethods)
-                .Add("vice_settings.json", ViceSettings);
+                .Add("vice_settings.json", ViceSettings)
+                .Add("scams.json", Scams)
+                .Add("scam_settings.json", ScamSettings);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

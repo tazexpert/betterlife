@@ -62,6 +62,8 @@ namespace BetterLife.Core.Rules
         public const string CondRelationshipValue = "rule.cond.relationship_value";
         /// <summary>Vice measure comparison (hidden from the player).</summary>
         public const string CondVice = "rule.cond.vice";
+        /// <summary>Scam history comparison (hidden from the player).</summary>
+        public const string CondScam = "rule.cond.scam";
         /// <summary>Net worth comparison.</summary>
         public const string CondNetWorth = "rule.cond.net_worth";
         /// <summary>Total debt comparison.</summary>
