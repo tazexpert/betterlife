@@ -52,6 +52,7 @@ namespace BetterLife.Core.Careers
         private readonly EconomyService _economy;
         private readonly IEventBus _bus;
         private readonly GameClock _clock;
+        private readonly ICareerNetwork _network;
         private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
         private GameDate? _hoursWeek;
         private IReadOnlyDictionary<string, int> _hours = new Dictionary<string, int>();
@@ -70,9 +71,10 @@ namespace BetterLife.Core.Careers
         /// <param name="economy">Economy (layoffs follow the phase).</param>
         /// <param name="bus">Event bus.</param>
         /// <param name="clock">Game clock (current week for player actions).</param>
+        /// <param name="network">Professional network that helps applications, or null for none.</param>
         public CareerService(Character character, DefinitionCatalog<CareerTrackDefinition> tracks, CareerSettings settings,
             DefinitionCatalog<EducationProgramDefinition> programs, TimeBudget budget, TimeSettings timeSettings, LuckCalculator luck,
-            IRandomProvider random, EconomyService economy, IEventBus bus, GameClock clock)
+            IRandomProvider random, EconomyService economy, IEventBus bus, GameClock clock, ICareerNetwork network = null)
         {
             _character = character ?? throw new ArgumentNullException(nameof(character));
             _tracks = tracks ?? throw new ArgumentNullException(nameof(tracks));
@@ -85,6 +87,7 @@ namespace BetterLife.Core.Careers
             _economy = economy ?? throw new ArgumentNullException(nameof(economy));
             _bus = bus ?? throw new ArgumentNullException(nameof(bus));
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _network = network;
             _subscriptions.Add(_bus.Subscribe<TimeAllocationAppliedEvent>(e =>
             {
                 _hoursWeek = e.Week;
@@ -140,9 +143,10 @@ namespace BetterLife.Core.Careers
                 reasons.Add(HiringQuote.ReasonRetryWait);
             }
 
-            float adjustment = (Prestige() - NeutralPrestige) * _settings.PrestigePerPoint;
-            ChanceBreakdown chance = _luck.Explain(track.Hiring.WithBonus(adjustment), _character, now);
-            return new HiringQuote(reasons, adjustment, chance, track.Levels[0].MonthlySalary);
+            float prestige = (Prestige() - NeutralPrestige) * _settings.PrestigePerPoint;
+            float network = _network?.HiringBonus(track) ?? 0f;
+            ChanceBreakdown chance = _luck.Explain(track.Hiring.WithBonus(prestige + network), _character, now);
+            return new HiringQuote(reasons, prestige, network, chance, track.Levels[0].MonthlySalary);
         }
 
         /// <summary>
@@ -161,7 +165,7 @@ namespace BetterLife.Core.Careers
             CareerTrackDefinition track = _tracks.Get(trackId);
             GameDate now = _clock.Now;
             _character.Career.RecordAttempt(trackId, now);
-            ChanceRoll roll = _luck.Roll(track.Hiring.WithBonus(quote.PrestigeAdjustment), _character, now, _random);
+            ChanceRoll roll = _luck.Roll(track.Hiring.WithBonus(quote.PrestigeAdjustment + quote.NetworkAdjustment), _character, now, _random);
             if (!roll.Success)
             {
                 return new HiringResult(quote, roll, null);

@@ -7,6 +7,7 @@ using BetterLife.Core.Events;
 using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Randomness;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking;
@@ -33,14 +34,16 @@ namespace BetterLife.Core.Sessions
         /// <param name="finance">Personal finance.</param>
         /// <param name="education">Schooling.</param>
         /// <param name="career">Working life.</param>
+        /// <param name="relationships">People in the character's life.</param>
         /// <param name="bus">Event bus.</param>
         public LifeSession(Character character, RandomRegistry random, TimeState timeState, EventState eventState,
-            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, IEventBus bus)
+            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, RelationshipService relationships, IEventBus bus)
         {
             Economy = economy ?? throw new ArgumentNullException(nameof(economy));
             Finance = finance ?? throw new ArgumentNullException(nameof(finance));
             Education = education ?? throw new ArgumentNullException(nameof(education));
             Career = career ?? throw new ArgumentNullException(nameof(career));
+            Relationships = relationships ?? throw new ArgumentNullException(nameof(relationships));
             Character = character ?? throw new ArgumentNullException(nameof(character));
             Random = random ?? throw new ArgumentNullException(nameof(random));
             TimeState = timeState ?? throw new ArgumentNullException(nameof(timeState));
@@ -63,6 +66,9 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>Working life (jobs, promotions, retirement).</summary>
         public CareerService Career { get; }
+
+        /// <summary>People in the character's life.</summary>
+        public RelationshipService Relationships { get; }
 
         /// <summary>The player character.</summary>
         public Character Character { get; }
@@ -114,6 +120,7 @@ namespace BetterLife.Core.Sessions
             Finance.Dispose();
             Education.Dispose();
             Career.Dispose();
+            Relationships.Dispose();
         }
     }
 }

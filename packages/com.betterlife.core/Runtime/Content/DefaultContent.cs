@@ -49,6 +49,8 @@ namespace BetterLife.Core.Content
                 new FinanceSettingsLoader(),
                 new EducationSettingsLoader(),
                 new CareerSettingsLoader(),
+                new RelationshipSettingsLoader(),
+                new InteractionsLoader(),
             };
         }
 

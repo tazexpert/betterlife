@@ -1,6 +1,7 @@
 using BetterLife.Core.Careers;
 using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Rules.Serialization.Converters;
 
 namespace BetterLife.Core.Rules.Serialization
@@ -29,6 +30,7 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new YearConditionConverter())
                 .Register(new CashConditionConverter())
                 .Register(new NetWorthConditionConverter())
+                .Register(new RelationshipConditionConverter())
                 .Register(new TotalDebtConditionConverter())
                 .Register(new ReputationConditionConverter())
                 .Register(new HealthConditionConditionConverter())
@@ -53,7 +55,8 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new EducationPerformanceEffectConverter())
                 .Register(new CareerPerformanceEffectConverter())
                 .Register(new BossSatisfactionEffectConverter())
-                .Register(new FireEffectConverter());
+                .Register(new FireEffectConverter())
+                .Register(new RelationshipEffectConverter());
         }
     }
 }

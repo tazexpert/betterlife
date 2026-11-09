@@ -13,6 +13,7 @@ using BetterLife.Core.Careers;
 using BetterLife.Core.Economy;
 using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Time;
 
 namespace BetterLife.Core.Domain.Characters
@@ -111,6 +112,9 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>Work: current job, past jobs and pension.</summary>
         public CharacterCareer Career { get; } = new CharacterCareer();
+
+        /// <summary>People in the character's life and the character's relationship with each.</summary>
+        public CharacterRelationships Relationships { get; } = new CharacterRelationships();
 
         /// <summary>Cash + assets − debts.</summary>
         public decimal NetWorth => Finances.NetWorth(Wallet.Cash);

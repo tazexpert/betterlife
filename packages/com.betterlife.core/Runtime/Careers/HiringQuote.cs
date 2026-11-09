@@ -26,12 +26,14 @@ namespace BetterLife.Core.Careers
         /// </summary>
         /// <param name="reasonKeys">Why the character may not apply; empty when eligible.</param>
         /// <param name="prestigeAdjustment">Chance points from education prestige (included in the chance).</param>
+        /// <param name="networkAdjustment">Chance points from close contacts (included in the chance).</param>
         /// <param name="chance">Hiring chance.</param>
         /// <param name="startingSalary">Real monthly salary of the entry level.</param>
-        public HiringQuote(IReadOnlyList<string> reasonKeys, float prestigeAdjustment, ChanceBreakdown chance, decimal startingSalary)
+        public HiringQuote(IReadOnlyList<string> reasonKeys, float prestigeAdjustment, float networkAdjustment, ChanceBreakdown chance, decimal startingSalary)
         {
             ReasonKeys = (reasonKeys ?? throw new ArgumentNullException(nameof(reasonKeys))).ToList();
             PrestigeAdjustment = prestigeAdjustment;
+            NetworkAdjustment = networkAdjustment;
             Chance = chance ?? throw new ArgumentNullException(nameof(chance));
             StartingSalary = startingSalary;
         }
@@ -44,6 +46,9 @@ namespace BetterLife.Core.Careers
 
         /// <summary>Chance points from education prestige.</summary>
         public float PrestigeAdjustment { get; }
+
+        /// <summary>Chance points from close contacts.</summary>
+        public float NetworkAdjustment { get; }
 
         /// <summary>Hiring chance.</summary>
         public ChanceBreakdown Chance { get; }

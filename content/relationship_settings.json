@@ -1,0 +1,172 @@
+{
+  "$schema": "../docs/schemas/relationship_settings.schema.json",
+  "socialActivity": "socialize",
+  "maxRelationships": 25,
+  "types": [
+    {
+      "type": "parent",
+      "monthlyDecay": 0.5,
+      "floor": 30,
+      "griefStress": 30,
+      "griefHappiness": -25
+    },
+    {
+      "type": "sibling",
+      "monthlyDecay": 0.8,
+      "floor": 20,
+      "griefStress": 20,
+      "griefHappiness": -15
+    },
+    {
+      "type": "child",
+      "monthlyDecay": 0.5,
+      "floor": 40,
+      "griefStress": 40,
+      "griefHappiness": -35
+    },
+    {
+      "type": "partner",
+      "monthlyDecay": 2,
+      "floor": 0,
+      "griefStress": 30,
+      "griefHappiness": -25
+    },
+    {
+      "type": "spouse",
+      "monthlyDecay": 1,
+      "floor": 10,
+      "griefStress": 35,
+      "griefHappiness": -30
+    },
+    {
+      "type": "ex",
+      "monthlyDecay": 1,
+      "floor": -10,
+      "griefStress": 5,
+      "griefHappiness": -3
+    },
+    {
+      "type": "friend",
+      "monthlyDecay": 1.5,
+      "floor": 0,
+      "griefStress": 10,
+      "griefHappiness": -8
+    },
+    {
+      "type": "colleague",
+      "monthlyDecay": 2.5,
+      "floor": 0,
+      "griefStress": 5,
+      "griefHappiness": -3
+    },
+    {
+      "type": "contact",
+      "monthlyDecay": 1,
+      "floor": 10,
+      "griefStress": 3,
+      "griefHappiness": -2
+    }
+  ],
+  "attention": {
+    "gainPerHour": 0.6,
+    "closestCount": 5,
+    "familyMonthlyGain": 1
+  },
+  "family": {
+    "parentStart": [
+      {
+        "personality": "warm",
+        "value": 70
+      },
+      {
+        "personality": "strict",
+        "value": 40
+      },
+      {
+        "personality": "neglectful",
+        "value": 15
+      },
+      {
+        "personality": "overprotective",
+        "value": 55
+      },
+      {
+        "personality": "academic",
+        "value": 45
+      },
+      {
+        "personality": "free_spirited",
+        "value": 60
+      }
+    ],
+    "defaultParentStart": 50,
+    "siblingStart": 40,
+    "childStart": 70,
+    "siblings": [
+      {
+        "count": 0,
+        "weight": 3
+      },
+      {
+        "count": 1,
+        "weight": 4
+      },
+      {
+        "count": 2,
+        "weight": 2
+      },
+      {
+        "count": 3,
+        "weight": 1
+      }
+    ],
+    "siblingAgeGapYears": 8
+  },
+  "meeting": {
+    "monthlyBase": 0.05,
+    "perSocialHour": 0.004,
+    "school": 0.25,
+    "work": 0.2,
+    "startValue": {
+      "min": 5,
+      "max": 25
+    },
+    "ageGapYears": 5
+  },
+  "compatibility": {
+    "base": 50,
+    "sharedTrait": 8,
+    "conflictingTrait": -12,
+    "perYearAgeGap": -2,
+    "looksWeight": 0.2,
+    "charismaWeight": 0.1
+  },
+  "romance": {
+    "breakupBelow": -10,
+    "breakupAfterMonths": 3,
+    "divorceBelow": -20,
+    "divorceAfterMonths": 6
+  },
+  "children": {
+    "fertileAge": {
+      "min": 18,
+      "max": 45
+    },
+    "pregnancyWeeks": 40,
+    "monthlyCost": 6000,
+    "costUntilAge": 18
+  },
+  "stats": {
+    "closeValue": 50,
+    "topCount": 5,
+    "emptySlotValue": -50,
+    "monthlySmoothing": 0.3,
+    "lonelinessBase": 60,
+    "lonelinessPerCloseTie": -8
+  },
+  "network": {
+    "minValue": 50,
+    "pointsPerContact": 3,
+    "maxPoints": 15
+  }
+}

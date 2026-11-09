@@ -106,6 +106,7 @@ namespace BetterLife.Core.Persistence
                 Finances = FinancesDtoMapper.ToDto(character.Finances),
                 Education = EducationDtoMapper.ToDto(character.Education),
                 Career = CareerDtoMapper.ToDto(character.Career),
+                Relationships = RelationshipsDtoMapper.ToDto(character.Relationships),
                 ChangeLog = character.ChangeLog.Entries
                     .Select(e => new StatChangeLogDto { Week = e.Week.TotalWeeks, StatId = e.StatId.Value, Delta = e.Delta, SourceKey = e.SourceKey })
                     .ToList(),
@@ -147,6 +148,7 @@ namespace BetterLife.Core.Persistence
             FinancesDtoMapper.Restore(dto.Finances, character.Finances);
             EducationDtoMapper.Restore(dto.Education, character.Education);
             CareerDtoMapper.Restore(dto.Career, character.Career);
+            RelationshipsDtoMapper.Restore(dto.Relationships, character.Relationships);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
             if (dto.HasDied)
             {
@@ -310,12 +312,12 @@ namespace BetterLife.Core.Persistence
                 (p.Traits ?? new List<string>()).Where(catalogs.Traits.Contains))).ToList())), "family");
         }
 
-        private static List<StatValueDto> GenomeDto(Genome genome)
+        internal static List<StatValueDto> GenomeDto(Genome genome)
         {
             return genome.Values.Select(g => new StatValueDto { Id = g.Key.Value, Value = g.Value }).OrderBy(g => g.Id, StringComparer.Ordinal).ToList();
         }
 
-        private static Genome GenomeFrom(List<StatValueDto> values)
+        internal static Genome GenomeFrom(List<StatValueDto> values)
         {
             var genome = new Genome();
             foreach (StatValueDto gene in Items(values))

@@ -56,6 +56,10 @@ namespace BetterLife.Core.Rules
         public const string CondCareerCategory = "rule.cond.career_category";
         /// <summary>Works in a track (at least a level).</summary>
         public const string CondCareerTrack = "rule.cond.career_track";
+        /// <summary>Number of relationships of a type.</summary>
+        public const string CondRelationshipCount = "rule.cond.relationship_count";
+        /// <summary>Value of the closest relationship of a type.</summary>
+        public const string CondRelationshipValue = "rule.cond.relationship_value";
         /// <summary>Net worth comparison.</summary>
         public const string CondNetWorth = "rule.cond.net_worth";
         /// <summary>Total debt comparison.</summary>

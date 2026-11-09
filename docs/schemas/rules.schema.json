@@ -643,6 +643,88 @@
               "$ref": "#/$defs/id"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "count"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "count": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "op",
+                "value"
+              ],
+              "properties": {
+                "op": {
+                  "$ref": "#/$defs/op"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
+            }
+          }
         }
       ]
     },
@@ -1058,6 +1140,46 @@
           "properties": {
             "type": {
               "const": "career.fire"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            },
+            "target": {
+              "enum": [
+                "closest",
+                "all"
+              ]
+            },
+            "memory": {
+              "$ref": "#/$defs/id"
             }
           }
         }

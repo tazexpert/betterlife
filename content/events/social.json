@@ -46,6 +46,13 @@
                   "min": 26,
                   "max": 52
                 }
+              },
+              {
+                "type": "relationship",
+                "relation": "friend",
+                "amount": 5,
+                "target": "closest",
+                "memory": "memory.reunion"
               }
             ]
           }

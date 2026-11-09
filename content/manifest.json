@@ -136,6 +136,14 @@
     {
       "type": "career_settings",
       "path": "career_settings.json"
+    },
+    {
+      "type": "relationship_settings",
+      "path": "relationship_settings.json"
+    },
+    {
+      "type": "interactions",
+      "path": "interactions.json"
     }
   ]
 }

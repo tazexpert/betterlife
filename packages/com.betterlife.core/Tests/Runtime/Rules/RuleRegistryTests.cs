@@ -26,6 +26,8 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'netWorth','op':'<','amount':-100.5},
             {'type':'totalDebt','op':'>','amount':100000,'kind':'informal'},
             {'type':'totalDebt','op':'<=','amount':0},
+            {'type':'relationship','relation':'spouse','count':{'op':'>=','value':1}},
+            {'type':'relationship','relation':'any','op':'>=','value':60.5},
             {'type':'reputation','domain':'business','op':'<','value':30},
             {'type':'healthCondition','condition':'flu'},
             {'type':'karma','kind':'bad','op':'>','value':30},
@@ -51,6 +53,7 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'career.performance','amount':{'min':1,'max':3}},
             {'type':'career.boss','amount':-10},
             {'type':'career.fire'},
+            {'type':'relationship','relation':'parent','amount':{'min':1,'max':4},'target':'all','memory':'memory.visit'},
             {'type':'if','condition':{'type':'trait','trait':'calm'},'then':[{'type':'stat','stat':'mental.happiness','amount':-2}],
              'else':[{'type':'stat','stat':'mental.happiness','amount':-8}]}]";
 

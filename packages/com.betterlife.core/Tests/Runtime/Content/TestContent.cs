@@ -18,6 +18,9 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'intelligence', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.intelligence.name', 'descKey': 'stat.intelligence.desc' },
             { 'id': 'intelligence.iq', 'layer': 'sub', 'parent': 'intelligence', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.iq.name', 'descKey': 'stat.iq.desc' },
             { 'id': 'intelligence.knowledge', 'layer': 'sub', 'parent': 'intelligence', 'polarity': 'higherIsBetter', 'default': 40, 'nameKey': 'stat.knowledge.name', 'descKey': 'stat.knowledge.desc' },
+            { 'id': 'mental.happiness', 'layer': 'sub', 'parent': 'mental', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.happiness.name', 'descKey': 'stat.happiness.desc' },
+            { 'id': 'mental.loneliness', 'layer': 'sub', 'parent': 'mental', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.loneliness.name', 'descKey': 'stat.loneliness.desc' },
+            { 'id': 'relationships', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.relationships.name', 'descKey': 'stat.relationships.desc' },
             { 'id': 'wealth', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 30, 'nameKey': 'stat.wealth.name', 'descKey': 'stat.wealth.desc' },
             { 'id': 'wealth.credit_score', 'layer': 'sub', 'parent': 'wealth', 'polarity': 'higherIsBetter', 'default': 50,
               'nameKey': 'stat.credit.name', 'descKey': 'stat.credit.desc' } ],
@@ -49,6 +52,8 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'school', 'nameKey': 'activity.school.name', 'descKey': 'activity.school.desc', 'category': 'education',
               'minHours': 0, 'maxHours': 60, 'costPerHour': 0, 'condition': { 'type': 'education', 'enrolled': true }, 'stats': [], 'skills': [] },
             { 'id': 'study', 'nameKey': 'activity.study.name', 'descKey': 'activity.study.desc', 'category': 'learning',
+              'minHours': 0, 'maxHours': 60, 'costPerHour': 0, 'stats': [], 'skills': [] },
+            { 'id': 'socialize', 'nameKey': 'activity.socialize.name', 'descKey': 'activity.socialize.desc', 'category': 'social',
               'minHours': 0, 'maxHours': 60, 'costPerHour': 0, 'stats': [], 'skills': [] },
             { 'id': 'work', 'nameKey': 'activity.work.name', 'descKey': 'activity.work.desc', 'category': 'work',
               'minHours': 0, 'maxHours': 84, 'costPerHour': 0, 'condition': { 'type': 'career', 'employed': true }, 'stats': [], 'skills': [] } ] }";
@@ -193,6 +198,53 @@ namespace BetterLife.Core.Tests.Content
             'promotion': { 'chance': { 'base': 40, 'fortune': 'career' }, 'perPointAbove': 1.5, 'minBoss': 50, 'reviewEveryMonths': 12 },
             'layoffs': [ { 'phase': 'recession', 'monthlyChance': 0.01 } ] }";
 
+        public const string RelationshipSettings = @"{ 'socialActivity': 'socialize', 'maxRelationships': 6,
+            'types': [ { 'type': 'parent', 'monthlyDecay': 0.5, 'floor': 30, 'griefStress': 30, 'griefHappiness': -25 },
+                       { 'type': 'sibling', 'monthlyDecay': 0.8, 'floor': 20, 'griefStress': 20, 'griefHappiness': -15 },
+                       { 'type': 'child', 'monthlyDecay': 0.5, 'floor': 40, 'griefStress': 40, 'griefHappiness': -35 },
+                       { 'type': 'partner', 'monthlyDecay': 2, 'floor': 0, 'griefStress': 30, 'griefHappiness': -25 },
+                       { 'type': 'spouse', 'monthlyDecay': 1, 'floor': 10, 'griefStress': 35, 'griefHappiness': -30 },
+                       { 'type': 'ex', 'monthlyDecay': 1, 'floor': -10, 'griefStress': 5, 'griefHappiness': -3 },
+                       { 'type': 'friend', 'monthlyDecay': 1.5, 'floor': 0, 'griefStress': 10, 'griefHappiness': -8 },
+                       { 'type': 'colleague', 'monthlyDecay': 2.5, 'floor': 0, 'griefStress': 5, 'griefHappiness': -3 },
+                       { 'type': 'contact', 'monthlyDecay': 1, 'floor': 10, 'griefStress': 3, 'griefHappiness': -2 } ],
+            'attention': { 'gainPerHour': 0.6, 'closestCount': 5, 'familyMonthlyGain': 1 },
+            'family': { 'parentStart': [ { 'personality': 'warm', 'value': 70 }, { 'personality': 'strict', 'value': 40 } ], 'defaultParentStart': 50,
+                        'siblingStart': 40, 'childStart': 70, 'siblings': [ { 'count': 1, 'weight': 1 } ], 'siblingAgeGapYears': 4 },
+            'meeting': { 'monthlyBase': 0.05, 'perSocialHour': 0.004, 'school': 0.25, 'work': 0.2, 'startValue': { 'min': 5, 'max': 25 }, 'ageGapYears': 5 },
+            'compatibility': { 'base': 50, 'sharedTrait': 8, 'conflictingTrait': -12, 'perYearAgeGap': -2, 'looksWeight': 0.2, 'charismaWeight': 0.1 },
+            'romance': { 'breakupBelow': -10, 'breakupAfterMonths': 3, 'divorceBelow': -20, 'divorceAfterMonths': 6 },
+            'children': { 'fertileAge': { 'min': 18, 'max': 45 }, 'pregnancyWeeks': 40, 'monthlyCost': 6000, 'costUntilAge': 18 },
+            'stats': { 'closeValue': 50, 'topCount': 5, 'emptySlotValue': -50, 'monthlySmoothing': 0.3, 'lonelinessBase': 60, 'lonelinessPerCloseTie': -8 },
+            'network': { 'minValue': 50, 'pointsPerContact': 3, 'maxPoints': 15 } }";
+
+        public const string Interactions = @"{ 'interactions': [
+            { 'id': 'chat', 'nameKey': 'interaction.chat.name', 'types': [ 'parent', 'sibling', 'child', 'partner', 'spouse', 'friend', 'colleague', 'contact', 'ex' ],
+              'minValue': null, 'maxValue': null, 'condition': null, 'costCash': 0, 'cooldownWeeks': 1, 'chance': null, 'compatibilityPerPoint': 0,
+              'success': { 'value': 2, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] },
+              'failure': { 'value': 0, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } },
+            { 'id': 'gift', 'nameKey': 'interaction.gift.name', 'types': [ 'friend', 'partner', 'spouse' ],
+              'minValue': null, 'maxValue': null, 'condition': null, 'costCash': 1000, 'cooldownWeeks': 4, 'chance': null, 'compatibilityPerPoint': 0,
+              'success': { 'value': 5, 'becomes': null, 'child': null, 'memoryKey': 'memory.gift', 'effects': [] },
+              'failure': { 'value': 0, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } },
+            { 'id': 'ask_out', 'nameKey': 'interaction.ask_out.name', 'types': [ 'friend' ], 'minValue': 40, 'maxValue': null,
+              'condition': { 'type': 'relationship', 'relation': 'partner', 'count': { 'op': '==', 'value': 0 } },
+              'costCash': 0, 'cooldownWeeks': 12, 'chance': { 'base': 40, 'fortune': 'love' }, 'compatibilityPerPoint': 1,
+              'success': { 'value': 10, 'becomes': 'partner', 'child': null, 'memoryKey': 'memory.first_date', 'effects': [] },
+              'failure': { 'value': -10, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } },
+            { 'id': 'propose', 'nameKey': 'interaction.propose.name', 'types': [ 'partner' ], 'minValue': 60, 'maxValue': null, 'condition': null,
+              'costCash': 0, 'cooldownWeeks': 26, 'chance': null, 'compatibilityPerPoint': 0,
+              'success': { 'value': 15, 'becomes': 'spouse', 'child': null, 'memoryKey': 'memory.wedding', 'effects': [ { 'type': 'cash', 'amount': -5000 } ] },
+              'failure': { 'value': -15, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } },
+            { 'id': 'try_for_baby', 'nameKey': 'interaction.try_for_baby.name', 'types': [ 'partner', 'spouse' ], 'minValue': 30, 'maxValue': null,
+              'condition': null, 'costCash': 0, 'cooldownWeeks': 4, 'chance': null, 'compatibilityPerPoint': 0,
+              'success': { 'value': 5, 'becomes': null, 'child': 'birth', 'memoryKey': null, 'effects': [] },
+              'failure': { 'value': 0, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } },
+            { 'id': 'adopt', 'nameKey': 'interaction.adopt.name', 'types': [ 'partner', 'spouse' ], 'minValue': 50, 'maxValue': null,
+              'condition': null, 'costCash': 0, 'cooldownWeeks': 52, 'chance': null, 'compatibilityPerPoint': 0,
+              'success': { 'value': 8, 'becomes': null, 'child': 'adoption', 'memoryKey': null, 'effects': [] },
+              'failure': { 'value': 0, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } } ] }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -218,7 +270,8 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'debt_products', 'path': 'debts.json' }, { 'type': 'lifestyle_tiers', 'path': 'lifestyle_tiers.json' }, "
                 + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }, "
                 + "{ 'type': 'education_programs', 'path': 'education_programs.json' }, { 'type': 'education_settings', 'path': 'education_settings.json' }, "
-                + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }"
+                + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }, "
+                + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -250,7 +303,9 @@ namespace BetterLife.Core.Tests.Content
                 .Add("education_programs.json", EducationPrograms)
                 .Add("education_settings.json", EducationSettings)
                 .Add("careers.json", Careers)
-                .Add("career_settings.json", CareerSettings);
+                .Add("career_settings.json", CareerSettings)
+                .Add("relationship_settings.json", RelationshipSettings)
+                .Add("interactions.json", Interactions);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

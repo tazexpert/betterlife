@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/interactions.schema.json",
+  "title": "Interactions",
+  "description": "Things the character can do with an NPC. chance null = always succeeds; becomes changes the relationship type; child brings a pregnancy (birth) or an adopted child.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "interactions"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "interactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "types",
+          "minValue",
+          "maxValue",
+          "condition",
+          "costCash",
+          "cooldownWeeks",
+          "chance",
+          "compatibilityPerPoint",
+          "success",
+          "failure"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "types": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact"
+              ]
+            }
+          },
+          "minValue": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": -100,
+            "maximum": 100
+          },
+          "maxValue": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": -100,
+            "maximum": 100
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "rules.schema.json#/$defs/condition"
+              }
+            ]
+          },
+          "costCash": {
+            "type": "number",
+            "minimum": 0
+          },
+          "cooldownWeeks": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "chance": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "rules.schema.json#/$defs/chance"
+              }
+            ]
+          },
+          "compatibilityPerPoint": {
+            "type": "number",
+            "minimum": 0
+          },
+          "success": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "becomes",
+              "child",
+              "memoryKey",
+              "effects"
+            ],
+            "properties": {
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "min",
+                      "max"
+                    ],
+                    "properties": {
+                      "min": {
+                        "type": "number"
+                      },
+                      "max": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                ]
+              },
+              "becomes": {
+                "enum": [
+                  "parent",
+                  "sibling",
+                  "child",
+                  "partner",
+                  "spouse",
+                  "ex",
+                  "friend",
+                  "colleague",
+                  "contact",
+                  null
+                ]
+              },
+              "child": {
+                "enum": [
+                  "birth",
+                  "adoption",
+                  null
+                ]
+              },
+              "memoryKey": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/id"
+                  }
+                ]
+              },
+              "effects": {
+                "$ref": "rules.schema.json#/$defs/effects"
+              }
+            }
+          },
+          "failure": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "value",
+              "becomes",
+              "child",
+              "memoryKey",
+              "effects"
+            ],
+            "properties": {
+              "value": {
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "min",
+                      "max"
+                    ],
+                    "properties": {
+                      "min": {
+                        "type": "number"
+                      },
+                      "max": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                ]
+              },
+              "becomes": {
+                "enum": [
+                  "parent",
+                  "sibling",
+                  "child",
+                  "partner",
+                  "spouse",
+                  "ex",
+                  "friend",
+                  "colleague",
+                  "contact",
+                  null
+                ]
+              },
+              "child": {
+                "enum": [
+                  "birth",
+                  "adoption",
+                  null
+                ]
+              },
+              "memoryKey": {
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/id"
+                  }
+                ]
+              },
+              "effects": {
+                "$ref": "rules.schema.json#/$defs/effects"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

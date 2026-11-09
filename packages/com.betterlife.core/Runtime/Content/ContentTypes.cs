@@ -67,6 +67,10 @@ namespace BetterLife.Core.Content
         public const string Careers = "careers";
         /// <summary>Career rules (single file).</summary>
         public const string CareerSettings = "career_settings";
+        /// <summary>Relationship rules (single file).</summary>
+        public const string RelationshipSettings = "relationship_settings";
+        /// <summary>Things the character can do with NPCs.</summary>
+        public const string Interactions = "interactions";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

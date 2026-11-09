@@ -64,6 +64,24 @@ namespace BetterLife.Core.Life
         /// <returns>Probability, 0-1.</returns>
         public float WeeklyProbability(Character character, GameDate week) => Explain(character, week).Weekly;
 
+        /// <summary>
+        /// Returns the yearly death probability of a lightly simulated person (an NPC): the age curve and healthcare only,
+        /// with neutral health.
+        /// </summary>
+        /// <param name="age">Age in years.</param>
+        /// <param name="healthcare">Healthcare quality 0-100, or null for neutral.</param>
+        /// <returns>Probability, 0-1.</returns>
+        public float AnnualForAge(int age, float? healthcare)
+        {
+            if (age >= Settings.MaxAge)
+            {
+                return 1f;
+            }
+            float ageRisk = Settings.AnnualAtReference * (float)Math.Exp(Settings.GrowthPerYear * (age - Settings.ReferenceAge));
+            float care = Multiplier(healthcare ?? MortalitySettings.Neutral, Settings.HealthcareAtZero, Settings.HealthcareAtFull);
+            return Math.Max(0f, Math.Min(1f, ageRisk * care));
+        }
+
         // Log-linear: neutral (50) gives ×1, 0 gives atZero, 100 gives atFull.
         private static float Multiplier(float value, float atZero, float atFull)
         {

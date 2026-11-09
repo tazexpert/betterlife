@@ -5,6 +5,7 @@ using BetterLife.Core.Astrology;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Domain;
+using BetterLife.Core.Domain.Genetics;
 using BetterLife.Core.Careers;
 using BetterLife.Core.Economy;
 using BetterLife.Core.Education;
@@ -13,6 +14,7 @@ using BetterLife.Core.Karma;
 using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking;
 
@@ -38,6 +40,12 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>Random stream for hiring, promotions, career risks and variable income.</summary>
         public const string CareerStream = "career";
+
+        /// <summary>Random stream for relationships (meeting, interactions, NPC deaths).</summary>
+        public const string RelationshipStream = "relationships";
+
+        /// <summary>Random stream for generating NPCs.</summary>
+        public const string NpcStream = "relationships.npcs";
 
         /// <summary>
         /// Creates the session.
@@ -87,8 +95,13 @@ namespace BetterLife.Core.Sessions
             var programs = content.Get<DefinitionCatalog<EducationProgramDefinition>>();
             var education = new EducationService(creation.Character, programs, content.Get<EducationSettings>(), settings, budget, luck,
                 creation.Random.GetStream(EducationStream), finance, finance, bus, clock);
+            var npcs = new NpcFactory(content.Get<GeneticsService>(), content.Get<DefinitionCatalog<NameList>>(), creation.Random.GetStream(NpcStream));
+            var relationships = new RelationshipService(creation.Character, content.Get<RelationshipSettings>(),
+                content.Get<DefinitionCatalog<InteractionDefinition>>(), npcs, content.Get<MortalityModel>(), luck,
+                creation.Random.GetStream(RelationshipStream), finance, bus, clock);
+            relationships.InitializeFamily();
             var career = new CareerService(creation.Character, tracks, content.Get<CareerSettings>(), programs, budget, settings, luck,
-                careerRandom, economy, bus, clock);
+                careerRandom, economy, bus, clock, relationships);
             IEnumerable<ITickPhase> phases = new ITickPhase[]
             {
                 new AgingPhase(timeState, settings, creation.Random.GetStream(HealthStream), bus),
@@ -98,11 +111,13 @@ namespace BetterLife.Core.Sessions
                 new EducationWeekPhase(education),
                 new CareerWeekPhase(career),
                 new CareerMonthPhase(career),
+                new RelationshipMonthPhase(relationships),
+                new RelationshipYearPhase(relationships),
                 new EventRollPhase(events),
                 new DeathCheckPhase(content.Get<MortalityModel>(), deaths, creation.Random.GetStream(DeathStream)),
             }.Concat(extraPhases ?? Enumerable.Empty<ITickPhase>());
             TimeSystem time = TimeSystemFactory.Create(content, timeState, creation.Random, bus, policy ?? new InterruptPolicy(), phases);
-            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, economy, finance, education, career, bus);
+            return new LifeSession(creation.Character, creation.Random, timeState, eventState, time, events, luck, deaths, economy, finance, education, career, relationships, bus);
         }
     }
 }
