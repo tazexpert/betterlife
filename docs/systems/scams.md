@@ -25,16 +25,17 @@
 | Phase | `scam_month` รายเดือน ลำดับ 260 (หลังรับเงินเดือน) | เงินเพิ่งเข้า = เป้าหมายใหญ่ขึ้น |
 | Rule ใหม่ | Effect `{ "type": "scam.loss", "scam": "ponzi_scheme", "cashShare": 0.5, "min": 5000, "max": 2000000 }` และ Condition `{ "type": "scam", "measure": "victims" \| "lost" \| "detected", "op": ">=", "value": 1 }` | ให้เหตุการณ์ใช้ได้ |
 | Random stream | `scams` | |
+| ค่าที่ปรับหลังจำลอง | โอกาสพื้นฐาน 0.3–1%/เดือนต่อแบบ, ส่วนที่เสีย 5–15% ของเงินสด/เงินฝาก, เพดานแบบใหญ่ 500,000–800,000 บาท | แบบแรกชีวิตที่รวยเสียเงินรวมตลอดชีวิตเฉลี่ย 10 ล้าน (แต่ละครั้งเสีย 40–60%) |
 | หยุดเวลา | เสียเงิน ≥ 20,000 บาท = Major (หยุดการข้ามเวลา) ถ้าน้อยกว่านั้น = Normal (แจ้งใน Inbox แต่ไม่หยุด) | จากการจำลอง: ผู้สูงอายุถูกเล็งเป้าบ่อย ถ้าหยุดทุกครั้ง การข้ามทีละปีจะถูกตัดตลอด |
 
 ## 3. JSON Schema (content ใหม่ 2 ชนิด + stat 1 + เหตุการณ์ 2)
 ```jsonc
 // scams.json
 { "scams": [ { "id": "call_center_police", "nameKey": "scam.call_center_police.name", "channel": "phone", "minAge": 18,
-    "monthlyChance": 0.02, "ageBands": [ { "minAge": 60, "multiplier": 2.5 } ], "lonelinessWeight": 0.5, "wealthWeight": 0.3,
+    "monthlyChance": 0.006, "ageBands": [ { "minAge": 60, "multiplier": 2.5 } ], "lonelinessWeight": 0.5, "wealthWeight": 0.3,
     "modifiers": [ { "condition": { "type": "flag", "flag": "finance.loan_shark" }, "multiplier": 3 } ],
     "detection": { "base": 55, "stats": [ { "stat": "hidden.street_smarts", "weight": 0.6 } ], "fortune": "finance" },
-    "loss": { "cashShare": 0.4, "savingsShare": 0.5, "min": 5000, "max": 3000000 },
+    "loss": { "cashShare": 0.1, "savingsShare": 0.1, "min": 5000, "max": 500000 },
     "effects": [ { "type": "stat", "stat": "mental.stress", "amount": 15 } ],
     "recovery": { "chance": { "base": 40 }, "decayPerWeek": 8, "windowWeeks": 8, "share": 0.5 } } ] }
 
@@ -57,8 +58,14 @@
 ## 5. Save DTO
 `CharacterDto.Scams = ScamsDto { Incidents[{Id, ScamId, Week, Lost, Recovered, Reported}], Targeted, Detected, NextIncidentId }` (เงินเป็น decimal string)
 
-## 6. ส่งต่อ
+## 6. Tests
+- `ScamServiceTests` (8): ตัวคูณการเล็งเป้าครบ (อายุ/เหงา/ออนไลน์/เงิน/สถานการณ์ + เพดาน), โอกาสจับได้ (ความเครียด/คนเตือน), ถูกหลอก: เงินสดก่อนแล้วเงินฝาก + บทเรียน + Normal interrupt, เสียมาก = Major และขั้นต่ำไม่เกินเงินที่มี, คนรู้ทันจับได้มากกว่า, เด็กไม่ถูกเล็งด้วยกลโกงผู้ใหญ่, แจ้งความ (คืนครึ่ง/ครั้งเดียว/ต้องทันเวลา), เก็บเหตุการณ์ล่าสุด
+- `ScamRuleTests` (5), `ScamPersistenceAndContentTests` (6), `LifeSessionTests` (มี Phase `scam_month`)
+- `ScamSimulationTests` (content จริง 30 ชีวิตถึงอายุ 75): เคยถูกหลอก 28/30, ถูกหลอกต่อปี: วัย 18–59 = 0.13, 60+ = 0.20, เสียรวมตลอดชีวิต (มัธยฐาน) ≈ 1.8 ล้าน (ชีวิตจำลองรวยและไม่เคยแจ้งความ) แยกตามแบบ: หลอกลงทุนและแก๊งคอลเซ็นเตอร์เสียมากที่สุด
+
+## 7. ส่งต่อ
 - ข้อ 16–17: Inbox แจ้ง "ถูกหลอก" + ปุ่มแจ้งความ, หน้าข้อมูลรูปแบบมิจฉาชีพ (`TargetingBreakdown`, `DetectionQuote`)
 - ข้อ 18: คำไว้อาลัย/สรุปชีวิตจากยอดที่ถูกหลอก
 - ข้อ 20: หน้าข้อมูลสายด่วน (เช่น ศูนย์รับแจ้งอาชญากรรมออนไลน์) เป็น Loc key `scam.helpline`
+- ข้อ 21: ปรับสมดุลความถี่/มูลค่า (ตอนนี้ชีวิตจำลองที่รวยเสียรวมตลอดชีวิตหลักล้าน)
 - ข้อ 22: เหตุการณ์มิจฉาชีพเพิ่มเติม

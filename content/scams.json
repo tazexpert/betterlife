@@ -6,7 +6,7 @@
       "nameKey": "scam.call_center_police.name",
       "channel": "phone",
       "minAge": 20,
-      "monthlyChance": 0.01,
+      "monthlyChance": 0.006,
       "ageBands": [
         {
           "minAge": 50,
@@ -35,10 +35,10 @@
         "fortune": "finance"
       },
       "loss": {
-        "cashShare": 0.4,
-        "savingsShare": 0.6,
+        "cashShare": 0.1,
+        "savingsShare": 0.1,
         "min": 3000,
-        "max": 3000000
+        "max": 500000
       },
       "effects": [
         {
@@ -67,7 +67,7 @@
       "nameKey": "scam.sms_phishing.name",
       "channel": "sms",
       "minAge": 15,
-      "monthlyChance": 0.012,
+      "monthlyChance": 0.008,
       "ageBands": [
         {
           "minAge": 60,
@@ -88,10 +88,10 @@
         "fortune": "finance"
       },
       "loss": {
-        "cashShare": 0.2,
-        "savingsShare": 0.3,
+        "cashShare": 0.05,
+        "savingsShare": 0.1,
         "min": 1000,
-        "max": 500000
+        "max": 200000
       },
       "effects": [
         {
@@ -115,7 +115,7 @@
       "nameKey": "scam.fake_online_shop.name",
       "channel": "online",
       "minAge": 13,
-      "monthlyChance": 0.015,
+      "monthlyChance": 0.01,
       "ageBands": [],
       "lonelinessWeight": 0,
       "wealthWeight": 0,
@@ -162,7 +162,7 @@
       "nameKey": "scam.romance_scam.name",
       "channel": "romance",
       "minAge": 25,
-      "monthlyChance": 0.005,
+      "monthlyChance": 0.003,
       "ageBands": [
         {
           "minAge": 50,
@@ -195,10 +195,10 @@
         "fortune": "finance"
       },
       "loss": {
-        "cashShare": 0.6,
-        "savingsShare": 0.5,
+        "cashShare": 0.15,
+        "savingsShare": 0.1,
         "min": 10000,
-        "max": 2000000
+        "max": 500000
       },
       "effects": [
         {
@@ -232,7 +232,7 @@
       "nameKey": "scam.investment_scam.name",
       "channel": "online",
       "minAge": 20,
-      "monthlyChance": 0.008,
+      "monthlyChance": 0.005,
       "ageBands": [
         {
           "minAge": 40,
@@ -240,7 +240,7 @@
         }
       ],
       "lonelinessWeight": 0.3,
-      "wealthWeight": 0.6,
+      "wealthWeight": 0.4,
       "modifiers": [],
       "detection": {
         "base": 55,
@@ -257,10 +257,10 @@
         "fortune": "finance"
       },
       "loss": {
-        "cashShare": 0.5,
-        "savingsShare": 0.5,
+        "cashShare": 0.1,
+        "savingsShare": 0.1,
         "min": 5000,
-        "max": 5000000
+        "max": 800000
       },
       "effects": [
         {
@@ -284,7 +284,7 @@
       "nameKey": "scam.job_scam.name",
       "channel": "online",
       "minAge": 18,
-      "monthlyChance": 0.01,
+      "monthlyChance": 0.006,
       "ageBands": [],
       "lonelinessWeight": 0,
       "wealthWeight": 0,
@@ -344,7 +344,7 @@
       "nameKey": "scam.loan_fee_scam.name",
       "channel": "sms",
       "minAge": 20,
-      "monthlyChance": 0.005,
+      "monthlyChance": 0.004,
       "ageBands": [],
       "lonelinessWeight": 0,
       "wealthWeight": 0,
@@ -403,7 +403,7 @@
       "nameKey": "scam.prize_scam.name",
       "channel": "phone",
       "minAge": 18,
-      "monthlyChance": 0.006,
+      "monthlyChance": 0.004,
       "ageBands": [
         {
           "minAge": 60,
@@ -515,10 +515,10 @@
         "fortune": "finance"
       },
       "loss": {
-        "cashShare": 0.5,
+        "cashShare": 0.3,
         "savingsShare": 0,
         "min": 5000,
-        "max": 2000000
+        "max": 1000000
       },
       "effects": [
         {

@@ -65,9 +65,9 @@
               {
                 "type": "scam.loss",
                 "scam": "ponzi_scheme",
-                "cashShare": 0.5,
+                "cashShare": 0.3,
                 "min": 5000,
-                "max": 2000000
+                "max": 1000000
               },
               {
                 "type": "stat",
@@ -140,9 +140,9 @@
               {
                 "type": "scam.loss",
                 "scam": "romance_scam",
-                "cashShare": 0.4,
+                "cashShare": 0.2,
                 "min": 5000,
-                "max": 500000
+                "max": 300000
               },
               {
                 "type": "stat",

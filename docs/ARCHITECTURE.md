@@ -81,6 +81,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Careers` | อาชีพ: Career ladder, สมัครงาน, Performance, หัวหน้า, เลื่อนตำแหน่ง, ความเสี่ยง, เลิกจ้าง, เกษียณ, รายได้ |
 | `BetterLife.Core.Relationships` | NPC, ความสัมพันธ์, การกระทำกับ NPC (เดท/แต่งงาน/มีลูก), Compatibility, NPC แก่ตัว/เสียชีวิต, Network |
 | `BetterLife.Core.Vices` | อบายมุข 6: ความยั่วยุ/การต้าน, Addiction/Tolerance/Withdrawal, การพนัน, ครอบครัวจับได้, วิธีเลิก + Relapse |
+| `BetterLife.Core.Scams` | มิจฉาชีพ: การเล็งเป้า, การจับได้, ความเสียหาย, แจ้งความขอเงินคืน |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper (รวม `LifeSaveDto` ทั้งชีวิต) |

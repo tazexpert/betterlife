@@ -29,7 +29,7 @@ namespace BetterLife.Core.Tests.Creation
                 Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "karmic_debt"));
                 Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "economy_year"));
                 Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "finance_month"));
-                Assert.That(session.Time.Phases.Select(p => p.Name), Is.SupersetOf(new[] { "education_week", "career_week", "career_month", "relationships_month", "relationships_year", "vice_week" }));
+                Assert.That(session.Time.Phases.Select(p => p.Name), Is.SupersetOf(new[] { "education_week", "career_week", "career_month", "relationships_month", "relationships_year", "vice_week", "scam_month" }));
                 Assert.That(session.Character.Relationships.Living(BetterLife.Core.Relationships.RelationshipType.Parent).Count(), Is.EqualTo(2));
                 decimal priceLevel = session.Economy.State.PriceLevel;
 
