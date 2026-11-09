@@ -44,6 +44,7 @@ namespace BetterLife.Core.Persistence
                 }).ToList(),
                 HasIrreversible = vices.LastIrreversibleWeek.HasValue,
                 LastIrreversibleWeek = vices.LastIrreversibleWeek?.TotalWeeks ?? 0,
+                IrreversibleActions = vices.IrreversibleActions,
             };
         }
 
@@ -68,7 +69,7 @@ namespace BetterLife.Core.Persistence
                     s.Tolerance, s.Uses, s.HasLastUse ? new GameDate(s.LastUseWeek) : (GameDate?)null, s.Bets,
                     s.NetWinnings == null ? 0m : FinancesDtoMapper.ParseMoney(s.NetWinnings, nameof(s.NetWinnings)), s.Discovered, s.Relapses, s.Quits,
                     s.QuitMethodId == null ? null : new QuitAttempt(s.QuitMethodId, new GameDate(s.QuitStartWeek), new GameDate(s.QuitEndWeek)))).ToList();
-                vices.Restore(states, dto.HasIrreversible ? new GameDate(dto.LastIrreversibleWeek) : (GameDate?)null);
+                vices.Restore(states, dto.HasIrreversible ? new GameDate(dto.LastIrreversibleWeek) : (GameDate?)null, dto.IrreversibleActions);
             }
             catch (ArgumentException ex)
             {

@@ -1,4 +1,5 @@
 using System;
+using BetterLife.Core.Creation;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Careers;
 using BetterLife.Core.Economy;
@@ -38,8 +39,10 @@ namespace BetterLife.Core.Sessions
         /// <param name="relationships">People in the character's life.</param>
         /// <param name="vices">Habits.</param>
         /// <param name="bus">Event bus.</param>
+        /// <param name="mode">How the life was created.</param>
+        /// <param name="ironman">True for Ironman (no Undo).</param>
         public LifeSession(Character character, RandomRegistry random, TimeState timeState, EventState eventState,
-            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, RelationshipService relationships, ViceService vices, IEventBus bus)
+            TimeSystem time, EventSystem events, LuckCalculator luck, DeathService deaths, EconomyService economy, FinanceService finance, EducationService education, CareerService career, RelationshipService relationships, ViceService vices, IEventBus bus, CreationMode mode = CreationMode.Random, bool ironman = false)
         {
             Economy = economy ?? throw new ArgumentNullException(nameof(economy));
             Finance = finance ?? throw new ArgumentNullException(nameof(finance));
@@ -47,6 +50,8 @@ namespace BetterLife.Core.Sessions
             Career = career ?? throw new ArgumentNullException(nameof(career));
             Relationships = relationships ?? throw new ArgumentNullException(nameof(relationships));
             Vices = vices ?? throw new ArgumentNullException(nameof(vices));
+            Mode = mode;
+            IsIronman = ironman;
             Character = character ?? throw new ArgumentNullException(nameof(character));
             Random = random ?? throw new ArgumentNullException(nameof(random));
             TimeState = timeState ?? throw new ArgumentNullException(nameof(timeState));
@@ -72,6 +77,12 @@ namespace BetterLife.Core.Sessions
 
         /// <summary>People in the character's life.</summary>
         public RelationshipService Relationships { get; }
+
+        /// <summary>How the life was created.</summary>
+        public CreationMode Mode { get; }
+
+        /// <summary>True for Ironman lives (Undo is disabled).</summary>
+        public bool IsIronman { get; }
 
         /// <summary>Habits (vices).</summary>
         public ViceService Vices { get; }

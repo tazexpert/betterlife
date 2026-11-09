@@ -18,6 +18,9 @@ namespace BetterLife.Core.Vices
         /// <summary>Last week with an action that may not be undone (a bet), or null.</summary>
         public GameDate? LastIrreversibleWeek { get; private set; }
 
+        /// <summary>Number of actions so far that may never be undone (Undo is refused once this grows past a snapshot).</summary>
+        public int IrreversibleActions { get; private set; }
+
         /// <summary>
         /// Returns the state of a vice, creating an empty one on first use.
         /// </summary>
@@ -46,6 +49,7 @@ namespace BetterLife.Core.Vices
         /// <param name="week">Week.</param>
         public void MarkIrreversible(GameDate week)
         {
+            IrreversibleActions++;
             if (!LastIrreversibleWeek.HasValue || week > LastIrreversibleWeek.Value)
             {
                 LastIrreversibleWeek = week;
@@ -57,8 +61,10 @@ namespace BetterLife.Core.Vices
         /// </summary>
         /// <param name="states">States.</param>
         /// <param name="lastIrreversibleWeek">Last irreversible week, or null.</param>
-        public void Restore(IEnumerable<ViceState> states, GameDate? lastIrreversibleWeek)
+        /// <param name="irreversibleActions">Irreversible actions so far.</param>
+        public void Restore(IEnumerable<ViceState> states, GameDate? lastIrreversibleWeek, int irreversibleActions = 0)
         {
+            IrreversibleActions = Math.Max(0, irreversibleActions);
             _states.Clear();
             foreach (ViceState state in states ?? Enumerable.Empty<ViceState>())
             {

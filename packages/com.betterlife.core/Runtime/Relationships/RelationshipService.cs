@@ -92,6 +92,13 @@ namespace BetterLife.Core.Relationships
                 _socialHours += e.Hours.TryGetValue(_settings.SocialActivityId, out int hours) ? hours : 0);
         }
 
+        /// <summary>Socialize hours counted so far this month (saved so a reload continues the month).</summary>
+        public int PendingSocialHours
+        {
+            get => _socialHours;
+            set => _socialHours = Math.Max(0, value);
+        }
+
         /// <summary>Interaction catalog.</summary>
         public DefinitionCatalog<InteractionDefinition> Interactions => _interactions;
 

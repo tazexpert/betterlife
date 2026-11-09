@@ -15,5 +15,8 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Last week that may not be undone (GameDate.TotalWeeks).</summary>
         public int LastIrreversibleWeek;
+
+        /// <summary>Actions so far that may never be undone.</summary>
+        public int IrreversibleActions;
     }
 }

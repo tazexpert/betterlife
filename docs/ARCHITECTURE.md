@@ -83,7 +83,8 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Vices` | อบายมุข 6: ความยั่วยุ/การต้าน, Addiction/Tolerance/Withdrawal, การพนัน, ครอบครัวจับได้, วิธีเลิก + Relapse |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
-| `BetterLife.Core.Persistence` | Save DTO + Mapper |
+| `BetterLife.Core.Persistence` | Save DTO + Mapper (รวม `LifeSaveDto` ทั้งชีวิต) |
+| `BetterLife.Core.Saving` | ไฟล์เซฟ (Envelope + checksum), Migration, `ISaveStorage` (ไฟล์/หน่วยความจำ), Slot, Undo |
 | `BetterLife.Core.Localization` | LocKey |
 
 ## ตัวป้องกันกฎสถาปัตยกรรม
