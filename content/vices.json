@@ -1,0 +1,491 @@
+{
+  "$schema": "../docs/schemas/vices.schema.json",
+  "vices": [
+    {
+      "id": "drinking",
+      "nameKey": "vice.drinking.name",
+      "minAge": 18,
+      "blocksUndo": false,
+      "activity": null,
+      "temptation": {
+        "baseWeekly": 0.05,
+        "stages": [
+          {
+            "stage": "young_adult",
+            "multiplier": 1.3
+          },
+          {
+            "stage": "establishing",
+            "multiplier": 1.0
+          },
+          {
+            "stage": "middle_age",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "retirement",
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "costPerUse": 300,
+      "relief": {
+        "stress": -4,
+        "happiness": 3
+      },
+      "addiction": {
+        "gainPerUse": 2,
+        "decayPerCleanWeek": 0.5,
+        "tolerancePerUse": 1.5,
+        "toleranceDecay": 0.5
+      },
+      "withdrawalFrom": 40,
+      "withdrawal": {
+        "stress": 3,
+        "happiness": -2
+      },
+      "useEffects": [
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 0.15
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 2
+        }
+      ],
+      "risks": [
+        {
+          "chance": 0.002,
+          "reasonKey": "vice.risk.drunk_accident",
+          "severity": "major",
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "health.fitness",
+              "amount": -10
+            },
+            {
+              "type": "cash",
+              "amount": -20000
+            }
+          ]
+        }
+      ],
+      "discovery": {
+        "fromAddiction": 30,
+        "weeklyChance": 0.03,
+        "effects": [
+          {
+            "type": "relationship",
+            "relation": "parent",
+            "amount": -10,
+            "target": "all",
+            "memory": "memory.found_vice"
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "amount": -15,
+            "target": "all",
+            "memory": "memory.found_vice"
+          }
+        ]
+      },
+      "gambling": null
+    },
+    {
+      "id": "smoking",
+      "nameKey": "vice.smoking.name",
+      "minAge": 18,
+      "blocksUndo": false,
+      "activity": null,
+      "temptation": {
+        "baseWeekly": 0.03,
+        "stages": [
+          {
+            "stage": "young_adult",
+            "multiplier": 1.3
+          },
+          {
+            "stage": "establishing",
+            "multiplier": 1.0
+          },
+          {
+            "stage": "middle_age",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "retirement",
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "costPerUse": 150,
+      "relief": {
+        "stress": -3,
+        "happiness": 1
+      },
+      "addiction": {
+        "gainPerUse": 3,
+        "decayPerCleanWeek": 0.3,
+        "tolerancePerUse": 1,
+        "toleranceDecay": 0.3
+      },
+      "withdrawalFrom": 30,
+      "withdrawal": {
+        "stress": 4,
+        "happiness": -2
+      },
+      "useEffects": [
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 0.25
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -0.1
+        }
+      ],
+      "risks": [],
+      "discovery": {
+        "fromAddiction": 30,
+        "weeklyChance": 0.03,
+        "effects": [
+          {
+            "type": "relationship",
+            "relation": "parent",
+            "amount": -10,
+            "target": "all",
+            "memory": "memory.found_vice"
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "amount": -15,
+            "target": "all",
+            "memory": "memory.found_vice"
+          }
+        ]
+      },
+      "gambling": null
+    },
+    {
+      "id": "synthetic_high",
+      "nameKey": "vice.synthetic_high.name",
+      "minAge": 18,
+      "blocksUndo": false,
+      "activity": null,
+      "temptation": {
+        "baseWeekly": 0.01,
+        "stages": [
+          {
+            "stage": "young_adult",
+            "multiplier": 1.3
+          },
+          {
+            "stage": "establishing",
+            "multiplier": 1.0
+          },
+          {
+            "stage": "middle_age",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "retirement",
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "costPerUse": 2000,
+      "relief": {
+        "stress": -8,
+        "happiness": 8
+      },
+      "addiction": {
+        "gainPerUse": 6,
+        "decayPerCleanWeek": 0.4,
+        "tolerancePerUse": 4,
+        "toleranceDecay": 0.5
+      },
+      "withdrawalFrom": 25,
+      "withdrawal": {
+        "stress": 8,
+        "happiness": -6
+      },
+      "useEffects": [
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 1
+        },
+        {
+          "type": "karma.bad",
+          "amount": 2
+        }
+      ],
+      "risks": [
+        {
+          "chance": 0.03,
+          "reasonKey": "vice.risk.arrested",
+          "severity": "major",
+          "effects": [
+            {
+              "type": "cash",
+              "amount": -50000
+            },
+            {
+              "type": "flag.set",
+              "flag": "career.criminal_record"
+            },
+            {
+              "type": "career.fire"
+            }
+          ]
+        },
+        {
+          "chance": 0.005,
+          "reasonKey": "vice.risk.overdose",
+          "severity": "critical",
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "health.disease_burden",
+              "amount": 25
+            }
+          ]
+        }
+      ],
+      "discovery": {
+        "fromAddiction": 20,
+        "weeklyChance": 0.03,
+        "effects": [
+          {
+            "type": "relationship",
+            "relation": "parent",
+            "amount": -10,
+            "target": "all",
+            "memory": "memory.found_vice"
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "amount": -15,
+            "target": "all",
+            "memory": "memory.found_vice"
+          }
+        ]
+      },
+      "gambling": null
+    },
+    {
+      "id": "nightlife",
+      "nameKey": "vice.nightlife.name",
+      "minAge": 18,
+      "blocksUndo": false,
+      "activity": {
+        "id": "nightlife",
+        "freeHours": 0,
+        "hoursPerUse": 4
+      },
+      "temptation": {
+        "baseWeekly": 0.04,
+        "stages": [
+          {
+            "stage": "young_adult",
+            "multiplier": 1.3
+          },
+          {
+            "stage": "establishing",
+            "multiplier": 1.0
+          },
+          {
+            "stage": "middle_age",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "retirement",
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "costPerUse": 1500,
+      "relief": {
+        "stress": -5,
+        "happiness": 5
+      },
+      "addiction": {
+        "gainPerUse": 1.5,
+        "decayPerCleanWeek": 0.8,
+        "tolerancePerUse": 1,
+        "toleranceDecay": 1
+      },
+      "withdrawalFrom": 50,
+      "withdrawal": {
+        "stress": 2,
+        "happiness": -2
+      },
+      "useEffects": [
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 6
+        },
+        {
+          "type": "career.performance",
+          "amount": -1
+        }
+      ],
+      "risks": [],
+      "discovery": null,
+      "gambling": null
+    },
+    {
+      "id": "binge_entertainment",
+      "nameKey": "vice.binge_entertainment.name",
+      "minAge": 10,
+      "blocksUndo": false,
+      "activity": {
+        "id": "entertainment",
+        "freeHours": 14,
+        "hoursPerUse": 7
+      },
+      "temptation": {
+        "baseWeekly": 0.04,
+        "stages": [
+          {
+            "stage": "child",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "teen",
+            "multiplier": 1.4
+          },
+          {
+            "stage": "young_adult",
+            "multiplier": 1.1
+          }
+        ]
+      },
+      "costPerUse": 0,
+      "relief": {
+        "stress": -2,
+        "happiness": 2
+      },
+      "addiction": {
+        "gainPerUse": 1,
+        "decayPerCleanWeek": 1,
+        "tolerancePerUse": 1,
+        "toleranceDecay": 1
+      },
+      "withdrawalFrom": 50,
+      "withdrawal": {
+        "stress": 1,
+        "happiness": -2
+      },
+      "useEffects": [
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 2
+        },
+        {
+          "type": "education.performance",
+          "amount": -1
+        },
+        {
+          "type": "career.performance",
+          "amount": -0.5
+        }
+      ],
+      "risks": [],
+      "discovery": null,
+      "gambling": null
+    },
+    {
+      "id": "gambling",
+      "nameKey": "vice.gambling.name",
+      "minAge": 18,
+      "blocksUndo": true,
+      "activity": null,
+      "temptation": {
+        "baseWeekly": 0.02,
+        "stages": [
+          {
+            "stage": "young_adult",
+            "multiplier": 1.3
+          },
+          {
+            "stage": "establishing",
+            "multiplier": 1.0
+          },
+          {
+            "stage": "middle_age",
+            "multiplier": 0.8
+          },
+          {
+            "stage": "retirement",
+            "multiplier": 0.5
+          }
+        ]
+      },
+      "costPerUse": 0,
+      "relief": {
+        "stress": -2,
+        "happiness": 4
+      },
+      "addiction": {
+        "gainPerUse": 3,
+        "decayPerCleanWeek": 0.3,
+        "tolerancePerUse": 0,
+        "toleranceDecay": 0
+      },
+      "withdrawalFrom": 40,
+      "withdrawal": {
+        "stress": 4,
+        "happiness": -3
+      },
+      "useEffects": [
+        {
+          "type": "karma.bad",
+          "amount": 1
+        }
+      ],
+      "risks": [],
+      "discovery": {
+        "fromAddiction": 30,
+        "weeklyChance": 0.03,
+        "effects": [
+          {
+            "type": "relationship",
+            "relation": "parent",
+            "amount": -10,
+            "target": "all",
+            "memory": "memory.found_vice"
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "amount": -15,
+            "target": "all",
+            "memory": "memory.found_vice"
+          }
+        ]
+      },
+      "gambling": {
+        "stake": {
+          "min": 500,
+          "max": 3000
+        },
+        "winChance": 0.45,
+        "payout": 2,
+        "beginnerBets": 5,
+        "beginnerWinChance": 0.65
+      }
+    }
+  ]
+}

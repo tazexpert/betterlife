@@ -38,6 +38,8 @@ namespace BetterLife.Core.Content
                 new EducationProgramsLoader(),
                 new RuleTypesBarrier(),
                 new CareersLoader(),
+                new VicesLoader(),
+                new QuitMethodsLoader(),
                 new ActivitiesLoader(),
                 new TimeSettingsLoader(),
                 new EventSettingsLoader(),
@@ -51,6 +53,7 @@ namespace BetterLife.Core.Content
                 new CareerSettingsLoader(),
                 new RelationshipSettingsLoader(),
                 new InteractionsLoader(),
+                new ViceSettingsLoader(),
             };
         }
 

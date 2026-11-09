@@ -90,6 +90,8 @@ namespace BetterLife.Core.Persistence
         public CareerDto Career = new CareerDto();
         /// <summary>People in the character's life (null in saves from before task 12).</summary>
         public RelationshipsDto Relationships = new RelationshipsDto();
+        /// <summary>Habits (null in saves from before task 13).</summary>
+        public VicesDto Vices = new VicesDto();
         /// <summary>Recent stat changes.</summary>
         public List<StatChangeLogDto> ChangeLog = new List<StatChangeLogDto>();
 

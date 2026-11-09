@@ -16,21 +16,13 @@ namespace BetterLife.Core.Content.Loaders
     /// </summary>
     public sealed class EventsLoader : DefinitionLoader<LifeEventDefinition>
     {
-        private static readonly string[] Dependencies = { ContentTypes.RuleTypes, ContentTypes.DeathCauses, ContentTypes.Careers };
+        private static readonly string[] Dependencies = { ContentTypes.RuleTypes, ContentTypes.DeathCauses, ContentTypes.Careers, ContentTypes.Vices };
 
         private static readonly Dictionary<string, EventTrigger> Triggers = new Dictionary<string, EventTrigger>
         {
             { "random", EventTrigger.Random },
             { "scheduled", EventTrigger.Scheduled },
             { "karmic_debt", EventTrigger.KarmicDebt },
-        };
-
-        private static readonly Dictionary<string, Severity> Severities = new Dictionary<string, Severity>
-        {
-            { "minor", Severity.Minor },
-            { "normal", Severity.Normal },
-            { "major", Severity.Major },
-            { "critical", Severity.Critical },
         };
 
         private static readonly Dictionary<string, EventTone> Tones = new Dictionary<string, EventTone>
@@ -89,7 +81,7 @@ namespace BetterLife.Core.Content.Loaders
                 RuleJson.RequireId(item, "bodyKey", context),
                 RuleJson.RequireId(item, "category", context),
                 ContentReading.RequireEnum(item, "trigger", context, Triggers),
-                ContentReading.RequireEnum(item, "severity", context, Severities),
+                ContentReading.RequireEnum(item, "severity", context, SeverityNames.All),
                 ContentReading.RequireEnum(item, "tone", context, Tones),
                 RuleJson.OptionalId(item, "storyline", context),
                 OptionalCondition(item, "condition", context, rules),

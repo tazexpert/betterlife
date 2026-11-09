@@ -1,0 +1,58 @@
+{
+  "$schema": "../docs/schemas/vice_settings.schema.json",
+  "visibleFromAddiction": 10,
+  "firstTryMultiplier": 0.3,
+  "chaseFromAddiction": 40,
+  "maxWeeklyTemptation": 0.9,
+  "stress": {
+    "weight": 1,
+    "minMultiplier": 0.2
+  },
+  "addictionWeight": 2,
+  "resist": {
+    "chance": {
+      "base": 50,
+      "stats": [
+        {
+          "stat": "hidden.willpower",
+          "weight": 0.5
+        }
+      ]
+    },
+    "perAddiction": -0.4,
+    "willpowerGain": 0.1
+  },
+  "support": {
+    "minValue": 50,
+    "perTie": 5,
+    "max": 20
+  },
+  "badCompany": {
+    "traits": [
+      "reckless"
+    ],
+    "minValue": 30,
+    "perFriend": 0.25,
+    "max": 2.5
+  },
+  "laziness": {
+    "activities": [
+      "free_time",
+      "entertainment"
+    ],
+    "baselineHours": 30,
+    "perHour": 0.02,
+    "max": 2
+  },
+  "traits": [
+    {
+      "trait": "reckless",
+      "multiplier": 1.5
+    },
+    {
+      "trait": "disciplined",
+      "multiplier": 0.6
+    }
+  ],
+  "helplineKey": "vice.helpline"
+}

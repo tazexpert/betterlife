@@ -144,6 +144,22 @@
     {
       "type": "interactions",
       "path": "interactions.json"
+    },
+    {
+      "type": "vices",
+      "path": "vices.json"
+    },
+    {
+      "type": "quit_methods",
+      "path": "quit_methods.json"
+    },
+    {
+      "type": "vice_settings",
+      "path": "vice_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/vices.json"
     }
   ]
 }

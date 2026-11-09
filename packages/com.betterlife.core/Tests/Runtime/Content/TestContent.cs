@@ -21,6 +21,7 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'mental.happiness', 'layer': 'sub', 'parent': 'mental', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.happiness.name', 'descKey': 'stat.happiness.desc' },
             { 'id': 'mental.loneliness', 'layer': 'sub', 'parent': 'mental', 'polarity': 'lowerIsBetter', 'default': 20, 'nameKey': 'stat.loneliness.name', 'descKey': 'stat.loneliness.desc' },
             { 'id': 'relationships', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.relationships.name', 'descKey': 'stat.relationships.desc' },
+            { 'id': 'hidden.willpower', 'layer': 'hidden', 'polarity': 'higherIsBetter', 'default': 50, 'nameKey': 'stat.willpower.name', 'descKey': 'stat.willpower.desc' },
             { 'id': 'wealth', 'layer': 'core', 'polarity': 'higherIsBetter', 'default': 30, 'nameKey': 'stat.wealth.name', 'descKey': 'stat.wealth.desc' },
             { 'id': 'wealth.credit_score', 'layer': 'sub', 'parent': 'wealth', 'polarity': 'higherIsBetter', 'default': 50,
               'nameKey': 'stat.credit.name', 'descKey': 'stat.credit.desc' } ],
@@ -245,6 +246,43 @@ namespace BetterLife.Core.Tests.Content
               'success': { 'value': 8, 'becomes': null, 'child': 'adoption', 'memoryKey': null, 'effects': [] },
               'failure': { 'value': 0, 'becomes': null, 'child': null, 'memoryKey': null, 'effects': [] } } ] }";
 
+        public const string Vices = @"{ 'vices': [
+            { 'id': 'drinking', 'nameKey': 'vice.drinking.name', 'minAge': 18, 'blocksUndo': false, 'activity': null,
+              'temptation': { 'baseWeekly': 0.1, 'stages': [ { 'stage': 'adult', 'multiplier': 1.5 } ] }, 'costPerUse': 300,
+              'relief': { 'stress': -4, 'happiness': 3 },
+              'addiction': { 'gainPerUse': 10, 'decayPerCleanWeek': 1, 'tolerancePerUse': 20, 'toleranceDecay': 1 },
+              'withdrawalFrom': 30, 'withdrawal': { 'stress': 10, 'happiness': -5 },
+              'useEffects': [ { 'type': 'stat', 'stat': 'health.fitness', 'amount': -1 } ],
+              'risks': [ { 'chance': 0, 'reasonKey': 'vice.risk.never', 'severity': 'major', 'effects': [] } ],
+              'discovery': { 'fromAddiction': 20, 'weeklyChance': 1, 'effects': [ { 'type': 'relationship', 'relation': 'parent', 'amount': -10, 'target': 'all' } ] },
+              'gambling': null },
+            { 'id': 'gaming', 'nameKey': 'vice.gaming.name', 'minAge': 6, 'blocksUndo': false, 'activity': { 'id': 'free_time', 'freeHours': 100, 'hoursPerUse': 10 },
+              'temptation': { 'baseWeekly': 0, 'stages': [] }, 'costPerUse': 0, 'relief': { 'stress': -1, 'happiness': 1 },
+              'addiction': { 'gainPerUse': 2, 'decayPerCleanWeek': 1, 'tolerancePerUse': 1, 'toleranceDecay': 1 },
+              'withdrawalFrom': 50, 'withdrawal': { 'stress': 1, 'happiness': -1 }, 'useEffects': [], 'risks': [], 'discovery': null, 'gambling': null },
+            { 'id': 'betting', 'nameKey': 'vice.betting.name', 'minAge': 18, 'blocksUndo': true, 'activity': null,
+              'temptation': { 'baseWeekly': 0, 'stages': [] }, 'costPerUse': 0, 'relief': { 'stress': 0, 'happiness': 2 },
+              'addiction': { 'gainPerUse': 5, 'decayPerCleanWeek': 0.5, 'tolerancePerUse': 0, 'toleranceDecay': 0 },
+              'withdrawalFrom': 40, 'withdrawal': { 'stress': 4, 'happiness': -3 }, 'useEffects': [],
+              'risks': [ { 'chance': 1, 'reasonKey': 'vice.risk.seen', 'severity': 'minor', 'effects': [ { 'type': 'stat', 'stat': 'mental.stress', 'amount': 1 } ] } ],
+              'discovery': null,
+              'gambling': { 'stake': 1000, 'winChance': 0.45, 'payout': 2, 'beginnerBets': 3, 'beginnerWinChance': 0.9 } } ] }";
+
+        public const string QuitMethods = @"{ 'methods': [
+            { 'id': 'cold_turkey', 'nameKey': 'quit.cold_turkey.name', 'vices': null, 'costCash': 0, 'durationWeeks': 4, 'resistBonus': 5,
+              'decayMultiplier': 1, 'withdrawalMultiplier': 1.5, 'condition': null, 'startEffects': [],
+              'successEffects': [ { 'type': 'stat', 'stat': 'hidden.willpower', 'amount': 3 } ] },
+            { 'id': 'rehab', 'nameKey': 'quit.rehab.name', 'vices': [ 'drinking' ], 'costCash': 60000, 'durationWeeks': 6, 'resistBonus': 35,
+              'decayMultiplier': 3, 'withdrawalMultiplier': 0.3, 'condition': { 'type': 'age', 'op': '>=', 'value': 18 }, 'startEffects': [], 'successEffects': [] } ] }";
+
+        public const string ViceSettings = @"{ 'visibleFromAddiction': 10, 'firstTryMultiplier': 0.3, 'chaseFromAddiction': 40, 'maxWeeklyTemptation': 0.9,
+            'stress': { 'weight': 1, 'minMultiplier': 0.2 }, 'addictionWeight': 2,
+            'resist': { 'chance': { 'base': 50, 'stats': [ { 'stat': 'hidden.willpower', 'weight': 0.5 } ] }, 'perAddiction': -0.4, 'willpowerGain': 0.1 },
+            'support': { 'minValue': 50, 'perTie': 5, 'max': 20 },
+            'badCompany': { 'traits': [ 'anxious' ], 'minValue': 30, 'perFriend': 0.25, 'max': 2.5 },
+            'laziness': { 'activities': [ 'free_time' ], 'baselineHours': 30, 'perHour': 0.02, 'max': 2 },
+            'traits': [ { 'trait': 'anxious', 'multiplier': 1.5 } ], 'helplineKey': 'vice.helpline' }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -271,7 +309,8 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }, "
                 + "{ 'type': 'education_programs', 'path': 'education_programs.json' }, { 'type': 'education_settings', 'path': 'education_settings.json' }, "
                 + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }, "
-                + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }"
+                + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }, "
+                + "{ 'type': 'vices', 'path': 'vices.json' }, { 'type': 'quit_methods', 'path': 'quit_methods.json' }, { 'type': 'vice_settings', 'path': 'vice_settings.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -305,7 +344,10 @@ namespace BetterLife.Core.Tests.Content
                 .Add("careers.json", Careers)
                 .Add("career_settings.json", CareerSettings)
                 .Add("relationship_settings.json", RelationshipSettings)
-                .Add("interactions.json", Interactions);
+                .Add("interactions.json", Interactions)
+                .Add("vices.json", Vices)
+                .Add("quit_methods.json", QuitMethods)
+                .Add("vice_settings.json", ViceSettings);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

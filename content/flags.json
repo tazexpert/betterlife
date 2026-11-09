@@ -76,6 +76,20 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": "eulogy.career.criminal_record"
+    },
+    {
+      "id": "vice.relapse",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.vice.relapse"
+    },
+    {
+      "id": "vice.quit_success",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.vice.quit_success"
     }
   ]
 }

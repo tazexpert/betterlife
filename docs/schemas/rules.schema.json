@@ -725,6 +725,38 @@
               "maximum": 100
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "vice",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "vice"
+            },
+            "vice": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number"
+            },
+            "measure": {
+              "enum": [
+                "addiction",
+                "tolerance",
+                "uses",
+                "cleanWeeks"
+              ]
+            }
+          }
         }
       ]
     },
@@ -1180,6 +1212,26 @@
             },
             "memory": {
               "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "vice",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "vice.addiction"
+            },
+            "vice": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
             }
           }
         }

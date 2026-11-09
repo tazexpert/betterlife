@@ -107,6 +107,7 @@ namespace BetterLife.Core.Persistence
                 Education = EducationDtoMapper.ToDto(character.Education),
                 Career = CareerDtoMapper.ToDto(character.Career),
                 Relationships = RelationshipsDtoMapper.ToDto(character.Relationships),
+                Vices = VicesDtoMapper.ToDto(character.Vices),
                 ChangeLog = character.ChangeLog.Entries
                     .Select(e => new StatChangeLogDto { Week = e.Week.TotalWeeks, StatId = e.StatId.Value, Delta = e.Delta, SourceKey = e.SourceKey })
                     .ToList(),
@@ -149,6 +150,7 @@ namespace BetterLife.Core.Persistence
             EducationDtoMapper.Restore(dto.Education, character.Education);
             CareerDtoMapper.Restore(dto.Career, character.Career);
             RelationshipsDtoMapper.Restore(dto.Relationships, character.Relationships);
+            VicesDtoMapper.Restore(dto.Vices, character.Vices);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
             if (dto.HasDied)
             {

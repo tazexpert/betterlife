@@ -15,6 +15,7 @@ using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Time;
+using BetterLife.Core.Vices;
 
 namespace BetterLife.Core.Domain.Characters
 {
@@ -115,6 +116,9 @@ namespace BetterLife.Core.Domain.Characters
 
         /// <summary>People in the character's life and the character's relationship with each.</summary>
         public CharacterRelationships Relationships { get; } = new CharacterRelationships();
+
+        /// <summary>Habits: addiction, tolerance and quitting per vice.</summary>
+        public CharacterVices Vices { get; } = new CharacterVices();
 
         /// <summary>Cash + assets − debts.</summary>
         public decimal NetWorth => Finances.NetWorth(Wallet.Cash);

@@ -300,6 +300,37 @@
           "maxHours": 20
         }
       ]
+    },
+    {
+      "id": "nightlife",
+      "nameKey": "activity.nightlife.name",
+      "descKey": "activity.nightlife.desc",
+      "category": "leisure",
+      "minHours": 0,
+      "maxHours": 40,
+      "costPerHour": 0,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 18
+      },
+      "stats": [
+        {
+          "stat": "mental.happiness",
+          "perHour": 0.15,
+          "maxHours": 8
+        },
+        {
+          "stat": "mental.loneliness",
+          "perHour": -0.2,
+          "maxHours": 8
+        },
+        {
+          "stat": "health.fatigue",
+          "perHour": 0.4
+        }
+      ],
+      "skills": []
     }
   ]
 }

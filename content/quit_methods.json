@@ -1,0 +1,103 @@
+{
+  "$schema": "../docs/schemas/quit_methods.schema.json",
+  "methods": [
+    {
+      "id": "cold_turkey",
+      "nameKey": "quit.cold_turkey.name",
+      "vices": null,
+      "costCash": 0,
+      "durationWeeks": 8,
+      "resistBonus": 5,
+      "decayMultiplier": 1,
+      "withdrawalMultiplier": 1.5,
+      "condition": null,
+      "startEffects": [],
+      "successEffects": [
+        {
+          "type": "stat",
+          "stat": "hidden.willpower",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "gradual",
+      "nameKey": "quit.gradual.name",
+      "vices": null,
+      "costCash": 0,
+      "durationWeeks": 16,
+      "resistBonus": 10,
+      "decayMultiplier": 0.8,
+      "withdrawalMultiplier": 0.5,
+      "condition": null,
+      "startEffects": [],
+      "successEffects": []
+    },
+    {
+      "id": "support_group",
+      "nameKey": "quit.support_group.name",
+      "vices": null,
+      "costCash": 500,
+      "durationWeeks": 12,
+      "resistBonus": 15,
+      "decayMultiplier": 1,
+      "withdrawalMultiplier": 0.8,
+      "condition": null,
+      "startEffects": [],
+      "successEffects": [
+        {
+          "type": "relationship",
+          "relation": "friend",
+          "amount": 5,
+          "target": "all"
+        }
+      ]
+    },
+    {
+      "id": "rehab",
+      "nameKey": "quit.rehab.name",
+      "vices": null,
+      "costCash": 60000,
+      "durationWeeks": 6,
+      "resistBonus": 35,
+      "decayMultiplier": 3,
+      "withdrawalMultiplier": 0.3,
+      "condition": null,
+      "startEffects": [
+        {
+          "type": "career.boss",
+          "amount": -5
+        }
+      ],
+      "successEffects": []
+    },
+    {
+      "id": "ordination_retreat",
+      "nameKey": "quit.ordination_retreat.name",
+      "vices": null,
+      "costCash": 2000,
+      "durationWeeks": 4,
+      "resistBonus": 40,
+      "decayMultiplier": 2,
+      "withdrawalMultiplier": 0.6,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 20
+      },
+      "startEffects": [
+        {
+          "type": "karma.merit",
+          "amount": 10
+        }
+      ],
+      "successEffects": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -10
+        }
+      ]
+    }
+  ]
+}

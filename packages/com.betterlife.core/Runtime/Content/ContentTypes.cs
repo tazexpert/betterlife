@@ -71,6 +71,12 @@ namespace BetterLife.Core.Content
         public const string RelationshipSettings = "relationship_settings";
         /// <summary>Things the character can do with NPCs.</summary>
         public const string Interactions = "interactions";
+        /// <summary>Vices (habits).</summary>
+        public const string Vices = "vices";
+        /// <summary>Ways to quit a vice.</summary>
+        public const string QuitMethods = "quit_methods";
+        /// <summary>Vice rules (single file).</summary>
+        public const string ViceSettings = "vice_settings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

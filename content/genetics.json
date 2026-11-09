@@ -60,6 +60,16 @@
       "trait": "extrovert",
       "prevalence": 0.3,
       "heritability": 0.35
+    },
+    {
+      "trait": "reckless",
+      "prevalence": 0.15,
+      "heritability": 0.3
+    },
+    {
+      "trait": "disciplined",
+      "prevalence": 0.15,
+      "heritability": 0.3
     }
   ]
 }

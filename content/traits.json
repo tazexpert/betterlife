@@ -97,6 +97,36 @@
           "multiplier": 1.2
         }
       ]
+    },
+    {
+      "id": "reckless",
+      "nameKey": "trait.reckless.name",
+      "descKey": "trait.reckless.desc",
+      "category": "personality",
+      "exclusiveGroup": "discipline",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "hidden.willpower",
+          "direction": "gain",
+          "multiplier": 0.8
+        }
+      ]
+    },
+    {
+      "id": "disciplined",
+      "nameKey": "trait.disciplined.name",
+      "descKey": "trait.disciplined.desc",
+      "category": "personality",
+      "exclusiveGroup": "discipline",
+      "startsHidden": true,
+      "statModifiers": [
+        {
+          "stat": "hidden.willpower",
+          "direction": "gain",
+          "multiplier": 1.25
+        }
+      ]
     }
   ]
 }
