@@ -14,8 +14,11 @@ namespace BetterLife.Core.ViewModels
         /// <param name="habits">Visible habit cards (empty hides the section).</param>
         /// <param name="pendingDecisions">Number of events waiting for an answer.</param>
         /// <param name="inboxText">Inbox shortcut text.</param>
-        public DashboardState(IReadOnlyList<StatCardState> cards, IReadOnlyList<HabitCardState> habits, int pendingDecisions, string inboxText)
+        /// <param name="family">Relationship status and children.</param>
+        public DashboardState(IReadOnlyList<StatCardState> cards, IReadOnlyList<HabitCardState> habits, int pendingDecisions, string inboxText,
+            IReadOnlyList<ValueRow> family)
         {
+            Family = family;
             Cards = cards;
             Habits = habits;
             PendingDecisions = pendingDecisions;
@@ -33,5 +36,8 @@ namespace BetterLife.Core.ViewModels
 
         /// <summary>Inbox shortcut text.</summary>
         public string InboxText { get; }
+
+        /// <summary>Relationship status and children.</summary>
+        public IReadOnlyList<ValueRow> Family { get; }
     }
 }

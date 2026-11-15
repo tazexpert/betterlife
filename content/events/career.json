@@ -51,6 +51,11 @@
               {
                 "type": "career.boss",
                 "amount": 5
+              },
+              {
+                "type": "meet",
+                "relation": "colleague",
+                "chance": 0.1
               }
             ]
           }
@@ -70,7 +75,17 @@
           },
           "success": {
             "resultKey": "event.career.overtime_request.choice.decline.success",
-            "effects": []
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -3
+              },
+              {
+                "type": "career.boss",
+                "amount": -2
+              }
+            ]
           },
           "failure": {
             "resultKey": "event.career.overtime_request.choice.decline.failure",

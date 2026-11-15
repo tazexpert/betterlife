@@ -8,6 +8,7 @@ using BetterLife.Core.Events;
 using BetterLife.Core.Randomness;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Sessions;
+using BetterLife.Core.Time.Ticking;
 
 namespace BetterLife.Core.Legacy
 {
@@ -43,11 +44,12 @@ namespace BetterLife.Core.Legacy
         /// <param name="heirNpcId">NPC id of a living child.</param>
         /// <param name="bus">Event bus for the new life.</param>
         /// <param name="report">How the estate was settled.</param>
+        /// <param name="policy">Interrupt policy of the new life, or null for the default.</param>
         /// <returns>The heir's running life.</returns>
-        public LifeSession ContinueAs(LifeSession deceased, int heirNpcId, IEventBus bus, out InheritanceReport report)
+        public LifeSession ContinueAs(LifeSession deceased, int heirNpcId, IEventBus bus, out InheritanceReport report, InterruptPolicy policy = null)
         {
             Character heir = _creator.Create(deceased, heirNpcId, out report, out RandomRegistry random);
-            return LifeSessionFactory.CreateHeir(_content, heir, random, deceased, bus);
+            return LifeSessionFactory.CreateHeir(_content, heir, random, deceased, bus, policy);
         }
     }
 }

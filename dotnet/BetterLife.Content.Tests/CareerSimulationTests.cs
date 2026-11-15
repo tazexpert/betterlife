@@ -40,7 +40,7 @@ namespace BetterLife.Content.Tests
             for (int i = 0; i < Lives; i++)
             {
                 CreationResult creation = creator.Create(new CreationRequest((ulong)(7100 + i * 13), CreationMode.Random));
-                using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus()))
+                using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), RepoContent.Simulation))
                 {
                     for (int month = 0; month < Months && !life.IsOver; month++)
                     {

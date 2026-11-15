@@ -6,6 +6,7 @@
             <ui:VisualElement name="screen-container" class="shell__screen" />
             <ui:VisualElement name="bottom-nav" class="shell__bottom-nav" />
         </ui:VisualElement>
+        <ui:VisualElement name="toast-layer" class="shell__toast-layer" picking-mode="Ignore" />
         <ui:VisualElement name="modal-layer" class="shell__modal-layer" />
     </ui:VisualElement>
 </ui:UXML>

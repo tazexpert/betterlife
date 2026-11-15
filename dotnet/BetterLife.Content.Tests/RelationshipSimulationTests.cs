@@ -35,7 +35,7 @@ namespace BetterLife.Content.Tests
             for (int i = 0; i < Lives; i++)
             {
                 CreationResult creation = creator.Create(new CreationRequest((ulong)(8300 + i * 7), CreationMode.Random));
-                using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus()))
+                using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), RepoContent.Simulation))
                 {
                     Assert.That(life.Character.Relationships.Living(RelationshipType.Parent).Count(), Is.EqualTo(2), "everyone starts with parents");
                     bool dated = false;

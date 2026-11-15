@@ -69,6 +69,11 @@
                 "relation": "friend",
                 "amount": 4,
                 "target": "closest"
+              },
+              {
+                "type": "meet",
+                "relation": "friend",
+                "chance": 0.2
               }
             ]
           }

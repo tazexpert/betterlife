@@ -15,8 +15,10 @@ namespace BetterLife.Core.Time.Ticking
         /// <param name="reasonKey">Localization key describing the cause.</param>
         /// <param name="sourceId">Id of the cause, for example an event id.</param>
         /// <param name="week">Week the request was made.</param>
-        public InterruptRequest(Severity severity, string reasonKey, string sourceId, GameDate week)
+        /// <param name="requiresAnswer">Whether the player must answer something (a decision stops time at any severity).</param>
+        public InterruptRequest(Severity severity, string reasonKey, string sourceId, GameDate week, bool requiresAnswer = false)
         {
+            RequiresAnswer = requiresAnswer;
             Severity = severity;
             ReasonKey = ContentId.RequireLocKey(reasonKey, nameof(reasonKey));
             SourceId = sourceId ?? throw new ArgumentNullException(nameof(sourceId));
@@ -34,5 +36,8 @@ namespace BetterLife.Core.Time.Ticking
 
         /// <summary>Week the request was made.</summary>
         public GameDate Week { get; }
+
+        /// <summary>Whether the player must answer something (an event with choices).</summary>
+        public bool RequiresAnswer { get; }
     }
 }

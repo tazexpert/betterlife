@@ -26,6 +26,12 @@ namespace BetterLife.Core.Time.Ticking
         public Severity Threshold { get; set; }
 
         /// <summary>
+        /// Whether a request that needs the player's answer stops time at any severity (true in the game; mass
+        /// simulations turn it off so unanswered events simply expire).
+        /// </summary>
+        public bool StopForDecisions { get; set; } = true;
+
+        /// <summary>
         /// Returns the most severe request at or above the threshold, or null when skipping may continue.
         /// </summary>
         /// <param name="requests">Requests made this week.</param>
@@ -36,7 +42,10 @@ namespace BetterLife.Core.Time.Ticking
             {
                 throw new ArgumentNullException(nameof(requests));
             }
-            return requests.Where(r => r.Severity >= Threshold).OrderByDescending(r => r.Severity).FirstOrDefault();
+            return requests.Where(r => r.Severity >= Threshold || (StopForDecisions && r.RequiresAnswer))
+                .OrderByDescending(r => r.RequiresAnswer && StopForDecisions)
+                .ThenByDescending(r => r.Severity)
+                .FirstOrDefault();
         }
     }
 }

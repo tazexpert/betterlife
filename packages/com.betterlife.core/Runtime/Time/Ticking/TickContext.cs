@@ -50,6 +50,17 @@ namespace BetterLife.Core.Time.Ticking
         }
 
         /// <summary>
+        /// Asks to stop time skipping after this week because the player must answer something.
+        /// </summary>
+        /// <param name="severity">Importance.</param>
+        /// <param name="reasonKey">Localization key of the cause.</param>
+        /// <param name="sourceId">Id of the cause.</param>
+        public void RequestDecision(Severity severity, string reasonKey, string sourceId)
+        {
+            _interrupts.Add(new InterruptRequest(severity, reasonKey, sourceId, Week, true));
+        }
+
+        /// <summary>
         /// Returns true when a phase with this cadence runs this week.
         /// </summary>
         /// <param name="cadence">Phase cadence.</param>

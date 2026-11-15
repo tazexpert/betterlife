@@ -49,6 +49,8 @@ namespace UnityEngine.UIElements
     public class Painter2D { public Color strokeColor; public float lineWidth; public LineJoin lineJoin; public LineCap lineCap; public void BeginPath() {} public void MoveTo(Vector2 p) {} public void LineTo(Vector2 p) {} public void Stroke() {} }
     public class MeshGenerationContext { public Painter2D painter2D => null; }
     public interface IManipulator {}
+    public interface IVisualElementScheduledItem { IVisualElementScheduledItem StartingIn(long delayMs); }
+    public interface IVisualElementScheduler { IVisualElementScheduledItem Execute(Action timerUpdateEvent); }
     public class Clickable : IManipulator { public Clickable(Action a) {} }
     public class VisualElement
     {
@@ -56,6 +58,7 @@ namespace UnityEngine.UIElements
         public Action<MeshGenerationContext> generateVisualContent;
         public void Add(VisualElement e) {} public void Clear() {} public void AddToClassList(string c) {} public void EnableInClassList(string c, bool on) {}
         public void SetEnabled(bool v) {} public void MarkDirtyRepaint() {}
+        public IVisualElementScheduler schedule; public int childCount; public void RemoveAt(int index) {} public void RemoveFromHierarchy() {} public void RemoveFromClassList(string c) {}
     }
     public class TemplateContainer : VisualElement {}
     public class TextElement : VisualElement { public string text; }

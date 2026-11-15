@@ -41,7 +41,7 @@ namespace BetterLife.Content.Tests
             for (int f = 0; f < Families; f++)
             {
                 CreationResult creation = new CharacterCreator(content).Create(new CreationRequest((ulong)(9100 + f * 37), CreationMode.Random));
-                LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus());
+                LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), RepoContent.Simulation);
                 while (true)
                 {
                     bool hadChildren = false;
@@ -63,7 +63,7 @@ namespace BetterLife.Content.Tests
                         break;
                     }
                     int eldest = heirs.OrderBy(r => life.Character.Relationships.Npc(r.NpcId).BornOn).First().NpcId;
-                    LifeSession next = legacy.ContinueAs(life, eldest, new EventBus(), out InheritanceReport report);
+                    LifeSession next = legacy.ContinueAs(life, eldest, new EventBus(), out InheritanceReport report, RepoContent.Simulation);
                     Assert.That(report.Received, Is.GreaterThanOrEqualTo(0m));
                     Assert.That(next.Lineage.Ancestors.Count, Is.EqualTo(life.Character.Generation));
                     life.Dispose();

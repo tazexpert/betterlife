@@ -42,25 +42,30 @@ namespace BetterLife.Core.Notices
         /// </summary>
         /// <param name="result">Time skip result.</param>
         /// <param name="inbox">Events waiting for an answer after the skip.</param>
-        public void Add(AdvanceResult result, IReadOnlyList<PendingEvent> inbox)
+        /// <returns>The notices added, oldest first (for popups).</returns>
+        public IReadOnlyList<Notice> Add(AdvanceResult result, IReadOnlyList<PendingEvent> inbox)
         {
             if (result == null)
             {
                 throw new ArgumentNullException(nameof(result));
             }
             IReadOnlyList<PendingEvent> pending = inbox ?? new PendingEvent[0];
+            var added = new List<Notice>();
             foreach (InterruptRequest interrupt in result.Interrupts.OrderBy(i => i.Week))
             {
                 if (IsPendingDecision(interrupt, pending))
                 {
                     continue;
                 }
-                _items.Insert(0, new Notice(interrupt.Severity, interrupt.ReasonKey, interrupt.SourceId, interrupt.Week));
+                var notice = new Notice(interrupt.Severity, interrupt.ReasonKey, interrupt.SourceId, interrupt.Week);
+                _items.Insert(0, notice);
+                added.Add(notice);
             }
             if (_items.Count > Capacity)
             {
                 _items.RemoveRange(Capacity, _items.Count - Capacity);
             }
+            return added;
         }
 
         /// <summary>
