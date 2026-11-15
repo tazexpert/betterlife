@@ -1,0 +1,1352 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/rules.schema.json",
+  "title": "Rules",
+  "description": "Conditions and effects shared by all content types. Reference checks (ids exist, stats are stored, flag kinds, min <= max) are enforced by the C# rule parser.",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    },
+    "op": {
+      "enum": [
+        "==",
+        "!=",
+        "<",
+        "<=",
+        ">",
+        ">="
+      ]
+    },
+    "range": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "nonNegativeRange": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "statRange": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      ]
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "conditions"
+          ],
+          "properties": {
+            "type": {
+              "const": "all"
+            },
+            "conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "conditions"
+          ],
+          "properties": {
+            "type": {
+              "const": "any"
+            },
+            "conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/condition"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "not"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "stat",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "stat"
+            },
+            "stat": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "dependentRequired": {
+            "op": [
+              "value"
+            ],
+            "value": [
+              "op"
+            ]
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            },
+            "revealed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "skill",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "skill"
+            },
+            "skill": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "age"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "year"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "cash"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "netWorth"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "totalDebt"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "amount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "kind": {
+              "enum": [
+                "credit_card",
+                "personal",
+                "mortgage",
+                "car",
+                "student",
+                "informal"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "domain",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "reputation"
+            },
+            "domain": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "area",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "fortune"
+            },
+            "area": {
+              "enum": [
+                "finance",
+                "love",
+                "health",
+                "career",
+                "study"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "kind",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma"
+            },
+            "kind": {
+              "enum": [
+                "good",
+                "bad"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "anyOf": [
+            {
+              "required": [
+                "country"
+              ]
+            },
+            {
+              "required": [
+                "city"
+              ]
+            }
+          ],
+          "properties": {
+            "type": {
+              "const": "location"
+            },
+            "country": {
+              "$ref": "#/$defs/id"
+            },
+            "city": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "background"
+          ],
+          "properties": {
+            "type": {
+              "const": "familyBackground"
+            },
+            "background": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "stages"
+          ],
+          "properties": {
+            "type": {
+              "const": "lifeStage"
+            },
+            "stages": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "completed"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "completed": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "enrolled"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "enrolled": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "enrolledIn"
+          ],
+          "properties": {
+            "type": {
+              "const": "education"
+            },
+            "enrolledIn": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "employed"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "employed": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "category"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "category": {
+              "enum": [
+                "corporate",
+                "government",
+                "freelance",
+                "business",
+                "high_risk",
+                "illegal",
+                "labor"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "track"
+          ],
+          "properties": {
+            "type": {
+              "const": "career"
+            },
+            "track": {
+              "$ref": "#/$defs/id"
+            },
+            "minLevel": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "count"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "count": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "op",
+                "value"
+              ],
+              "properties": {
+                "op": {
+                  "$ref": "#/$defs/op"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number",
+              "minimum": -100,
+              "maximum": 100
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "vice",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "vice"
+            },
+            "vice": {
+              "$ref": "#/$defs/id"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number"
+            },
+            "measure": {
+              "enum": [
+                "addiction",
+                "tolerance",
+                "uses",
+                "cleanWeeks"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "measure",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "scam"
+            },
+            "measure": {
+              "enum": [
+                "victims",
+                "lost",
+                "detected"
+              ]
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "effect": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "stat",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "stat"
+            },
+            "stat": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            },
+            "source": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "cash"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.set"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "expiryWeeks": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.clear"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "flag"
+          ],
+          "properties": {
+            "type": {
+              "const": "flag.increment"
+            },
+            "flag": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "expiryWeeks": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.add"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.remove"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "trait"
+          ],
+          "properties": {
+            "type": {
+              "const": "trait.reveal"
+            },
+            "trait": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "skill",
+            "gain"
+          ],
+          "properties": {
+            "type": {
+              "const": "skill.practice"
+            },
+            "skill": {
+              "$ref": "#/$defs/id"
+            },
+            "gain": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "domain",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "reputation"
+            },
+            "domain": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition",
+            "severity"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition.add"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            },
+            "severity": {
+              "$ref": "#/$defs/statRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition"
+          ],
+          "properties": {
+            "type": {
+              "const": "healthCondition.remove"
+            },
+            "condition": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "condition",
+            "then"
+          ],
+          "properties": {
+            "type": {
+              "const": "if"
+            },
+            "condition": {
+              "$ref": "#/$defs/condition"
+            },
+            "then": {
+              "$ref": "#/$defs/effects"
+            },
+            "else": {
+              "$ref": "#/$defs/effects"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.good"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.bad"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "karma.merit"
+            },
+            "amount": {
+              "$ref": "#/$defs/nonNegativeRange"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "event",
+            "delayWeeks"
+          ],
+          "properties": {
+            "type": {
+              "const": "event.schedule"
+            },
+            "event": {
+              "$ref": "#/$defs/id"
+            },
+            "delayWeeks": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "min",
+                    "max"
+                  ],
+                  "properties": {
+                    "min": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "max": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "cause"
+          ],
+          "properties": {
+            "type": {
+              "const": "character.die"
+            },
+            "cause": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "education.performance"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.performance"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.boss"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.fire"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact",
+                "any"
+              ]
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            },
+            "target": {
+              "enum": [
+                "closest",
+                "all"
+              ]
+            },
+            "memory": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "vice",
+            "amount"
+          ],
+          "properties": {
+            "type": {
+              "const": "vice.addiction"
+            },
+            "vice": {
+              "$ref": "#/$defs/id"
+            },
+            "amount": {
+              "$ref": "#/$defs/range"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "scam",
+            "cashShare",
+            "min",
+            "max"
+          ],
+          "properties": {
+            "type": {
+              "const": "scam.loss"
+            },
+            "scam": {
+              "$ref": "#/$defs/id"
+            },
+            "cashShare": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "effects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/effect"
+      }
+    },
+    "chance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base"
+      ],
+      "properties": {
+        "base": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stat",
+              "weight"
+            ],
+            "properties": {
+              "stat": {
+                "$ref": "#/$defs/id"
+              },
+              "weight": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "fortune": {
+          "enum": [
+            "finance",
+            "love",
+            "health",
+            "career",
+            "study"
+          ]
+        },
+        "karma": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

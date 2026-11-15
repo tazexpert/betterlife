@@ -1,0 +1,6 @@
+<!-- Keeps save DTOs (read and written by reflection through Newtonsoft.Json) from being stripped in IL2CPP builds. -->
+<linker>
+  <assembly fullname="BetterLife.Core">
+    <namespace fullname="BetterLife.Core.Persistence" preserve="all" />
+  </assembly>
+</linker>

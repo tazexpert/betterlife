@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/education_settings.schema.json",
+  "title": "Education settings",
+  "description": "Weekly school performance, school years, entrance exams, scholarships and student loans. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schoolActivity",
+    "studyActivity",
+    "startPerformance",
+    "performance",
+    "yearEnd",
+    "admission",
+    "scholarship",
+    "studentLoanProduct"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schoolActivity": {
+      "$ref": "#/$defs/id"
+    },
+    "studyActivity": {
+      "$ref": "#/$defs/id"
+    },
+    "startPerformance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weeklySmoothing",
+        "attendanceWeight",
+        "iqWeight",
+        "knowledgeWeight",
+        "mentalWeight",
+        "studyBonusPerHour",
+        "maxStudyBonus"
+      ],
+      "properties": {
+        "weeklySmoothing": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "attendanceWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "iqWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "knowledgeWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "mentalWeight": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "studyBonusPerHour": {
+          "type": "number",
+          "minimum": 0
+        },
+        "maxStudyBonus": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "yearEnd": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passPerformance",
+        "maxRepeats"
+      ],
+      "properties": {
+        "passPerformance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "maxRepeats": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chance",
+        "perPointAboveDifficulty",
+        "performanceWeight",
+        "knowledgeWeight",
+        "retryWeeks"
+      ],
+      "properties": {
+        "chance": {
+          "$ref": "rules.schema.json#/$defs/chance"
+        },
+        "perPointAboveDifficulty": {
+          "type": "number",
+          "minimum": 0
+        },
+        "performanceWeight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "knowledgeWeight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "retryWeeks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "scholarship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minScore",
+        "chance",
+        "keepPerformance"
+      ],
+      "properties": {
+        "minScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "chance": {
+          "$ref": "rules.schema.json#/$defs/chance"
+        },
+        "keepPerformance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "studentLoanProduct": {
+      "$ref": "#/$defs/id"
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

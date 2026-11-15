@@ -10,6 +10,7 @@ Infrastructure (Unity: Save, Ads, IAP, Analytics, Content loader)
 Core (packages/com.betterlife.core/Runtime — Pure C#, netstandard2.1, C# 9)
 ```
 - Core ไม่รู้จัก Unity เลย (`noEngineReferences: true`) และคอมไพล์ด้วย `dotnet/BetterLife.Core.csproj`
+- Dependency ภายนอกตัวเดียวของ Core: **Newtonsoft.Json** (Unity: `com.unity.nuget.newtonsoft-json`, dotnet: NuGet)
 - **GameBootstrap** (ใน Unity) เป็น Composition Root ที่เดียว สร้างทุก Object ด้วยโค้ด ไม่ใช้ Inspector
 
 ## โครงสร้างโฟลเดอร์
@@ -25,6 +26,7 @@ dotnet/
   BetterLife.sln
   BetterLife.Core.csproj          คอมไพล์ Runtime ของ Core
   BetterLife.Core.Tests.csproj    รันเทสต์ชุดเดียวกับ Unity Test Runner
+  BetterLife.Content.Tests/       ตรวจ content จริงด้วย JSON Schema (dotnet อย่างเดียว)
   Directory.Build.props           แยก obj/bin ต่อโปรเจกต์
 packages/com.betterlife.core/     UPM package (Pure C#)
   package.json
@@ -35,9 +37,9 @@ unity/                            Unity project
   ProjectSettings/ProjectVersion.txt
   Assets/BetterLife/
     Bootstrap/                    BetterLife.Bootstrap.asmdef + GameBootstrap (Composition Root)
-    Infrastructure/               BetterLife.Infrastructure.asmdef (→ Core)
+    Infrastructure/               BetterLife.Infrastructure.asmdef (→ Core) + Content/ (ResourcesContentSource)
     Presentation/                 BetterLife.Presentation.asmdef (→ Core) + UI/Uxml, UI/Uss
-    EditorTools/                  BetterLife.EditorTools.asmdef (Editor only) + ProjectSetupMenu
+    EditorTools/                  BetterLife.EditorTools.asmdef (Editor only, → Core, Infrastructure) + ProjectSetupMenu, ContentSync, ContentBuildStep
     Scenes/Main.unity             สร้างโดย ProjectSetupMenu (ฉากว่าง)
 ```
 
@@ -48,20 +50,46 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
         └──────────────► BetterLife.Presentation ─────────┘
 ```
 - ไม่มีใครอ้างถึง Bootstrap ได้ และ Presentation กับ Infrastructure ห้ามอ้างถึงกัน
+- **GameBootstrap** โหลด content → สร้าง `LifeSession` ผ่าน `CharacterCreator` + `LifeSessionFactory`
 - **GameBootstrap** สร้างตัวเองด้วย `[RuntimeInitializeOnLoadMethod(BeforeSceneLoad)]` และใช้ `DontDestroyOnLoad`
   จึงไม่ต้องวางอะไรในฉากและไม่ต้องผูกค่าใน Inspector
 
 ## Namespace ที่วางแผนไว้ (Core)
 | Namespace | หน้าที่ |
 |---|---|
-| `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver, Tick pipeline |
+| `BetterLife.Core.Time` | GameDate, CalendarDate, ThaiDayOfWeekResolver |
+| `BetterLife.Core.Time.Budget` | กิจกรรม, TimeBudget 168 ชม., TimeSettings, TimeState |
+| `BetterLife.Core.Time.Ticking` (+ `.Phases`) | TimeSystem, ITickPhase, Interrupt, GameClock |
 | `BetterLife.Core.Randomness` | IRandomProvider, Pcg32, RandomRegistry (ไม่ใช้ชื่อ `Random` เพื่อไม่ชนกับ System.Random) |
-| `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ — ส่วนเหตุการณ์ชีวิตจะอยู่ที่ `Systems.LifeEvents`) |
-| `BetterLife.Core.Stats` | Stats 3 ชั้น + Breakdown |
+| `BetterLife.Core.Events` | IEventBus, IGameEvent (ข้อความระหว่างระบบ ส่วนเหตุการณ์ชีวิตอยู่ที่ `LifeEvents`) |
+| `BetterLife.Core.Domain` | ContentId, DefinitionCatalog |
+| `BetterLife.Core.Domain.Stats` | Stats 3 ชั้น, สูตร, Breakdown, ChangeLog, History, Reputation |
+| `BetterLife.Core.Domain.Traits` / `.Skills` / `.Flags` | Trait, Skill, Story flag |
+| `BetterLife.Core.Domain.Characters` | Character (aggregate root), GenderProfile, BirthInfo, Wallet |
+| `BetterLife.Core.Rules` (+ `.Conditions`, `.Effects`, `.Serialization`) | Rules Engine: Condition/Effect + Registry + JSON converters |
+| `BetterLife.Core.Content` (+ `.Loaders`) | Content Pipeline: manifest, loaders, IContentRepository |
+| `BetterLife.Core.Astrology` | ดวง 5 ด้าน, AstrologyTables, FortuneCalculator |
+| `BetterLife.Core.Karma` | KarmaLedger, หนี้กรรม, KarmaService |
+| `BetterLife.Core.Luck` | LuckCalculator (FinalChance), ChanceSpec |
+| `BetterLife.Core.LifeEvents` | Event System: เหตุการณ์ชีวิต, Inbox, Choices, Delayed consequences |
+| `BetterLife.Core.Domain.World` / `.Family` / `.Genetics` | ประเทศ/เมือง, ครอบครัว, พันธุกรรม |
+| `BetterLife.Core.Creation` | CharacterCreator, ChallengeCode, CreationRequest |
+| `BetterLife.Core.Sessions` | LifeSession: ประกอบทุกระบบของชีวิตหนึ่ง |
+| `BetterLife.Core.Domain.Life` / `BetterLife.Core.Life` | ช่วงวัย, การแก่ตัว, โรค, ความเสี่ยงตาย, การตาย |
+| `BetterLife.Core.Economy` | เศรษฐกิจมหภาค (วัฏจักร/เงินเฟ้อ/ตลาด), การเงินส่วนตัว (รายรับ-รายจ่าย, สินทรัพย์, หนี้, Credit, ล้มละลาย) |
+| `BetterLife.Core.Education` | การศึกษา: หลักสูตร/สถานศึกษา, เข้าเรียน, สอบ, ทุน, ค่าเทอม, ผลการเรียน, จบการศึกษา |
+| `BetterLife.Core.Careers` | อาชีพ: Career ladder, สมัครงาน, Performance, หัวหน้า, เลื่อนตำแหน่ง, ความเสี่ยง, เลิกจ้าง, เกษียณ, รายได้ |
+| `BetterLife.Core.Relationships` | NPC, ความสัมพันธ์, การกระทำกับ NPC (เดท/แต่งงาน/มีลูก), Compatibility, NPC แก่ตัว/เสียชีวิต, Network |
+| `BetterLife.Core.Vices` | อบายมุข 6: ความยั่วยุ/การต้าน, Addiction/Tolerance/Withdrawal, การพนัน, ครอบครัวจับได้, วิธีเลิก + Relapse |
+| `BetterLife.Core.Scams` | มิจฉาชีพ: การเล็งเป้า, การจับได้, ความเสียหาย, แจ้งความขอเงินคืน |
 | `BetterLife.Core.Systems.*` | ระบบเกมแต่ละตัว |
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
-| `BetterLife.Core.Persistence` | Save DTO + Mapper |
-| `BetterLife.Core.Localization` | LocKey |
+| `BetterLife.Core.Persistence` | Save DTO + Mapper (รวม `LifeSaveDto` ทั้งชีวิต) |
+| `BetterLife.Core.Saving` | ไฟล์เซฟ (Envelope + checksum), Migration, `ISaveStorage` (ไฟล์/หน่วยความจำ), Slot, Undo |
+| `BetterLife.Core.Localization` | LocKey, `ILocalizer`, ตารางภาษา (`StringTable`/`StringTables`), `TableLocalizer` |
+| `BetterLife.Core.Navigation` | แท็บของ Shell + `ScreenRouter` (stack ต่อแท็บ, Modal, ปุ่ม Back) |
+| `BetterLife.Core.ViewModels` | ข้อมูลพร้อมแสดงผลที่ไม่ผูก Unity (`TopBarViewModel`, `MoneyFormatter`) |
+| Unity `BetterLife.Presentation.Shell` / `.Screens` | `UiRoot` (PanelSettings + UIDocument จากโค้ด), `ShellPresenter`, `TopBarPresenter`, `ScreenRegistry`, หน้าจอ |
 
 ## ตัวป้องกันกฎสถาปัตยกรรม
 - **คอมไพเลอร์:** C# 9 ปฏิเสธ file-scoped namespace / record struct, `TreatWarningsAsErrors` + `GenerateDocumentationFile` บังคับ XML doc

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/activities.schema.json",
+  "title": "Activities",
+  "description": "Things the player spends weekly hours on. Stat effects must target stored stats (checked by the loader).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "activities"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "descKey",
+          "category",
+          "minHours",
+          "maxHours",
+          "costPerHour",
+          "stats",
+          "skills"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "descKey": {
+            "$ref": "#/$defs/id"
+          },
+          "category": {
+            "$ref": "#/$defs/id"
+          },
+          "minHours": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 168
+          },
+          "maxHours": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 168
+          },
+          "costPerHour": {
+            "type": "number",
+            "minimum": 0
+          },
+          "condition": {
+            "$ref": "rules.schema.json#/$defs/condition"
+          },
+          "stats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stat",
+                "perHour"
+              ],
+              "properties": {
+                "stat": {
+                  "$ref": "#/$defs/id"
+                },
+                "perHour": {
+                  "type": "number"
+                },
+                "maxHours": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "skill",
+                "gainPerHour"
+              ],
+              "properties": {
+                "skill": {
+                  "$ref": "#/$defs/id"
+                },
+                "gainPerHour": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "maxHours": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

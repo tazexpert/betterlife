@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/economy.schema.json",
+  "title": "Economy",
+  "description": "Macro economy: base year, historical inflation and business-cycle phases. Exactly one file of this type. All money is real base-year baht.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "baseYear",
+    "historicalInflation",
+    "maxDebtBalance",
+    "phases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "baseYear": {
+      "type": "integer"
+    },
+    "historicalInflation": {
+      "type": "number"
+    },
+    "maxDebtBalance": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "next",
+          "durationYears",
+          "inflation",
+          "policyRate",
+          "markets"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "next": {
+            "$ref": "#/$defs/id"
+          },
+          "durationYears": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "min",
+              "max"
+            ],
+            "properties": {
+              "min": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "max": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "inflation": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            ]
+          },
+          "policyRate": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "min",
+                  "max"
+                ],
+                "properties": {
+                  "min": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                }
+              }
+            ]
+          },
+          "markets": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stocks",
+              "property",
+              "crypto"
+            ],
+            "properties": {
+              "stocks": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "mean",
+                  "volatility"
+                ],
+                "properties": {
+                  "mean": {
+                    "type": "number"
+                  },
+                  "volatility": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "property": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "mean",
+                  "volatility"
+                ],
+                "properties": {
+                  "mean": {
+                    "type": "number"
+                  },
+                  "volatility": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "crypto": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "mean",
+                  "volatility"
+                ],
+                "properties": {
+                  "mean": {
+                    "type": "number"
+                  },
+                  "volatility": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/vice_settings.schema.json",
+  "title": "Vice settings",
+  "description": "Temptation multipliers, resisting, support, bad company, laziness and the help page. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "visibleFromAddiction",
+    "firstTryMultiplier",
+    "chaseFromAddiction",
+    "maxWeeklyTemptation",
+    "stress",
+    "addictionWeight",
+    "resist",
+    "support",
+    "badCompany",
+    "laziness",
+    "traits",
+    "helplineKey"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "visibleFromAddiction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "firstTryMultiplier": {
+      "type": "number",
+      "minimum": 0
+    },
+    "chaseFromAddiction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "maxWeeklyTemptation": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "stress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "weight",
+        "minMultiplier"
+      ],
+      "properties": {
+        "weight": {
+          "type": "number"
+        },
+        "minMultiplier": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "addictionWeight": {
+      "type": "number",
+      "minimum": 0
+    },
+    "resist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chance",
+        "perAddiction",
+        "willpowerGain"
+      ],
+      "properties": {
+        "chance": {
+          "$ref": "rules.schema.json#/$defs/chance"
+        },
+        "perAddiction": {
+          "type": "number"
+        },
+        "willpowerGain": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minValue",
+        "perTie",
+        "max"
+      ],
+      "properties": {
+        "minValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "perTie": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "badCompany": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "traits",
+        "minValue",
+        "perFriend",
+        "max"
+      ],
+      "properties": {
+        "traits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "minValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "perFriend": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    },
+    "laziness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activities",
+        "baselineHours",
+        "perHour",
+        "max"
+      ],
+      "properties": {
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "baselineHours": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "perHour": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 1
+        }
+      }
+    },
+    "traits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trait",
+          "multiplier"
+        ],
+        "properties": {
+          "trait": {
+            "$ref": "#/$defs/id"
+          },
+          "multiplier": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "helplineKey": {
+      "$ref": "#/$defs/id"
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

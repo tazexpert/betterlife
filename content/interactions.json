@@ -1,0 +1,448 @@
+{
+  "$schema": "../docs/schemas/interactions.schema.json",
+  "interactions": [
+    {
+      "id": "chat",
+      "nameKey": "interaction.chat.name",
+      "types": [
+        "parent",
+        "sibling",
+        "child",
+        "partner",
+        "spouse",
+        "friend",
+        "colleague",
+        "contact",
+        "ex"
+      ],
+      "minValue": null,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 1,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": {
+          "min": 1,
+          "max": 3
+        },
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "gift",
+      "nameKey": "interaction.gift.name",
+      "types": [
+        "parent",
+        "sibling",
+        "child",
+        "partner",
+        "spouse",
+        "friend",
+        "colleague",
+        "contact"
+      ],
+      "minValue": null,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 1000,
+      "cooldownWeeks": 4,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": {
+          "min": 3,
+          "max": 7
+        },
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "deep_talk",
+      "nameKey": "interaction.deep_talk.name",
+      "types": [
+        "parent",
+        "sibling",
+        "child",
+        "partner",
+        "spouse",
+        "friend"
+      ],
+      "minValue": 20,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 4,
+      "chance": {
+        "base": 60,
+        "stats": [
+          {
+            "stat": "hidden.charisma",
+            "weight": 0.2
+          }
+        ],
+        "fortune": "love"
+      },
+      "compatibilityPerPoint": 0.5,
+      "success": {
+        "value": {
+          "min": 4,
+          "max": 8
+        },
+        "becomes": null,
+        "child": null,
+        "memoryKey": "memory.deep_talk",
+        "effects": []
+      },
+      "failure": {
+        "value": -3,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "argue",
+      "nameKey": "interaction.argue.name",
+      "types": [
+        "parent",
+        "sibling",
+        "child",
+        "partner",
+        "spouse",
+        "friend",
+        "colleague",
+        "contact",
+        "ex"
+      ],
+      "minValue": null,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 2,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": {
+          "min": -10,
+          "max": -4
+        },
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": [
+          {
+            "type": "stat",
+            "stat": "mental.stress",
+            "amount": -3
+          }
+        ]
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "ask_out",
+      "nameKey": "interaction.ask_out.name",
+      "types": [
+        "friend",
+        "colleague",
+        "ex"
+      ],
+      "minValue": 40,
+      "maxValue": null,
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 16
+          },
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": "==",
+              "value": 0
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "==",
+              "value": 0
+            }
+          }
+        ]
+      },
+      "costCash": 0,
+      "cooldownWeeks": 12,
+      "chance": {
+        "base": 35,
+        "stats": [
+          {
+            "stat": "hidden.charisma",
+            "weight": 0.2
+          }
+        ],
+        "fortune": "love"
+      },
+      "compatibilityPerPoint": 1,
+      "success": {
+        "value": 10,
+        "becomes": "partner",
+        "child": null,
+        "memoryKey": "memory.first_date",
+        "effects": []
+      },
+      "failure": {
+        "value": -10,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "propose",
+      "nameKey": "interaction.propose.name",
+      "types": [
+        "partner"
+      ],
+      "minValue": 60,
+      "maxValue": null,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 18
+      },
+      "costCash": 0,
+      "cooldownWeeks": 26,
+      "chance": {
+        "base": 50,
+        "fortune": "love"
+      },
+      "compatibilityPerPoint": 1,
+      "success": {
+        "value": 15,
+        "becomes": "spouse",
+        "child": null,
+        "memoryKey": "memory.wedding",
+        "effects": [
+          {
+            "type": "cash",
+            "amount": -50000
+          },
+          {
+            "type": "stat",
+            "stat": "mental.happiness",
+            "amount": 10
+          }
+        ]
+      },
+      "failure": {
+        "value": -15,
+        "becomes": null,
+        "child": null,
+        "memoryKey": "memory.proposal_rejected",
+        "effects": []
+      }
+    },
+    {
+      "id": "break_up",
+      "nameKey": "interaction.break_up.name",
+      "types": [
+        "partner"
+      ],
+      "minValue": null,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 1,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": -30,
+        "becomes": "ex",
+        "child": null,
+        "memoryKey": "memory.broke_up",
+        "effects": [
+          {
+            "type": "stat",
+            "stat": "mental.stress",
+            "amount": 5
+          }
+        ]
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "divorce",
+      "nameKey": "interaction.divorce.name",
+      "types": [
+        "spouse"
+      ],
+      "minValue": null,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 1,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": -40,
+        "becomes": "ex",
+        "child": null,
+        "memoryKey": "memory.divorced",
+        "effects": [
+          {
+            "type": "stat",
+            "stat": "mental.stress",
+            "amount": 10
+          },
+          {
+            "type": "cash",
+            "amount": -30000
+          }
+        ]
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "try_for_baby",
+      "nameKey": "interaction.try_for_baby.name",
+      "types": [
+        "partner",
+        "spouse"
+      ],
+      "minValue": 30,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 4,
+      "chance": {
+        "base": 25,
+        "fortune": "love"
+      },
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": 5,
+        "becomes": null,
+        "child": "birth",
+        "memoryKey": "memory.expecting",
+        "effects": []
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "adopt",
+      "nameKey": "interaction.adopt.name",
+      "types": [
+        "partner",
+        "spouse"
+      ],
+      "minValue": 50,
+      "maxValue": null,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 25
+      },
+      "costCash": 30000,
+      "cooldownWeeks": 52,
+      "chance": {
+        "base": 60
+      },
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": 8,
+        "becomes": null,
+        "child": "adoption",
+        "memoryKey": "memory.adopted",
+        "effects": []
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    },
+    {
+      "id": "keep_in_touch",
+      "nameKey": "interaction.keep_in_touch.name",
+      "types": [
+        "colleague"
+      ],
+      "minValue": 30,
+      "maxValue": null,
+      "condition": null,
+      "costCash": 0,
+      "cooldownWeeks": 12,
+      "chance": null,
+      "compatibilityPerPoint": 0,
+      "success": {
+        "value": 2,
+        "becomes": "contact",
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      },
+      "failure": {
+        "value": 0,
+        "becomes": null,
+        "child": null,
+        "memoryKey": null,
+        "effects": []
+      }
+    }
+  ]
+}

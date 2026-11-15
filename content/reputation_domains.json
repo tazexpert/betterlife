@@ -1,0 +1,40 @@
+{
+  "domains": [
+    {
+      "id": "family",
+      "nameKey": "reputation.family.name"
+    },
+    {
+      "id": "neighborhood",
+      "nameKey": "reputation.neighborhood.name"
+    },
+    {
+      "id": "school",
+      "nameKey": "reputation.school.name"
+    },
+    {
+      "id": "workplace",
+      "nameKey": "reputation.workplace.name"
+    },
+    {
+      "id": "business",
+      "nameKey": "reputation.business.name"
+    },
+    {
+      "id": "online",
+      "nameKey": "reputation.online.name"
+    },
+    {
+      "id": "entertainment",
+      "nameKey": "reputation.entertainment.name"
+    },
+    {
+      "id": "politics",
+      "nameKey": "reputation.politics.name"
+    },
+    {
+      "id": "underworld",
+      "nameKey": "reputation.underworld.name"
+    }
+  ]
+}

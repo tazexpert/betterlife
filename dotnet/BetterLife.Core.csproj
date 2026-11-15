@@ -13,4 +13,8 @@
   <ItemGroup>
     <Compile Include="../packages/com.betterlife.core/Runtime/**/*.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Same library Unity ships as com.unity.nuget.newtonsoft-json. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
 </Project>

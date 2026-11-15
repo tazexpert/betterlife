@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/strings.schema.json",
+  "title": "Strings",
+  "description": "Player-facing texts of one language (one file per language). {name} marks a placeholder. Every language must have the same keys (checked by tests).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "language",
+    "strings"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "pattern": "^[a-z]{2}$"
+    },
+    "strings": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/$defs/id"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

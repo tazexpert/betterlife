@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/scams.schema.json",
+  "title": "Scams",
+  "description": "Kinds of scams: who they target, how hard they are to spot, what they take and how the money can come back. monthlyChance 0 = only used by events (scam.loss).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scams"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "scams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "channel",
+          "minAge",
+          "monthlyChance",
+          "ageBands",
+          "lonelinessWeight",
+          "wealthWeight",
+          "modifiers",
+          "detection",
+          "loss",
+          "effects",
+          "recovery"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "channel": {
+            "enum": [
+              "phone",
+              "sms",
+              "online",
+              "romance",
+              "in_person",
+              "game"
+            ]
+          },
+          "minAge": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "monthlyChance": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "ageBands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "minAge",
+                "multiplier"
+              ],
+              "properties": {
+                "minAge": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "multiplier": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "lonelinessWeight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "wealthWeight": {
+            "type": "number",
+            "minimum": 0
+          },
+          "modifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "condition",
+                "multiplier"
+              ],
+              "properties": {
+                "condition": {
+                  "$ref": "rules.schema.json#/$defs/condition"
+                },
+                "multiplier": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            }
+          },
+          "detection": {
+            "$ref": "rules.schema.json#/$defs/chance"
+          },
+          "loss": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cashShare",
+              "savingsShare",
+              "min",
+              "max"
+            ],
+            "properties": {
+              "cashShare": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "savingsShare": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "min": {
+                "type": "number",
+                "minimum": 0
+              },
+              "max": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "effects": {
+            "$ref": "rules.schema.json#/$defs/effects"
+          },
+          "recovery": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "chance",
+              "decayPerWeek",
+              "windowWeeks",
+              "share"
+            ],
+            "properties": {
+              "chance": {
+                "$ref": "rules.schema.json#/$defs/chance"
+              },
+              "decayPerWeek": {
+                "type": "number",
+                "minimum": 0
+              },
+              "windowWeeks": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "share": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

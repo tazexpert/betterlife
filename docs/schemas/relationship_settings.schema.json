@@ -1,0 +1,409 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/relationship_settings.schema.json",
+  "title": "Relationship settings",
+  "description": "Neglect and attention, the starting family, meeting people, compatibility, romance, children, the Relationships stat and the job network. Exactly one file of this type; every relationship type needs an entry in types.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "socialActivity",
+    "maxRelationships",
+    "types",
+    "attention",
+    "family",
+    "meeting",
+    "compatibility",
+    "romance",
+    "children",
+    "stats",
+    "network"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "socialActivity": {
+      "$ref": "#/$defs/id"
+    },
+    "maxRelationships": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "monthlyDecay",
+          "floor",
+          "griefStress",
+          "griefHappiness"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "parent",
+              "sibling",
+              "child",
+              "partner",
+              "spouse",
+              "ex",
+              "friend",
+              "colleague",
+              "contact"
+            ]
+          },
+          "monthlyDecay": {
+            "type": "number",
+            "minimum": 0
+          },
+          "floor": {
+            "type": "number",
+            "minimum": -100,
+            "maximum": 100
+          },
+          "griefStress": {
+            "type": "number",
+            "minimum": 0
+          },
+          "griefHappiness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "attention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gainPerHour",
+        "closestCount",
+        "familyMonthlyGain"
+      ],
+      "properties": {
+        "gainPerHour": {
+          "type": "number",
+          "minimum": 0
+        },
+        "closestCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "familyMonthlyGain": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parentStart",
+        "defaultParentStart",
+        "siblingStart",
+        "childStart",
+        "siblings",
+        "siblingAgeGapYears"
+      ],
+      "properties": {
+        "parentStart": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "personality",
+              "value"
+            ],
+            "properties": {
+              "personality": {
+                "$ref": "#/$defs/id"
+              },
+              "value": {
+                "type": "number",
+                "minimum": -100,
+                "maximum": 100
+              }
+            }
+          }
+        },
+        "defaultParentStart": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "siblingStart": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "childStart": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "siblings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "count",
+              "weight"
+            ],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "siblingAgeGapYears": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "meeting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "monthlyBase",
+        "perSocialHour",
+        "school",
+        "work",
+        "startValue",
+        "ageGapYears"
+      ],
+      "properties": {
+        "monthlyBase": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "perSocialHour": {
+          "type": "number",
+          "minimum": 0
+        },
+        "school": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "work": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "startValue": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "min",
+                "max"
+              ],
+              "properties": {
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        },
+        "ageGapYears": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base",
+        "sharedTrait",
+        "conflictingTrait",
+        "perYearAgeGap",
+        "looksWeight",
+        "charismaWeight"
+      ],
+      "properties": {
+        "base": {
+          "type": "number"
+        },
+        "sharedTrait": {
+          "type": "number"
+        },
+        "conflictingTrait": {
+          "type": "number"
+        },
+        "perYearAgeGap": {
+          "type": "number"
+        },
+        "looksWeight": {
+          "type": "number"
+        },
+        "charismaWeight": {
+          "type": "number"
+        }
+      }
+    },
+    "romance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "breakupBelow",
+        "breakupAfterMonths",
+        "divorceBelow",
+        "divorceAfterMonths"
+      ],
+      "properties": {
+        "breakupBelow": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "breakupAfterMonths": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "divorceBelow": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "divorceAfterMonths": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "children": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fertileAge",
+        "pregnancyWeeks",
+        "monthlyCost",
+        "costUntilAge"
+      ],
+      "properties": {
+        "fertileAge": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "properties": {
+            "min": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "pregnancyWeeks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "monthlyCost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "costUntilAge": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closeValue",
+        "topCount",
+        "emptySlotValue",
+        "monthlySmoothing",
+        "lonelinessBase",
+        "lonelinessPerCloseTie"
+      ],
+      "properties": {
+        "closeValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "topCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "emptySlotValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "monthlySmoothing": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "lonelinessBase": {
+          "type": "number"
+        },
+        "lonelinessPerCloseTie": {
+          "type": "number"
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minValue",
+        "pointsPerContact",
+        "maxPoints"
+      ],
+      "properties": {
+        "minValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "pointsPerContact": {
+          "type": "number",
+          "minimum": 0
+        },
+        "maxPoints": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

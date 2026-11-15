@@ -1,0 +1,52 @@
+{
+  "$schema": "../docs/schemas/career_settings.schema.json",
+  "workActivity": "work",
+  "minWorkAge": 15,
+  "retirementAge": 60,
+  "performance": {
+    "weeklySmoothing": 0.06,
+    "attendanceWeight": 0.5,
+    "skillWeight": 0.2,
+    "mentalWeight": 0.2,
+    "restWeight": 0.1,
+    "start": 55
+  },
+  "boss": {
+    "weeklySmoothing": 0.03,
+    "start": 55,
+    "fireBelow": 20,
+    "fireAfterMonths": 3,
+    "stressFromDissatisfaction": 1
+  },
+  "hiring": {
+    "prestigePerPoint": 0.2,
+    "retryWeeks": 12
+  },
+  "promotion": {
+    "chance": {
+      "base": 40,
+      "fortune": "career"
+    },
+    "perPointAbove": 1.5,
+    "minBoss": 50,
+    "reviewEveryMonths": 12
+  },
+  "layoffs": [
+    {
+      "phase": "expansion",
+      "monthlyChance": 0.001
+    },
+    {
+      "phase": "peak",
+      "monthlyChance": 0.002
+    },
+    {
+      "phase": "recession",
+      "monthlyChance": 0.012
+    },
+    {
+      "phase": "recovery",
+      "monthlyChance": 0.004
+    }
+  ]
+}

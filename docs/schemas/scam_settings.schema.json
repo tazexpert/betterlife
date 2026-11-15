@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/scam_settings.schema.json",
+  "title": "Scam settings",
+  "description": "Time online, wealth, stress and support effects on scams, lessons learned and the help page. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "onlineActivities",
+    "onlineBaselineHours",
+    "perOnlineHour",
+    "maxOnline",
+    "wealthReference",
+    "stressPenaltyPerPoint",
+    "support",
+    "lessonGain",
+    "detectedGain",
+    "maxIncidents",
+    "maxMonthlyChance",
+    "helplineKey",
+    "majorLoss"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "onlineActivities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "onlineBaselineHours": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "perOnlineHour": {
+      "type": "number",
+      "minimum": 0
+    },
+    "maxOnline": {
+      "type": "number",
+      "minimum": 1
+    },
+    "wealthReference": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "stressPenaltyPerPoint": {
+      "type": "number"
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minValue",
+        "perTie",
+        "max"
+      ],
+      "properties": {
+        "minValue": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "perTie": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "lessonGain": {
+      "type": "number",
+      "minimum": 0
+    },
+    "detectedGain": {
+      "type": "number",
+      "minimum": 0
+    },
+    "maxIncidents": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "maxMonthlyChance": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "helplineKey": {
+      "$ref": "#/$defs/id"
+    },
+    "majorLoss": {
+      "type": "number",
+      "minimum": 0
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

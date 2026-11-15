@@ -1,0 +1,45 @@
+using System.Linq;
+using BetterLife.Core.Content;
+using BetterLife.Core.Creation;
+using BetterLife.Core.Events;
+using BetterLife.Core.Sessions;
+using BetterLife.Core.Tests.Content;
+using BetterLife.Core.Tests.LifeEvents;
+using BetterLife.Core.Time.Ticking;
+using NUnit.Framework;
+
+namespace BetterLife.Core.Tests.Creation
+{
+    /// <summary>Tests for <see cref="LifeSessionFactory"/>.</summary>
+    [TestFixture]
+    public class LifeSessionTests
+    {
+        [Test]
+        public void NewSession_StartsAtBirth_AndRunsEveryStandardPhase()
+        {
+            IContentRepository content = TestContent.Load(TestContent.Source("{ 'type': 'events', 'path': 'events/test.json' }")
+                .Add("events/test.json", EventFixture.Events(EventFixture.Simple("test.common"))));
+            CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(2026UL, CreationMode.Random));
+
+            using (LifeSession session = LifeSessionFactory.CreateNew(content, creation, new EventBus()))
+            {
+                Assert.That(session.TimeState.Clock.Now, Is.EqualTo(session.Character.Birth.Week));
+                Assert.That(session.Seed, Is.EqualTo(2026UL));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "event_roll"));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "karmic_debt"));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "economy_year"));
+                Assert.That(session.Time.Phases, Has.Some.Matches<ITickPhase>(p => p.Name == "finance_month"));
+                Assert.That(session.Time.Phases.Select(p => p.Name), Is.SupersetOf(new[] { "education_week", "career_week", "career_month", "relationships_month", "relationships_year", "vice_week", "scam_month" }));
+                Assert.That(session.Character.Relationships.Living(BetterLife.Core.Relationships.RelationshipType.Parent).Count(), Is.EqualTo(2));
+                decimal priceLevel = session.Economy.State.PriceLevel;
+
+                AdvanceResult result = session.Advance(TimeSkip.Year);
+
+                Assert.That(result.To.IsYearStart, Is.True);
+                Assert.That(session.Character.History.LastRecordedWeek, Is.EqualTo(result.To));
+                Assert.That(session.Finance.LastReport, Is.Not.Null);
+                Assert.That(session.Economy.State.PriceLevel, Is.Not.EqualTo(priceLevel));
+            }
+        }
+    }
+}

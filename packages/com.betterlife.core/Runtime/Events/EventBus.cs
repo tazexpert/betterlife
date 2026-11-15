@@ -4,13 +4,14 @@ using System.Collections.Generic;
 namespace BetterLife.Core.Events
 {
     /// <summary>
-    /// Default <see cref="IEventBus"/>. Dispatches on exact event type, queues nested publishes, and keeps
-    /// delivering when a handler throws, reporting all failures together afterwards. Not thread-safe.
+    /// Default <see cref="IEventBus"/>. Dispatches on the event's runtime type (so an event held as
+    /// <see cref="IGameEvent"/> still reaches its handlers), queues nested publishes, and keeps delivering when a
+    /// handler throws, reporting all failures together afterwards. Not thread-safe.
     /// </summary>
     public sealed class EventBus : IEventBus
     {
-        private readonly Dictionary<Type, List<Delegate>> _handlers = new Dictionary<Type, List<Delegate>>();
-        private readonly Queue<Action<List<Exception>>> _pending = new Queue<Action<List<Exception>>>();
+        private readonly Dictionary<Type, List<Action<IGameEvent>>> _handlers = new Dictionary<Type, List<Action<IGameEvent>>>();
+        private readonly Queue<IGameEvent> _pending = new Queue<IGameEvent>();
         private bool _isDispatching;
 
         /// <inheritdoc />
@@ -21,13 +22,14 @@ namespace BetterLife.Core.Events
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            if (!_handlers.TryGetValue(typeof(T), out List<Delegate> list))
+            if (!_handlers.TryGetValue(typeof(T), out List<Action<IGameEvent>> list))
             {
-                list = new List<Delegate>();
+                list = new List<Action<IGameEvent>>();
                 _handlers.Add(typeof(T), list);
             }
-            list.Add(handler);
-            return new Subscription(() => list.Remove(handler));
+            Action<IGameEvent> wrapper = e => handler((T)e);
+            list.Add(wrapper);
+            return new Subscription(() => list.Remove(wrapper));
         }
 
         /// <inheritdoc />
@@ -38,19 +40,19 @@ namespace BetterLife.Core.Events
                 throw new ArgumentNullException(nameof(gameEvent));
             }
 
-            _pending.Enqueue(errors => Dispatch(gameEvent, errors));
+            _pending.Enqueue(gameEvent);
             if (_isDispatching)
             {
                 return;
             }
 
-            var errorsCollected = new List<Exception>();
+            var errors = new List<Exception>();
             _isDispatching = true;
             try
             {
                 while (_pending.Count > 0)
                 {
-                    _pending.Dequeue()(errorsCollected);
+                    Dispatch(_pending.Dequeue(), errors);
                 }
             }
             finally
@@ -58,25 +60,25 @@ namespace BetterLife.Core.Events
                 _isDispatching = false;
             }
 
-            if (errorsCollected.Count > 0)
+            if (errors.Count > 0)
             {
-                throw new AggregateException("One or more event handlers threw.", errorsCollected);
+                throw new AggregateException("One or more event handlers threw.", errors);
             }
         }
 
-        private void Dispatch<T>(T gameEvent, List<Exception> errors) where T : IGameEvent
+        private void Dispatch(IGameEvent gameEvent, List<Exception> errors)
         {
-            if (!_handlers.TryGetValue(typeof(T), out List<Delegate> list))
+            if (!_handlers.TryGetValue(gameEvent.GetType(), out List<Action<IGameEvent>> list))
             {
                 return;
             }
 
             // Snapshot so handlers may subscribe or unsubscribe during dispatch.
-            foreach (Delegate handler in list.ToArray())
+            foreach (Action<IGameEvent> handler in list.ToArray())
             {
                 try
                 {
-                    ((Action<T>)handler)(gameEvent);
+                    handler(gameEvent);
                 }
                 catch (Exception ex)
                 {

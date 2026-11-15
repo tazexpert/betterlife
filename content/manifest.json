@@ -1,0 +1,185 @@
+{
+  "contentVersion": 1,
+  "files": [
+    {
+      "type": "stats",
+      "path": "stats.json"
+    },
+    {
+      "type": "traits",
+      "path": "traits.json"
+    },
+    {
+      "type": "skills",
+      "path": "skills.json"
+    },
+    {
+      "type": "flags",
+      "path": "flags.json"
+    },
+    {
+      "type": "reputation_domains",
+      "path": "reputation_domains.json"
+    },
+    {
+      "type": "health_conditions",
+      "path": "health_conditions.json"
+    },
+    {
+      "type": "activities",
+      "path": "activities.json"
+    },
+    {
+      "type": "time_settings",
+      "path": "time_settings.json"
+    },
+    {
+      "type": "astrology",
+      "path": "astrology.json"
+    },
+    {
+      "type": "luck_settings",
+      "path": "luck.json"
+    },
+    {
+      "type": "event_settings",
+      "path": "event_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/daily.json"
+    },
+    {
+      "type": "events",
+      "path": "events/career.json"
+    },
+    {
+      "type": "events",
+      "path": "events/health.json"
+    },
+    {
+      "type": "events",
+      "path": "events/social.json"
+    },
+    {
+      "type": "events",
+      "path": "events/karma.json"
+    },
+    {
+      "type": "countries",
+      "path": "countries.json"
+    },
+    {
+      "type": "family_backgrounds",
+      "path": "family_backgrounds.json"
+    },
+    {
+      "type": "parent_personalities",
+      "path": "parent_personalities.json"
+    },
+    {
+      "type": "genetics",
+      "path": "genetics.json"
+    },
+    {
+      "type": "names",
+      "path": "names.json"
+    },
+    {
+      "type": "creation_settings",
+      "path": "creation_settings.json"
+    },
+    {
+      "type": "life_stages",
+      "path": "life_stages.json"
+    },
+    {
+      "type": "mortality",
+      "path": "mortality.json"
+    },
+    {
+      "type": "death_causes",
+      "path": "death_causes.json"
+    },
+    {
+      "type": "economy",
+      "path": "economy.json"
+    },
+    {
+      "type": "assets",
+      "path": "assets.json"
+    },
+    {
+      "type": "debt_products",
+      "path": "debts.json"
+    },
+    {
+      "type": "lifestyle_tiers",
+      "path": "lifestyle_tiers.json"
+    },
+    {
+      "type": "finance_settings",
+      "path": "finance_settings.json"
+    },
+    {
+      "type": "education_programs",
+      "path": "education_programs.json"
+    },
+    {
+      "type": "education_settings",
+      "path": "education_settings.json"
+    },
+    {
+      "type": "careers",
+      "path": "careers.json"
+    },
+    {
+      "type": "career_settings",
+      "path": "career_settings.json"
+    },
+    {
+      "type": "relationship_settings",
+      "path": "relationship_settings.json"
+    },
+    {
+      "type": "interactions",
+      "path": "interactions.json"
+    },
+    {
+      "type": "vices",
+      "path": "vices.json"
+    },
+    {
+      "type": "quit_methods",
+      "path": "quit_methods.json"
+    },
+    {
+      "type": "vice_settings",
+      "path": "vice_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/vices.json"
+    },
+    {
+      "type": "scams",
+      "path": "scams.json"
+    },
+    {
+      "type": "scam_settings",
+      "path": "scam_settings.json"
+    },
+    {
+      "type": "events",
+      "path": "events/scams.json"
+    },
+    {
+      "type": "strings",
+      "path": "strings/en.json"
+    },
+    {
+      "type": "strings",
+      "path": "strings/th.json"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/quit_methods.schema.json",
+  "title": "Quit methods",
+  "description": "Ways to quit a vice. vices null = works for every vice.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "methods"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "vices",
+          "costCash",
+          "durationWeeks",
+          "resistBonus",
+          "decayMultiplier",
+          "withdrawalMultiplier",
+          "condition",
+          "startEffects",
+          "successEffects"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "vices": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            ]
+          },
+          "costCash": {
+            "type": "number",
+            "minimum": 0
+          },
+          "durationWeeks": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "resistBonus": {
+            "type": "number"
+          },
+          "decayMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "withdrawalMultiplier": {
+            "type": "number",
+            "minimum": 0
+          },
+          "condition": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "rules.schema.json#/$defs/condition"
+              }
+            ]
+          },
+          "startEffects": {
+            "$ref": "rules.schema.json#/$defs/effects"
+          },
+          "successEffects": {
+            "$ref": "rules.schema.json#/$defs/effects"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

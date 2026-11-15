@@ -1,0 +1,130 @@
+{
+  "countries": [
+    {
+      "id": "thailand",
+      "nameKey": "country.thailand.name",
+      "weight": 90,
+      "modifiers": {
+        "costOfLiving": 1.0,
+        "education": 60,
+        "healthcare": 65,
+        "taxRate": 0.1
+      },
+      "cities": [
+        {
+          "id": "thailand.bangkok",
+          "nameKey": "city.thailand.bangkok.name",
+          "weight": 30,
+          "modifiers": {
+            "costOfLiving": 1.35,
+            "education": 75,
+            "healthcare": 80
+          }
+        },
+        {
+          "id": "thailand.chiang_mai",
+          "nameKey": "city.thailand.chiang_mai.name",
+          "weight": 12,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 65,
+            "healthcare": 70
+          }
+        },
+        {
+          "id": "thailand.khon_kaen",
+          "nameKey": "city.thailand.khon_kaen.name",
+          "weight": 10,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 58,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.phuket",
+          "nameKey": "city.thailand.phuket.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 1.2,
+            "education": 60,
+            "healthcare": 68
+          }
+        },
+        {
+          "id": "thailand.hat_yai",
+          "nameKey": "city.thailand.hat_yai.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 0.9,
+            "education": 58,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.nakhon_ratchasima",
+          "nameKey": "city.thailand.nakhon_ratchasima.name",
+          "weight": 10,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 55,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.rural_isan",
+          "nameKey": "city.thailand.rural_isan.name",
+          "weight": 24,
+          "modifiers": {
+            "costOfLiving": 0.7,
+            "education": 45,
+            "healthcare": 50
+          }
+        }
+      ]
+    },
+    {
+      "id": "japan",
+      "nameKey": "country.japan.name",
+      "weight": 10,
+      "modifiers": {
+        "costOfLiving": 1.8,
+        "education": 80,
+        "healthcare": 88,
+        "taxRate": 0.2
+      },
+      "cities": [
+        {
+          "id": "japan.tokyo",
+          "nameKey": "city.japan.tokyo.name",
+          "weight": 40,
+          "modifiers": {
+            "costOfLiving": 2.2,
+            "education": 85,
+            "healthcare": 90
+          }
+        },
+        {
+          "id": "japan.osaka",
+          "nameKey": "city.japan.osaka.name",
+          "weight": 30,
+          "modifiers": {
+            "costOfLiving": 1.9,
+            "education": 80,
+            "healthcare": 88
+          }
+        },
+        {
+          "id": "japan.fukuoka",
+          "nameKey": "city.japan.fukuoka.name",
+          "weight": 30,
+          "modifiers": {
+            "costOfLiving": 1.6,
+            "education": 78,
+            "healthcare": 86
+          }
+        }
+      ]
+    }
+  ]
+}

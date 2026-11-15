@@ -1,0 +1,114 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "vice.party_invite",
+      "titleKey": "event.vice.party_invite.title",
+      "bodyKey": "event.vice.party_invite.body",
+      "category": "social",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "weight": {
+        "base": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "vice",
+              "vice": "drinking",
+              "measure": "addiction",
+              "op": ">=",
+              "value": 30
+            },
+            "multiplier": 2
+          }
+        ]
+      },
+      "cooldownWeeks": 12,
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 18
+          },
+          {
+            "type": "relationship",
+            "relation": "friend",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "join",
+          "textKey": "event.vice.party_invite.choice.join",
+          "success": {
+            "resultKey": "event.vice.party_invite.choice.join.success",
+            "effects": [
+              {
+                "type": "vice.addiction",
+                "vice": "drinking",
+                "amount": 3
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 4
+              },
+              {
+                "type": "cash",
+                "amount": -800
+              },
+              {
+                "type": "relationship",
+                "relation": "friend",
+                "amount": 4,
+                "target": "closest"
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.vice.party_invite.choice.decline",
+          "chance": {
+            "base": 60,
+            "stats": [
+              {
+                "stat": "hidden.willpower",
+                "weight": 0.4
+              }
+            ]
+          },
+          "success": {
+            "resultKey": "event.vice.party_invite.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.willpower",
+                "amount": 1
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.vice.party_invite.choice.decline.failure",
+            "effects": [
+              {
+                "type": "relationship",
+                "relation": "friend",
+                "amount": -3,
+                "target": "closest"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline"
+    }
+  ]
+}

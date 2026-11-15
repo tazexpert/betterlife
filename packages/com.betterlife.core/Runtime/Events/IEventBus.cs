@@ -8,7 +8,7 @@ namespace BetterLife.Core.Events
     public interface IEventBus
     {
         /// <summary>
-        /// Registers a handler for events of exactly type <typeparamref name="T"/>.
+        /// Registers a handler for events whose runtime type is exactly <typeparamref name="T"/>.
         /// Handlers are called in subscription order.
         /// </summary>
         /// <typeparam name="T">Event type.</typeparam>

@@ -1,0 +1,95 @@
+{
+  "flags": [
+    {
+      "id": "career.fired_once",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.career.fired_once"
+    },
+    {
+      "id": "family.disowned",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": true,
+      "eulogyKey": "eulogy.family.disowned"
+    },
+    {
+      "id": "relationship.recent_breakup",
+      "kind": "bool",
+      "defaultExpiryWeeks": 26,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "vice.gambling_wins",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "social.reconnected_old_friend",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.social.reconnected_old_friend"
+    },
+    {
+      "id": "finance.loan_shark",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.finance.loan_shark"
+    },
+    {
+      "id": "finance.bankrupt",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.finance.bankrupt"
+    },
+    {
+      "id": "education.repeated_year",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "education.dropout",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.education.dropout"
+    },
+    {
+      "id": "education.expelled",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.education.expelled"
+    },
+    {
+      "id": "career.criminal_record",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.career.criminal_record"
+    },
+    {
+      "id": "vice.relapse",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.vice.relapse"
+    },
+    {
+      "id": "vice.quit_success",
+      "kind": "counter",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": "eulogy.vice.quit_success"
+    }
+  ]
+}

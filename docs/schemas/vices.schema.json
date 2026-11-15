@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/vices.schema.json",
+  "title": "Vices",
+  "description": "Habit-forming vices (fictional substance categories). blocksUndo marks vices whose uses may never be undone and must never be tied to ads or purchases (gambling).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "vices"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "vices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "minAge",
+          "blocksUndo",
+          "activity",
+          "temptation",
+          "costPerUse",
+          "relief",
+          "addiction",
+          "withdrawalFrom",
+          "withdrawal",
+          "useEffects",
+          "risks",
+          "discovery",
+          "gambling"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "#/$defs/id"
+          },
+          "minAge": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "blocksUndo": {
+            "type": "boolean"
+          },
+          "activity": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "freeHours",
+                  "hoursPerUse"
+                ],
+                "properties": {
+                  "id": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "freeHours": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "hoursPerUse": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            ]
+          },
+          "temptation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "baseWeekly",
+              "stages"
+            ],
+            "properties": {
+              "baseWeekly": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "stages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "stage",
+                    "multiplier"
+                  ],
+                  "properties": {
+                    "stage": {
+                      "$ref": "#/$defs/id"
+                    },
+                    "multiplier": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "costPerUse": {
+            "type": "number",
+            "minimum": 0
+          },
+          "relief": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stress",
+              "happiness"
+            ],
+            "properties": {
+              "stress": {
+                "type": "number"
+              },
+              "happiness": {
+                "type": "number"
+              }
+            }
+          },
+          "addiction": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "gainPerUse",
+              "decayPerCleanWeek",
+              "tolerancePerUse",
+              "toleranceDecay"
+            ],
+            "properties": {
+              "gainPerUse": {
+                "type": "number",
+                "minimum": 0
+              },
+              "decayPerCleanWeek": {
+                "type": "number",
+                "minimum": 0
+              },
+              "tolerancePerUse": {
+                "type": "number",
+                "minimum": 0
+              },
+              "toleranceDecay": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "withdrawalFrom": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "withdrawal": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stress",
+              "happiness"
+            ],
+            "properties": {
+              "stress": {
+                "type": "number"
+              },
+              "happiness": {
+                "type": "number"
+              }
+            }
+          },
+          "useEffects": {
+            "$ref": "rules.schema.json#/$defs/effects"
+          },
+          "risks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "chance",
+                "reasonKey",
+                "severity",
+                "effects"
+              ],
+              "properties": {
+                "chance": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "reasonKey": {
+                  "$ref": "#/$defs/id"
+                },
+                "severity": {
+                  "enum": [
+                    "minor",
+                    "normal",
+                    "major",
+                    "critical"
+                  ]
+                },
+                "effects": {
+                  "$ref": "rules.schema.json#/$defs/effects"
+                }
+              }
+            }
+          },
+          "discovery": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "fromAddiction",
+                  "weeklyChance",
+                  "effects"
+                ],
+                "properties": {
+                  "fromAddiction": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "weeklyChance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "effects": {
+                    "$ref": "rules.schema.json#/$defs/effects"
+                  }
+                }
+              }
+            ]
+          },
+          "gambling": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "stake",
+                  "winChance",
+                  "payout",
+                  "beginnerBets",
+                  "beginnerWinChance"
+                ],
+                "properties": {
+                  "stake": {
+                    "oneOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "min",
+                          "max"
+                        ],
+                        "properties": {
+                          "min": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "max": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "winChance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "payout": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "beginnerBets": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "beginnerWinChance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+    }
+  }
+}

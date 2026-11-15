@@ -1,0 +1,103 @@
+{
+  "backgrounds": [
+    {
+      "id": "poor",
+      "nameKey": "family.poor.name",
+      "weight": 25,
+      "householdIncomeLevel": 1,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": -20
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -10
+        }
+      ]
+    },
+    {
+      "id": "lower_middle",
+      "nameKey": "family.lower_middle.name",
+      "weight": 35,
+      "householdIncomeLevel": 2,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": -8
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -3
+        }
+      ]
+    },
+    {
+      "id": "middle",
+      "nameKey": "family.middle.name",
+      "weight": 25,
+      "householdIncomeLevel": 3,
+      "statModifiers": []
+    },
+    {
+      "id": "upper_middle",
+      "nameKey": "family.upper_middle.name",
+      "weight": 10,
+      "householdIncomeLevel": 4,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": 15
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 5
+        }
+      ]
+    },
+    {
+      "id": "wealthy",
+      "nameKey": "family.wealthy.name",
+      "weight": 4,
+      "householdIncomeLevel": 5,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": 35
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 8
+        },
+        {
+          "stat": "hidden.charisma",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "elite",
+      "nameKey": "family.elite.name",
+      "weight": 1,
+      "householdIncomeLevel": 6,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": 55
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 10
+        },
+        {
+          "stat": "hidden.charisma",
+          "amount": 4
+        },
+        {
+          "stat": "mental.loneliness",
+          "amount": 4
+        }
+      ]
+    }
+  ]
+}

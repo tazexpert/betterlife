@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/event_settings.schema.json",
+  "title": "Event settings",
+  "description": "Event system tuning. Exactly one file.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "weeklyEventChance",
+    "responseWindowWeeks",
+    "antiFrustration"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "weeklyEventChance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "responseWindowWeeks": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "antiFrustration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "streakThreshold",
+        "windowWeeks",
+        "negativeWeightMultiplier"
+      ],
+      "properties": {
+        "streakThreshold": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "windowWeeks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "negativeWeightMultiplier": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

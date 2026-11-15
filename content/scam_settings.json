@@ -1,0 +1,23 @@
+{
+  "$schema": "../docs/schemas/scam_settings.schema.json",
+  "onlineActivities": [
+    "entertainment",
+    "socialize"
+  ],
+  "onlineBaselineHours": 10,
+  "perOnlineHour": 0.02,
+  "maxOnline": 2,
+  "wealthReference": 10000,
+  "stressPenaltyPerPoint": -0.2,
+  "support": {
+    "minValue": 50,
+    "perTie": 5,
+    "max": 15
+  },
+  "lessonGain": 15,
+  "detectedGain": 3,
+  "maxIncidents": 20,
+  "maxMonthlyChance": 0.5,
+  "helplineKey": "scam.helpline",
+  "majorLoss": 20000
+}
