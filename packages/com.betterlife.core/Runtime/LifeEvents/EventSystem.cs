@@ -62,6 +62,9 @@ namespace BetterLife.Core.LifeEvents
         /// <summary>Event state of the life.</summary>
         public EventState State { get; }
 
+        /// <summary>Event catalog (titles, choices...).</summary>
+        public DefinitionCatalog<LifeEventDefinition> Events => _events;
+
         /// <summary>Events waiting for a choice.</summary>
         public IReadOnlyList<PendingEvent> Inbox => State.Inbox;
 
