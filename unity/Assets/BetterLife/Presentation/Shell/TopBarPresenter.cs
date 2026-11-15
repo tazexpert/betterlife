@@ -47,6 +47,7 @@ namespace BetterLife.Presentation.Shell
             _skips = new[] { tree.Q<Button>("skip-week"), tree.Q<Button>("skip-month"), tree.Q<Button>("skip-year") };
 
             _back.clicked += () => BackRequested?.Invoke();
+            _inbox.AddManipulator(new Clickable(() => InboxRequested?.Invoke()));
             _skips[0].clicked += () => SkipRequested?.Invoke(TimeSkip.Week);
             _skips[1].clicked += () => SkipRequested?.Invoke(TimeSkip.Month);
             _skips[2].clicked += () => SkipRequested?.Invoke(TimeSkip.Year);
@@ -57,6 +58,9 @@ namespace BetterLife.Presentation.Shell
 
         /// <summary>Raised when the back button is pressed.</summary>
         public event Action BackRequested;
+
+        /// <summary>Raised when the inbox count is tapped.</summary>
+        public event Action InboxRequested;
 
         /// <summary>
         /// Shows a state.

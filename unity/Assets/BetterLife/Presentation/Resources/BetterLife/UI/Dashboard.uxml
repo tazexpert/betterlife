@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Home tab. Cards and habits are built by DashboardScreenPresenter. -->
+    <ui:ScrollView name="dashboard" class="screen dashboard">
+        <ui:Button name="inbox-shortcut" class="dashboard__inbox" />
+        <ui:VisualElement name="cards" class="dashboard__cards" />
+        <ui:Label text="@dashboard.hint" class="dashboard__hint" />
+        <ui:Label name="habits-title" text="@dashboard.habits" class="section-title" />
+        <ui:VisualElement name="habits" class="dashboard__habits" />
+    </ui:ScrollView>
+</ui:UXML>

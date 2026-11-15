@@ -19,7 +19,7 @@
 | แตะ vs กดค้าง | ใช้ `Clickable` (ทำงานตอนปล่อยนิ้ว) จึงได้ทั้งแตะและกดค้าง | ค้นพบง่าย และตรง GDD |
 | ข่าวใน Inbox | `NoticeFeed` เก็บ Interrupt ทุกตัวจาก `AdvanceResult` (ใหม่สุดก่อน สูงสุด 30) **ไม่บันทึกลงเซฟ** ข้ามเรื่องที่เป็นเหตุการณ์รอตัดสินใจ (ซ้ำกับรายการรอตัดสินใจ) | ประวัติถาวรอยู่ใน `EventState.History` และไทม์ไลน์ข้อ 17 |
 | เปิด Dialog อัตโนมัติ | ถ้าการข้ามเวลาถูกหยุดโดยเหตุการณ์ที่รอตัดสินใจ → เปิด Event Dialog ทันที | แบบ FM |
-| ตัดสินใจ | `DecisionService.Resolve` เรียก `UndoService.Checkpoint` ก่อน `EventSystem.Resolve` เสมอ | สเปกข้อ 14 (ปุ่ม Undo + โฆษณาอยู่ข้อ 19) |
+| ตัดสินใจ | `DecisionService.Answer` เรียก `UndoService.Checkpoint` ก่อน `EventSystem.Resolve` เสมอ | สเปกข้อ 14 (ปุ่ม Undo + โฆษณาอยู่ข้อ 19) |
 | ข้อความ Rule | `RuleTextFormatter`: arg ที่ชื่อลงท้าย `Key` แปลเป็นข้อความก่อน, ช่วง `min`/`max` รวมเป็น `{value}` = "a–b", ค่าสถิติ/บุญมีเครื่องหมาย +/−, เงินแปลงเป็นราคาตามยุคและรูปแบบ `฿#,0` | เทมเพลตเขียนแบบเดียว ใช้ได้ทั้ง Preview และผลจริง |
 | ตัวเลือกที่ล็อก | แสดง "ยังไม่ผ่านเงื่อนไข" แบบรวม (รายละเอียดเงื่อนไข `rule.cond.*` แปลในข้อ 20) | ข้อความเงื่อนไขมี ~35 แบบ |
 | ข้อความ | เพิ่ม `strings` ทั้ง en/th: UI ของข้อนี้, ชื่อ stat/trait/skill/vice, interrupt, เหตุการณ์ทั้งหมด, effect, แหล่งที่มาของ Breakdown และมี Test ว่าทุก key ที่ content/โค้ดอ้างถึงมีข้อความ | เล่นทดสอบได้จริง |
@@ -35,19 +35,21 @@
 | Core `BetterLife.Core.Notices` | `Notice`, `NoticeFeed` |
 | Core `BetterLife.Core.Sessions` | `DecisionService` |
 | Core `BetterLife.Core.Navigation` | `ScreenIds.Inbox`, `ScreenIds.EventDialog`, `ScreenIds.Breakdown` |
+| Core `BetterLife.Core.LifeEvents` | `EventSystem.Events` (อ่าน catalog ได้) |
 | Unity `BetterLife.Presentation.Screens` | `ScreenContext`, `DashboardScreenPresenter`, `InboxScreenPresenter`, `EventDialogPresenter`, `BreakdownPresenter`, `SparklineElement` |
+| Unity `BetterLife.Presentation.Shell` | `ShellPresenter` รับ `ScreenContext`, แตะจำนวน Inbox บน Top bar = เปิด Inbox, `TimeAdvanced` ทำงานก่อนรีเฟรช |
 | Unity Resources `BetterLife/UI` | `Dashboard.uxml`, `Inbox.uxml`, `EventDialog.uxml`, `Breakdown.uxml`, `Uss/Screens.uss` |
 
 ## 5. Save
 ไม่มีข้อมูลใหม่ในเซฟ (`NoticeFeed` อยู่ในหน่วยความจำ)
 
 ## 6. Tests
-- `RuleTextFormatterTests`: arg `*Key`, ช่วง min–max, เครื่องหมาย +/−, เงินตามยุค
-- `SparklineAndTrendTests`: จุด 0..1, ช่วงอย่างน้อย 10, ข้อมูลน้อย, ทิศทางแนวโน้ม + polarity
-- `NoticeFeedTests`: ใหม่สุดก่อน, เพดาน, ข้ามเหตุการณ์ที่รอตัดสินใจ, หา Dialog ที่ต้องเปิด
-- `DashboardAndInboxViewModelTests`: การ์ด 5 ใบตามลำดับ, Breakdown, Inbox เรียงตามกำหนดเวลา
-- `EventDialogViewModelTests`: ตัวเลือก (โอกาส %, ล็อก), ตัดสินใจผ่าน `DecisionService` → Checkpoint + ผลลัพธ์
-- `StringsContentTests` (content จริง): ทุก key ของเหตุการณ์/stat/trait/skill/vice/interrupt/effect มีข้อความทุกภาษา
+- `RuleTextFormatterTests` (4): arg `*Key`, ช่วง min–max, เครื่องหมาย +/−, เงินตามยุค (ช่วงจ่ายเงินติดลบแสดงจากน้อยไปมาก)
+- `SparklineAndNoticeTests` (5): จุด 0..1, ช่วงอย่างน้อย 10, ข้อมูลน้อย, แนวโน้ม 4 สัปดาห์, ข่าวใหม่สุดก่อน + เพดาน, ข้ามเหตุการณ์ที่รอตัดสินใจ, หา Dialog ที่ต้องเปิด
+- `DashboardViewModelTests` (3): การ์ด Core 5 ใบตามลำดับ catalog + Sparkline, Breakdown (สูตร/การเปลี่ยนแปลง เรียงตามขนาด), Inbox (กำหนดเวลา, ไม่ซ้ำกับข่าว)
+- `EventDialogViewModelTests` (3): ตัวเลือก (โอกาส %, ซ่อน/ล็อก, Preview สำเร็จ/ล้มเหลว), `DecisionService` → Checkpoint + ผลลัพธ์, ปฏิเสธตัวเลือกที่ล็อก
+- `StringsContentTests` (content จริง, +2): ทุก key ของหน้าจอ และทุกชื่อ stat/trait/skill/vice/มิจฉาชีพ, ข้อความเหตุการณ์, effect, interrupt มีข้อความทุกภาษา
+- โค้ด Unity (Presenter, UXML/USS, `SparklineElement`) คอมไพล์ด้วย dotnet ไม่ได้ ต้องตรวจใน Unity Editor
 
 ## 7. ส่งต่อ
 - ข้อ 17: หน้า Money / People / More, ไทม์ไลน์จาก `EventState.History`, หน้าข้อมูลมิจฉาชีพ + ปุ่มแจ้งความจากข่าว "ถูกหลอก"

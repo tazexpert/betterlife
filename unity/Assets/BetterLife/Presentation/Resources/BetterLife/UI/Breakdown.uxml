@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Stat breakdown (modal). Lines are built by BreakdownPresenter. -->
+    <ui:VisualElement name="breakdown" class="dialog breakdown">
+        <ui:VisualElement class="breakdown__header">
+            <ui:Label name="title" class="dialog__title" />
+            <ui:Label name="value" class="breakdown__value" />
+        </ui:VisualElement>
+        <ui:Label name="heading" class="dialog__note" />
+        <ui:ScrollView class="dialog__scroll">
+            <ui:VisualElement name="lines" />
+            <ui:Label name="empty" class="dialog__note" />
+        </ui:ScrollView>
+        <ui:Button name="close" text="@breakdown.close" class="dialog__primary" />
+    </ui:VisualElement>
+</ui:UXML>

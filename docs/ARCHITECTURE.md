@@ -88,11 +88,13 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Saving` | ไฟล์เซฟ (Envelope + checksum), Migration, `ISaveStorage` (ไฟล์/หน่วยความจำ), Slot, Undo |
 | `BetterLife.Core.Localization` | LocKey, `ILocalizer`, ตารางภาษา (`StringTable`/`StringTables`), `TableLocalizer` |
 | `BetterLife.Core.Navigation` | แท็บของ Shell + `ScreenRouter` (stack ต่อแท็บ, Modal, ปุ่ม Back) |
-| `BetterLife.Core.ViewModels` | ข้อมูลพร้อมแสดงผลที่ไม่ผูก Unity (`TopBarViewModel`, `MoneyFormatter`) |
+| `BetterLife.Core.ViewModels` | ข้อมูลพร้อมแสดงผลที่ไม่ผูก Unity (Top bar, Dashboard, Breakdown, Inbox, Event Dialog, `MoneyFormatter`, `RuleTextFormatter`) |
+| `BetterLife.Core.Notices` | ข่าวใน Inbox จาก Interrupt ของการข้ามเวลา (`NoticeFeed`, ไม่บันทึกลงเซฟ) |
 | Unity `BetterLife.Presentation.Shell` / `.Screens` | `UiRoot` (PanelSettings + UIDocument จากโค้ด), `ShellPresenter`, `TopBarPresenter`, `ScreenRegistry`, หน้าจอ |
 
 ## ตัวป้องกันกฎสถาปัตยกรรม
 - **คอมไพเลอร์:** C# 9 ปฏิเสธ file-scoped namespace / record struct, `TreatWarningsAsErrors` + `GenerateDocumentationFile` บังคับ XML doc
 - **ArchitectureRulesTests:** สแกน Runtime หา `UnityEngine`, `System.Random`, `record`, `init;`
 - **AssemblyDependencyRulesTests:** อ่าน asmdef ทุกไฟล์แล้วตรวจทิศทางการอ้างอิงตามกราฟข้างบน
+- **UnityCompat:** `dotnet/BetterLife.Core.Tests.UnityCompat.csproj` คอมไพล์ไฟล์ test แบบ Unity (netstandard2.1 + NUnit 3.5.0 ของ Unity Test Framework 1.1.33) และถูก build ทุกครั้งที่รัน `dotnet test` จึงจับ API ที่ Unity ไม่มีได้
 - **CI:** GitHub Actions รัน `dotnet test` ทุก push

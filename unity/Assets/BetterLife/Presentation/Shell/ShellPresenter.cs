@@ -27,6 +27,7 @@ namespace BetterLife.Presentation.Shell
         /// <summary>Class that shows the modal layer.</summary>
         public const string ModalOpenClass = "shell__modal-layer--open";
 
+        private readonly ScreenContext _context;
         private readonly ScreenRouter _router;
         private readonly ScreenRegistry _screens;
         private readonly ILocalizer _localizer;
@@ -45,33 +46,34 @@ namespace BetterLife.Presentation.Shell
         /// Builds the shell inside the root of the shell layout.
         /// </summary>
         /// <param name="root">Root of <c>Shell.uxml</c>.</param>
-        /// <param name="router">Navigation state.</param>
         /// <param name="screens">Screen factories.</param>
-        /// <param name="localizer">Localizer.</param>
-        /// <param name="money">Money formatter.</param>
-        public ShellPresenter(VisualElement root, ScreenRouter router, ScreenRegistry screens, ILocalizer localizer, MoneyFormatter money)
+        /// <param name="context">Shared screen context (router, texts, money...).</param>
+        public ShellPresenter(VisualElement root, ScreenRegistry screens, ScreenContext context)
         {
             if (root == null)
             {
                 throw new ArgumentNullException(nameof(root));
             }
-            _router = router ?? throw new ArgumentNullException(nameof(router));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             _screens = screens ?? throw new ArgumentNullException(nameof(screens));
-            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
-            _money = money ?? throw new ArgumentNullException(nameof(money));
+            _router = context.Router;
+            _localizer = context.Localizer;
+            _money = context.Money;
             _screenContainer = root.Q<VisualElement>("screen-container");
             _modalLayer = root.Q<VisualElement>("modal-layer");
 
             _topBar = new TopBarPresenter(root.Q<VisualElement>("top-bar-slot"), localizer);
             _topBar.SkipRequested += Advance;
             _topBar.BackRequested += () => _router.Back();
+            _topBar.InboxRequested += OpenInbox;
+            _context.Changed += Refresh;
             BuildTabs(root.Q<VisualElement>("bottom-nav"));
 
             _router.Changed += Render;
             Render();
         }
 
-        /// <summary>Raised after time advanced from the top bar.</summary>
+        /// <summary>Raised after time advanced from the top bar, before the shell refreshes.</summary>
         public event Action<AdvanceResult> TimeAdvanced;
 
         /// <summary>
@@ -108,6 +110,7 @@ namespace BetterLife.Presentation.Shell
         public void Dispose()
         {
             _router.Changed -= Render;
+            _context.Changed -= Refresh;
             foreach (IScreenPresenter presenter in _screenPresenters.Values)
             {
                 presenter.Dispose();
@@ -146,8 +149,17 @@ namespace BetterLife.Presentation.Shell
                 return;
             }
             AdvanceResult result = _session.Advance(skip);
-            Refresh();
+            // Listeners first (news feed, auto-opened dialog), then one refresh shows everything.
             TimeAdvanced?.Invoke(result);
+            Refresh();
+        }
+
+        private void OpenInbox()
+        {
+            if (_router.CurrentScreen.ScreenId != ScreenIds.Inbox)
+            {
+                _router.Push(new ScreenRequest(ScreenIds.Inbox));
+            }
         }
 
         private void Render()
