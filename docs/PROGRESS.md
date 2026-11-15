@@ -2,7 +2,7 @@
 
 ## สถานะปัจจุบัน
 **00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅
-**ถัดไป:** 15 UI Shell
+**ถัดไป:** 16 Dashboard + Inbox + Event Dialog
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -29,7 +29,7 @@
 | 13 | Vice System | อบายมุข 6, Temptation/Resist, Addiction/Tolerance/Withdrawal, พนัน EV ติดลบ, ครอบครัวจับได้, วิธีเลิก 5 แบบ (`docs/systems/vices.md`) | ✅ |
 | 13b | Scam System (เพิ่มตามคำขอผู้ใช้) | มิจฉาชีพ 10 แบบ, การเล็งเป้า/จับได้, แจ้งความขอเงินคืน, เหตุการณ์ชวนลงทุน/แฟนออนไลน์ (`docs/systems/scams.md`) | ✅ |
 | 14 | Save System | JSON + Migration + Undo snapshot (`docs/systems/save-system.md`) | ✅ |
-| 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav | ⬜ |
+| 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav (`docs/systems/ui-shell.md`) | ✅ |
 | 16 | Dashboard + Inbox + Event Dialog | | ⬜ |
 | 17 | หน้าจอย่อย | Finance, Relationships, Astrology, Timeline | ⬜ |
 | 18 | Legacy + Life Summary + Achievements | | ⬜ |
@@ -60,3 +60,4 @@
 - 2026-11-09 — 13 Vice System เสร็จ: อบายมุข 6 (สาร 3 หมวดสมมติ, เที่ยวกลางคืน, บันเทิงเกินขนาด, พนัน + ตัวคูณคบคนชั่ว/เกียจคร้าน), TemptationWeight และ ResistChance ตาม GDD พร้อม Breakdown, Addiction/Tolerance/Withdrawal/Clean streak, พนันมี Beginner's luck แต่ EV −10% และเล่นต่อจนเป็นหนี้เมื่อติด, ครอบครัวจับได้, วิธีเลิก 5 แบบ (รวมบวช/ปฏิบัติธรรม) + Relapse, ปิดเนื้อหาได้, ห้าม Undo การพนัน (`LastIrreversibleWeek`), Trait ใหม่ reckless/disciplined, กิจกรรม nightlife, Rule ใหม่ `vice` + `vice.addiction`, content 3 ชนิด + เหตุการณ์ 1, Save DTO; `dotnet test` ผ่าน 551 + 17 tests
 - 2026-11-09 — 14 Save System เสร็จ: เซฟทั้งชีวิตเป็น JSON (Envelope + saveVersion + checksum), Migration ทีละขั้นผ่าน Registry, ปฏิเสธเซฟเสีย/ใหม่กว่า, ล้าง content ที่ถูกลบพร้อมคำเตือน, `ISaveStorage` + ไฟล์ (atomic) + หน่วยความจำ, Slot + autosave, `LifeSessionFactory.Load` ใช้ `Compose` เดียวกับชีวิตใหม่, Undo 1 ขั้น วันละ 3 ครั้ง ปิดใน Ironman และห้ามย้อนการพนัน, GameBootstrap โหลด/บันทึก autosave + link.xml; เซฟแล้วเล่นต่อ 10 ปีเหมือนต้นฉบับทุกไบต์; `dotnet test` ผ่าน 573 + 18 tests
 - 2026-11-09 — 13b Scam System (ผู้ใช้ขอเพิ่ม) เสร็จ: มิจฉาชีพ 10 แบบ (คอลเซ็นเตอร์, SMS, ร้านปลอม, หลอกรัก, หลอกลงทุน, หลอกงาน, หลอกกู้, หลอกรางวัล, หลอกในเกม, แชร์ลูกโซ่), เล็งเป้าตามอายุ/เหงา/ออนไลน์/เงิน/สถานการณ์ พร้อม Breakdown, จับได้ด้วย Hidden stat ใหม่ street smarts + Knowledge + คนเตือน − ความเครียด, เสียเงินสดและเงินฝาก, บทเรียน, แจ้งความขอเงินคืน, เสียมากหยุดเวลา, Rule ใหม่ `scam` + `scam.loss`, content 2 ชนิด + เหตุการณ์ 2, Save DTO; `dotnet test` ผ่าน 592 + 19 tests
+- 2026-11-15 — 15 UI Shell เสร็จ: `ScreenRouter` (6 แท็บ, stack ต่อแท็บ, Modal, Back ของ Android → ออกจากเกม), `TableLocalizer` + content ชนิดใหม่ `strings` (en/th, key ครบเท่ากัน), `TopBarViewModel` + `MoneyFormatter` (ราคาตามยุคแบบย่อ), Unity: `UiRoot` สร้าง PanelSettings/UIDocument/กล้องจากโค้ด + Safe area, Theme USS (ตัวแปรที่เดียว), Top bar พร้อมปุ่มข้ามเวลา, Bottom nav, หน้า Placeholder; `dotnet test` ผ่าน 611 + 21 tests (โค้ด Unity ยังต้องตรวจใน Editor)

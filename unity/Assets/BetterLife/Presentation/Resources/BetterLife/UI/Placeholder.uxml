@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="placeholder" class="screen placeholder">
+        <ui:Label name="title" class="screen__title" />
+        <ui:Label text="@screen.placeholder.body" class="placeholder__body" />
+    </ui:VisualElement>
+</ui:UXML>

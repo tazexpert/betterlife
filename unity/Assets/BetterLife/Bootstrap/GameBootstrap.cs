@@ -3,9 +3,15 @@ using System.IO;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Events;
+using BetterLife.Core.Localization;
+using BetterLife.Core.Navigation;
 using BetterLife.Core.Saving;
 using BetterLife.Core.Sessions;
+using BetterLife.Core.Time.Ticking;
+using BetterLife.Core.ViewModels;
 using BetterLife.Infrastructure.Content;
+using BetterLife.Presentation.Screens;
+using BetterLife.Presentation.Shell;
 using UnityEngine;
 
 namespace BetterLife.Bootstrap
@@ -19,6 +25,8 @@ namespace BetterLife.Bootstrap
         private const string HostObjectName = "[BetterLife] GameBootstrap";
         private const string LogPrefix = "[BetterLife] ";
         private const string SaveFolder = "saves";
+        // English until the Thai font and the language setting arrive (task 20).
+        private const string DefaultLanguage = "en";
 
         private static GameBootstrap _instance;
 
@@ -27,6 +35,8 @@ namespace BetterLife.Bootstrap
         private LifeSession _life;
         private SaveService _saves;
         private UndoService _undo;
+        private UiRoot _ui;
+        private ShellPresenter _shell;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -77,6 +87,12 @@ namespace BetterLife.Bootstrap
 
         private void OnDestroy()
         {
+            if (_ui != null)
+            {
+                _ui.BackPressed -= OnBackPressed;
+            }
+            _shell?.Dispose();
+            _shell = null;
             _life?.Dispose();
             _life = null;
             if (_instance == this)
@@ -86,8 +102,7 @@ namespace BetterLife.Bootstrap
         }
 
         /// <summary>
-        /// Builds the object graph: event bus, validated content, saving/undo and the current life.
-        /// Presenters are added in later tasks.
+        /// Builds the object graph: event bus, validated content, saving/undo, the current life and the UI shell.
         /// </summary>
         private void Compose()
         {
@@ -106,6 +121,41 @@ namespace BetterLife.Bootstrap
 
             // Until the slot and creation screens exist (UI tasks), continue the autosave or start a new random life.
             _life = TryLoadAutosave() ?? StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
+            ComposeUi();
+        }
+
+        /// <summary>
+        /// Creates the UI: localizer, router, screen registry, the UI Toolkit panel and the shell presenter.
+        /// Screens register here as they are built (tasks 16-17); unregistered tabs show a placeholder.
+        /// </summary>
+        private void ComposeUi()
+        {
+            var localizer = new TableLocalizer(_content.Get<StringTables>(), DefaultLanguage, DefaultLanguage);
+            var router = new ScreenRouter(ShellTabs.All);
+            var screens = new ScreenRegistry(localizer);
+
+            _ui = UiRoot.Create(transform);
+            _ui.BackPressed += OnBackPressed;
+            _shell = new ShellPresenter(_ui.Root, router, screens, localizer, new MoneyFormatter(localizer));
+            _shell.TimeAdvanced += OnTimeAdvanced;
+            _shell.Bind(_life);
+        }
+
+        private void OnBackPressed()
+        {
+            if (_shell != null && _shell.Back() == BackResult.Exit)
+            {
+                Autosave();
+                Application.Quit();
+            }
+        }
+
+        private void OnTimeAdvanced(AdvanceResult result)
+        {
+            if (result.WasInterrupted)
+            {
+                Debug.Log(LogPrefix + "Time stopped at " + result.To + ": " + result.StoppedBy.ReasonKey);
+            }
         }
 
         /// <summary>

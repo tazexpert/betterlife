@@ -86,7 +86,10 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Services` | Interface ของ Service ภายนอก (Ads, IAP, Analytics, CloudSave) |
 | `BetterLife.Core.Persistence` | Save DTO + Mapper (รวม `LifeSaveDto` ทั้งชีวิต) |
 | `BetterLife.Core.Saving` | ไฟล์เซฟ (Envelope + checksum), Migration, `ISaveStorage` (ไฟล์/หน่วยความจำ), Slot, Undo |
-| `BetterLife.Core.Localization` | LocKey |
+| `BetterLife.Core.Localization` | LocKey, `ILocalizer`, ตารางภาษา (`StringTable`/`StringTables`), `TableLocalizer` |
+| `BetterLife.Core.Navigation` | แท็บของ Shell + `ScreenRouter` (stack ต่อแท็บ, Modal, ปุ่ม Back) |
+| `BetterLife.Core.ViewModels` | ข้อมูลพร้อมแสดงผลที่ไม่ผูก Unity (`TopBarViewModel`, `MoneyFormatter`) |
+| Unity `BetterLife.Presentation.Shell` / `.Screens` | `UiRoot` (PanelSettings + UIDocument จากโค้ด), `ShellPresenter`, `TopBarPresenter`, `ScreenRegistry`, หน้าจอ |
 
 ## ตัวป้องกันกฎสถาปัตยกรรม
 - **คอมไพเลอร์:** C# 9 ปฏิเสธ file-scoped namespace / record struct, `TreatWarningsAsErrors` + `GenerateDocumentationFile` บังคับ XML doc

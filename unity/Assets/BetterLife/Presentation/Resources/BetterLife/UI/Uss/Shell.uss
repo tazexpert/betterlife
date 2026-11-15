@@ -1,0 +1,190 @@
+/* Shell layout: top bar, screen area, bottom navigation and modal layer. Values come from Theme.uss. */
+.shell {
+    flex-grow: 1;
+    background-color: var(--color-bg);
+}
+
+.shell__safe-area {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.shell__screen {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.shell__bottom-nav {
+    flex-direction: row;
+    height: var(--nav-height);
+    background-color: var(--color-surface);
+    border-top-width: 2px;
+    border-top-color: var(--color-border);
+}
+
+.shell__modal-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    padding: var(--space-m);
+    background-color: var(--color-scrim);
+}
+
+.shell__modal-layer--open {
+    display: flex;
+}
+
+/* Bottom navigation tabs */
+.nav-tab {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin: 0;
+    padding: var(--space-xs);
+    border-width: 0;
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-tab__icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    margin-bottom: var(--space-xs);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface-raised);
+}
+
+.nav-tab__label {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    -unity-text-align: middle-center;
+}
+
+.nav-tab--selected .nav-tab__icon {
+    background-color: var(--color-primary);
+}
+
+.nav-tab--selected .nav-tab__label {
+    color: var(--color-primary);
+    -unity-font-style: bold;
+}
+
+/* Top bar */
+.top-bar {
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface);
+    border-bottom-width: 2px;
+    border-bottom-color: var(--color-border);
+}
+
+.top-bar__row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.top-bar__back {
+    height: var(--touch-height);
+    margin: 0 var(--space-s) 0 0;
+    padding: 0 var(--space-m);
+    font-size: var(--font-m);
+    color: var(--color-text);
+    background-color: var(--color-surface-raised);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.top-bar__identity {
+    flex-grow: 1;
+}
+
+.top-bar__name {
+    font-size: var(--font-l);
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
+.top-bar__details {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+.top-bar__money {
+    align-items: flex-end;
+}
+
+.top-bar__cash {
+    font-size: var(--font-l);
+    color: var(--color-primary);
+    -unity-font-style: bold;
+}
+
+.top-bar__inbox {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+.top-bar__time {
+    flex-direction: row;
+    margin-top: var(--space-s);
+}
+
+.time-button {
+    flex-grow: 1;
+    flex-basis: 0;
+    height: var(--touch-height);
+    margin: 0 var(--space-xs) 0 0;
+    font-size: var(--font-m);
+    color: var(--color-bg);
+    background-color: var(--color-primary);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.time-button:active {
+    background-color: var(--color-primary-dark);
+}
+
+.time-button:disabled {
+    opacity: 0.4;
+}
+
+.top-bar__life-over {
+    display: none;
+    margin-top: var(--space-s);
+    font-size: var(--font-m);
+    color: var(--color-danger);
+    -unity-text-align: middle-center;
+}
+
+.top-bar--life-over .top-bar__time {
+    display: none;
+}
+
+.top-bar--life-over .top-bar__life-over {
+    display: flex;
+}
+
+/* Screens */
+.screen {
+    flex-grow: 1;
+    padding: var(--space-m);
+}
+
+.screen__title {
+    font-size: var(--font-xl);
+    color: var(--color-text);
+    -unity-font-style: bold;
+    margin-bottom: var(--space-s);
+}
+
+.placeholder__body {
+    font-size: var(--font-m);
+    color: var(--color-text-muted);
+    white-space: normal;
+}

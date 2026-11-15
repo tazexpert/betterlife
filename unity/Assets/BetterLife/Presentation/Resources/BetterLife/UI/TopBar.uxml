@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Texts starting with @ are localization keys, replaced by the presenter. -->
+    <ui:VisualElement name="top-bar" class="top-bar">
+        <ui:VisualElement class="top-bar__row">
+            <ui:Button name="back-button" text="@shell.back" class="top-bar__back" />
+            <ui:VisualElement class="top-bar__identity">
+                <ui:Label name="name" class="top-bar__name" />
+                <ui:Label name="details" class="top-bar__details" />
+            </ui:VisualElement>
+            <ui:VisualElement class="top-bar__money">
+                <ui:Label name="cash" class="top-bar__cash" />
+                <ui:Label name="inbox" class="top-bar__inbox" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="time-controls" class="top-bar__time">
+            <ui:Button name="skip-week" text="@time.skip.week" class="time-button" />
+            <ui:Button name="skip-month" text="@time.skip.month" class="time-button" />
+            <ui:Button name="skip-year" text="@time.skip.year" class="time-button" />
+        </ui:VisualElement>
+        <ui:Label name="life-over" text="@time.life_over" class="top-bar__life-over" />
+    </ui:VisualElement>
+</ui:UXML>

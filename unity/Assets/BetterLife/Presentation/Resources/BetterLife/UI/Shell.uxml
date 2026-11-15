@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- The whole app: safe-area column (top bar, screen, bottom nav) and a modal layer above it. -->
+    <ui:VisualElement name="shell-root" class="shell">
+        <ui:VisualElement name="safe-area" class="shell__safe-area">
+            <ui:VisualElement name="top-bar-slot" class="shell__top-bar" />
+            <ui:VisualElement name="screen-container" class="shell__screen" />
+            <ui:VisualElement name="bottom-nav" class="shell__bottom-nav" />
+        </ui:VisualElement>
+        <ui:VisualElement name="modal-layer" class="shell__modal-layer" />
+    </ui:VisualElement>
+</ui:UXML>

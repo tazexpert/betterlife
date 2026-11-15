@@ -43,7 +43,14 @@
 ## 5. Save
 ไม่มีข้อมูลใหม่ในเซฟ (แท็บที่เปิดค้างไม่ต้องจำ)
 
-## 6. ส่งต่อ
+## 6. Tests
+- `ScreenRouterTests` (7): เริ่มที่ Home, stack แยกต่อแท็บ, กดแท็บเดิมกลับหน้าแรก, Modal ปิดก่อน, ลำดับ Back (Modal → ถอย → Home → Exit), Push/SelectTab ปิด Modal, Reset + เหตุการณ์ Changed
+- `LocalizationTests`: ภาษาหลัก → ภาษาสำรอง → ตัว key, แทน `{name}`, ตารางผิด (key ไม่ถูกต้อง/ภาษาซ้ำ), `MoneyFormatter.Compact` หลายช่วงตัวเลข + ติดลบ, `Full`
+- `TopBarViewModelTests` (2): ชื่อ/อายุ/เดือน/เงินตามยุค/Inbox และปิดปุ่มเมื่อชีวิตจบ
+- `StringsContentTests` (content จริง): ทุกภาษามี key ชุดเดียวกัน และทุก key ที่ Shell ใช้มีข้อความ
+- โค้ด Unity (`UiRoot`, Presenter, UXML/USS) คอมไพล์ด้วย dotnet ไม่ได้ ต้องตรวจใน Unity Editor
+
+## 7. ส่งต่อ
 - ข้อ 16: หน้า Home (Dashboard + การ์ด Core 5 ใบ + Sparkline), Inbox, Event Dialog เป็น Modal
 - ข้อ 17: หน้า Money / People / More (ดวง ไทม์ไลน์)
 - ข้อ 20: ตารางภาษาเต็ม, ฟอนต์ไทย, สลับภาษา, หน้าตั้งค่า

@@ -1,0 +1,30 @@
+/* Design tokens: every colour, spacing and size used by the UI lives here. Reference resolution 1080x1920. */
+:root {
+    --color-bg: #10141B;
+    --color-surface: #1A212C;
+    --color-surface-raised: #243042;
+    --color-border: #2E3A4A;
+    --color-primary: #4FC3A1;
+    --color-primary-dark: #2E8C72;
+    --color-text: #E8EDF2;
+    --color-text-muted: #9AA7B4;
+    --color-danger: #E5484D;
+    --color-scrim: rgba(0, 0, 0, 0.6);
+
+    --space-xs: 8px;
+    --space-s: 16px;
+    --space-m: 24px;
+    --space-l: 40px;
+
+    --font-s: 28px;
+    --font-m: 34px;
+    --font-l: 44px;
+    --font-xl: 56px;
+
+    --radius-s: 12px;
+    --radius-m: 20px;
+
+    --nav-height: 168px;
+    --icon-size: 56px;
+    --touch-height: 96px;
+}
