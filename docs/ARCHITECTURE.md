@@ -97,4 +97,5 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 - **ArchitectureRulesTests:** สแกน Runtime หา `UnityEngine`, `System.Random`, `record`, `init;`
 - **AssemblyDependencyRulesTests:** อ่าน asmdef ทุกไฟล์แล้วตรวจทิศทางการอ้างอิงตามกราฟข้างบน
 - **UnityCompat:** `dotnet/BetterLife.Core.Tests.UnityCompat.csproj` คอมไพล์ไฟล์ test แบบ Unity (netstandard2.1 + NUnit 3.5.0 ของ Unity Test Framework 1.1.33) และถูก build ทุกครั้งที่รัน `dotnet test` จึงจับ API ที่ Unity ไม่มีได้
+- **Unity.CompileCheck:** `dotnet/BetterLife.Unity.CompileCheck.csproj` คอมไพล์โค้ด Unity ฝั่ง runtime (Presentation, Bootstrap, Infrastructure) กับ class จำลองของ Unity ใน `dotnet/UnityStubs/` ทุกครั้งที่รัน `dotnet test` จับความผิดในโค้ดของเราเอง (ชื่อผิด, argument ผิด) ได้ แต่ยืนยันไม่ได้ว่า API ของ Unity มีจริง ถ้าใช้ API ใหม่ของ Unity ต้องเพิ่มใน stub ด้วย และยังต้องตรวจใน Unity Editor เสมอ
 - **CI:** GitHub Actions รัน `dotnet test` ทุก push

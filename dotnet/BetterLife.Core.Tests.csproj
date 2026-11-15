@@ -20,5 +20,7 @@
     <ProjectReference Include="BetterLife.Core.csproj" />
     <!-- Build-only: makes `dotnet test` also compile the tests the way Unity does (fails on APIs Unity lacks). -->
     <ProjectReference Include="BetterLife.Core.Tests.UnityCompat.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <!-- Build-only: compiles the Unity runtime code against stand-in Unity types (see UnityStubs/UnityStubs.cs). -->
+    <ProjectReference Include="BetterLife.Unity.CompileCheck.csproj" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 </Project>
