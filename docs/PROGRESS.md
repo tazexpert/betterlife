@@ -2,7 +2,7 @@
 
 ## สถานะปัจจุบัน
 **00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅
-**ถัดไป:** 17 หน้าจอย่อย
+**ถัดไป:** 18 Legacy + Life Summary + Achievements
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -31,7 +31,7 @@
 | 14 | Save System | JSON + Migration + Undo snapshot (`docs/systems/save-system.md`) | ✅ |
 | 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav (`docs/systems/ui-shell.md`) | ✅ |
 | 16 | Dashboard + Inbox + Event Dialog | การ์ด Core + Sparkline + Breakdown, Inbox แบบ FM, Event Dialog (`docs/systems/dashboard-inbox.md`) | ✅ |
-| 17 | หน้าจอย่อย | Finance, Relationships, Astrology, Timeline | ⬜ |
+| 17 | หน้าจอย่อย | Finance, Relationships, Astrology, Timeline (`docs/systems/sub-screens.md`) | ✅ |
 | 18 | Legacy + Life Summary + Achievements | | ⬜ |
 | 19 | Ads + IAP | Fake ก่อน → SDK จริง | ⬜ |
 | 20 | Localization TH/EN + Settings | | ⬜ |
@@ -64,3 +64,4 @@
 - 2026-11-15 — แก้ Unity คอมไพล์ไม่ผ่าน: Unity Test Framework 1.1.33 ใช้ NUnit 3.5 ที่ไม่มี `Is.AnyOf` → เปลี่ยนเป็น `Does.Contain` และเพิ่มโปรเจกต์ `BetterLife.Core.Tests.UnityCompat` (netstandard2.1 + NUnit 3.5) ให้ `dotnet test` คอมไพล์ test แบบ Unity ด้วย
 - 2026-11-15 — 16 Dashboard + Inbox + Event Dialog เสร็จ: การ์ด Core 5 ใบ (ค่า + แนวโน้ม 4 สัปดาห์ + Sparkline 52 สัปดาห์ด้วย Painter2D), แตะการ์ด = Breakdown, การ์ด Habits เมื่อเริ่มติด, Inbox (รอตัดสินใจ + ข่าวจาก Interrupt), Event Dialog (โอกาส %, ผลที่คาดได้, ตัวเลือกที่ล็อก, ผลลัพธ์) เปิดเองเมื่อเวลาหยุดเพราะเหตุการณ์, `DecisionService` บันทึกจุด Undo ก่อนทุกการตัดสินใจ, `RuleTextFormatter`, ข้อความ en/th เพิ่ม 195 key + Test ว่าทุก key มีข้อความ; `dotnet test` ผ่าน 626 + 23 tests (โค้ด Unity ยังต้องตรวจใน Editor)
 - 2026-11-15 — แก้ Unity คอมไพล์ไม่ผ่าน (ข้อ 16): `ShellPresenter` ยังอ้างพารามิเตอร์ `localizer` เดิมหลังเปลี่ยน constructor → ใช้ `_localizer` และเพิ่ม `BetterLife.Unity.CompileCheck` (โค้ด Unity + class จำลองของ Unity) ให้ `dotnet test` จับความผิดแบบนี้ได้
+- 2026-11-15 — 17 หน้าจอย่อยเสร็จ: แท็บ Money (ภาพรวม เศรษฐกิจ เงินลงทุน หนี้ รายงานเดือน เลือกระดับชีวิต รายการถูกหลอก + แจ้งความ), แท็บ People (จัดกลุ่ม → หน้าคน: ความสนิท ความเข้ากันได้ ความทรงจำ Interaction), แท็บ More → ดวงชะตา (ดวงกำเนิด ดวง 5 ด้านพร้อมส่วนประกอบ กรรม) และไทม์ไลน์ชีวิต (สร้างจากข้อมูลในเซฟ), `DecisionService` เพิ่ม Interact/ReportScam/ChooseLifestyle (Checkpoint ทุกครั้ง), ข้อความ en/th เพิ่ม 251 key + Test ด้วย reflection ว่าทุก key ของ ViewModel มีข้อความ; ซื้อขาย/กู้เงิน/แท็บ Life/Work ยังเป็น Placeholder (เสนอข้อ 17b); `dotnet test` ผ่าน 632 + 25 tests

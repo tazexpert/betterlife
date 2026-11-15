@@ -38,6 +38,9 @@ namespace BetterLife.Core.Life
             _subscription = _bus.Subscribe<DeathRequest>(r => Kill(r.Character, r.CauseId, r.Week));
         }
 
+        /// <summary>Death cause catalog (names for the timeline and the life summary).</summary>
+        public DefinitionCatalog<DeathCauseDefinition> Causes => _causes;
+
         /// <summary>
         /// Picks a natural cause for a death this week by weight among eligible causes (the first cause when none qualify).
         /// </summary>

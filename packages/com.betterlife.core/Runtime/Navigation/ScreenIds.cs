@@ -23,5 +23,11 @@ namespace BetterLife.Core.Navigation
         public const string EventDialog = "event";
         /// <summary>Stat breakdown (modal; argument = stat id).</summary>
         public const string Breakdown = "breakdown";
+        /// <summary>One person (pushed on the People tab; argument = NPC id).</summary>
+        public const string Person = "person";
+        /// <summary>Astrology and karma (pushed on the More tab).</summary>
+        public const string Astrology = "astrology";
+        /// <summary>Life timeline (pushed on the More tab).</summary>
+        public const string Timeline = "timeline";
     }
 }

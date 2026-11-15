@@ -37,6 +37,12 @@ namespace BetterLife.Core.Luck
             _bonusSources = (bonusSources ?? Enumerable.Empty<IChanceBonusSource>()).ToList();
         }
 
+        /// <summary>Fortune calculator (astrology screen).</summary>
+        public FortuneCalculator Fortune => _fortune;
+
+        /// <summary>Karma service (karma chance points).</summary>
+        public KarmaService Karma => _karma;
+
         /// <summary>
         /// Explains the chance without rolling.
         /// </summary>

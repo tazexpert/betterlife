@@ -1,6 +1,8 @@
 using System;
 using BetterLife.Core.LifeEvents;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Saving;
+using BetterLife.Core.Scams;
 
 namespace BetterLife.Core.Sessions
 {
@@ -32,6 +34,48 @@ namespace BetterLife.Core.Sessions
         /// <returns>The resolution.</returns>
         public EventResolution Answer(LifeSession session, int instanceId, string choiceId)
         {
+            Checkpoint(session);
+            return session.Events.Resolve(session.Character, instanceId, choiceId);
+        }
+
+        /// <summary>
+        /// Does something with a person (chat, gift, propose...).
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="npcId">NPC id.</param>
+        /// <param name="interactionId">Interaction id.</param>
+        /// <returns>The result (not performed when the quote says it is unavailable).</returns>
+        public InteractionResult Interact(LifeSession session, int npcId, string interactionId)
+        {
+            Checkpoint(session);
+            return session.Relationships.Interact(npcId, interactionId);
+        }
+
+        /// <summary>
+        /// Reports a scam to the police and the bank.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="incidentId">Scam incident id.</param>
+        /// <returns>The result.</returns>
+        public ScamReportResult ReportScam(LifeSession session, int incidentId)
+        {
+            Checkpoint(session);
+            return session.Scams.Report(incidentId);
+        }
+
+        /// <summary>
+        /// Changes the lifestyle tier (adults only).
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="tierId">Lifestyle tier id.</param>
+        public void ChooseLifestyle(LifeSession session, string tierId)
+        {
+            Checkpoint(session);
+            session.Finance.SetLifestyle(tierId);
+        }
+
+        private void Checkpoint(LifeSession session)
+        {
             if (session == null)
             {
                 throw new ArgumentNullException(nameof(session));
@@ -41,7 +85,6 @@ namespace BetterLife.Core.Sessions
                 throw new InvalidOperationException("The life has ended.");
             }
             _undo?.Checkpoint(session, _contentVersion);
-            return session.Events.Resolve(session.Character, instanceId, choiceId);
         }
     }
 }
