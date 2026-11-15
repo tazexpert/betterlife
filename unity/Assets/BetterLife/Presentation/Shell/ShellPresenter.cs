@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using BetterLife.Core.Domain;
 using BetterLife.Core.Localization;
 using BetterLife.Core.Navigation;
+using BetterLife.Core.Notices;
 using BetterLife.Core.Sessions;
 using BetterLife.Core.Time.Ticking;
 using BetterLife.Core.ViewModels;
@@ -26,6 +29,16 @@ namespace BetterLife.Presentation.Shell
         public const string TabLabelClass = "nav-tab__label";
         /// <summary>Class that shows the modal layer.</summary>
         public const string ModalOpenClass = "shell__modal-layer--open";
+        /// <summary>Animated popup class.</summary>
+        public const string PopupClass = "popup";
+        /// <summary>Start state of the popup animation.</summary>
+        public const string PopupEnterClass = "popup--enter";
+        /// <summary>Most toasts shown at once.</summary>
+        public const int MaxToasts = 3;
+
+        private const long EnterDelayMs = 30;
+        private const long ToastShowMs = 3500;
+        private const long ToastLeaveMs = 300;
 
         private readonly ScreenContext _context;
         private readonly ScreenRouter _router;
@@ -34,6 +47,7 @@ namespace BetterLife.Presentation.Shell
         private readonly MoneyFormatter _money;
         private readonly VisualElement _screenContainer;
         private readonly VisualElement _modalLayer;
+        private readonly VisualElement _toastLayer;
         private readonly TopBarPresenter _topBar;
         private readonly Dictionary<string, Button> _tabButtons = new Dictionary<string, Button>();
         private readonly Dictionary<string, IScreenPresenter> _screenPresenters = new Dictionary<string, IScreenPresenter>();
@@ -61,6 +75,7 @@ namespace BetterLife.Presentation.Shell
             _money = context.Money;
             _screenContainer = root.Q<VisualElement>("screen-container");
             _modalLayer = root.Q<VisualElement>("modal-layer");
+            _toastLayer = root.Q<VisualElement>("toast-layer");
 
             _topBar = new TopBarPresenter(root.Q<VisualElement>("top-bar-slot"), _localizer);
             _topBar.SkipRequested += Advance;
@@ -121,6 +136,44 @@ namespace BetterLife.Presentation.Shell
             }
             _screenPresenters.Clear();
             _modalPresenters.Clear();
+        }
+
+        /// <summary>
+        /// Shows news as toasts that drop in from the top and leave by themselves; tapping one opens the inbox.
+        /// </summary>
+        /// <param name="notices">New notices, oldest first.</param>
+        public void ShowToasts(IEnumerable<Notice> notices)
+        {
+            if (notices == null)
+            {
+                return;
+            }
+            foreach (Notice notice in notices.Reverse().Take(MaxToasts).Reverse())
+            {
+                var toast = new VisualElement();
+                toast.AddToClassList("toast");
+                toast.AddToClassList("toast--enter");
+                toast.EnableInClassList("toast--major", notice.Severity >= Severity.Major);
+                var text = new Label(_localizer.Get(notice.TitleKey));
+                text.AddToClassList("toast__text");
+                toast.Add(text);
+                toast.AddManipulator(new Clickable(OpenInbox));
+                _toastLayer.Add(toast);
+                while (_toastLayer.childCount > MaxToasts)
+                {
+                    _toastLayer.RemoveAt(0);
+                }
+                toast.schedule.Execute(() => toast.RemoveFromClassList("toast--enter")).StartingIn(EnterDelayMs);
+                toast.schedule.Execute(() => toast.AddToClassList("toast--leave")).StartingIn(ToastShowMs);
+                toast.schedule.Execute(() => toast.RemoveFromHierarchy()).StartingIn(ToastShowMs + ToastLeaveMs);
+            }
+        }
+
+        private static void Animate(VisualElement element)
+        {
+            element.AddToClassList(PopupClass);
+            element.AddToClassList(PopupEnterClass);
+            element.schedule.Execute(() => element.RemoveFromClassList(PopupEnterClass)).StartingIn(EnterDelayMs);
         }
 
         private void BuildTabs(VisualElement nav)
@@ -191,6 +244,10 @@ namespace BetterLife.Presentation.Shell
             {
                 container.Clear();
                 container.Add(presenter.Root);
+                if (container == _modalLayer)
+                {
+                    Animate(presenter.Root);
+                }
             }
             presenter.Show(request);
             presenter.Refresh();

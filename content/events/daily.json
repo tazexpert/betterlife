@@ -80,6 +80,11 @@
                 "type": "stat",
                 "stat": "mental.happiness",
                 "amount": 3
+              },
+              {
+                "type": "meet",
+                "relation": "contact",
+                "chance": 0.1
               }
             ]
           }
@@ -89,7 +94,13 @@
           "textKey": "event.daily.found_temple_fair.choice.walk_past",
           "success": {
             "resultKey": "event.daily.found_temple_fair.choice.walk_past.success",
-            "effects": []
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": -2
+              }
+            ]
           }
         }
       ],

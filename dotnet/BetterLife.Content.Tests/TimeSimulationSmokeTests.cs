@@ -45,7 +45,7 @@ namespace BetterLife.Content.Tests
             var luck = new LuckCalculator(content.Get<LuckSettings>(), content.Get<FortuneCalculator>(), content.Get<KarmaService>());
             var eventState = new EventState();
             using EventSystem events = EventSystemFactory.Create(content, eventState, luck, random, bus, state.Clock);
-            var system = TimeSystemFactory.Create(content, state, random, bus, new InterruptPolicy(), new ITickPhase[] { new EventRollPhase(events) });
+            var system = TimeSystemFactory.Create(content, state, random, bus, RepoContent.Simulation, new ITickPhase[] { new EventRollPhase(events) });
 
             for (int year = 0; year < Years; year++)
             {

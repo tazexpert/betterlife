@@ -24,6 +24,7 @@ namespace BetterLife.Presentation.Screens
         public const string QuittingClass = "habit-card--quitting";
 
         private readonly ScreenContext _context;
+        private readonly VisualElement _family;
         private readonly VisualElement _cards;
         private readonly VisualElement _habits;
         private readonly Label _habitsTitle;
@@ -39,6 +40,7 @@ namespace BetterLife.Presentation.Screens
             Root = UiAssets.Layout(UiAssets.Dashboard).Instantiate();
             Root.style.flexGrow = 1;
             UiText.Localize(Root, context.Localizer);
+            _family = Root.Q<VisualElement>("family");
             _cards = Root.Q<VisualElement>("cards");
             _habits = Root.Q<VisualElement>("habits");
             _habitsTitle = Root.Q<Label>("habits-title");
@@ -58,6 +60,7 @@ namespace BetterLife.Presentation.Screens
         public void Refresh()
         {
             LifeSession session = _context.Session;
+            _family.Clear();
             _cards.Clear();
             _habits.Clear();
             if (session == null)
@@ -65,6 +68,10 @@ namespace BetterLife.Presentation.Screens
                 return;
             }
             DashboardState state = DashboardViewModel.Build(session, _context.Localizer);
+            foreach (ValueRow row in state.Family)
+            {
+                _family.Add(UiRows.Row(row, () => _context.Router.SelectTab(ScreenIds.People)));
+            }
             foreach (StatCardState card in state.Cards)
             {
                 _cards.Add(Card(card));

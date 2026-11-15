@@ -1315,6 +1315,32 @@
               "minimum": 0
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation",
+            "chance"
+          ],
+          "properties": {
+            "type": {
+              "const": "meet"
+            },
+            "relation": {
+              "enum": [
+                "friend",
+                "colleague",
+                "contact"
+              ]
+            },
+            "chance": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
         }
       ]
     },

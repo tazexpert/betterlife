@@ -38,6 +38,8 @@ namespace BetterLife.Core.ViewModels
         private static readonly Dictionary<string, string[]> SubjectNames = new Dictionary<string, string[]>
         {
             [RuleTextKeys.CondRelationshipCount] = new[] { "relationship.type.{0}" },
+            [Relationships.MeetEffect.MetKey] = new[] { "relationship.type.{0}" },
+            [Relationships.MeetEffect.ChanceKey] = new[] { "relationship.type.{0}" },
             [RuleTextKeys.CondRelationshipValue] = new[] { "relationship.type.{0}" },
             [RuleTextKeys.CondReputation] = new[] { "reputation.{0}.name" },
             [RuleTextKeys.CondHealthCondition] = new[] { "condition.{0}.name" },

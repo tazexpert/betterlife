@@ -198,3 +198,53 @@
     color: var(--color-text-muted);
     white-space: normal;
 }
+
+/* Popups (task 16b): modal content slides up and fades in; news toasts drop in from the top. */
+.popup {
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.25s, 0.25s, 0.25s;
+    transition-timing-function: ease-out-back, ease-out-back, ease-out-back;
+}
+
+.popup--enter {
+    opacity: 0;
+    translate: 0 80px;
+    scale: 0.92 0.92;
+}
+
+.shell__toast-layer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: var(--space-s) var(--space-m);
+    align-items: stretch;
+}
+
+.toast {
+    margin-bottom: var(--space-xs);
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-m);
+    border-left-width: 8px;
+    border-left-color: var(--color-primary);
+    transition-property: opacity, translate;
+    transition-duration: 0.3s, 0.3s;
+    transition-timing-function: ease-out, ease-out;
+}
+
+.toast--major {
+    border-left-color: var(--color-warning);
+}
+
+.toast--enter,
+.toast--leave {
+    opacity: 0;
+    translate: 0 -60px;
+}
+
+.toast__text {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+}

@@ -1,7 +1,7 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅ · **20 Localization + Settings** ✅
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅ · **20 Localization + Settings** ✅ · **16b Popup + ผลตามมา** ✅
 **ถัดไป:** 21 Balancing Simulator (ลำดับที่ตกลง: 21 → 22 → 19 → 23)
 
 ## กติกาการทำงาน
@@ -32,6 +32,7 @@
 | 14 | Save System | JSON + Migration + Undo snapshot (`docs/systems/save-system.md`) | ✅ |
 | 15 | UI Shell | ScreenRouter, Theme USS, Top bar, Bottom nav (`docs/systems/ui-shell.md`) | ✅ |
 | 16 | Dashboard + Inbox + Event Dialog | การ์ด Core + Sparkline + Breakdown, Inbox แบบ FM, Event Dialog (`docs/systems/dashboard-inbox.md`) | ✅ |
+| 16b | Popup ทันที + ผลตามมาของเหตุการณ์ + สถานะครอบครัว (ผู้ใช้ขอ) | เหตุการณ์ที่ต้องตอบหยุดเวลาเสมอ, Animation ของ Popup/Toast, effect `meet`, ทุกตัวเลือกต้องมีผล (`docs/systems/popups-consequences.md`) | ✅ |
 | 17 | หน้าจอย่อย | Finance, Relationships, Astrology, Timeline (`docs/systems/sub-screens.md`) | ✅ |
 | 17b | Player Actions (เพิ่มตามคำขอผู้ใช้) | จัดเวลา 168 ชม., เรียน/งาน, ลงทุน/กู้เงิน, เลิกอบายมุข (`docs/systems/player-actions.md`) | ✅ |
 | 18 | Legacy + Life Summary + Achievements | มรดก/ทายาท, Family Tree, คำไว้อาลัย, Achievement ข้ามชีวิต (`docs/systems/legacy.md`) | ✅ |
@@ -44,7 +45,7 @@
 | 25 | หน้าสร้างตัวละคร (ผู้ใช้ขอ 2026-11-15) | ตั้งชื่อ วันเกิด เวลาเกิด จังหวัด ฐานะครอบครัว เลือกอวตาร: มีอยู่แล้ว = Core โหมด Custom (`CreationRequest`: ชื่อ วันเกิด เวลาเกิด ประเทศ/เมือง ฐานะครอบครัว บุคลิกพ่อแม่ + ตรวจความถูกต้อง) · ยังไม่มี = หน้าจอ UI, รายชื่อครบ 77 จังหวัด (ตอนนี้มี 7 เมือง + ชนบทอีสาน), ระบบอวตาร | ⬜ |
 | 26 | ตัดสินใจครั้งใหญ่ + พบผู้คน (ผู้ใช้ขอ 2026-11-15) | ซื้อบ้าน/รถพร้อมสินเชื่อ, มีคนเข้ามาตีสนิท (รับ/ไม่รับ), เพศตรงข้ามเข้ามาให้รู้จัก → คบ → แต่งงาน → มีลูก (แสดงอวตารสุ่ม): มีอยู่แล้ว = สินทรัพย์บ้าน/คอนโด/รถ + `FinanceService.BuyWithLoan`, การพบเพื่อน/เพื่อนร่วมงานอัตโนมัติ (`MeetingRules`), Interaction ชวนเดท/ขอแต่งงาน/มีลูกในแท็บ People · ยังไม่มี = หน้าซื้อบ้าน/รถ, เหตุการณ์ "มีคนเข้ามาทำความรู้จัก" ให้ตอบรับ/ปฏิเสธ, อวตาร NPC | ⬜ |
 | 27 | Avatar + Animation (ผู้ใช้ขอ 2026-11-15) | สร้างตัวละครแบบมีภาพ หน้าตาเปลี่ยนตามอายุ, อวตารของ NPC · **ต้องตัดสินใจ:** แนวภาพ (2D แบบประกอบชิ้นส่วน/สำเร็จรูป) และแหล่งภาพ (Asset pack ที่มีลิขสิทธิ์ใช้ได้ หรือจ้างศิลปิน) | ⬜ |
-| 28 | เปลี่ยนการนำเสนอเป็นแบบเกม (ผู้ใช้ขอ 2026-11-15) | เน้นภาพ/Animation เป็นหลักแทนหน้าจอข้อความ · **ขัดกับแนวทางเดิม** ใน CLAUDE.md ("Text-based / Dashboard UI สไตล์ Football Manager") และ GDD ข้อ 14 ต้องให้ผู้ใช้ยืนยันทิศทางก่อน แล้วปรับ GDD + CLAUDE.md · Core ทั้งหมดใช้ต่อได้ (UI เป็นชั้นบางๆ แยกจากลอจิก) | ⬜ |
+| 28 | ~~เปลี่ยนการนำเสนอเป็นแบบเกม~~ (ผู้ใช้ตัดสินใจ: **คงแนว Dashboard** เพิ่ม Animation ที่การแจ้งเตือน → ทำแล้วในข้อ 16b) | เน้นภาพ/Animation เป็นหลักแทนหน้าจอข้อความ · **ขัดกับแนวทางเดิม** ใน CLAUDE.md ("Text-based / Dashboard UI สไตล์ Football Manager") และ GDD ข้อ 14 ต้องให้ผู้ใช้ยืนยันทิศทางก่อน แล้วปรับ GDD + CLAUDE.md · Core ทั้งหมดใช้ต่อได้ (UI เป็นชั้นบางๆ แยกจากลอจิก) | ⬜ |
 
 หมายเหตุข้อ 01: คลาสที่ Roadmap เรียกว่า "Pcg32Random" ในโค้ดใช้ชื่อ `Pcg32` (namespace `BetterLife.Core.Randomness`) และมี `RandomRegistry` สำหรับแยกชุดการสุ่มตามระบบ
 
@@ -77,3 +78,4 @@
 - 2026-11-15 — 20 Localization TH/EN + Settings เสร็จ: ฟอนต์ Sarabun (OFL) ใน Resources + `-unity-font` ที่ `.shell`, ภาษาเริ่มต้นตามเครื่อง (ไทย → th) จำค่าใน `profile_settings`, สลับภาษาแล้วสร้าง UI ใหม่ทั้งชุด, หน้า Settings (ภาษา, เปิด/ปิดเนื้อหาอบายมุข, Undo ที่เหลือ, ล้าง Achievement ยืนยัน 2 ขั้น, เวอร์ชัน), แปลเงื่อนไข `rule.cond.*` + ชื่อของ id ดิบ → ตัวเลือกที่ล็อกบอกเงื่อนไขที่ขาด, ข้อความ en/th ครบ 924 key + Test สแกนทุก `*Key` ใน content และ key ในโค้ด; `dotnet test` ผ่าน 651 + 31 tests (การวางสระ/วรรณยุกต์ไทยต้องตรวจใน Unity)
 - 2026-11-15 — แก้ UI เพี้ยนบนจอกว้าง (ผู้ใช้ทดสอบ Game view 1920×1080): Top bar/Bottom nav ไม่หด, เลือก match ความกว้าง/ความสูงตามสัดส่วนจอ; ภาษาไทยแสดงผลถูกต้องจากภาพของผู้ใช้
 - 2026-11-15 — ผู้ใช้ขอเพิ่ม 5 รายการ (24–28): Google Sign-in, หน้าสร้างตัวละคร + อวตาร, ซื้อบ้าน/รถ + พบผู้คน, Avatar/Animation, นำเสนอแบบเกม (ข้อ 28 รอยืนยันทิศทาง เพราะต่างจากแนว Dashboard ใน CLAUDE.md)
+- 2026-11-15 — 16b (ผู้ใช้ขอ) เสร็จ: เหตุการณ์ที่มีตัวเลือกหยุดการข้ามเวลาทุกระดับ (`RequiresAnswer` + `InterruptPolicy.StopForDecisions`) แล้ว Popup เปิดทันที, Animation ของ Popup (เลื่อนขึ้น/จางเข้า) และ Toast ข่าว/Achievement, effect ใหม่ `meet` (ปาร์ตี้ 20%, งานวัด 10%, โอที 10%, เพื่อนเก่า 15%), เติมผลให้ตัวเลือกที่ว่าง + Test บังคับทุก outcome มีผล, หน้าแรกแสดงสถานะ (โสด/คบ/แต่งงาน/หม้าย) + จำนวนบุตร; ข้อ 28 ผู้ใช้ตัดสินใจคงแนว Dashboard; `dotnet test` ผ่าน 655 + 32 tests

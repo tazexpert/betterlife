@@ -53,6 +53,11 @@
                 "amount": 5,
                 "target": "closest",
                 "memory": "memory.reunion"
+              },
+              {
+                "type": "meet",
+                "relation": "friend",
+                "chance": 0.15
               }
             ]
           }

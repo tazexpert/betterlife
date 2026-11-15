@@ -116,5 +116,33 @@ namespace BetterLife.Content.Tests
         {
             return JsonSchema.FromFile(RepoContent.SchemaPath(type));
         }
+
+        [Test]
+        public void EveryEventChoice_HasAConsequence()
+        {
+            // Rule from the user (task 16b): every outcome of every choice changes something, and an event
+            // without choices does something when it fires.
+            IContentRepository content = DefaultContent.CreatePipeline(new FileSystemContentSource(RepoContent.ContentDir)).Load().RequireRepository();
+            var problems = new System.Collections.Generic.List<string>();
+            foreach (BetterLife.Core.LifeEvents.LifeEventDefinition e in content.Get<BetterLife.Core.Domain.DefinitionCatalog<BetterLife.Core.LifeEvents.LifeEventDefinition>>().All)
+            {
+                if (!e.HasChoices && e.OnFire.Effects.Count == 0)
+                {
+                    problems.Add(e.Id + ": no choices and no onFire effects");
+                }
+                foreach (BetterLife.Core.LifeEvents.EventChoice choice in e.Choices)
+                {
+                    if (choice.Success.Effects.Effects.Count == 0)
+                    {
+                        problems.Add(e.Id + "/" + choice.Id + ": success has no effects");
+                    }
+                    if (choice.Failure != null && choice.Failure.Effects.Effects.Count == 0)
+                    {
+                        problems.Add(e.Id + "/" + choice.Id + ": failure has no effects");
+                    }
+                }
+            }
+            Assert.That(problems, Is.Empty);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using BetterLife.Core.Achievements;
@@ -301,12 +302,16 @@ namespace BetterLife.Bootstrap
             }
         }
 
-        private void CheckAchievements()
+        private List<Notice> CheckAchievements()
         {
+            var added = new List<Notice>();
             foreach (AchievementDefinition achievement in _achievements.Evaluate(_life))
             {
-                _notices.Add(new Notice(Severity.Normal, achievement.NameKey, achievement.Id, _life.TimeState.Clock.Now));
+                var notice = new Notice(Severity.Normal, achievement.NameKey, achievement.Id, _life.TimeState.Clock.Now);
+                _notices.Add(notice);
+                added.Add(notice);
             }
+            return added;
         }
 
         private void OnBackPressed()
@@ -320,8 +325,9 @@ namespace BetterLife.Bootstrap
 
         private void OnTimeAdvanced(AdvanceResult result)
         {
-            _notices.Add(result, _life.Events.Inbox);
-            CheckAchievements();
+            var news = new List<Notice>(_notices.Add(result, _life.Events.Inbox));
+            news.AddRange(CheckAchievements());
+            _shell.ShowToasts(news);
             if (_life.IsOver)
             {
                 Autosave();

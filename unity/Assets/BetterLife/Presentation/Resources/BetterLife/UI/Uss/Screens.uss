@@ -518,3 +518,8 @@
 .value-row--locked {
     opacity: 0.5;
 }
+
+/* Task 16b: family status card on the dashboard */
+.family-card {
+    margin-bottom: var(--space-s);
+}

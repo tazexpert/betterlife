@@ -59,6 +59,7 @@ namespace BetterLife.Core.Relationships
         private readonly IEventBus _bus;
         private readonly GameClock _clock;
         private readonly IDisposable _subscription;
+        private readonly IDisposable _meetSubscription;
         private int _socialHours;
 
         /// <summary>
@@ -90,6 +91,13 @@ namespace BetterLife.Core.Relationships
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
             _subscription = _bus.Subscribe<TimeAllocationAppliedEvent>(e =>
                 _socialHours += e.Hours.TryGetValue(_settings.SocialActivityId, out int hours) ? hours : 0);
+            _meetSubscription = _bus.Subscribe<MeetRequestedEvent>(e =>
+            {
+                if (_character.IsAlive)
+                {
+                    MeetSomeone(e.Type, _character.AgeAt(e.Week), e.Week);
+                }
+            });
         }
 
         /// <summary>Socialize hours counted so far this month (saved so a reload continues the month).</summary>
@@ -340,9 +348,13 @@ namespace BetterLife.Core.Relationships
         }
 
         /// <summary>
-        /// Stops counting social hours.
+        /// Stops listening to the event bus.
         /// </summary>
-        public void Dispose() => _subscription.Dispose();
+        public void Dispose()
+        {
+            _subscription.Dispose();
+            _meetSubscription.Dispose();
+        }
 
         private bool CanHaveChild(InteractionDefinition interaction, Npc npc, GameDate now)
         {

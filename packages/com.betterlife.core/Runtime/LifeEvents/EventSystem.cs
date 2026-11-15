@@ -221,7 +221,14 @@ namespace BetterLife.Core.LifeEvents
                 State.AddHistory(new EventHistoryEntry(instanceId, definition.Id, origin, tick.Week, null, true));
             }
 
-            tick.RequestInterrupt(definition.Severity, definition.TitleKey, definition.Id);
+            if (definition.HasChoices)
+            {
+                tick.RequestDecision(definition.Severity, definition.TitleKey, definition.Id);
+            }
+            else
+            {
+                tick.RequestInterrupt(definition.Severity, definition.TitleKey, definition.Id);
+            }
             onFire.PublishTo(_bus);
             _bus.Publish(new LifeEventFiredEvent(instanceId, definition, origin, tick.Week, onFire));
         }
