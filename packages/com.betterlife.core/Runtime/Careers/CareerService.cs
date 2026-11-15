@@ -100,6 +100,9 @@ namespace BetterLife.Core.Careers
         /// <summary>Career tracks.</summary>
         public DefinitionCatalog<CareerTrackDefinition> Tracks => _tracks;
 
+        /// <summary>Time budget activity that the job reserves (locked in the life plan while employed).</summary>
+        public string WorkActivityId => _settings.WorkActivityId;
+
         /// <summary>
         /// Returns the current job's track, or null.
         /// </summary>

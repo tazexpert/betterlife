@@ -46,6 +46,8 @@ namespace BetterLife.Core.ViewModels
         public const string NoReportKey = "finance.report.none";
         /// <summary>Monthly cost text (placeholder <c>{value}</c>).</summary>
         public const string PerMonthKey = "finance.per_month";
+        /// <summary>Yearly cost text (placeholder <c>{value}</c>).</summary>
+        public const string PerYearKey = "finance.per_year";
         /// <summary>Scam detail (placeholders <c>{date}</c>, <c>{lost}</c>).</summary>
         public const string ScamDetailKey = "scam.incident.detail";
         /// <summary>Recovered part (placeholder <c>{value}</c>).</summary>

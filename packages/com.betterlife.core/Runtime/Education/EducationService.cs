@@ -98,6 +98,9 @@ namespace BetterLife.Core.Education
         /// <summary>Program catalog.</summary>
         public DefinitionCatalog<EducationProgramDefinition> Programs => _programs;
 
+        /// <summary>Time budget activity that school reserves (locked in the life plan while enrolled).</summary>
+        public string SchoolActivityId => _settings.SchoolActivityId;
+
         /// <summary>
         /// Lists every institution the character could apply to now, with quotes.
         /// </summary>

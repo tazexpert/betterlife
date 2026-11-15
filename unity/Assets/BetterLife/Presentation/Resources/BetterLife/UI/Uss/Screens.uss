@@ -461,3 +461,42 @@
 .timeline-entry--death {
     border-left-color: var(--color-bad);
 }
+
+/* Task 17b: life plan */
+.list-screen__warning {
+    font-size: var(--font-s);
+    color: var(--color-warning);
+    white-space: normal;
+    margin-bottom: var(--space-xs);
+}
+
+.activity {
+    margin-bottom: var(--space-s);
+}
+
+.activity__effect {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    margin-left: var(--space-s);
+}
+
+.activity__steps {
+    flex-direction: row;
+    margin-top: 4px;
+}
+
+.activity__step {
+    flex-grow: 1;
+    flex-basis: 0;
+    height: var(--touch-height);
+    margin: 0 4px 0 0;
+    font-size: var(--font-m);
+    color: var(--color-text);
+    background-color: var(--color-surface-raised);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.activity__step:disabled {
+    opacity: 0.4;
+}

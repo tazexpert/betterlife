@@ -729,7 +729,12 @@ namespace BetterLife.Core.Economy
             }
         }
 
-        private bool IsAdult(GameDate now) => _character.AgeAt(now) >= _settings.IndependenceAge;
+        /// <summary>
+        /// Whether the character is old enough for money decisions (lifestyle, investing, borrowing).
+        /// </summary>
+        /// <param name="now">Current week.</param>
+        /// <returns>True from the independence age.</returns>
+        public bool IsAdult(GameDate now) => _character.AgeAt(now) >= _settings.IndependenceAge;
 
         private void RequireAdult()
         {

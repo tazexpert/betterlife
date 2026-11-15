@@ -1,8 +1,12 @@
 using System;
 using BetterLife.Core.LifeEvents;
+using BetterLife.Core.Careers;
+using BetterLife.Core.Economy;
+using BetterLife.Core.Education;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Saving;
 using BetterLife.Core.Scams;
+using BetterLife.Core.Vices;
 
 namespace BetterLife.Core.Sessions
 {
@@ -74,7 +78,151 @@ namespace BetterLife.Core.Sessions
             session.Finance.SetLifestyle(tierId);
         }
 
+        /// <summary>
+        /// Changes the weekly hours of an activity. Not a checkpointed decision: the player can simply change it back.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="activityId">Activity id (not the default activity).</param>
+        /// <param name="hours">New hours.</param>
+        /// <returns>True when applied; false when it breaks the activity's maximum or the week.</returns>
+        public bool SetHours(LifeSession session, string activityId, int hours)
+        {
+            RequireRunning(session);
+            return session.TimeState.Budget.Set(activityId, hours);
+        }
+
+        /// <summary>
+        /// Starts quitting a habit with a method.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="viceId">Vice id.</param>
+        /// <param name="methodId">Quit method id.</param>
+        /// <returns>The quote (unavailable reasons when it did not start).</returns>
+        public QuitQuote StartQuit(LifeSession session, string viceId, string methodId)
+        {
+            Checkpoint(session);
+            return session.Vices.StartQuit(viceId, methodId);
+        }
+
+        /// <summary>
+        /// Applies to a school or university.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="programId">Program id.</param>
+        /// <param name="institutionId">Institution id.</param>
+        /// <param name="funding">Who pays the tuition.</param>
+        /// <returns>The result.</returns>
+        public AdmissionResult ApplyEducation(LifeSession session, string programId, string institutionId, TuitionFunding funding)
+        {
+            Checkpoint(session);
+            return session.Education.Apply(programId, institutionId, funding);
+        }
+
+        /// <summary>
+        /// Leaves school.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <returns>True when the character was enrolled.</returns>
+        public bool DropOut(LifeSession session)
+        {
+            Checkpoint(session);
+            return session.Education.DropOut();
+        }
+
+        /// <summary>
+        /// Applies for a job.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="trackId">Career track id.</param>
+        /// <returns>The result.</returns>
+        public HiringResult ApplyJob(LifeSession session, string trackId)
+        {
+            Checkpoint(session);
+            return session.Career.Apply(trackId);
+        }
+
+        /// <summary>
+        /// Quits the current job.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <returns>True when the character had a job.</returns>
+        public bool QuitJob(LifeSession session)
+        {
+            Checkpoint(session);
+            return session.Career.Quit();
+        }
+
+        /// <summary>
+        /// Buys an asset with cash.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="assetId">Asset id.</param>
+        /// <param name="amount">Real amount.</param>
+        /// <returns>The new holding.</returns>
+        public Holding Buy(LifeSession session, string assetId, decimal amount)
+        {
+            Checkpoint(session);
+            return session.Finance.Buy(assetId, amount);
+        }
+
+        /// <summary>
+        /// Sells part of a holding.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="holdingId">Holding id.</param>
+        /// <param name="share">Share to sell (0..1].</param>
+        /// <returns>Cash received after fees.</returns>
+        public decimal Sell(LifeSession session, int holdingId, decimal share)
+        {
+            Checkpoint(session);
+            return session.Finance.Sell(holdingId, share);
+        }
+
+        /// <summary>
+        /// Takes a loan.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="productId">Debt product id.</param>
+        /// <param name="amount">Real amount.</param>
+        /// <returns>The debt.</returns>
+        public Debt TakeLoan(LifeSession session, string productId, decimal amount)
+        {
+            Checkpoint(session);
+            return session.Finance.TakeLoan(productId, amount);
+        }
+
+        /// <summary>
+        /// Opens a credit line (credit card).
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="productId">Revolving debt product id.</param>
+        /// <returns>The credit line.</returns>
+        public Debt OpenCreditLine(LifeSession session, string productId)
+        {
+            Checkpoint(session);
+            return session.Finance.OpenCreditLine(productId);
+        }
+
+        /// <summary>
+        /// Pays back part of a debt.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="debtId">Debt id.</param>
+        /// <param name="amount">Real amount.</param>
+        /// <returns>Amount actually paid.</returns>
+        public decimal Repay(LifeSession session, int debtId, decimal amount)
+        {
+            Checkpoint(session);
+            return session.Finance.Repay(debtId, amount);
+        }
+
         private void Checkpoint(LifeSession session)
+        {
+            RequireRunning(session);
+            _undo?.Checkpoint(session, _contentVersion);
+        }
+
+        private static void RequireRunning(LifeSession session)
         {
             if (session == null)
             {
@@ -84,7 +232,6 @@ namespace BetterLife.Core.Sessions
             {
                 throw new InvalidOperationException("The life has ended.");
             }
-            _undo?.Checkpoint(session, _contentVersion);
         }
     }
 }

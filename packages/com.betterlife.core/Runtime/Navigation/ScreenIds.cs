@@ -29,5 +29,7 @@ namespace BetterLife.Core.Navigation
         public const string Astrology = "astrology";
         /// <summary>Life timeline (pushed on the More tab).</summary>
         public const string Timeline = "timeline";
+        /// <summary>Invest and borrow (pushed on the Money tab).</summary>
+        public const string Invest = "invest";
     }
 }
