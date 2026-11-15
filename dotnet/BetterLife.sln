@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Content.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Core.Tests.UnityCompat", "BetterLife.Core.Tests.UnityCompat.csproj", "{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Unity.CompileCheck", "BetterLife.Unity.CompileCheck.csproj", "{3ECB7B2B-7750-49B8-A1F0-E1D8BA72AD00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECB7B2B-7750-49B8-A1F0-E1D8BA72AD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECB7B2B-7750-49B8-A1F0-E1D8BA72AD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECB7B2B-7750-49B8-A1F0-E1D8BA72AD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECB7B2B-7750-49B8-A1F0-E1D8BA72AD00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

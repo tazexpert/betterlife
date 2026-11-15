@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Compile-only check of the Unity runtime code (Presentation, Bootstrap, Infrastructure) against stand-in Unity
+    types in UnityStubs/. Catches errors in our own code without Unity; it cannot prove that a Unity API exists.
+    Editor-only code (EditorTools) is not included.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>false</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- Unity code documents its public API too, but the stubs do not need XML docs. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="UnityStubs/**/*.cs" />
+    <Compile Include="../unity/Assets/BetterLife/Presentation/**/*.cs" />
+    <Compile Include="../unity/Assets/BetterLife/Bootstrap/**/*.cs" />
+    <Compile Include="../unity/Assets/BetterLife/Infrastructure/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="BetterLife.Core.csproj" />
+  </ItemGroup>
+</Project>

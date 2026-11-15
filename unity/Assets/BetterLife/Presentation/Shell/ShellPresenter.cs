@@ -62,7 +62,7 @@ namespace BetterLife.Presentation.Shell
             _screenContainer = root.Q<VisualElement>("screen-container");
             _modalLayer = root.Q<VisualElement>("modal-layer");
 
-            _topBar = new TopBarPresenter(root.Q<VisualElement>("top-bar-slot"), localizer);
+            _topBar = new TopBarPresenter(root.Q<VisualElement>("top-bar-slot"), _localizer);
             _topBar.SkipRequested += Advance;
             _topBar.BackRequested += () => _router.Back();
             _topBar.InboxRequested += OpenInbox;
