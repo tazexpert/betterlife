@@ -11,14 +11,22 @@
     flex-direction: column;
 }
 
+/* The top bar and the bottom nav keep their size; only the screen area shrinks on short displays. */
+.shell__top-bar {
+    flex-shrink: 0;
+}
+
 .shell__screen {
     flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
     overflow: hidden;
 }
 
 .shell__bottom-nav {
     flex-direction: row;
     height: var(--nav-height);
+    flex-shrink: 0;
     background-color: var(--color-surface);
     border-top-width: 2px;
     border-top-color: var(--color-border);

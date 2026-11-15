@@ -16,7 +16,7 @@
 | แยกชั้น | ลอจิกที่ไม่ผูกกับ Unity (Router, ข้อความ Top bar, รูปแบบเงิน, ตัวแปลภาษา) อยู่ใน Core และทดสอบด้วย `dotnet test` ได้ ส่วน Unity มีแค่ View (UXML/USS) + Presenter ที่บางที่สุด | โค้ด Unity คอมไพล์ด้วย dotnet ไม่ได้ จึงย้ายส่วนที่ผิดง่ายมาไว้ฝั่งที่ทดสอบได้ |
 | 6 แท็บ | `home` (Dashboard), `life` (งบเวลา/แผนชีวิต), `money` (การเงิน), `people` (ความสัมพันธ์), `work` (การเรียน/อาชีพ), `more` (ดวง ไทม์ไลน์ นิสัย เซฟ ตั้งค่า) | ตรงกับระบบที่มีแล้ว |
 | สร้างจากโค้ด | `UiRoot` สร้าง GameObject + `PanelSettings` (`ScriptableObject.CreateInstance`) + `UIDocument` เอง และโหลด UXML/USS/TSS จาก `Resources/BetterLife/UI` | ข้อบังคับ: ห้ามลากวางใน Inspector |
-| สเกลหน้าจอ | Scale With Screen Size, อ้างอิง 1080×1920, match ตามความกว้าง | เกมแนวตั้ง |
+| สเกลหน้าจอ | Scale With Screen Size อ้างอิง 1080×1920: จอที่สูงกว่า 9:16 (มือถือแนวตั้ง) match ตามความกว้าง, จอที่กว้างกว่า (แท็บเล็ต, Game view แนวนอนใน Editor) match ตามความสูง ตรวจทุกครั้งที่ขนาดจอเปลี่ยน; Top bar และ Bottom nav ไม่ถูกบีบ (`flex-shrink: 0`) มีแต่พื้นที่หน้าจอที่หดได้ | แก้ปัญหาที่ผู้ใช้พบ 2026-11-15: Game view 1920×1080 ทำให้หน้าจอทับ Top bar |
 | Safe area | ทุกเฟรมเทียบ `Screen.safeArea` ถ้าเปลี่ยนจะแปลงเป็น padding ของ container ราก | รองรับการหมุนและรอยบาก |
 | Back | อ่าน `Input.GetKeyDown(KeyCode.Escape)` (ปุ่ม Back ของ Android) → `ScreenRouter.Back()` ถ้าได้ `Exit` จะเรียก `Application.Quit()` | โปรเจกต์ใช้ Input Manager แบบเดิม |
 | ข้อความ | ทุกข้อความผ่าน `ILocalizer` ใน UXML เขียน key ขึ้นต้นด้วย `@` (เช่น `text="@nav.home"`) แล้ว Presenter แปลงให้ | ข้อบังคับ: ห้าม hard-code ข้อความ |

@@ -18,9 +18,11 @@ namespace BetterLife.Presentation.Shell
         private const string CameraObjectName = "[BetterLife] Camera";
         private const string SafeAreaName = "safe-area";
         private const float MatchWidth = 0f;
+        private const float MatchHeight = 1f;
         private static readonly Color Background = new Color32(0x10, 0x14, 0x1B, 0xFF);
 
         private PanelSettings _settings;
+        private Vector2Int _lastScreen;
         private UIDocument _document;
         private SafeArea _safeArea;
 
@@ -66,11 +68,28 @@ namespace BetterLife.Presentation.Shell
 
         private void Update()
         {
+            UpdateScale();
             _safeArea?.Update();
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 BackPressed?.Invoke();
             }
+        }
+
+        /// <summary>
+        /// Portrait phones (taller than 9:16) scale by width so the layout fills the width; wider screens (tablets,
+        /// the editor's landscape Game view) scale by height so the whole column still fits vertically.
+        /// </summary>
+        private void UpdateScale()
+        {
+            var screen = new Vector2Int(Screen.width, Screen.height);
+            if (screen == _lastScreen || screen.y <= 0)
+            {
+                return;
+            }
+            _lastScreen = screen;
+            float referenceAspect = ReferenceResolution.x / (float)ReferenceResolution.y;
+            _settings.match = screen.x / (float)screen.y > referenceAspect ? MatchHeight : MatchWidth;
         }
 
         private void OnDestroy()
