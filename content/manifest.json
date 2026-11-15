@@ -172,6 +172,14 @@
     {
       "type": "events",
       "path": "events/scams.json"
+    },
+    {
+      "type": "strings",
+      "path": "strings/en.json"
+    },
+    {
+      "type": "strings",
+      "path": "strings/th.json"
     }
   ]
 }

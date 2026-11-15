@@ -81,6 +81,8 @@ namespace BetterLife.Core.Content
         public const string Scams = "scams";
         /// <summary>Scam rules (single file).</summary>
         public const string ScamSettings = "scam_settings";
+        /// <summary>Player-facing texts, one file per language.</summary>
+        public const string Strings = "strings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>
         public const string CharacterCatalogs = "character_catalogs";
     }

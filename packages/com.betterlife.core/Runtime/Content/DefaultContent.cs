@@ -56,6 +56,7 @@ namespace BetterLife.Core.Content
                 new InteractionsLoader(),
                 new ViceSettingsLoader(),
                 new ScamSettingsLoader(),
+                new StringsLoader(),
             };
         }
 
