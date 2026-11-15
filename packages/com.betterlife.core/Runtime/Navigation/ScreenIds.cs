@@ -17,5 +17,11 @@ namespace BetterLife.Core.Navigation
         public const string Work = "work";
         /// <summary>Everything else (astrology, timeline, habits, saves, settings).</summary>
         public const string More = "more";
+        /// <summary>Inbox (pushed on the Home tab).</summary>
+        public const string Inbox = "inbox";
+        /// <summary>Event dialog (modal; argument = pending event instance id).</summary>
+        public const string EventDialog = "event";
+        /// <summary>Stat breakdown (modal; argument = stat id).</summary>
+        public const string Breakdown = "breakdown";
     }
 }

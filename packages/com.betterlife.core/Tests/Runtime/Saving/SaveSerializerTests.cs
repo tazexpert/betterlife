@@ -36,7 +36,7 @@ namespace BetterLife.Core.Tests.Saving
         {
             var ex = Assert.Throws<SaveLoadException>(() => new SaveSerializer().Deserialize(text));
 
-            Assert.That(ex.Kind, Is.AnyOf(SaveErrorKind.Missing, SaveErrorKind.Corrupt));
+            Assert.That(new[] { SaveErrorKind.Missing, SaveErrorKind.Corrupt }, Does.Contain(ex.Kind));
         }
 
         [Test]

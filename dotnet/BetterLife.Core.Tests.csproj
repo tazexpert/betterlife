@@ -18,5 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="BetterLife.Core.csproj" />
+    <!-- Build-only: makes `dotnet test` also compile the tests the way Unity does (fails on APIs Unity lacks). -->
+    <ProjectReference Include="BetterLife.Core.Tests.UnityCompat.csproj" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 </Project>

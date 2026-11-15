@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Core.Tests", "Be
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Content.Tests", "BetterLife.Content.Tests\BetterLife.Content.Tests.csproj", "{B07E2917-24F7-452B-8C58-9CC1AD424272}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterLife.Core.Tests.UnityCompat", "BetterLife.Core.Tests.UnityCompat.csproj", "{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{B07E2917-24F7-452B-8C58-9CC1AD424272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07E2917-24F7-452B-8C58-9CC1AD424272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B07E2917-24F7-452B-8C58-9CC1AD424272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1BE5C44-A1EA-4D50-89F0-418C82B6565C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
