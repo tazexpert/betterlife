@@ -19,6 +19,7 @@ using BetterLife.Core.Relationships;
 using BetterLife.Core.Rules;
 using BetterLife.Core.Scams;
 using BetterLife.Core.Time;
+using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Vices;
 using BetterLife.Core.ViewModels;
 using NUnit.Framework;
@@ -174,6 +175,38 @@ namespace BetterLife.Content.Tests
             AssertAllHaveText(keys.Where(k => k != null).Distinct());
         }
 
+        [Test]
+        public void PlayerActionTexts_AllHaveText()
+        {
+            var keys = new List<string>();
+            foreach (ActivityDefinition activity in _content.Get<DefinitionCatalog<ActivityDefinition>>().All)
+            {
+                keys.Add(activity.NameKey);
+                keys.Add(activity.DescKey);
+            }
+            keys.AddRange(_content.Get<DefinitionCatalog<QuitMethodDefinition>>().All.Select(m => m.NameKey));
+            foreach (EducationProgramDefinition program in _content.Get<DefinitionCatalog<EducationProgramDefinition>>().All)
+            {
+                keys.AddRange(program.Institutions.All.Select(i => i.NameKey));
+            }
+            keys.AddRange(_content.Get<DefinitionCatalog<CareerTrackDefinition>>().All.SelectMany(t => t.Levels).Select(l => l.TitleKey));
+            keys.AddRange(System.Enum.GetValues(typeof(AssetClass)).Cast<System.Enum>().Select(c => SessionText.EnumKey(InvestViewModel.ClassPrefix, c)));
+            keys.AddRange(System.Enum.GetValues(typeof(TuitionFunding)).Cast<System.Enum>().Select(f => SessionText.EnumKey(WorkViewModel.PayerPrefix, f)));
+            keys.AddRange(System.Enum.GetValues(typeof(BudgetIssueKind)).Cast<System.Enum>().Select(k => SessionText.EnumKey(LifePlanViewModel.IssuePrefix, k)));
+            keys.AddRange(Constants(typeof(LoanQuote), "finance.loan."));
+            keys.AddRange(Constants(typeof(AdmissionQuote), "education.admission."));
+            keys.AddRange(Constants(typeof(HiringQuote), "career.apply."));
+            keys.AddRange(Constants(typeof(QuitQuote), "vice.quit."));
+            keys.AddRange(new[]
+            {
+                // Keys used by the task 17b screens.
+                "life.title", "work.title", "work.section.education", "work.section.apply_school", "work.section.job", "work.section.apply_job",
+                "work.drop_out", "work.quit_job", "invest.title", "invest.too_young", "invest.section.repay", "invest.section.sell",
+                "invest.section.buy", "invest.section.borrow", "finance.open_invest",
+            });
+            AssertAllHaveText(keys.Where(k => k != null).Distinct());
+        }
+
         private static IEnumerable<string> Constants(System.Type type, string prefix)
         {
             return type.GetFields(BindingFlags.Public | BindingFlags.Static)
@@ -187,7 +220,8 @@ namespace BetterLife.Content.Tests
             List<string> list = keys.ToList();
             foreach (string language in _tables.Languages)
             {
-                Assert.That(list.Where(k => _tables.Find(language).Find(k) == null), Is.Empty, language);
+                List<string> missing = list.Where(k => _tables.Find(language).Find(k) == null).ToList();
+                Assert.That(missing, Is.Empty, language + " is missing: " + string.Join(", ", missing));
             }
         }
     }

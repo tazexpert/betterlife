@@ -31,6 +31,9 @@ namespace BetterLife.Core.Time.Budget
             _activities.Get(settings.DefaultActivityId);
         }
 
+        /// <summary>Activity catalog (names, limits and effects for the plan screen).</summary>
+        public DefinitionCatalog<ActivityDefinition> Activities => _activities;
+
         /// <summary>Explicitly allocated hours (the default activity is never listed).</summary>
         public IReadOnlyDictionary<string, int> Allocations => _hours;
 
