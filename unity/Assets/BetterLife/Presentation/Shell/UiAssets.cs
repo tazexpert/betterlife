@@ -19,6 +19,14 @@ namespace BetterLife.Presentation.Shell
         public const string TopBar = "TopBar";
         /// <summary>Placeholder screen layout.</summary>
         public const string Placeholder = "Placeholder";
+        /// <summary>Home dashboard layout.</summary>
+        public const string Dashboard = "Dashboard";
+        /// <summary>Inbox layout.</summary>
+        public const string Inbox = "Inbox";
+        /// <summary>Event dialog layout.</summary>
+        public const string EventDialog = "EventDialog";
+        /// <summary>Stat breakdown layout.</summary>
+        public const string Breakdown = "Breakdown";
 
         /// <summary>
         /// Loads a UXML layout.

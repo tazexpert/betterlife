@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Event dialog (modal). The question part and the result part are switched by EventDialogPresenter. -->
+    <ui:VisualElement name="event-dialog" class="dialog event-dialog">
+        <ui:ScrollView class="dialog__scroll">
+            <ui:Label name="title" class="dialog__title" />
+            <ui:VisualElement name="question">
+                <ui:Label name="body" class="dialog__body" />
+                <ui:Label name="deadline" class="dialog__note" />
+                <ui:VisualElement name="choices" class="event-dialog__choices" />
+                <ui:Button name="later" text="@event.later" class="dialog__secondary" />
+            </ui:VisualElement>
+            <ui:VisualElement name="result" class="event-dialog__result">
+                <ui:Label name="result-text" class="dialog__body" />
+                <ui:Label name="roll-text" class="dialog__note" />
+                <ui:VisualElement name="result-lines" />
+                <ui:Button name="continue" text="@event.continue" class="dialog__primary" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

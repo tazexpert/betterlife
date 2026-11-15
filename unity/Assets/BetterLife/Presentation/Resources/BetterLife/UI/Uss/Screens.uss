@@ -1,0 +1,299 @@
+/* Screens of task 16: dashboard, inbox, event dialog, breakdown. Values come from Theme.uss. */
+.section-title {
+    margin-top: var(--space-m);
+    margin-bottom: var(--space-xs);
+    font-size: var(--font-m);
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+}
+
+/* Dashboard */
+.dashboard__inbox {
+    height: var(--touch-height);
+    margin: 0 0 var(--space-s) 0;
+    font-size: var(--font-m);
+    color: var(--color-bg);
+    background-color: var(--color-warning);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.dashboard__hint {
+    margin-top: var(--space-xs);
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    -unity-text-align: middle-center;
+}
+
+.stat-card {
+    margin-bottom: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-m);
+    border-left-width: 8px;
+    border-left-color: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+.stat-card--improving {
+    border-left-color: var(--color-good);
+    color: var(--color-good);
+}
+
+.stat-card--worsening {
+    border-left-color: var(--color-bad);
+    color: var(--color-bad);
+}
+
+.stat-card__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-card__name {
+    font-size: var(--font-m);
+    color: var(--color-text);
+}
+
+.stat-card__value {
+    font-size: var(--font-xl);
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
+.stat-card__delta {
+    font-size: var(--font-s);
+    -unity-text-align: middle-right;
+}
+
+.stat-card__sparkline {
+    height: var(--sparkline-height);
+    margin-top: var(--space-xs);
+}
+
+.habit-card {
+    margin-bottom: var(--space-xs);
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-s);
+    border-left-width: 8px;
+    border-left-color: var(--color-bad);
+}
+
+.habit-card--quitting {
+    border-left-color: var(--color-warning);
+}
+
+.habit-card__name {
+    font-size: var(--font-m);
+    color: var(--color-text);
+}
+
+.habit-card__status {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+/* Inbox */
+.inbox-item {
+    margin-bottom: var(--space-xs);
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-s);
+    border-left-width: 8px;
+    border-left-color: var(--color-border);
+}
+
+.inbox-item--decision {
+    border-left-color: var(--color-primary);
+}
+
+.inbox-item--major {
+    border-left-color: var(--color-warning);
+}
+
+.inbox-item--urgent {
+    border-left-color: var(--color-bad);
+}
+
+.inbox-item__title {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+}
+
+.inbox-item__subtitle {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+.inbox__empty {
+    margin-top: var(--space-l);
+    font-size: var(--font-m);
+    color: var(--color-text-muted);
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* Dialogs (modal layer children) */
+.dialog {
+    max-height: var(--dialog-max-height);
+    padding: var(--space-m);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-m);
+}
+
+.dialog__scroll {
+    flex-shrink: 1;
+}
+
+.dialog__title {
+    font-size: var(--font-l);
+    color: var(--color-text);
+    -unity-font-style: bold;
+    white-space: normal;
+    margin-bottom: var(--space-s);
+}
+
+.dialog__body {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+    margin-bottom: var(--space-s);
+}
+
+.dialog__note {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    white-space: normal;
+    margin-bottom: var(--space-s);
+}
+
+.dialog__primary {
+    height: var(--touch-height);
+    margin: var(--space-s) 0 0 0;
+    font-size: var(--font-m);
+    color: var(--color-bg);
+    background-color: var(--color-primary);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.dialog__secondary {
+    height: var(--touch-height);
+    margin: var(--space-s) 0 0 0;
+    font-size: var(--font-m);
+    color: var(--color-text);
+    background-color: var(--color-surface-raised);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.event-choice {
+    margin-bottom: var(--space-s);
+    padding: var(--space-s);
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-s);
+}
+
+.event-choice__button {
+    min-height: var(--touch-height);
+    margin: 0 0 var(--space-xs) 0;
+    font-size: var(--font-m);
+    color: var(--color-bg);
+    background-color: var(--color-primary);
+    border-width: 0;
+    border-radius: var(--radius-s);
+    white-space: normal;
+}
+
+.event-choice__button:disabled {
+    opacity: 0.4;
+}
+
+.event-choice__chance {
+    font-size: var(--font-s);
+    color: var(--color-warning);
+}
+
+.event-choice__locked {
+    font-size: var(--font-s);
+    color: var(--color-bad);
+}
+
+.event-choice__effect {
+    font-size: var(--font-s);
+    color: var(--color-text);
+    white-space: normal;
+}
+
+.event-choice__fail-title {
+    margin-top: var(--space-xs);
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+.event-dialog__result {
+    display: none;
+}
+
+.event-dialog__result-line {
+    font-size: var(--font-m);
+    color: var(--color-good);
+}
+
+.event-dialog__result--failed .event-dialog__result-line {
+    color: var(--color-bad);
+}
+
+/* Breakdown */
+.breakdown__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.breakdown__value {
+    font-size: var(--font-xl);
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
+.breakdown-line {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xs) 0;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--color-border);
+}
+
+.breakdown-line__text {
+    flex-shrink: 1;
+}
+
+.breakdown-line__label {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+}
+
+.breakdown-line__detail {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+}
+
+.breakdown-line__value {
+    font-size: var(--font-m);
+    color: var(--color-text-muted);
+    -unity-font-style: bold;
+}
+
+.breakdown-line--positive .breakdown-line__value {
+    color: var(--color-good);
+}
+
+.breakdown-line--negative .breakdown-line__value {
+    color: var(--color-bad);
+}

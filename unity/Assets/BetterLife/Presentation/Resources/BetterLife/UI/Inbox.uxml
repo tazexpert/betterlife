@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Inbox. Rows are built by InboxScreenPresenter. -->
+    <ui:ScrollView name="inbox" class="screen inbox">
+        <ui:Label text="@inbox.title" class="screen__title" />
+        <ui:Label name="decisions-title" text="@inbox.decisions" class="section-title" />
+        <ui:VisualElement name="decisions" />
+        <ui:Label name="notices-title" text="@inbox.notices" class="section-title" />
+        <ui:VisualElement name="notices" />
+        <ui:Label name="empty" class="inbox__empty" />
+    </ui:ScrollView>
+</ui:UXML>

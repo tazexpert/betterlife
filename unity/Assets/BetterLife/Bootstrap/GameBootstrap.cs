@@ -1,10 +1,12 @@
 using System;
+using System.Globalization;
 using System.IO;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Events;
 using BetterLife.Core.Localization;
 using BetterLife.Core.Navigation;
+using BetterLife.Core.Notices;
 using BetterLife.Core.Saving;
 using BetterLife.Core.Sessions;
 using BetterLife.Core.Time.Ticking;
@@ -37,6 +39,8 @@ namespace BetterLife.Bootstrap
         private UndoService _undo;
         private UiRoot _ui;
         private ShellPresenter _shell;
+        private ScreenRouter _router;
+        private NoticeFeed _notices;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -126,17 +130,25 @@ namespace BetterLife.Bootstrap
 
         /// <summary>
         /// Creates the UI: localizer, router, screen registry, the UI Toolkit panel and the shell presenter.
-        /// Screens register here as they are built (tasks 16-17); unregistered tabs show a placeholder.
+        /// Screens register here as they are built; unregistered ones (tabs of task 17) show a placeholder.
         /// </summary>
         private void ComposeUi()
         {
             var localizer = new TableLocalizer(_content.Get<StringTables>(), DefaultLanguage, DefaultLanguage);
-            var router = new ScreenRouter(ShellTabs.All);
+            _router = new ScreenRouter(ShellTabs.All);
+            _notices = new NoticeFeed();
+            var context = new ScreenContext(() => _life, localizer, new MoneyFormatter(localizer), _router, _notices,
+                new DecisionService(_undo, _content.ContentVersion));
+
             var screens = new ScreenRegistry(localizer);
+            screens.Register(ScreenIds.Home, () => new DashboardScreenPresenter(context));
+            screens.Register(ScreenIds.Inbox, () => new InboxScreenPresenter(context));
+            screens.Register(ScreenIds.EventDialog, () => new EventDialogPresenter(context));
+            screens.Register(ScreenIds.Breakdown, () => new BreakdownPresenter(context));
 
             _ui = UiRoot.Create(transform);
             _ui.BackPressed += OnBackPressed;
-            _shell = new ShellPresenter(_ui.Root, router, screens, localizer, new MoneyFormatter(localizer));
+            _shell = new ShellPresenter(_ui.Root, screens, context);
             _shell.TimeAdvanced += OnTimeAdvanced;
             _shell.Bind(_life);
         }
@@ -152,6 +164,12 @@ namespace BetterLife.Bootstrap
 
         private void OnTimeAdvanced(AdvanceResult result)
         {
+            _notices.Add(result, _life.Events.Inbox);
+            int? decision = NoticeFeed.StoppingDecision(result, _life.Events.Inbox);
+            if (decision.HasValue)
+            {
+                _router.OpenModal(new ScreenRequest(ScreenIds.EventDialog, decision.Value.ToString(CultureInfo.InvariantCulture)));
+            }
             if (result.WasInterrupted)
             {
                 Debug.Log(LogPrefix + "Time stopped at " + result.To + ": " + result.StoppedBy.ReasonKey);
@@ -167,6 +185,7 @@ namespace BetterLife.Bootstrap
         {
             _life?.Dispose();
             _undo?.Clear();
+            _notices?.Clear();
             CreationResult creation = new CharacterCreator(_content).Create(request);
             LifeSession life = LifeSessionFactory.CreateNew(_content, creation, _eventBus);
             Debug.Log(LogPrefix + "New life " + creation.ChallengeCode + ": " + life.Character.Name.GivenName + " " + life.Character.Name.FamilyName
