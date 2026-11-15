@@ -150,8 +150,8 @@ namespace BetterLife.Core.Tests.Creation
             latinRequest.NameScript = NameScript.Latin;
             Character latin = _creator.Create(latinRequest).Character;
 
-            Assert.That(native.Name.FamilyName, Is.AnyOf("ใจดี", "ศรีสุข"));
-            Assert.That(latin.Name.FamilyName, Is.AnyOf("Jaidee", "Srisuk"));
+            Assert.That(new[] { "ใจดี", "ศรีสุข" }, Does.Contain(native.Name.FamilyName));
+            Assert.That(new[] { "Jaidee", "Srisuk" }, Does.Contain(latin.Name.FamilyName));
         }
 
         [Test]
