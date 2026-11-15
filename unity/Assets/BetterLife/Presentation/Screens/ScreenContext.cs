@@ -1,4 +1,6 @@
 using System;
+using BetterLife.Core.Achievements;
+using BetterLife.Core.Legacy;
 using BetterLife.Core.Localization;
 using BetterLife.Core.Navigation;
 using BetterLife.Core.Notices;
@@ -24,9 +26,15 @@ namespace BetterLife.Presentation.Screens
         /// <param name="router">Navigation.</param>
         /// <param name="notices">News feed.</param>
         /// <param name="decisions">Applies player decisions (with an undo checkpoint).</param>
+        /// <param name="achievements">Achievement tracker.</param>
+        /// <param name="legacy">Inheritance rules (expected shares on the life summary).</param>
+        /// <param name="lives">Replaces the running life (heir or new family).</param>
         public ScreenContext(Func<LifeSession> session, ILocalizer localizer, MoneyFormatter money, ScreenRouter router, NoticeFeed notices,
-            DecisionService decisions)
+            DecisionService decisions, AchievementTracker achievements, LegacySettings legacy, ILifeController lives)
         {
+            Achievements = achievements ?? throw new ArgumentNullException(nameof(achievements));
+            Legacy = legacy ?? throw new ArgumentNullException(nameof(legacy));
+            Lives = lives ?? throw new ArgumentNullException(nameof(lives));
             _session = session ?? throw new ArgumentNullException(nameof(session));
             Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
             Money = money ?? throw new ArgumentNullException(nameof(money));
@@ -55,6 +63,15 @@ namespace BetterLife.Presentation.Screens
 
         /// <summary>Applies player decisions.</summary>
         public DecisionService Decisions { get; }
+
+        /// <summary>Achievement tracker.</summary>
+        public AchievementTracker Achievements { get; }
+
+        /// <summary>Inheritance rules.</summary>
+        public LegacySettings Legacy { get; }
+
+        /// <summary>Replaces the running life.</summary>
+        public ILifeController Lives { get; }
 
         /// <summary>
         /// Tells the shell that the game state changed.

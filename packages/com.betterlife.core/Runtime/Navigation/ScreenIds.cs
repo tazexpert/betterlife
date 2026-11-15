@@ -31,5 +31,11 @@ namespace BetterLife.Core.Navigation
         public const string Timeline = "timeline";
         /// <summary>Invest and borrow (pushed on the Money tab).</summary>
         public const string Invest = "invest";
+        /// <summary>End-of-life summary (opened when the character dies).</summary>
+        public const string Summary = "summary";
+        /// <summary>Family tree (pushed on the More tab).</summary>
+        public const string FamilyTree = "family_tree";
+        /// <summary>Achievements (pushed on the More tab).</summary>
+        public const string Achievements = "achievements";
     }
 }

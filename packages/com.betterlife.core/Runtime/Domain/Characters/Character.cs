@@ -139,6 +139,22 @@ namespace BetterLife.Core.Domain.Characters
         /// <summary>How the character died, or null while alive.</summary>
         public DeathRecord Death { get; private set; }
 
+        /// <summary>Generation within the family line (1 = founder; heirs count up).</summary>
+        public int Generation { get; private set; } = 1;
+
+        /// <summary>
+        /// Sets the generation (an heir, or a loaded save).
+        /// </summary>
+        /// <param name="generation">Generation, at least 1.</param>
+        public void SetGeneration(int generation)
+        {
+            if (generation < 1)
+            {
+                throw new System.ArgumentOutOfRangeException(nameof(generation), generation, "Generation starts at 1.");
+            }
+            Generation = generation;
+        }
+
         /// <summary>True until the character dies.</summary>
         public bool IsAlive => Death == null;
 

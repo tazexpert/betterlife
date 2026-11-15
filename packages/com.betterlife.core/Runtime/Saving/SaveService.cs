@@ -93,7 +93,7 @@ namespace BetterLife.Core.Saving
         /// <returns>Slots.</returns>
         public IReadOnlyList<SaveSlotInfo> Slots()
         {
-            return _storage.Slots().Where(s => s != SlotNames.UndoQuota).Select(slot =>
+            return _storage.Slots().Where(s => !SlotNames.IsProfile(s)).Select(slot =>
             {
                 try
                 {

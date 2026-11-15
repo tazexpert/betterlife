@@ -126,6 +126,9 @@ namespace BetterLife.Core.Sessions
         /// <summary>True once the character has died.</summary>
         public bool IsOver => !Character.IsAlive;
 
+        /// <summary>Ancestors of the current character (the family tree above this life).</summary>
+        public Legacy.Lineage Lineage { get; } = new Legacy.Lineage();
+
         /// <summary>
         /// Skips time.
         /// </summary>

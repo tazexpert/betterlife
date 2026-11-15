@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/achievements.schema.json",
+  "title": "Achievements",
+  "description": "Achievements unlocked once, forever, when their condition holds for the running life.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "achievements"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "achievements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "descKey",
+          "condition"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "rules.schema.json#/$defs/id"
+          },
+          "nameKey": {
+            "$ref": "rules.schema.json#/$defs/id"
+          },
+          "descKey": {
+            "$ref": "rules.schema.json#/$defs/id"
+          },
+          "hidden": {
+            "type": "boolean"
+          },
+          "condition": {
+            "$ref": "rules.schema.json#/$defs/condition"
+          }
+        }
+      }
+    }
+  }
+}

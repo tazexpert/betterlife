@@ -785,6 +785,27 @@
               "type": "number"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "op",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "generation"
+            },
+            "op": {
+              "$ref": "#/$defs/op"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
         }
       ]
     },

@@ -105,5 +105,8 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Week of the newest sample (GameDate.TotalWeeks).</summary>
         public int HistoryLastWeek;
+
+        /// <summary>Generation within the family line (0 in saves from before task 18 = 1).</summary>
+        public int Generation;
     }
 }
