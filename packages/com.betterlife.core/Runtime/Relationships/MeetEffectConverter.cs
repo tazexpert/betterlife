@@ -40,7 +40,7 @@ namespace BetterLife.Core.Relationships
         protected override void WriteTyped(MeetEffect effect, JObject json, RuleRegistry registry)
         {
             json["relation"] = RelationshipNames.NameOf(effect.Type);
-            json["chance"] = effect.Chance;
+            json["chance"] = RuleJson.Number(effect.Chance);
         }
     }
 }
