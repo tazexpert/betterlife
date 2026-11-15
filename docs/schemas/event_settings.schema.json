@@ -46,6 +46,11 @@
           "maximum": 1
         }
       }
+    },
+    "minDecisionAge": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Youngest age at which random events that ask for a decision can happen."
     }
   }
 }

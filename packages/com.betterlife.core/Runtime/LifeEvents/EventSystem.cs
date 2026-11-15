@@ -236,10 +236,11 @@ namespace BetterLife.Core.LifeEvents
         private LifeEventDefinition Draw(EventTrigger trigger, RuleContext context, Func<LifeEventDefinition, bool> extraFilter)
         {
             bool softenBadNews = NegativeStreakActive(context.Now);
+            bool canDecide = context.Character.AgeAt(context.Now) >= _settings.MinDecisionAge;
             var candidates = new List<(LifeEventDefinition Event, float Weight)>();
             foreach (LifeEventDefinition definition in _events.All)
             {
-                if (definition.Trigger != trigger || !extraFilter(definition) || !UnderLimit(definition) || OnCooldown(definition, context.Now) || !definition.IsEligible(context))
+                if (definition.Trigger != trigger || (definition.HasChoices && !canDecide) || !extraFilter(definition) || !UnderLimit(definition) || OnCooldown(definition, context.Now) || !definition.IsEligible(context))
                 {
                     continue;
                 }

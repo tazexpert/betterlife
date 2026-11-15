@@ -104,7 +104,12 @@
           }
         }
       ],
-      "defaultChoice": "walk_past"
+      "defaultChoice": "walk_past",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 10
+      }
     }
   ]
 }

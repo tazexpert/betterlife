@@ -47,6 +47,28 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void Babies_AreNotAskedToDecide()
+        {
+            string template = TestContent.EventSettings(1f);
+            string settings = template.Substring(0, template.LastIndexOf('}')) + ", 'minDecisionAge': 6 }";
+            IContentRepository content = TestContent.Load(TestContent.Source("{ 'type': 'events', 'path': 'events/test.json' }", 1f)
+                .Add("events/test.json", EventFixture.Events(MinorChoice))
+                .Add("event_settings.json", settings));
+            CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(5UL, CreationMode.Random));
+            using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), new InterruptPolicy()))
+            {
+                while (life.Character.AgeAt(life.TimeState.Clock.Now.AddWeeks(1)) < 6)
+                {
+                    AdvanceResult result = life.Advance(TimeSkip.Week);
+                    Assert.That(result.StoppedBy == null || !result.StoppedBy.RequiresAnswer, Is.True, "no decision before 6");
+                    Assert.That(life.Events.Inbox, Is.Empty);
+                }
+                life.Advance(TimeSkip.Year);
+                Assert.That(life.Events.State.History.Any(h => h.EventId == "test.party") || life.Events.Inbox.Any(), Is.True, "from 6 the event can happen");
+            }
+        }
+
+        [Test]
         public void Simulations_CanLetDecisionsExpire()
         {
             using (LifeSession life = NewLife(new InterruptPolicy { StopForDecisions = false }))

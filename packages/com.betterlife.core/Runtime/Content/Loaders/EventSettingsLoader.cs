@@ -21,7 +21,7 @@ namespace BetterLife.Core.Content.Loaders
         /// <inheritdoc />
         protected override void Read(JObject root, RuleReadContext context, ContentLoadContext content)
         {
-            RuleJson.RequireOnly(root, context, "weeklyEventChance", "responseWindowWeeks", "antiFrustration", ContentReading.SchemaProperty);
+            RuleJson.RequireOnly(root, context, "weeklyEventChance", "responseWindowWeeks", "antiFrustration", "minDecisionAge", ContentReading.SchemaProperty);
             var (token, afContext) = RuleJson.RequireProperty(root, "antiFrustration", context);
             JObject af = RuleJson.RequireObject(token, afContext);
             RuleJson.RequireOnly(af, afContext, "streakThreshold", "windowWeeks", "negativeWeightMultiplier");
@@ -31,7 +31,8 @@ namespace BetterLife.Core.Content.Loaders
                 new AntiFrustrationSettings(
                     RuleJson.RequireInt(af, "streakThreshold", afContext),
                     RuleJson.RequireInt(af, "windowWeeks", afContext),
-                    RuleJson.RequireFloat(af, "negativeWeightMultiplier", afContext))));
+                    RuleJson.RequireFloat(af, "negativeWeightMultiplier", afContext)),
+                RuleJson.OptionalInt(root, "minDecisionAge", context) ?? 0));
         }
     }
 }

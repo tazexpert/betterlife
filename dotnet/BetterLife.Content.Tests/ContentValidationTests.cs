@@ -144,5 +144,29 @@ namespace BetterLife.Content.Tests
             }
             Assert.That(problems, Is.Empty);
         }
+
+        [Test]
+        public void RealLives_AreNotAskedToDecide_BeforeTheMinimumAge()
+        {
+            IContentRepository content = DefaultContent.CreatePipeline(new FileSystemContentSource(RepoContent.ContentDir)).Load().RequireRepository();
+            int minAge = content.Get<BetterLife.Core.LifeEvents.EventSettings>().MinDecisionAge;
+            Assert.That(minAge, Is.GreaterThan(0));
+            var events = content.Get<BetterLife.Core.Domain.DefinitionCatalog<BetterLife.Core.LifeEvents.LifeEventDefinition>>();
+            for (int i = 0; i < 20; i++)
+            {
+                var creation = new BetterLife.Core.Creation.CharacterCreator(content).Create(
+                    new BetterLife.Core.Creation.CreationRequest((ulong)(4200 + i * 13), BetterLife.Core.Creation.CreationMode.Random));
+                using (var life = BetterLife.Core.Sessions.LifeSessionFactory.CreateNew(content, creation, new BetterLife.Core.Events.EventBus(), RepoContent.Simulation))
+                {
+                    while (!life.IsOver && life.Character.AgeAt(life.TimeState.Clock.Now) < minAge)
+                    {
+                        life.Advance(BetterLife.Core.Time.Ticking.TimeSkip.Month);
+                    }
+                    var decisions = life.Events.State.History.Where(h => life.Character.AgeAt(h.Week) < minAge && events.TryGet(h.EventId, out var e) && e.HasChoices && e.Trigger == BetterLife.Core.LifeEvents.EventTrigger.Random)
+                        .Select(h => h.EventId + " at age " + life.Character.AgeAt(h.Week)).ToList();
+                    Assert.That(decisions, Is.Empty, $"life {i} was asked to decide before age {minAge}");
+                }
+            }
+        }
     }
 }

@@ -16,6 +16,7 @@
 | Animation | USS Transition: `opacity` + `translate` + `scale` 0.25 วินาที (Popup), Toast เลื่อนลงจากบน แสดง 3.5 วินาที สูงสุด 3 อัน | UI Toolkit รองรับ Transition ตั้งแต่ 2021.2 ไม่ต้องใช้ Asset |
 | Effect `meet` | `{ "type": "meet", "relation": "friend", "chance": 0.15 }` relation = `friend`/`colleague`/`contact` ทอยด้วย Random ของการตัดสินใจ สำเร็จ → ส่ง `MeetRequestedEvent` → `RelationshipService` สร้างคนใหม่ (อายุใกล้เคียง) | ใช้ระบบพบเจอเดิม Strategy + Registry |
 | ผลของตัวเลือกที่ว่าง | ปฏิเสธโอที: เครียดน้อยลง + หัวหน้าพอใจลดลงนิดหน่อย; เดินผ่านงานวัด: พักผ่อน (เหนื่อยลด) | ทุกทางเลือกมีราคา (Pillar 2) |
+| อายุขั้นต่ำของการตัดสินใจ | `event_settings.minDecisionAge` = 6: เหตุการณ์สุ่มที่มีตัวเลือกจะไม่เกิดกับเด็กที่อายุต่ำกว่านี้ (ผู้ใช้พบงานวัดตอนอายุ 0 ปี) และงานวัดต้องอายุ 10+ | กฎกลางใน `EventSystem` กันเนื้อหาข้อ 22 พลาดซ้ำ |
 | Test content | ทุก outcome ของทุกตัวเลือก ต้องมี effect ≥ 1 และเหตุการณ์ที่ไม่มีตัวเลือกต้องมี `onFire` ≥ 1 | กันข้อ 22 หลุด |
 | สถานะครอบครัว | คู่สมรสที่มีชีวิต → "แต่งงานกับ X", แฟน → "คบกับ X", เคยมีคู่สมรสที่เสียชีวิต → "เป็นหม้าย", มีแฟนเก่า/คู่หย่า → "โสด (เคยมีคู่)", นอกนั้น "โสด"; ลูก = ลูกที่ยังมีชีวิต (+ จำนวนที่เสียชีวิตถ้ามี) | |
 
@@ -43,6 +44,7 @@
 - `PopupAndConsequenceTests` (4): เหตุการณ์ระดับ minor ที่มีตัวเลือกหยุดการข้าม 1 ปีตั้งแต่สัปดาห์แรก + เปิด Dialog ได้, การจำลอง (`StopForDecisions = false`) ปล่อยให้หมดเวลาเอง, ไปปาร์ตี้แล้วได้เพื่อนใหม่ (Preview โอกาส + ผลจริง), หน้าแรก: โสด → คบ → แต่งงาน + ลูก → เป็นหม้าย
 - `ContentValidationTests.EveryEventChoice_HasAConsequence` (content จริง): ทุก outcome มี effect และเหตุการณ์ไม่มีตัวเลือกมี `onFire`
 - `RuleRegistryTests`: ตัวอย่าง effect `meet`
+- `PopupAndConsequenceTests.Babies_AreNotAskedToDecide` และ `ContentValidationTests.RealLives_AreNotAskedToDecide_BeforeTheMinimumAge` (20 ชีวิตจริง) — ยืนยันแล้วว่าถ้าปิดกฎ Test ทั้งสองล้ม
 - Content simulation ทั้งหมดใช้ `RepoContent.Simulation` (ไม่หยุดเพื่อรอคำตอบ)
 
 ## 7. ส่งต่อ

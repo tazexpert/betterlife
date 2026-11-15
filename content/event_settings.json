@@ -5,5 +5,6 @@
     "streakThreshold": 2,
     "windowWeeks": 12,
     "negativeWeightMultiplier": 0.4
-  }
+  },
+  "minDecisionAge": 6
 }
