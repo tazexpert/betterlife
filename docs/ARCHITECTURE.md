@@ -89,6 +89,7 @@ BetterLife.Bootstrap ──► BetterLife.Infrastructure ──► BetterLife.Co
 | `BetterLife.Core.Localization` | LocKey, `ILocalizer`, ตารางภาษา (`StringTable`/`StringTables`), `TableLocalizer` |
 | `BetterLife.Core.Navigation` | แท็บของ Shell + `ScreenRouter` (stack ต่อแท็บ, Modal, ปุ่ม Back) |
 | `BetterLife.Core.ViewModels` | ข้อมูลพร้อมแสดงผลที่ไม่ผูก Unity (Top bar, Dashboard, Breakdown, Inbox, Event Dialog, `MoneyFormatter`, `RuleTextFormatter`) |
+| `BetterLife.Core.Settings` | ค่าตั้งของผู้เล่น (`GameSettings`, `SettingsStore` → `profile_settings`) |
 | `BetterLife.Core.Legacy` | ทายาท มรดก Family Tree (`Lineage`) condition `generation` |
 | `BetterLife.Core.Achievements` | Achievement จาก content + โปรไฟล์ข้ามชีวิต (`profile_achievements`) |
 | `BetterLife.Core.Notices` | ข่าวใน Inbox จาก Interrupt ของการข้ามเวลา (`NoticeFeed`, ไม่บันทึกลงเซฟ) |

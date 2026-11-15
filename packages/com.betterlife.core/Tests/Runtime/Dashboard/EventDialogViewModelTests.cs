@@ -41,7 +41,7 @@ namespace BetterLife.Core.Tests.Dashboard
                 Assert.That(risky.FailurePreview, Is.EqualTo(new[] { "Fitness -10" }));
                 ChoiceState rich = dialog.Choices[2];
                 Assert.That(rich.IsAvailable, Is.False);
-                Assert.That(rich.LockedText, Is.EqualTo(EventDialogViewModel.LockedKey));
+                Assert.That(rich.LockedText, Is.EqualTo(EventDialogViewModel.LockedByKey), "the unmet (visible) cash requirement is listed");
 
                 Assert.That(EventDialogViewModel.Build(life, id + 100, en, null), Is.Null, "not pending");
             }

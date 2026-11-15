@@ -24,6 +24,7 @@ namespace BetterLife.Presentation.Screens
             Content.Add(UiRows.Action(Context.Localizer.Get("more.timeline"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Timeline))));
             Content.Add(UiRows.Action(Context.Localizer.Get("more.family_tree"), () => Context.Router.Push(new ScreenRequest(ScreenIds.FamilyTree))));
             Content.Add(UiRows.Action(Context.Localizer.Get("more.achievements"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Achievements))));
+            Content.Add(UiRows.Action(Context.Localizer.Get("more.settings"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Settings))));
             if (session.IsOver)
             {
                 Content.Add(UiRows.Action(Context.Localizer.Get("more.summary"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Summary))));

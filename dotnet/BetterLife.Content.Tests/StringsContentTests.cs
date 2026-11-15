@@ -229,6 +229,48 @@ namespace BetterLife.Content.Tests
             AssertAllHaveText(keys.Where(k => k != null).Distinct());
         }
 
+        [Test]
+        public void EveryKeyInContentFiles_HasText()
+        {
+            // Every value of a "...Key" property in every content file (new content in later batches is covered too).
+            var keys = new List<string>();
+            foreach (string file in System.IO.Directory.GetFiles(RepoContent.ContentDir, "*.json", System.IO.SearchOption.AllDirectories))
+            {
+                if (file.Replace('\\', '/').Contains("/strings/"))
+                {
+                    continue;
+                }
+                var root = (Newtonsoft.Json.Linq.JContainer)Newtonsoft.Json.Linq.JToken.Parse(System.IO.File.ReadAllText(file));
+                keys.AddRange(root.Descendants().OfType<Newtonsoft.Json.Linq.JProperty>()
+                    .Where(p => p.Name.EndsWith("Key") && p.Value.Type == Newtonsoft.Json.Linq.JTokenType.String)
+                    .Select(p => (string)p.Value));
+            }
+            Assert.That(keys, Is.Not.Empty);
+            AssertAllHaveText(keys.Distinct());
+        }
+
+        [Test]
+        public void PlayerFacingCodeKeys_HaveText()
+        {
+            // Text keys declared in Core code: rule texts, reasons and breakdown labels the player can see.
+            string[] prefixes = { "rule.", "creation.issue.", "undo.reason.", "scam.targeting.", "vice.temptation.", "vice.use.", "source." };
+            IEnumerable<string> keys = typeof(DashboardViewModel).Assembly.GetTypes()
+                .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Static))
+                .Where(f => f.IsLiteral && f.FieldType == typeof(string))
+                .Select(f => (string)f.GetRawConstantValue())
+                .Where(v => prefixes.Any(v.StartsWith) && !v.EndsWith("."));
+            AssertAllHaveText(keys.Distinct());
+        }
+
+        [Test]
+        public void EveryTable_NamesItsLanguage()
+        {
+            foreach (string language in _tables.Languages)
+            {
+                Assert.That(_tables.Find(language).Find(SettingsViewModel.LanguageSelfKey), Is.Not.Null.And.Not.Empty, language);
+            }
+        }
+
         private static IEnumerable<string> Constants(System.Type type, string prefix)
         {
             return type.GetFields(BindingFlags.Public | BindingFlags.Static)

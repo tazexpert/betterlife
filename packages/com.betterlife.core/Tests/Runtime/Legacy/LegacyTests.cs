@@ -150,6 +150,9 @@ namespace BetterLife.Core.Tests.Legacy
             Assert.That(rows.All(r => r.IsUnlocked), Is.True, "both test achievements are unlocked now");
             var fresh = AchievementsViewModel.Build(new AchievementTracker(catalog, new AchievementStore(new InMemorySaveStorage()), new SystemRealTimeClock()), keys, out _);
             Assert.That(fresh.Single(r => r.Id == "second_generation").Name, Is.EqualTo(AchievementsViewModel.SecretNameKey), "hidden until unlocked");
+
+            again.Reset();
+            Assert.That(new AchievementTracker(catalog, new AchievementStore(storage), new SystemRealTimeClock()).Profile.Unlocked, Is.Empty, "reset is saved");
         }
 
         [Test]

@@ -18,6 +18,8 @@ namespace BetterLife.Core.ViewModels
         public const string ChanceKey = "event.chance";
         /// <summary>Locked choice text.</summary>
         public const string LockedKey = "event.locked";
+        /// <summary>Locked choice text listing the unmet requirements (placeholder <c>{conditions}</c>).</summary>
+        public const string LockedByKey = "event.locked_by";
         /// <summary>Roll summary on success (placeholder <c>{value}</c> = chance).</summary>
         public const string RollSuccessKey = "event.roll.success";
         /// <summary>Roll summary on failure (placeholder <c>{value}</c> = chance).</summary>
@@ -59,7 +61,7 @@ namespace BetterLife.Core.ViewModels
                     c.Chance == null ? null : localizer.Format(ChanceKey, ("value", c.Chance.Final.ToString(ChanceFormat, CultureInfo.InvariantCulture))),
                     rules.FormatAll(c.SuccessPreview),
                     rules.FormatAll(c.FailurePreview),
-                    c.IsAvailable ? null : localizer.Get(LockedKey)))
+                    c.IsAvailable ? null : Locked(c.Requirement, rules, localizer)))
                 .ToList();
             return new EventDialogState(instanceId, localizer.Get(definition.TitleKey), localizer.Get(definition.BodyKey),
                 InboxViewModel.Deadline(pending, now, localizer), choices);
@@ -96,6 +98,36 @@ namespace BetterLife.Core.ViewModels
             string result = resolution.Outcome == null ? string.Empty : localizer.Get(resolution.Outcome.ResultKey);
             IReadOnlyList<string> lines = Formatter(session, localizer, money).FormatAll(resolution.Result.Lines);
             return new EventResultState(localizer.Get(resolution.Definition.TitleKey), result, resolution.Succeeded, roll, lines);
+        }
+
+        /// <summary>
+        /// Lists the visible requirements that are not met (", " separated), or the generic locked text.
+        /// </summary>
+        private static string Locked(Rules.ConditionTrace requirement, RuleTextFormatter rules, ILocalizer localizer)
+        {
+            var failed = new List<string>();
+            Collect(requirement, failed, rules);
+            return failed.Count == 0 ? localizer.Get(LockedKey) : localizer.Format(LockedByKey, ("conditions", string.Join(", ", failed)));
+        }
+
+        private static void Collect(Rules.ConditionTrace trace, List<string> failed, RuleTextFormatter rules)
+        {
+            if (trace == null || trace.Passed)
+            {
+                return;
+            }
+            if (trace.Children.Count == 0)
+            {
+                if (trace.IsVisibleToPlayer)
+                {
+                    failed.Add(rules.Format(trace.Description));
+                }
+                return;
+            }
+            foreach (Rules.ConditionTrace child in trace.Children)
+            {
+                Collect(child, failed, rules);
+            }
         }
 
         private static RuleTextFormatter Formatter(LifeSession session, ILocalizer localizer, MoneyFormatter money)

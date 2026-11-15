@@ -37,5 +37,7 @@ namespace BetterLife.Core.Navigation
         public const string FamilyTree = "family_tree";
         /// <summary>Achievements (pushed on the More tab).</summary>
         public const string Achievements = "achievements";
+        /// <summary>Settings (pushed on the More tab).</summary>
+        public const string Settings = "settings";
     }
 }

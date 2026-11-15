@@ -25,7 +25,8 @@ namespace UnityEngine
     public static class Input { public static bool GetKeyDown(KeyCode k) => false; }
     public enum KeyCode { Escape }
     public static class Debug { public static void Log(object m) {} public static void LogWarning(object m) {} public static void LogError(object m) {} }
-    public static class Application { public static string persistentDataPath, dataPath; public static void Quit() {} }
+    public static class Application { public static string persistentDataPath, dataPath; public static SystemLanguage systemLanguage; public static void Quit() {} }
+    public enum SystemLanguage { English, Thai, Unknown }
     public static class Resources { public static T Load<T>(string p) where T : Object => null; public static void UnloadAsset(Object o) {} }
     public class TextAsset : Object { public string text; }
     public static class GUIUtility { public static string systemCopyBuffer; }

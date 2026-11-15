@@ -15,6 +15,8 @@ namespace BetterLife.Core.Saving
         public const string UndoQuota = "profile_undo";
         /// <summary>Achievements unlocked across all lives.</summary>
         public const string Achievements = "profile_achievements";
+        /// <summary>Player settings (language, content).</summary>
+        public const string Settings = "profile_settings";
         /// <summary>Prefix of player profile slots (not lives).</summary>
         public const string ProfilePrefix = "profile_";
 

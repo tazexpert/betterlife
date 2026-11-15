@@ -12,6 +12,7 @@ using BetterLife.Core.Navigation;
 using BetterLife.Core.Notices;
 using BetterLife.Core.Saving;
 using BetterLife.Core.Sessions;
+using BetterLife.Core.Settings;
 using BetterLife.Core.Time.Ticking;
 using BetterLife.Core.ViewModels;
 using BetterLife.Infrastructure.Content;
@@ -25,13 +26,14 @@ namespace BetterLife.Bootstrap
     /// Composition root: the only place that creates and wires game objects and services.
     /// It creates itself before the first scene loads, so nothing needs to be placed in a scene or set in the Inspector.
     /// </summary>
-    public sealed class GameBootstrap : MonoBehaviour, ILifeController
+    public sealed class GameBootstrap : MonoBehaviour, ILifeController, ISettingsController
     {
         private const string HostObjectName = "[BetterLife] GameBootstrap";
         private const string LogPrefix = "[BetterLife] ";
         private const string SaveFolder = "saves";
-        // English until the Thai font and the language setting arrive (task 20).
-        private const string DefaultLanguage = "en";
+        // Used when neither the player's choice nor the device language has a string table.
+        private const string FallbackLanguage = "en";
+        private const string ThaiLanguage = "th";
 
         private static GameBootstrap _instance;
 
@@ -46,6 +48,9 @@ namespace BetterLife.Bootstrap
         private NoticeFeed _notices;
         private AchievementTracker _achievements;
         private LegacyService _legacy;
+        private SettingsStore _settingsStore;
+        private GameSettings _settings;
+        private string _language;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -129,9 +134,13 @@ namespace BetterLife.Bootstrap
             _undo = new UndoService(serializer, storage, new SystemRealTimeClock());
             _achievements = new AchievementTracker(_content.Get<DefinitionCatalog<AchievementDefinition>>(), new AchievementStore(storage), new SystemRealTimeClock());
             _legacy = new LegacyService(_content);
+            _settingsStore = new SettingsStore(storage);
+            _settings = _settingsStore.Load();
+            _language = SettingsStore.ResolveLanguage(_settings.Language, DeviceLanguage(), _content.Get<StringTables>().Languages, FallbackLanguage);
 
             // Until the slot and creation screens exist (UI tasks), continue the autosave or start a new random life.
             _life = TryLoadAutosave() ?? StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
+            ApplySettings(_life);
             ComposeUi();
         }
 
@@ -141,7 +150,7 @@ namespace BetterLife.Bootstrap
         /// </summary>
         private void ComposeUi()
         {
-            var localizer = new TableLocalizer(_content.Get<StringTables>(), DefaultLanguage, DefaultLanguage);
+            var localizer = new TableLocalizer(_content.Get<StringTables>(), _language, FallbackLanguage);
             _router = new ScreenRouter(ShellTabs.All);
             _notices = new NoticeFeed();
             var context = new ScreenContext(() => _life, localizer, new MoneyFormatter(localizer), _router, _notices,
@@ -164,6 +173,7 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.Summary, () => new LifeSummaryScreenPresenter(context));
             screens.Register(ScreenIds.FamilyTree, () => new FamilyTreeScreenPresenter(context));
             screens.Register(ScreenIds.Achievements, () => new AchievementsScreenPresenter(context));
+            screens.Register(ScreenIds.Settings, () => new SettingsScreenPresenter(context, this));
 
             _ui = UiRoot.Create(transform);
             _ui.BackPressed += OnBackPressed;
@@ -201,11 +211,85 @@ namespace BetterLife.Bootstrap
         {
             _life?.Dispose();
             _life = next;
+            ApplySettings(_life);
             _undo.Clear();
             _notices.Clear();
             _shell.Bind(_life);
             CheckAchievements();
             Autosave();
+        }
+
+        /// <summary>Current settings.</summary>
+        public GameSettings Settings => _settings;
+
+        /// <summary>Language in use.</summary>
+        public string Language => _language;
+
+        /// <summary>All string tables.</summary>
+        public StringTables Tables => _content.Get<StringTables>();
+
+        /// <summary>Content version.</summary>
+        public int ContentVersion => _content.ContentVersion;
+
+        /// <summary>Undo uses left today, or null without a life.</summary>
+        public int? UndoLeftToday => _life == null ? (int?)null : _undo.Quote(_life).UsesLeftToday;
+
+        /// <summary>
+        /// Switches the language, saves the choice and rebuilds the whole UI (every text is localized again).
+        /// </summary>
+        /// <param name="language">Language code with a string table.</param>
+        public void SetLanguage(string language)
+        {
+            if (language == null || language == _language || Tables.Find(language) == null)
+            {
+                return;
+            }
+            _language = language;
+            _settings.Language = language;
+            _settingsStore.Save(_settings);
+            RebuildUi();
+        }
+
+        /// <summary>
+        /// Turns vice content on or off for this and future lives.
+        /// </summary>
+        /// <param name="enabled">Whether vice content appears.</param>
+        public void SetViceContent(bool enabled)
+        {
+            _settings.ViceContent = enabled;
+            _settingsStore.Save(_settings);
+            ApplySettings(_life);
+        }
+
+        /// <summary>
+        /// Forgets every unlocked achievement.
+        /// </summary>
+        public void ResetAchievements()
+        {
+            _achievements.Reset();
+        }
+
+        private void ApplySettings(LifeSession life)
+        {
+            if (life != null)
+            {
+                life.Vices.ContentEnabled = _settings.ViceContent;
+            }
+        }
+
+        private void RebuildUi()
+        {
+            _ui.BackPressed -= OnBackPressed;
+            _shell.Dispose();
+            Destroy(_ui.gameObject);
+            ComposeUi();
+            _router.SelectTab(ScreenIds.More);
+            _router.Push(new ScreenRequest(ScreenIds.Settings));
+        }
+
+        private static string DeviceLanguage()
+        {
+            return Application.systemLanguage == SystemLanguage.Thai ? ThaiLanguage : FallbackLanguage;
         }
 
         private void ShowSummaryIfOver()

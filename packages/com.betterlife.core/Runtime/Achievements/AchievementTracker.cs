@@ -47,6 +47,15 @@ namespace BetterLife.Core.Achievements
         public AchievementProfile Profile => _profile ?? (_profile = _store.Load());
 
         /// <summary>
+        /// Forgets every unlocked achievement (from the settings screen, after the player confirms).
+        /// </summary>
+        public void Reset()
+        {
+            _profile = new AchievementProfile();
+            _store.Save(_profile);
+        }
+
+        /// <summary>
         /// Unlocks every achievement whose condition now holds.
         /// </summary>
         /// <param name="session">Running (or just finished) life.</param>
