@@ -28,6 +28,7 @@ namespace UnityEngine
     public static class Application { public static string persistentDataPath, dataPath; public static void Quit() {} }
     public static class Resources { public static T Load<T>(string p) where T : Object => null; public static void UnloadAsset(Object o) {} }
     public class TextAsset : Object { public string text; }
+    public static class GUIUtility { public static string systemCopyBuffer; }
     public enum RuntimeInitializeLoadType { SubsystemRegistration, BeforeSceneLoad }
     public sealed class RuntimeInitializeOnLoadMethodAttribute : Attribute { public RuntimeInitializeOnLoadMethodAttribute(RuntimeInitializeLoadType t) {} }
 }

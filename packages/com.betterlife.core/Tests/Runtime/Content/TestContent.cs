@@ -301,6 +301,13 @@ namespace BetterLife.Core.Tests.Content
             'wealthReference': 10000, 'stressPenaltyPerPoint': -0.2, 'support': { 'minValue': 50, 'perTie': 5, 'max': 15 },
             'lessonGain': 15, 'detectedGain': 3, 'maxIncidents': 3, 'maxMonthlyChance': 0.5, 'helplineKey': 'scam.helpline', 'majorLoss': 20000 }";
 
+        public const string LegacySettings = "{ 'taxExemption': 100000, 'taxRate': 0.1, 'reputationShare': 0.5, 'karmaShare': 0.25, 'heirEducationPerformance': 60 }";
+
+        public const string Achievements = @"{ 'achievements': [
+            { 'id': 'first_birthday', 'nameKey': 'achievement.first_birthday.name', 'descKey': 'achievement.first_birthday.desc', 'condition': { 'type': 'age', 'op': '>=', 'value': 1 } },
+            { 'id': 'second_generation', 'nameKey': 'achievement.second_generation.name', 'descKey': 'achievement.second_generation.desc', 'hidden': true,
+              'condition': { 'type': 'generation', 'op': '>=', 'value': 2 } } ] }";
+
         public const string EventSettingsTemplate = "{ 'weeklyEventChance': CHANCE, 'responseWindowWeeks': 4, "
             + "'antiFrustration': { 'streakThreshold': 2, 'windowWeeks': 12, 'negativeWeightMultiplier': 0.4 } }";
 
@@ -329,7 +336,8 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }, "
                 + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }, "
                 + "{ 'type': 'vices', 'path': 'vices.json' }, { 'type': 'quit_methods', 'path': 'quit_methods.json' }, { 'type': 'vice_settings', 'path': 'vice_settings.json' }, "
-                + "{ 'type': 'scams', 'path': 'scams.json' }, { 'type': 'scam_settings', 'path': 'scam_settings.json' }"
+                + "{ 'type': 'scams', 'path': 'scams.json' }, { 'type': 'scam_settings', 'path': 'scam_settings.json' }, "
+                + "{ 'type': 'legacy_settings', 'path': 'legacy_settings.json' }, { 'type': 'achievements', 'path': 'achievements.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -368,7 +376,9 @@ namespace BetterLife.Core.Tests.Content
                 .Add("quit_methods.json", QuitMethods)
                 .Add("vice_settings.json", ViceSettings)
                 .Add("scams.json", Scams)
-                .Add("scam_settings.json", ScamSettings);
+                .Add("scam_settings.json", ScamSettings)
+                .Add("legacy_settings.json", LegacySettings)
+                .Add("achievements.json", Achievements);
         }
 
         public static IContentRepository Load(InMemoryContentSource source)

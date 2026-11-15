@@ -1,9 +1,12 @@
 using System;
 using System.Globalization;
 using System.IO;
+using BetterLife.Core.Achievements;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
+using BetterLife.Core.Domain;
 using BetterLife.Core.Events;
+using BetterLife.Core.Legacy;
 using BetterLife.Core.Localization;
 using BetterLife.Core.Navigation;
 using BetterLife.Core.Notices;
@@ -22,7 +25,7 @@ namespace BetterLife.Bootstrap
     /// Composition root: the only place that creates and wires game objects and services.
     /// It creates itself before the first scene loads, so nothing needs to be placed in a scene or set in the Inspector.
     /// </summary>
-    public sealed class GameBootstrap : MonoBehaviour
+    public sealed class GameBootstrap : MonoBehaviour, ILifeController
     {
         private const string HostObjectName = "[BetterLife] GameBootstrap";
         private const string LogPrefix = "[BetterLife] ";
@@ -41,6 +44,8 @@ namespace BetterLife.Bootstrap
         private ShellPresenter _shell;
         private ScreenRouter _router;
         private NoticeFeed _notices;
+        private AchievementTracker _achievements;
+        private LegacyService _legacy;
 
         /// <summary>
         /// Clears static state when domain reload is disabled (Enter Play Mode Options).
@@ -122,6 +127,8 @@ namespace BetterLife.Bootstrap
             var serializer = new SaveSerializer();
             _saves = new SaveService(storage, serializer, _content);
             _undo = new UndoService(serializer, storage, new SystemRealTimeClock());
+            _achievements = new AchievementTracker(_content.Get<DefinitionCatalog<AchievementDefinition>>(), new AchievementStore(storage), new SystemRealTimeClock());
+            _legacy = new LegacyService(_content);
 
             // Until the slot and creation screens exist (UI tasks), continue the autosave or start a new random life.
             _life = TryLoadAutosave() ?? StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
@@ -138,7 +145,7 @@ namespace BetterLife.Bootstrap
             _router = new ScreenRouter(ShellTabs.All);
             _notices = new NoticeFeed();
             var context = new ScreenContext(() => _life, localizer, new MoneyFormatter(localizer), _router, _notices,
-                new DecisionService(_undo, _content.ContentVersion));
+                new DecisionService(_undo, _content.ContentVersion), _achievements, _content.Get<LegacySettings>(), this);
 
             var screens = new ScreenRegistry(localizer);
             screens.Register(ScreenIds.Home, () => new DashboardScreenPresenter(context));
@@ -154,12 +161,68 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.Life, () => new LifePlanScreenPresenter(context));
             screens.Register(ScreenIds.Work, () => new WorkScreenPresenter(context));
             screens.Register(ScreenIds.Invest, () => new InvestScreenPresenter(context));
+            screens.Register(ScreenIds.Summary, () => new LifeSummaryScreenPresenter(context));
+            screens.Register(ScreenIds.FamilyTree, () => new FamilyTreeScreenPresenter(context));
+            screens.Register(ScreenIds.Achievements, () => new AchievementsScreenPresenter(context));
 
             _ui = UiRoot.Create(transform);
             _ui.BackPressed += OnBackPressed;
             _shell = new ShellPresenter(_ui.Root, screens, context);
             _shell.TimeAdvanced += OnTimeAdvanced;
             _shell.Bind(_life);
+            ShowSummaryIfOver();
+        }
+
+        /// <summary>
+        /// Continues the family line as a child of the finished life (called from the life summary).
+        /// </summary>
+        /// <param name="heirNpcId">NPC id of a living child.</param>
+        public void ContinueAsHeir(int heirNpcId)
+        {
+            if (_life == null || !_life.IsOver)
+            {
+                return;
+            }
+            LifeSession next = _legacy.ContinueAs(_life, heirNpcId, _eventBus, out InheritanceReport report);
+            Debug.Log(LogPrefix + "Continuing as " + next.Character.Name.GivenName + " (generation " + next.Character.Generation + "), inherited "
+                + report.Received.ToString(CultureInfo.InvariantCulture) + ".");
+            ReplaceLife(next);
+        }
+
+        /// <summary>
+        /// Starts a new random life and family (called from the life summary).
+        /// </summary>
+        public void StartNewLife()
+        {
+            ReplaceLife(StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random)));
+        }
+
+        private void ReplaceLife(LifeSession next)
+        {
+            _life?.Dispose();
+            _life = next;
+            _undo.Clear();
+            _notices.Clear();
+            _shell.Bind(_life);
+            CheckAchievements();
+            Autosave();
+        }
+
+        private void ShowSummaryIfOver()
+        {
+            if (_life != null && _life.IsOver)
+            {
+                _router.SelectTab(ScreenIds.Home);
+                _router.Push(new ScreenRequest(ScreenIds.Summary));
+            }
+        }
+
+        private void CheckAchievements()
+        {
+            foreach (AchievementDefinition achievement in _achievements.Evaluate(_life))
+            {
+                _notices.Add(new Notice(Severity.Normal, achievement.NameKey, achievement.Id, _life.TimeState.Clock.Now));
+            }
         }
 
         private void OnBackPressed()
@@ -174,6 +237,13 @@ namespace BetterLife.Bootstrap
         private void OnTimeAdvanced(AdvanceResult result)
         {
             _notices.Add(result, _life.Events.Inbox);
+            CheckAchievements();
+            if (_life.IsOver)
+            {
+                Autosave();
+                ShowSummaryIfOver();
+                return;
+            }
             int? decision = NoticeFeed.StoppingDecision(result, _life.Events.Inbox);
             if (decision.HasValue)
             {
@@ -186,15 +256,12 @@ namespace BetterLife.Bootstrap
         }
 
         /// <summary>
-        /// Creates a life and composes all of its systems.
+        /// Creates a life and composes all of its systems. The caller replaces and disposes the previous life.
         /// </summary>
         /// <param name="request">Creation request.</param>
         /// <returns>The running life.</returns>
         private LifeSession StartNewLife(CreationRequest request)
         {
-            _life?.Dispose();
-            _undo?.Clear();
-            _notices?.Clear();
             CreationResult creation = new CharacterCreator(_content).Create(request);
             LifeSession life = LifeSessionFactory.CreateNew(_content, creation, _eventBus);
             Debug.Log(LogPrefix + "New life " + creation.ChallengeCode + ": " + life.Character.Name.GivenName + " " + life.Character.Name.FamilyName

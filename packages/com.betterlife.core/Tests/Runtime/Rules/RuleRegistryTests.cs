@@ -29,6 +29,7 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'relationship','relation':'spouse','count':{'op':'>=','value':1}},
             {'type':'relationship','relation':'any','op':'>=','value':60.5},
             {'type':'scam','measure':'victims','op':'>=','value':1},
+            {'type':'generation','op':'>=','value':2},
             {'type':'reputation','domain':'business','op':'<','value':30},
             {'type':'healthCondition','condition':'flu'},
             {'type':'karma','kind':'bad','op':'>','value':30},

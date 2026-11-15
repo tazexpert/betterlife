@@ -19,6 +19,7 @@ using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Luck;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Scams;
+using BetterLife.Core.Time;
 using BetterLife.Core.Time.Budget;
 using BetterLife.Core.Time.Ticking;
 using BetterLife.Core.Vices;
@@ -95,6 +96,41 @@ namespace BetterLife.Core.Sessions
         }
 
         /// <summary>
+        /// Starts the life of an heir created by <see cref="Legacy.HeirCreator"/>: time continues from the deceased's
+        /// death week, in the same economy, and the family tree gains the deceased.
+        /// </summary>
+        /// <param name="content">Validated content.</param>
+        /// <param name="heir">The heir (family already set up).</param>
+        /// <param name="random">Random streams of the heir's life.</param>
+        /// <param name="deceased">The finished life.</param>
+        /// <param name="bus">Event bus.</param>
+        /// <param name="policy">Interrupt policy, or null for the default.</param>
+        /// <returns>The running life.</returns>
+        public static LifeSession CreateHeir(IContentRepository content, Character heir, RandomRegistry random, LifeSession deceased, IEventBus bus,
+            InterruptPolicy policy = null)
+        {
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+            if (heir == null || random == null || deceased == null)
+            {
+                throw new ArgumentNullException(nameof(heir));
+            }
+            GameDate start = deceased.Character.Death.Week;
+            var clock = new GameClock(start);
+            var settings = content.Get<TimeSettings>();
+            var budget = new TimeBudget(content.Get<DefinitionCatalog<ActivityDefinition>>(), settings);
+            budget.Reset(settings.BudgetFor(heir.LifeStage(start).Id));
+            EconomyState world = deceased.Economy.State;
+            var economy = new EconomyState(world.PhaseId, world.YearsLeftInPhase, world.AnnualInflation, world.PolicyRate, world.PriceLevel);
+            LifeSession session = Compose(content, heir, random, new TimeState(clock, budget), new EventState(), economy, bus, policy, null, null,
+                deceased.Mode, deceased.IsIronman);
+            session.Lineage.Restore(deceased.Lineage.Ancestors.Concat(new[] { Legacy.HeirCreator.Record(deceased) }));
+            return session;
+        }
+
+        /// <summary>
         /// Rebuilds a saved life. Content that no longer exists is dropped and reported as warnings.
         /// </summary>
         /// <param name="content">Loaded content.</param>
@@ -131,6 +167,7 @@ namespace BetterLife.Core.Sessions
             LifeSession session = Compose(content, character.Character, random, time.State, events.State, economy, bus, policy, bonusSources, extraPhases,
                 mode, save.Ironman);
             session.Relationships.PendingSocialHours = save.PendingSocialHours;
+            session.Lineage.Restore((save.Lineage ?? new List<AncestorDto>()).Where(a => a != null).Select(a => a.ToRecord()));
             return new LifeSessionLoadResult(session, warnings);
         }
 

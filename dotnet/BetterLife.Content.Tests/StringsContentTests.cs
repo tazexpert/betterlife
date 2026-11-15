@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using BetterLife.Core.Achievements;
 using BetterLife.Core.Astrology;
 using BetterLife.Core.Careers;
 using BetterLife.Core.Content;
@@ -203,6 +204,27 @@ namespace BetterLife.Content.Tests
                 "life.title", "work.title", "work.section.education", "work.section.apply_school", "work.section.job", "work.section.apply_job",
                 "work.drop_out", "work.quit_job", "invest.title", "invest.too_young", "invest.section.repay", "invest.section.sell",
                 "invest.section.buy", "invest.section.borrow", "finance.open_invest",
+            });
+            AssertAllHaveText(keys.Where(k => k != null).Distinct());
+        }
+
+        [Test]
+        public void LegacyTexts_AllHaveText()
+        {
+            var keys = new List<string>();
+            foreach (AchievementDefinition achievement in _content.Get<DefinitionCatalog<AchievementDefinition>>().All)
+            {
+                keys.Add(achievement.NameKey);
+                keys.Add(achievement.DescKey);
+            }
+            keys.AddRange(_content.Get<CharacterCatalogs>().Flags.All.Select(f => f.EulogyKey));
+            keys.AddRange(_content.Get<DefinitionCatalog<DeathCauseDefinition>>().All.Select(c => c.EulogyKey));
+            keys.AddRange(new[]
+            {
+                // Keys used by the task 18 screens.
+                "summary.section.facts", "summary.section.achievements", "summary.section.next", "summary.no_heir", "summary.new_life",
+                "summary.copy", "summary.copied", "tree.title", "achievements.title", "more.family_tree", "more.achievements", "more.summary",
+                RuleTextKeys.CondGeneration,
             });
             AssertAllHaveText(keys.Where(k => k != null).Distinct());
         }

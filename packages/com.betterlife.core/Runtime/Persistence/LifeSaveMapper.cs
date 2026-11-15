@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using BetterLife.Core.Sessions;
 
 namespace BetterLife.Core.Persistence
@@ -42,6 +43,7 @@ namespace BetterLife.Core.Persistence
                 Random = FoundationDtoMapper.ToDto(session.Random),
                 Economy = EconomyStateDtoMapper.ToDto(session.Economy.State),
                 PendingSocialHours = session.Relationships.PendingSocialHours,
+                Lineage = session.Lineage.Ancestors.Select(AncestorDto.From).ToList(),
             };
         }
     }

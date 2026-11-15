@@ -1,0 +1,8 @@
+{
+  "$schema": "../docs/schemas/legacy_settings.schema.json",
+  "taxExemption": 100000000,
+  "taxRate": 0.05,
+  "reputationShare": 0.3,
+  "karmaShare": 0.2,
+  "heirEducationPerformance": 60
+}

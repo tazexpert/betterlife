@@ -64,6 +64,23 @@ namespace BetterLife.Core.Notices
         }
 
         /// <summary>
+        /// Adds one notice (for example an unlocked achievement).
+        /// </summary>
+        /// <param name="notice">Notice.</param>
+        public void Add(Notice notice)
+        {
+            if (notice == null)
+            {
+                throw new ArgumentNullException(nameof(notice));
+            }
+            _items.Insert(0, notice);
+            if (_items.Count > Capacity)
+            {
+                _items.RemoveAt(_items.Count - 1);
+            }
+        }
+
+        /// <summary>
         /// Forgets all notices (for example when another life starts).
         /// </summary>
         public void Clear() => _items.Clear();

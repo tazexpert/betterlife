@@ -117,6 +117,7 @@ namespace BetterLife.Core.Persistence
                     .ToList(),
                 HasHistory = lastWeek.HasValue,
                 HistoryLastWeek = lastWeek.HasValue ? lastWeek.Value.TotalWeeks : 0,
+                Generation = character.Generation,
             };
         }
 
@@ -154,6 +155,7 @@ namespace BetterLife.Core.Persistence
             VicesDtoMapper.Restore(dto.Vices, character.Vices);
             ScamsDtoMapper.Restore(dto.Scams, character.Scams);
             RestoreWorldAndFamily(dto, character, catalogs, warnings);
+            character.SetGeneration(System.Math.Max(1, dto.Generation));
             if (dto.HasDied)
             {
                 Wrap(() => character.RestoreDeath(new DeathRecord(new GameDate(dto.DeathWeek), dto.DeathCauseId, dto.DeathAge)), "death");

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/legacy_settings.schema.json",
+  "title": "Legacy settings",
+  "description": "Inheritance tax and what an heir inherits. Exactly one file of this type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "taxExemption",
+    "taxRate",
+    "reputationShare",
+    "karmaShare",
+    "heirEducationPerformance"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "taxExemption": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Estate value free of tax (real baht)."
+    },
+    "taxRate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reputationShare": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "karmaShare": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "heirEducationPerformance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  }
+}

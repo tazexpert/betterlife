@@ -1,0 +1,174 @@
+{
+  "$schema": "../docs/schemas/achievements.schema.json",
+  "achievements": [
+    {
+      "id": "first_birthday",
+      "nameKey": "achievement.first_birthday.name",
+      "descKey": "achievement.first_birthday.desc",
+      "hidden": false,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 1
+      }
+    },
+    {
+      "id": "adulthood",
+      "nameKey": "achievement.adulthood.name",
+      "descKey": "achievement.adulthood.desc",
+      "hidden": false,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 18
+      }
+    },
+    {
+      "id": "centenarian",
+      "nameKey": "achievement.centenarian.name",
+      "descKey": "achievement.centenarian.desc",
+      "hidden": false,
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 100
+      }
+    },
+    {
+      "id": "graduate",
+      "nameKey": "achievement.graduate.name",
+      "descKey": "achievement.graduate.desc",
+      "hidden": false,
+      "condition": {
+        "type": "education",
+        "completed": "bachelor"
+      }
+    },
+    {
+      "id": "doctor",
+      "nameKey": "achievement.doctor.name",
+      "descKey": "achievement.doctor.desc",
+      "hidden": false,
+      "condition": {
+        "type": "education",
+        "completed": "doctorate"
+      }
+    },
+    {
+      "id": "first_job",
+      "nameKey": "achievement.first_job.name",
+      "descKey": "achievement.first_job.desc",
+      "hidden": false,
+      "condition": {
+        "type": "career",
+        "employed": true
+      }
+    },
+    {
+      "id": "millionaire",
+      "nameKey": "achievement.millionaire.name",
+      "descKey": "achievement.millionaire.desc",
+      "hidden": false,
+      "condition": {
+        "type": "netWorth",
+        "op": ">=",
+        "amount": 1000000
+      }
+    },
+    {
+      "id": "hundred_millionaire",
+      "nameKey": "achievement.hundred_millionaire.name",
+      "descKey": "achievement.hundred_millionaire.desc",
+      "hidden": true,
+      "condition": {
+        "type": "netWorth",
+        "op": ">=",
+        "amount": 100000000
+      }
+    },
+    {
+      "id": "married",
+      "nameKey": "achievement.married.name",
+      "descKey": "achievement.married.desc",
+      "hidden": false,
+      "condition": {
+        "type": "relationship",
+        "relation": "spouse",
+        "count": {
+          "op": ">=",
+          "value": 1
+        }
+      }
+    },
+    {
+      "id": "big_family",
+      "nameKey": "achievement.big_family.name",
+      "descKey": "achievement.big_family.desc",
+      "hidden": false,
+      "condition": {
+        "type": "relationship",
+        "relation": "child",
+        "count": {
+          "op": ">=",
+          "value": 3
+        }
+      }
+    },
+    {
+      "id": "saint",
+      "nameKey": "achievement.saint.name",
+      "descKey": "achievement.saint.desc",
+      "hidden": true,
+      "condition": {
+        "type": "karma",
+        "kind": "good",
+        "op": ">=",
+        "value": 80
+      }
+    },
+    {
+      "id": "scam_spotter",
+      "nameKey": "achievement.scam_spotter.name",
+      "descKey": "achievement.scam_spotter.desc",
+      "hidden": false,
+      "condition": {
+        "type": "scam",
+        "measure": "detected",
+        "op": ">=",
+        "value": 5
+      }
+    },
+    {
+      "id": "clean_again",
+      "nameKey": "achievement.clean_again.name",
+      "descKey": "achievement.clean_again.desc",
+      "hidden": true,
+      "condition": {
+        "type": "flag",
+        "flag": "vice.quit_success"
+      }
+    },
+    {
+      "id": "second_generation",
+      "nameKey": "achievement.second_generation.name",
+      "descKey": "achievement.second_generation.desc",
+      "hidden": false,
+      "condition": {
+        "type": "generation",
+        "op": ">=",
+        "value": 2
+      }
+    },
+    {
+      "id": "dynasty",
+      "nameKey": "achievement.dynasty.name",
+      "descKey": "achievement.dynasty.desc",
+      "hidden": true,
+      "condition": {
+        "type": "generation",
+        "op": ">=",
+        "value": 5
+      }
+    }
+  ]
+}

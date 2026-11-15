@@ -1,6 +1,7 @@
 using BetterLife.Core.Careers;
 using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
+using BetterLife.Core.Legacy;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Scams;
 using BetterLife.Core.Rules.Serialization.Converters;
@@ -33,6 +34,7 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new NetWorthConditionConverter())
                 .Register(new RelationshipConditionConverter())
                 .Register(new ScamConditionConverter())
+                .Register(new GenerationConditionConverter())
                 .Register(new TotalDebtConditionConverter())
                 .Register(new ReputationConditionConverter())
                 .Register(new HealthConditionConditionConverter())

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BetterLife.Core.Persistence
 {
@@ -41,5 +42,8 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Socialize hours counted so far this month.</summary>
         public int PendingSocialHours;
+
+        /// <summary>Ancestors of the family line (null or empty for a founder and in saves from before task 18).</summary>
+        public List<AncestorDto> Lineage = new List<AncestorDto>();
     }
 }
