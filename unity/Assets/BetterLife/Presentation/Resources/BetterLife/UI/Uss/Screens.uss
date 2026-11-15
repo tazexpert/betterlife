@@ -297,3 +297,167 @@
 .breakdown-line--negative .breakdown-line__value {
     color: var(--color-bad);
 }
+
+/* List screens of task 17 (Money, People, Person, More, Astrology, Timeline) */
+.list-screen__subtitle {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    white-space: normal;
+    margin-bottom: var(--space-s);
+}
+
+.list-screen__empty {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    white-space: normal;
+    margin-bottom: var(--space-xs);
+}
+
+.value-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: var(--touch-height);
+    padding: var(--space-xs) var(--space-s);
+    margin-bottom: 4px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-s);
+}
+
+.value-row__text {
+    flex-shrink: 1;
+    flex-grow: 1;
+    margin-right: var(--space-s);
+}
+
+.value-row__label {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+}
+
+.value-row__detail {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    white-space: normal;
+}
+
+.value-row__value {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    -unity-font-style: bold;
+}
+
+.value-row--good .value-row__value {
+    color: var(--color-good);
+}
+
+.value-row--bad .value-row__value {
+    color: var(--color-bad);
+}
+
+.value-row--tappable {
+    border-right-width: 6px;
+    border-right-color: var(--color-surface-raised);
+}
+
+.value-row--tappable:active {
+    background-color: var(--color-surface-raised);
+}
+
+.value-row--selected {
+    border-left-width: 8px;
+    border-left-color: var(--color-primary);
+}
+
+.value-row--departed {
+    opacity: 0.5;
+}
+
+.value-row--nested {
+    margin-left: var(--space-m);
+    background-color: var(--color-bg);
+}
+
+.action {
+    margin-bottom: var(--space-xs);
+}
+
+.action__button {
+    min-height: var(--touch-height);
+    margin: 0;
+    font-size: var(--font-m);
+    color: var(--color-bg);
+    background-color: var(--color-primary);
+    border-width: 0;
+    border-radius: var(--radius-s);
+    white-space: normal;
+}
+
+.action__button:disabled {
+    opacity: 0.4;
+}
+
+.action__detail {
+    font-size: var(--font-s);
+    color: var(--color-text-muted);
+    white-space: normal;
+    margin: 4px var(--space-xs) 0 var(--space-xs);
+}
+
+.result-card {
+    margin-bottom: var(--space-s);
+    padding: var(--space-s) var(--space-m);
+    background-color: var(--color-surface-raised);
+    border-radius: var(--radius-m);
+    border-left-width: 8px;
+    border-left-color: var(--color-good);
+}
+
+.result-card--failed {
+    border-left-color: var(--color-bad);
+}
+
+.result-card__title {
+    font-size: var(--font-l);
+    color: var(--color-text);
+    -unity-font-style: bold;
+    white-space: normal;
+}
+
+.result-card__line {
+    font-size: var(--font-m);
+    color: var(--color-text);
+    white-space: normal;
+}
+
+.result-card__close {
+    height: var(--touch-height);
+    margin: var(--space-s) 0 0 0;
+    font-size: var(--font-m);
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border-width: 0;
+    border-radius: var(--radius-s);
+}
+
+.timeline-entry {
+    border-left-width: 8px;
+    border-left-color: var(--color-border);
+}
+
+.timeline-entry--birth,
+.timeline-entry--relationship {
+    border-left-color: var(--color-good);
+}
+
+.timeline-entry--education,
+.timeline-entry--career {
+    border-left-color: var(--color-primary);
+}
+
+.timeline-entry--loss,
+.timeline-entry--scam,
+.timeline-entry--death {
+    border-left-color: var(--color-bad);
+}

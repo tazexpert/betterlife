@@ -97,6 +97,19 @@ namespace BetterLife.Core.Economy
         /// <summary>Lifestyle tiers the character can choose from.</summary>
         public DefinitionCatalog<LifestyleTierDefinition> LifestyleTiers => _lifestyles;
 
+        /// <summary>Asset catalog (names and classes of holdings).</summary>
+        public DefinitionCatalog<AssetDefinition> Assets => _assets;
+
+        /// <summary>Debt product catalog (names of debts).</summary>
+        public DefinitionCatalog<DebtProductDefinition> Products => _products;
+
+        /// <summary>
+        /// Whether the character may choose a lifestyle tier now (old enough to live on their own).
+        /// </summary>
+        /// <param name="now">Current week.</param>
+        /// <returns>True when allowed.</returns>
+        public bool CanChooseLifestyle(GameDate now) => IsAdult(now);
+
         /// <summary>The latest monthly report, or null before the first month.</summary>
         public FinanceMonthReport LastReport { get; private set; }
 

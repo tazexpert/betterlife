@@ -1,21 +1,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
+using BetterLife.Core.Astrology;
 using BetterLife.Core.Careers;
 using BetterLife.Core.Content;
-using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
+using BetterLife.Core.Domain.World;
+using BetterLife.Core.Domain;
 using BetterLife.Core.Economy;
 using BetterLife.Core.Education;
 using BetterLife.Core.Karma;
 using BetterLife.Core.Life;
 using BetterLife.Core.LifeEvents;
+using BetterLife.Core.Localization;
+using BetterLife.Core.Navigation;
 using BetterLife.Core.Relationships;
 using BetterLife.Core.Rules;
 using BetterLife.Core.Scams;
+using BetterLife.Core.Time;
 using BetterLife.Core.Vices;
-using BetterLife.Core.Localization;
-using BetterLife.Core.Navigation;
 using BetterLife.Core.ViewModels;
 using NUnit.Framework;
 
@@ -99,6 +103,74 @@ namespace BetterLife.Content.Tests
                     RelationshipService.ChildInterruptKey, RelationshipService.LeftInterruptKey, RelationshipService.DeathInterruptKey,
                     ViceService.RelapseInterruptKey, ViceService.DiscoveredInterruptKey, ViceService.QuitInterruptKey, ScamService.ScammedInterruptKey,
                 });
+            AssertAllHaveText(keys.Where(k => k != null).Distinct());
+        }
+
+        [Test]
+        public void ViewModelKeyConstants_AllHaveText()
+        {
+            // Every key constant of the view models (prefixes and number formats are not keys).
+            var keyShape = new Regex("^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)+$");
+            IEnumerable<string> keys = typeof(DashboardViewModel).Assembly.GetTypes()
+                .Where(t => t.Namespace == typeof(DashboardViewModel).Namespace)
+                .SelectMany(t => t.GetFields(BindingFlags.Public | BindingFlags.Static))
+                .Where(f => f.IsLiteral && f.FieldType == typeof(string) && !f.Name.EndsWith("Prefix"))
+                .Select(f => (string)f.GetRawConstantValue())
+                .Where(v => keyShape.IsMatch(v));
+            AssertAllHaveText(keys.Distinct());
+        }
+
+        [Test]
+        public void SubScreenTexts_AllHaveText()
+        {
+            var keys = new List<string>();
+            keys.AddRange(_content.Get<DefinitionCatalog<AssetDefinition>>().All.Select(a => a.NameKey));
+            keys.AddRange(_content.Get<DefinitionCatalog<DebtProductDefinition>>().All.Select(d => d.NameKey));
+            keys.AddRange(_content.Get<DefinitionCatalog<LifestyleTierDefinition>>().All.Select(t => t.NameKey));
+            keys.AddRange(_content.Get<EconomySettings>().Phases.All.Select(p => p.NameKey));
+            var interactions = _content.Get<DefinitionCatalog<InteractionDefinition>>().All.ToList();
+            keys.AddRange(interactions.Select(i => i.NameKey));
+            keys.AddRange(interactions.SelectMany(i => new[] { i.Success.MemoryKey, i.Failure?.MemoryKey }).Where(k => k != null));
+            keys.AddRange(new[] { RelationshipService.BreakupMemoryKey, RelationshipService.DivorceMemoryKey });
+            keys.AddRange(_content.Get<DefinitionCatalog<EducationProgramDefinition>>().All.Select(p => p.NameKey));
+            keys.AddRange(_content.Get<DefinitionCatalog<CareerTrackDefinition>>().All.Select(t => t.NameKey));
+            keys.AddRange(_content.Get<DefinitionCatalog<DeathCauseDefinition>>().All.Select(c => c.NameKey));
+            foreach (CountryDefinition country in _content.Get<CharacterCatalogs>().Countries.All)
+            {
+                keys.Add(country.NameKey);
+                keys.AddRange(country.Cities.Select(c => c.NameKey));
+            }
+
+            // Every chart part a character can be born with.
+            AstrologyTables tables = _content.Get<FortuneCalculator>().Tables;
+            for (int year = 1950; year < 2010; year++)
+            {
+                for (int month = 1; month <= 12; month++)
+                {
+                    foreach (int hour in new[] { 9, 21 })
+                    {
+                        AstrologyProfile chart = tables.ProfileFor(new BirthInfo(new CalendarDate(year, month, 1 + year % 28), hour, "thailand"));
+                        keys.AddRange(new[] { chart.Zodiac.NameKey, chart.BirthDay.NameKey, chart.YearAnimal.NameKey, chart.Element.NameKey });
+                    }
+                }
+            }
+
+            keys.AddRange(RelationshipNames.Types.Keys.Select(n => PeopleViewModel.TypePrefix + n));
+            keys.AddRange(new[] { "partner", "spouse", "ex" }.Select(n => TimelineViewModel.BecamePrefix + n));
+            keys.AddRange(FortuneAreas.All.Select(a => SessionText.EnumKey(AstrologyViewModel.AreaPrefix, a)));
+            keys.AddRange(System.Enum.GetValues(typeof(FinanceLineCategory)).Cast<System.Enum>().Select(c => SessionText.EnumKey(FinanceViewModel.CategoryPrefix, c)));
+            keys.AddRange(System.Enum.GetValues(typeof(JobEndReason)).Cast<System.Enum>().Select(r => SessionText.EnumKey(TimelineViewModel.JobEndPrefix, r)));
+            keys.AddRange(Constants(typeof(InteractionQuote), "interaction.reason."));
+            keys.AddRange(Constants(typeof(CompatibilityBreakdown), "compatibility."));
+            keys.AddRange(Constants(typeof(ScamReportResult), "scam.report."));
+            keys.AddRange(new[]
+            {
+                // Keys written as @key in the UXML of task 17.
+                "finance.title", "finance.section.economy", "finance.section.holdings", "finance.section.debts", "finance.section.report",
+                "finance.section.lifestyle", "finance.section.scams", "finance.lifestyle.locked", "finance.none", "people.title", "people.empty",
+                "person.closeness", "person.compatibility", "person.memories", "person.actions", "more.title", "more.astrology", "more.timeline",
+                "astrology.title", "astrology.chart", "astrology.karma", "timeline.title", "action.close",
+            });
             AssertAllHaveText(keys.Where(k => k != null).Distinct());
         }
 

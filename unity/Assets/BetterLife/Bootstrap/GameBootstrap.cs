@@ -130,7 +130,7 @@ namespace BetterLife.Bootstrap
 
         /// <summary>
         /// Creates the UI: localizer, router, screen registry, the UI Toolkit panel and the shell presenter.
-        /// Screens register here as they are built; unregistered ones (tabs of task 17) show a placeholder.
+        /// Screens register here as they are built; unregistered ones (Life and Work tabs) show a placeholder.
         /// </summary>
         private void ComposeUi()
         {
@@ -145,6 +145,12 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.Inbox, () => new InboxScreenPresenter(context));
             screens.Register(ScreenIds.EventDialog, () => new EventDialogPresenter(context));
             screens.Register(ScreenIds.Breakdown, () => new BreakdownPresenter(context));
+            screens.Register(ScreenIds.Money, () => new FinanceScreenPresenter(context));
+            screens.Register(ScreenIds.People, () => new PeopleScreenPresenter(context));
+            screens.Register(ScreenIds.Person, () => new PersonScreenPresenter(context));
+            screens.Register(ScreenIds.More, () => new MoreScreenPresenter(context));
+            screens.Register(ScreenIds.Astrology, () => new AstrologyScreenPresenter(context));
+            screens.Register(ScreenIds.Timeline, () => new TimelineScreenPresenter(context));
 
             _ui = UiRoot.Create(transform);
             _ui.BackPressed += OnBackPressed;

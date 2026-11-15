@@ -27,6 +27,8 @@ namespace BetterLife.Presentation.Shell
         public const string EventDialog = "EventDialog";
         /// <summary>Stat breakdown layout.</summary>
         public const string Breakdown = "Breakdown";
+        /// <summary>Shared layout of list screens.</summary>
+        public const string ListScreen = "ListScreen";
 
         /// <summary>
         /// Loads a UXML layout.

@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <!-- Shared layout of list screens (Money, People, Person, More, Astrology, Timeline). Content is built in code. -->
+    <ui:ScrollView name="list-screen" class="screen list-screen">
+        <ui:Label name="title" class="screen__title" />
+        <ui:VisualElement name="result" class="list-screen__result" />
+        <ui:VisualElement name="content" />
+    </ui:ScrollView>
+</ui:UXML>
