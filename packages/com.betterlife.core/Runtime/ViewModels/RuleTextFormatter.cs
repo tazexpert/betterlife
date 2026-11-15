@@ -31,6 +31,28 @@ namespace BetterLife.Core.ViewModels
             RuleTextKeys.EffectCashGain, RuleTextKeys.EffectCashPay, RuleTextKeys.EffectCashShortfall,
         };
 
+        /// <summary>
+        /// Where a raw id in <c>{subject}</c> finds its display name, per rule text ("{0}" = the id). The first key
+        /// that has text wins; otherwise the id is shown as it is.
+        /// </summary>
+        private static readonly Dictionary<string, string[]> SubjectNames = new Dictionary<string, string[]>
+        {
+            [RuleTextKeys.CondRelationshipCount] = new[] { "relationship.type.{0}" },
+            [RuleTextKeys.CondRelationshipValue] = new[] { "relationship.type.{0}" },
+            [RuleTextKeys.CondReputation] = new[] { "reputation.{0}.name" },
+            [RuleTextKeys.CondHealthCondition] = new[] { "condition.{0}.name" },
+            [RuleTextKeys.EffectHealthConditionAdd] = new[] { "condition.{0}.name" },
+            [RuleTextKeys.EffectHealthConditionRemove] = new[] { "condition.{0}.name" },
+            [Astrology.FortuneCondition.TextKey] = new[] { "fortune.area.{0}" },
+            [RuleTextKeys.CondCareerCategory] = new[] { "career.category.{0}" },
+            [RuleTextKeys.CondCareerTrack] = new[] { "career.{0}.name" },
+            [RuleTextKeys.CondTotalDebtKind] = new[] { "debt.kind.{0}" },
+            [KarmaTextKeys.CondKarma] = new[] { "karma.{0}" },
+            [RuleTextKeys.CondScam] = new[] { "scam.measure.{0}" },
+            [RuleTextKeys.CondVice] = new[] { "vice.{0}.name" },
+            [Domain.World.LocationCondition.TextKey] = new[] { "city.{0}.name", "country.{0}.name" },
+        };
+
         private readonly ILocalizer _localizer;
         private readonly MoneyFormatter _money;
         private readonly Func<decimal, decimal> _toNominal;
@@ -64,6 +86,10 @@ namespace BetterLife.Core.ViewModels
             {
                 args[pair.Key] = pair.Key.EndsWith(KeySuffix, StringComparison.Ordinal) ? _localizer.Get(pair.Value) : pair.Value;
             }
+            if (args.TryGetValue(RuleTextKeys.ArgSubject, out string subject) && subject != null && SubjectNames.TryGetValue(text.Key, out string[] patterns))
+            {
+                args[RuleTextKeys.ArgSubject] = SubjectName(subject, patterns);
+            }
 
             bool money = MoneyKeys.Contains(text.Key);
             bool signed = SignedKeys.Contains(text.Key);
@@ -86,6 +112,20 @@ namespace BetterLife.Core.ViewModels
         public IReadOnlyList<string> FormatAll(IEnumerable<RuleText> texts)
         {
             return texts == null ? new string[0] : texts.Select(Format).ToList();
+        }
+
+        private string SubjectName(string id, string[] patterns)
+        {
+            foreach (string pattern in patterns)
+            {
+                string key = string.Format(CultureInfo.InvariantCulture, pattern, id);
+                string name = _localizer.Get(key);
+                if (name != key)
+                {
+                    return name;
+                }
+            }
+            return id;
         }
 
         private string Amount(string raw, bool money, bool signed)

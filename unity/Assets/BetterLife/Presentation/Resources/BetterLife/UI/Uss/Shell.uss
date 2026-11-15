@@ -2,6 +2,8 @@
 .shell {
     flex-grow: 1;
     background-color: var(--color-bg);
+    /* Thai + Latin font (Sarabun, SIL OFL 1.1); inherited by every element of the shell. */
+    -unity-font: url("../Fonts/Sarabun-Regular.ttf");
 }
 
 .shell__safe-area {

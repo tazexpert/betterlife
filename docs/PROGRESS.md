@@ -1,8 +1,8 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅
-**ถัดไป:** 20 Localization TH/EN + Settings (ลำดับที่ตกลง: 20 → 21 → 22 → 19 → 23)
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅ · **20 Localization + Settings** ✅
+**ถัดไป:** 21 Balancing Simulator (ลำดับที่ตกลง: 21 → 22 → 19 → 23)
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
@@ -36,7 +36,7 @@
 | 17b | Player Actions (เพิ่มตามคำขอผู้ใช้) | จัดเวลา 168 ชม., เรียน/งาน, ลงทุน/กู้เงิน, เลิกอบายมุข (`docs/systems/player-actions.md`) | ✅ |
 | 18 | Legacy + Life Summary + Achievements | มรดก/ทายาท, Family Tree, คำไว้อาลัย, Achievement ข้ามชีวิต (`docs/systems/legacy.md`) | ✅ |
 | 19 | Ads + IAP | Fake ก่อน → SDK จริง | ⬜ |
-| 20 | Localization TH/EN + Settings | | ⬜ |
+| 20 | Localization TH/EN + Settings | ฟอนต์ไทย Sarabun, สลับภาษา, ข้อความครบทั้งเกม, หน้า Settings (`docs/systems/localization-settings.md`) | ✅ |
 | 21 | Balancing Simulator | รัน 10,000 ชีวิต แล้วออกรายงาน | ⬜ |
 | 22 | Content Batch | เขียนเหตุการณ์เป็นชุดละ 30–50 อัน | ⬜ |
 | 23 | Build Checklist Android/iOS | | ⬜ |
@@ -69,3 +69,4 @@
 - 2026-11-15 — 17 หน้าจอย่อยเสร็จ: แท็บ Money (ภาพรวม เศรษฐกิจ เงินลงทุน หนี้ รายงานเดือน เลือกระดับชีวิต รายการถูกหลอก + แจ้งความ), แท็บ People (จัดกลุ่ม → หน้าคน: ความสนิท ความเข้ากันได้ ความทรงจำ Interaction), แท็บ More → ดวงชะตา (ดวงกำเนิด ดวง 5 ด้านพร้อมส่วนประกอบ กรรม) และไทม์ไลน์ชีวิต (สร้างจากข้อมูลในเซฟ), `DecisionService` เพิ่ม Interact/ReportScam/ChooseLifestyle (Checkpoint ทุกครั้ง), ข้อความ en/th เพิ่ม 251 key + Test ด้วย reflection ว่าทุก key ของ ViewModel มีข้อความ; ซื้อขาย/กู้เงิน/แท็บ Life/Work ยังเป็น Placeholder (เสนอข้อ 17b); `dotnet test` ผ่าน 632 + 25 tests
 - 2026-11-15 — 17b Player Actions (ผู้ใช้ขอเพิ่ม) เสร็จ: แท็บ Life (จัดเวลา 168 ชม. ด้วยปุ่ม −5/−1/+1/+5 พร้อมผลต่อ stat/ทักษะ/ค่าใช้จ่ายต่อสัปดาห์และปัญหาของแผน ชั่วโมงเรียน/งานล็อก + วิธีเลิกอบายมุข), แท็บ Work (สถานะการเรียน/งาน, สมัครเรียนพร้อมโอกาสสอบติด/ค่าเทอม/ผู้จ่าย, สมัครงานพร้อมโอกาส/เงินเดือน, ลาออก), หน้าลงทุนและกู้เงิน (ซื้อตามสัดส่วนเงินสด, ขายครึ่ง/ทั้งหมด, สินเชื่อ + บัตรเครดิต, ชำระ/ปิดหนี้), `DecisionService` เพิ่ม 11 การกระทำ (Checkpoint ทุกครั้ง ยกเว้นปรับชั่วโมง); ข้อความ en/th เพิ่ม 185 key; `dotnet test` ผ่าน 638 + 26 tests
 - 2026-11-15 — 18 Legacy + Life Summary + Achievements เสร็จ: เล่นต่อเป็นลูกที่ยังมีชีวิต (ชื่อ/ยีน/นิสัยจาก NPC, พ่อแม่+พี่น้อง, วุฒิภาคบังคับตามอายุ, เริ่ม ณ วันที่พ่อแม่เสียในเศรษฐกิจเดิม), มรดก = เงินสด+สินทรัพย์−หนี้ (ไม่รับหนี้เกินมรดก) ภาษี 5% ส่วนเกิน 100 ล้าน แบ่งเท่ากัน + ชื่อเสียง 30% + กรรม 20% + Flag ที่ตกทอด, Family Tree (`Lineage` ในเซฟ + `Character.Generation`), Life Summary + คำไว้อาลัยจากข้อมูลจริง + คัดลอกเพื่อแชร์, Achievement 15 รายการ (content ใหม่ + condition `generation`) เก็บในโปรไฟล์ข้ามชีวิต แจ้งใน Inbox, content ใหม่ 2 ชนิด; `dotnet test` ผ่าน 644 + 28 tests
+- 2026-11-15 — 20 Localization TH/EN + Settings เสร็จ: ฟอนต์ Sarabun (OFL) ใน Resources + `-unity-font` ที่ `.shell`, ภาษาเริ่มต้นตามเครื่อง (ไทย → th) จำค่าใน `profile_settings`, สลับภาษาแล้วสร้าง UI ใหม่ทั้งชุด, หน้า Settings (ภาษา, เปิด/ปิดเนื้อหาอบายมุข, Undo ที่เหลือ, ล้าง Achievement ยืนยัน 2 ขั้น, เวอร์ชัน), แปลเงื่อนไข `rule.cond.*` + ชื่อของ id ดิบ → ตัวเลือกที่ล็อกบอกเงื่อนไขที่ขาด, ข้อความ en/th ครบ 924 key + Test สแกนทุก `*Key` ใน content และ key ในโค้ด; `dotnet test` ผ่าน 651 + 31 tests (การวางสระ/วรรณยุกต์ไทยต้องตรวจใน Unity)

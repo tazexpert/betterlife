@@ -32,6 +32,9 @@ namespace BetterLife.Core.Vices
         /// <summary>Comparison.</summary>
         public ComparisonOperator Operator { get; }
 
+        /// <summary>Localization key prefix of the measure name (<c>vice.measure.addiction</c>...).</summary>
+        public const string MeasureKeyPrefix = "vice.measure.";
+
         /// <summary>Value to compare with.</summary>
         public float Value { get; }
 
@@ -65,7 +68,7 @@ namespace BetterLife.Core.Vices
         /// <inheritdoc />
         public ConditionTrace Explain(RuleContext context)
         {
-            RuleText text = RuleText.Of(RuleTextKeys.CondVice, (RuleTextKeys.ArgSubject, ViceId), (RuleTextKeys.ArgSubjectKey, ViceConditionConverter.NameOf(Measure)),
+            RuleText text = RuleText.Of(RuleTextKeys.CondVice, (RuleTextKeys.ArgSubject, ViceId), (RuleTextKeys.ArgSubjectKey, MeasureKeyPrefix + ViceConditionConverter.NameOf(Measure).ToLowerInvariant()),
                 (RuleTextKeys.ArgOp, Comparison.ToSymbol(Operator)), (RuleTextKeys.ArgValue, RuleText.Number(Value)));
             return new ConditionTrace(Evaluate(context), text, false);
         }
