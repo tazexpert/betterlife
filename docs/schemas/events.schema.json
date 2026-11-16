@@ -98,7 +98,8 @@
           "enum": [
             "random",
             "scheduled",
-            "karmic_debt"
+            "karmic_debt",
+            "milestone"
           ]
         },
         "severity": {
@@ -191,6 +192,50 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/choice"
+          }
+        },
+        "milestone": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minAge",
+            "maxAge",
+            "chance"
+          ],
+          "description": "Chance (0-100) that this milestone happens once while the age is within minAge..maxAge; modifiers add percentage points while their condition holds.",
+          "properties": {
+            "minAge": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "maxAge": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "chance": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "modifiers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "condition",
+                  "add"
+                ],
+                "properties": {
+                  "condition": {
+                    "$ref": "rules.schema.json#/$defs/condition"
+                  },
+                  "add": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
           }
         }
       },

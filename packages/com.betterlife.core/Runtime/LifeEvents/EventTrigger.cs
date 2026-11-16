@@ -11,5 +11,8 @@ namespace BetterLife.Core.LifeEvents
         Scheduled = 1,
         /// <summary>Drawn when a karmic debt comes due.</summary>
         KarmicDebt = 2,
+
+        /// <summary>A life milestone with its own chance within an age range (once per life).</summary>
+        Milestone = 3,
     }
 }

@@ -21,6 +21,7 @@ namespace BetterLife.Core.Content.Loaders
         private static readonly Dictionary<string, EventTrigger> Triggers = new Dictionary<string, EventTrigger>
         {
             { "random", EventTrigger.Random },
+            { "milestone", EventTrigger.Milestone },
             { "scheduled", EventTrigger.Scheduled },
             { "karmic_debt", EventTrigger.KarmicDebt },
         };
@@ -72,7 +73,7 @@ namespace BetterLife.Core.Content.Loaders
         protected override LifeEventDefinition ReadItem(JObject item, RuleReadContext context, ContentLoadContext content)
         {
             RuleJson.RequireOnly(item, context, "id", "titleKey", "bodyKey", "category", "trigger", "severity", "tone", "storyline",
-                "condition", "weight", "cooldownWeeks", "maxOccurrences", "debtAmount", "onFire", "defaultChoice", "choices");
+                "condition", "weight", "cooldownWeeks", "maxOccurrences", "debtAmount", "onFire", "defaultChoice", "choices", "milestone");
             RuleRegistry rules = content.Rules;
             var (choices, choicesContext) = RuleJson.RequireArrayProperty(item, "choices", context);
             return new LifeEventDefinition(
@@ -91,7 +92,40 @@ namespace BetterLife.Core.Content.Loaders
                 item["debtAmount"] == null ? (FloatRange?)null : RuleJson.RequireFloatRange(item, "debtAmount", context),
                 item["onFire"] == null ? EffectSequence.Empty : rules.ParseEffects(item["onFire"], context.Property("onFire")),
                 choices.Select((token, i) => ReadChoice(token, choicesContext.Index(i), rules)).ToList(),
-                RuleJson.OptionalId(item, "defaultChoice", context));
+                RuleJson.OptionalId(item, "defaultChoice", context),
+                item["milestone"] == null ? null : ReadMilestone(item, context, rules));
+        }
+
+        private static MilestoneChance ReadMilestone(JObject item, RuleReadContext context, RuleRegistry rules)
+        {
+            var (token, milestoneContext) = RuleJson.RequireProperty(item, "milestone", context);
+            JObject milestone = RuleJson.RequireObject(token, milestoneContext);
+            RuleJson.RequireOnly(milestone, milestoneContext, "minAge", "maxAge", "chance", "modifiers");
+            var modifiers = new List<MilestoneModifier>();
+            if (milestone["modifiers"] != null)
+            {
+                var (array, arrayContext) = RuleJson.RequireArrayProperty(milestone, "modifiers", milestoneContext);
+                for (int i = 0; i < array.Count; i++)
+                {
+                    RuleReadContext modifierContext = arrayContext.Index(i);
+                    JObject modifier = RuleJson.RequireObject(array[i], modifierContext);
+                    RuleJson.RequireOnly(modifier, modifierContext, "condition", "add");
+                    var (conditionToken, conditionContext) = RuleJson.RequireProperty(modifier, "condition", modifierContext);
+                    modifiers.Add(new MilestoneModifier(rules.ParseCondition(conditionToken, conditionContext), RuleJson.RequireFloat(modifier, "add", modifierContext)));
+                }
+            }
+            int minAge = RuleJson.RequireInt(milestone, "minAge", milestoneContext);
+            int maxAge = RuleJson.RequireInt(milestone, "maxAge", milestoneContext);
+            float chance = RuleJson.RequireFloat(milestone, "chance", milestoneContext);
+            if (minAge < 0 || maxAge < minAge)
+            {
+                throw milestoneContext.Property("maxAge").Error("must be at least minAge, and ages non-negative.");
+            }
+            if (!(chance >= 0f) || chance > MilestoneChance.MaxPercent)
+            {
+                throw milestoneContext.Property("chance").Error("must be within 0-100.");
+            }
+            return new MilestoneChance(minAge, maxAge, chance, modifiers);
         }
 
         private static EventWeight ReadWeight(JObject item, RuleReadContext context, RuleRegistry rules)

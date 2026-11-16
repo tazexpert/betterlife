@@ -11,6 +11,9 @@ namespace BetterLife.Core.LifeEvents
     /// </summary>
     public sealed class LifeEventDefinition : IDefinition
     {
+        /// <summary>Chance within an age range (milestone events), or null.</summary>
+        public MilestoneChance Milestone { get; }
+
         /// <summary>
         /// Creates an event.
         /// </summary>
@@ -30,6 +33,7 @@ namespace BetterLife.Core.LifeEvents
         /// <param name="onFire">Effects applied when it occurs.</param>
         /// <param name="choices">Options; empty for an announcement.</param>
         /// <param name="defaultChoiceId">Choice used when the player does not respond; required when there are choices.</param>
+        /// <param name="milestone">Chance within an age range (milestone events only).</param>
         public LifeEventDefinition(
             string id,
             string titleKey,
@@ -46,8 +50,14 @@ namespace BetterLife.Core.LifeEvents
             FloatRange? debtAmount,
             EffectSequence onFire,
             IEnumerable<EventChoice> choices,
-            string defaultChoiceId)
+            string defaultChoiceId,
+            MilestoneChance milestone = null)
         {
+            if ((trigger == EventTrigger.Milestone) != (milestone != null))
+            {
+                throw new ArgumentException("Milestone events, and only they, need a milestone chance.", nameof(milestone));
+            }
+            Milestone = milestone;
             if (cooldownWeeks < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(cooldownWeeks), cooldownWeeks, "Cooldown must be non-negative.");

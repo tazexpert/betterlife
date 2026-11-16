@@ -27,6 +27,7 @@ namespace BetterLife.Core.LifeEvents
         private readonly LuckCalculator _luck;
         private readonly IRandomProvider _rollRandom;
         private readonly IRandomProvider _choiceRandom;
+        private readonly IRandomProvider _milestoneRandom;
         private readonly IEventBus _bus;
         private readonly GameClock _clock;
         private readonly List<KarmicDebt> _dueDebts = new List<KarmicDebt>();
@@ -43,9 +44,11 @@ namespace BetterLife.Core.LifeEvents
         /// <param name="choiceRandom">Stream for chance rolls and effect ranges.</param>
         /// <param name="bus">Event bus.</param>
         /// <param name="clock">Game clock (the current week for answers).</param>
+        /// <param name="milestoneRandom">Stream for life milestones; null uses the draw stream.</param>
         public EventSystem(DefinitionCatalog<LifeEventDefinition> events, EventSettings settings, EventState state, LuckCalculator luck,
-            IRandomProvider rollRandom, IRandomProvider choiceRandom, IEventBus bus, GameClock clock)
+            IRandomProvider rollRandom, IRandomProvider choiceRandom, IEventBus bus, GameClock clock, IRandomProvider milestoneRandom = null)
         {
+            _milestoneRandom = milestoneRandom ?? rollRandom;
             _events = events ?? throw new ArgumentNullException(nameof(events));
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             State = state ?? throw new ArgumentNullException(nameof(state));
@@ -107,6 +110,8 @@ namespace BetterLife.Core.LifeEvents
                 }
             }
             _dueDebts.Clear();
+
+            RollMilestones(context, tick);
 
             if (_rollRandom.Chance(_settings.WeeklyEventChance))
             {
@@ -285,6 +290,29 @@ namespace BetterLife.Core.LifeEvents
                 streak++;
             }
             return streak >= settings.StreakThreshold;
+        }
+
+        /// <summary>
+        /// Rolls every life milestone whose age range covers the character this week (each happens at most once).
+        /// </summary>
+        private void RollMilestones(RuleContext context, TickContext tick)
+        {
+            int age = context.Character.AgeAt(context.Now);
+            bool canDecide = age >= _settings.MinDecisionAge;
+            foreach (LifeEventDefinition definition in _events.All)
+            {
+                MilestoneChance milestone = definition.Milestone;
+                if (milestone == null || !milestone.Covers(age) || State.FindRecord(definition.Id) != null
+                    || (definition.HasChoices && !canDecide) || !definition.IsEligible(context))
+                {
+                    continue;
+                }
+                float weekly = MilestoneChance.WeeklyChance(milestone.PercentNow(context), milestone.RangeWeeks);
+                if (weekly > 0f && _milestoneRandom.Chance(weekly))
+                {
+                    Fire(definition, EventOrigin.Random, tick);
+                }
+            }
         }
 
         private bool UnderLimit(LifeEventDefinition definition)

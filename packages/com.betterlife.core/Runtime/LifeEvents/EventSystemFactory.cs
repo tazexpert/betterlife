@@ -19,6 +19,9 @@ namespace BetterLife.Core.LifeEvents
         /// <summary>Random stream used for chance rolls and effect ranges.</summary>
         public const string ChoiceStream = "events.choice";
 
+        /// <summary>Random stream name for life milestones.</summary>
+        public const string MilestoneStream = "events.milestone";
+
         /// <summary>
         /// Creates the event system.
         /// </summary>
@@ -47,7 +50,8 @@ namespace BetterLife.Core.LifeEvents
                 random.GetStream(RollStream),
                 random.GetStream(ChoiceStream),
                 bus,
-                clock);
+                clock,
+                random.GetStream(MilestoneStream));
         }
     }
 }

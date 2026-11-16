@@ -90,6 +90,216 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": "eulogy.vice.quit_success"
+    },
+    {
+      "id": "life.teen.elite_school",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.bullied",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.talent",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.provincial_rep",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.puberty",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.skipped_class",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.own_phone",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.introvert",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.first_love",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.gaming_habit",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.family_conflict",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.national_award",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.first_heartbreak",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.glow_up",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.failing_grades",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.chosen_track",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.study_crowd",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.party_crowd",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.serious_love",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.first_job",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.portfolio",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.accident",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.life_goal",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.license",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.early_investor",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.ride_or_die",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.night_out",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.hospitalized",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.school_change",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.teen.school_breakup",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
     }
   ]
 }

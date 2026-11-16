@@ -1,0 +1,1289 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "teen.elite_school",
+      "titleKey": "event.teen.elite_school.title",
+      "bodyKey": "event.teen.elite_school.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.elite_school"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.bullied",
+      "titleKey": "event.teen.bullied.title",
+      "bodyKey": "event.teen.bullied.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 15
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.bullied"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.talent",
+      "titleKey": "event.teen.talent.title",
+      "bodyKey": "event.teen.talent.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.elite_school"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.talent"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.provincial_rep",
+      "titleKey": "event.teen.provincial_rep.title",
+      "bodyKey": "event.teen.provincial_rep.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.bullied"
+            },
+            "add": -10
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.provincial_rep"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.puberty",
+      "titleKey": "event.teen.puberty.title",
+      "bodyKey": "event.teen.puberty.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 45
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.puberty"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.skipped_class",
+      "titleKey": "event.teen.skipped_class.title",
+      "bodyKey": "event.teen.skipped_class.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "negative",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.skipped_class"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 3
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.own_phone",
+      "titleKey": "event.teen.own_phone.title",
+      "bodyKey": "event.teen.own_phone.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 50
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.own_phone"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.introvert",
+      "titleKey": "event.teen.introvert.title",
+      "bodyKey": "event.teen.introvert.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.bullied"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_heartbreak"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.introvert"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 10
+        },
+        {
+          "type": "trait.add",
+          "trait": "introvert"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.first_love",
+      "titleKey": "event.teen.first_love.title",
+      "bodyKey": "event.teen.first_love.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 40,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.puberty"
+            },
+            "add": -15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.introvert"
+            },
+            "add": -20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.first_love"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.gaming_habit",
+      "titleKey": "event.teen.gaming_habit.title",
+      "bodyKey": "event.teen.gaming_habit.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.own_phone"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.gaming_habit"
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "binge_entertainment",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.family_conflict",
+      "titleKey": "event.teen.family_conflict.title",
+      "bodyKey": "event.teen.family_conflict.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.skipped_class"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.family_conflict"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -5
+        },
+        {
+          "type": "relationship",
+          "relation": "parent",
+          "amount": -6,
+          "target": "all"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.national_award",
+      "titleKey": "event.teen.national_award.title",
+      "bodyKey": "event.teen.national_award.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.provincial_rep"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.national_award"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 20
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.first_heartbreak",
+      "titleKey": "event.teen.first_heartbreak.title",
+      "bodyKey": "event.teen.first_heartbreak.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "flag",
+            "flag": "life.teen.first_love"
+          },
+          {
+            "type": "flag",
+            "flag": "life.teen.serious_love"
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_love"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.first_heartbreak"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -12
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.glow_up",
+      "titleKey": "event.teen.glow_up.title",
+      "bodyKey": "event.teen.glow_up.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.puberty"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_heartbreak"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.glow_up"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.looks",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.failing_grades",
+      "titleKey": "event.teen.failing_grades.title",
+      "bodyKey": "event.teen.failing_grades.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.gaming_habit"
+            },
+            "add": -15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.failing_grades"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.chosen_track",
+      "titleKey": "event.teen.chosen_track.title",
+      "bodyKey": "event.teen.chosen_track.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 40,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.elite_school"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.national_award"
+            },
+            "add": 40
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.failing_grades"
+            },
+            "add": -20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.chosen_track"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.study_crowd",
+      "titleKey": "event.teen.study_crowd.title",
+      "bodyKey": "event.teen.study_crowd.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.study_crowd"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        },
+        {
+          "type": "meet",
+          "relation": "friend",
+          "chance": 0.5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.party_crowd",
+      "titleKey": "event.teen.party_crowd.title",
+      "bodyKey": "event.teen.party_crowd.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 30
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.party_crowd"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -3
+        },
+        {
+          "type": "meet",
+          "relation": "friend",
+          "chance": 0.5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.serious_love",
+      "titleKey": "event.teen.serious_love.title",
+      "bodyKey": "event.teen.serious_love.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_love"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.glow_up"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.serious_love"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 12
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.first_job",
+      "titleKey": "event.teen.first_job.title",
+      "bodyKey": "event.teen.first_job.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.family_conflict"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.first_job"
+        },
+        {
+          "type": "cash",
+          "amount": 3000
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.portfolio",
+      "titleKey": "event.teen.portfolio.title",
+      "bodyKey": "event.teen.portfolio.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.talent"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.portfolio"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.accident",
+      "titleKey": "event.teen.accident.title",
+      "bodyKey": "event.teen.accident.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 10
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.accident"
+        },
+        {
+          "type": "healthCondition.add",
+          "condition": "broken_arm",
+          "severity": 50
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.life_goal",
+      "titleKey": "event.teen.life_goal.title",
+      "bodyKey": "event.teen.life_goal.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.talent"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.life_goal"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.license",
+      "titleKey": "event.teen.license.title",
+      "bodyKey": "event.teen.license.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_job"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.license"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.early_investor",
+      "titleKey": "event.teen.early_investor.title",
+      "bodyKey": "event.teen.early_investor.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.own_phone"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.gaming_habit"
+            },
+            "add": 10
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.early_investor"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.ride_or_die",
+      "titleKey": "event.teen.ride_or_die.title",
+      "bodyKey": "event.teen.ride_or_die.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 40,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.party_crowd"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.ride_or_die"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 8
+        },
+        {
+          "type": "meet",
+          "relation": "friend",
+          "chance": 1
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.night_out",
+      "titleKey": "event.teen.night_out.title",
+      "bodyKey": "event.teen.night_out.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.skipped_class"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.study_crowd"
+            },
+            "add": -15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.license"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.night_out"
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "drinking",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.hospitalized",
+      "titleKey": "event.teen.hospitalized.title",
+      "bodyKey": "event.teen.hospitalized.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.accident"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.hospitalized"
+        },
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.school_change",
+      "titleKey": "event.teen.school_change.title",
+      "bodyKey": "event.teen.school_change.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.family_conflict"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.failing_grades"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.school_change"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "teen.school_breakup",
+      "titleKey": "event.teen.school_breakup.title",
+      "bodyKey": "event.teen.school_breakup.body",
+      "category": "teen",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "flag",
+        "flag": "life.teen.serious_love"
+      },
+      "milestone": {
+        "minAge": 13,
+        "maxAge": 18,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.serious_love"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.teen.school_breakup"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    }
+  ]
+}
