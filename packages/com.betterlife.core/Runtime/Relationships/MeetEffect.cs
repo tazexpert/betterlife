@@ -23,7 +23,7 @@ namespace BetterLife.Core.Relationships
         /// <summary>
         /// Creates the effect.
         /// </summary>
-        /// <param name="type">Kind of relationship to start (friend, colleague or contact).</param>
+        /// <param name="type">Kind of relationship to start (friend, colleague, contact or partner).</param>
         /// <param name="chance">Chance 0..1.</param>
         public MeetEffect(RelationshipType type, float chance)
         {

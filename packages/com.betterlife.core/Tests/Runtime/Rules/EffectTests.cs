@@ -1,6 +1,7 @@
 using System.Linq;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Rules;
+using BetterLife.Core.Rules.Effects;
 using NUnit.Framework;
 
 namespace BetterLife.Core.Tests.Rules
@@ -73,6 +74,24 @@ namespace BetterLife.Core.Tests.Rules
 
             Assert.That(_f.Character.Wallet.Cash, Is.EqualTo(0m));
             Assert.That(result.CashShortfall, Is.EqualTo(100m));
+        }
+
+        [Test]
+        public void CashShare_TakesAShareOfCash_AndNeverCreatesDebt()
+        {
+            _f.Character.Wallet.Deposit(10000m);
+            EffectSequence effects = _f.Effects("[{'type':'cash.share','share':0.2}]");
+
+            EffectResult first = effects.Apply(_f.Context);
+            Assert.That(_f.Character.Wallet.Cash, Is.EqualTo(8000m));
+            Assert.That(first.Lines.Single().Key, Is.EqualTo(RuleTextKeys.EffectCashPay));
+            Assert.That(effects.Preview(_f.Context).Single().Key, Is.EqualTo(CashShareEffect.PreviewKey));
+
+            _f.Character.Wallet.WithdrawUpTo(_f.Character.Wallet.Cash);
+            EffectResult broke = effects.Apply(_f.Context);
+            Assert.That(broke.Lines, Is.Empty);
+            Assert.That(broke.CashShortfall, Is.EqualTo(0m), "losing savings never turns into debt");
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => new CashShareEffect(1.5m));
         }
 
         [Test]

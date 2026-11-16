@@ -40,6 +40,7 @@ namespace BetterLife.Core.Tests.Rules
         private const string AllEffects = @"[
             {'type':'stat','stat':'mental.stress','amount':{'min':3,'max':8},'source':'source.work'},
             {'type':'cash','amount':-5000.5},
+            {'type':'cash.share','share':0.2},
             {'type':'flag.set','flag':'relationship.recent_breakup','expiryWeeks':26},
             {'type':'flag.clear','flag':'career.fired_once'},
             {'type':'flag.increment','flag':'vice.gambling_wins','amount':2},

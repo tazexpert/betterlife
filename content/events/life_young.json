@@ -1,0 +1,1161 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "young.top_university",
+      "titleKey": "event.young.top_university.title",
+      "bodyKey": "event.young.top_university.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "education",
+        "enrolledIn": "bachelor"
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.elite_school"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.national_award"
+            },
+            "add": 40
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.chosen_track"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.study_crowd"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.portfolio"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.life_goal"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.top_university"
+        },
+        {
+          "type": "education.performance",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 8
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.campus_star",
+      "titleKey": "event.young.campus_star.title",
+      "bodyKey": "event.young.campus_star.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.school_icon"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.provincial_rep"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.campus_star"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.charisma",
+          "amount": 4
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.peak_looks",
+      "titleKey": "event.young.peak_looks.title",
+      "bodyKey": "event.young.peak_looks.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.glow_up"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.campus_star"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.peak_looks"
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.looks",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.own_place",
+      "titleKey": "event.young.own_place.title",
+      "bodyKey": "event.young.own_place.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 50,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.school_breakup"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.own_place"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.first_car",
+      "titleKey": "event.young.first_car.title",
+      "bodyKey": "event.young.first_car.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.license"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_car"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.party_life",
+      "titleKey": "event.young.party_life.title",
+      "bodyKey": "event.young.party_life.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.party_crowd"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.night_out"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.own_place"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.party_life"
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "nightlife",
+          "amount": 8
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "drinking",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.exchange_abroad",
+      "titleKey": "event.young.exchange_abroad.title",
+      "bodyKey": "event.young.exchange_abroad.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "education",
+        "enrolledIn": "bachelor"
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.bilingual"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.exchange_abroad"
+        },
+        {
+          "type": "skill.practice",
+          "skill": "english",
+          "gain": 20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.campus_love",
+      "titleKey": "event.young.campus_love.title",
+      "bodyKey": "event.young.campus_love.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.serious_love"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.school_breakup"
+            },
+            "add": -20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.peak_looks"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.campus_love"
+        },
+        {
+          "type": "meet",
+          "relation": "partner",
+          "chance": 1
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.switched_major",
+      "titleKey": "event.young.switched_major.title",
+      "bodyKey": "event.young.switched_major.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "education",
+        "enrolledIn": "bachelor"
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.school_change"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.switched_major"
+        },
+        {
+          "type": "education.performance",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.online_shop",
+      "titleKey": "event.young.online_shop.title",
+      "bodyKey": "event.young.online_shop.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_job"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.online_shop"
+        },
+        {
+          "type": "cash",
+          "amount": {
+            "min": 2000,
+            "max": 10000
+          }
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 4
+        },
+        {
+          "type": "reputation",
+          "domain": "online",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.risky_investment",
+      "titleKey": "event.young.risky_investment.title",
+      "bodyKey": "event.young.risky_investment.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.early_investor"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.risky_investment"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.drunk_crash",
+      "titleKey": "event.young.drunk_crash.title",
+      "bodyKey": "event.young.drunk_crash.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.night_out"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.own_place"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.first_car"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.drunk_crash"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.2
+        },
+        {
+          "type": "healthCondition.add",
+          "condition": "broken_arm",
+          "severity": 60
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.friend_betrayal",
+      "titleKey": "event.young.friend_betrayal.title",
+      "bodyKey": "event.young.friend_betrayal.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.ride_or_die"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.friend_betrayal"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.15
+        },
+        {
+          "type": "relationship",
+          "relation": "friend",
+          "amount": -15,
+          "target": "all"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.street_smarts",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.lone_wolf",
+      "titleKey": "event.young.lone_wolf.title",
+      "bodyKey": "event.young.lone_wolf.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.introvert"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.friend_betrayal"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.lone_wolf"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.late_graduation",
+      "titleKey": "event.young.late_graduation.title",
+      "bodyKey": "event.young.late_graduation.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "education",
+        "enrolledIn": "bachelor"
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.school_change"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.party_life"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.late_graduation"
+        },
+        {
+          "type": "education.performance",
+          "amount": -8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.top_employer",
+      "titleKey": "event.young.top_employer.title",
+      "bodyKey": "event.young.top_employer.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "career",
+            "category": "corporate"
+          },
+          {
+            "type": "career",
+            "category": "government"
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.gifted_class"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.chosen_track"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.life_goal"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.top_university"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.exchange_abroad"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.switched_major"
+            },
+            "add": -15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.late_graduation"
+            },
+            "add": -20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.top_employer"
+        },
+        {
+          "type": "career.performance",
+          "amount": 5
+        },
+        {
+          "type": "career.boss",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "reputation",
+          "domain": "workplace",
+          "amount": 8
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.specialist",
+      "titleKey": "event.young.specialist.title",
+      "bodyKey": "event.young.specialist.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.first_game"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.talent"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.national_award"
+            },
+            "add": 40
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.portfolio"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.top_university"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.lone_wolf"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.specialist"
+        },
+        {
+          "type": "career.performance",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        },
+        {
+          "type": "reputation",
+          "domain": "workplace",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.work_hard_play_hard",
+      "titleKey": "event.young.work_hard_play_hard.title",
+      "bodyKey": "event.young.work_hard_play_hard.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.campus_star"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.work_hard_play_hard"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 6
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "nightlife",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.first_credit_card",
+      "titleKey": "event.young.first_credit_card.title",
+      "bodyKey": "event.young.first_credit_card.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "condition": {
+        "type": "age",
+        "op": ">=",
+        "value": 20
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 60
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_credit_card"
+        },
+        {
+          "type": "stat",
+          "stat": "wealth.credit_score",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "young.side_hustle",
+      "titleKey": "event.young.side_hustle.title",
+      "bodyKey": "event.young.side_hustle.body",
+      "category": "young",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 19,
+        "maxAge": 25,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.early_investor"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.online_shop"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.specialist"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.side_hustle"
+        },
+        {
+          "type": "cash",
+          "amount": {
+            "min": 5000,
+            "max": 20000
+          }
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 6
+        },
+        {
+          "type": "reputation",
+          "domain": "business",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    }
+  ]
+}

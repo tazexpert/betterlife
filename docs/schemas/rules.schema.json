@@ -855,6 +855,24 @@
           "additionalProperties": false,
           "required": [
             "type",
+            "share"
+          ],
+          "properties": {
+            "type": {
+              "const": "cash.share"
+            },
+            "share": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
             "flag"
           ],
           "properties": {
@@ -1332,7 +1350,8 @@
               "enum": [
                 "friend",
                 "colleague",
-                "contact"
+                "contact",
+                "partner"
               ]
             },
             "chance": {

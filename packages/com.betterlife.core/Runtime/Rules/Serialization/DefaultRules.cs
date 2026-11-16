@@ -44,6 +44,7 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new LifeStageConditionConverter())
                 .Register(new StatEffectConverter())
                 .Register(new CashEffectConverter())
+                .Register(new CashShareEffectConverter())
                 .Register(new SetFlagEffectConverter())
                 .Register(new ClearFlagEffectConverter())
                 .Register(new IncrementFlagEffectConverter())

@@ -182,6 +182,10 @@
       "path": "events/life_teen.json"
     },
     {
+      "type": "events",
+      "path": "events/life_young.json"
+    },
+    {
       "type": "legacy_settings",
       "path": "legacy_settings.json"
     },

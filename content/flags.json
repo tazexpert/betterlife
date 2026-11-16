@@ -440,6 +440,146 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": null
+    },
+    {
+      "id": "life.young.top_university",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.campus_star",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.peak_looks",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.own_place",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.first_car",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.party_life",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.exchange_abroad",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.campus_love",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.switched_major",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.online_shop",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.risky_investment",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.drunk_crash",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.friend_betrayal",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.lone_wolf",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.late_graduation",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.top_employer",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.specialist",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.work_hard_play_hard",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.first_credit_card",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.young.side_hustle",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
     }
   ]
 }

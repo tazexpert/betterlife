@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 namespace BetterLife.Core.Relationships
 {
     /// <summary>
-    /// Reads <c>{ "type": "meet", "relation": "friend", "chance": 0.15 }</c> (relation: friend, colleague or contact).
+    /// Reads <c>{ "type": "meet", "relation": "friend", "chance": 0.15 }</c> (relation: friend, colleague, contact or partner).
     /// </summary>
     public sealed class MeetEffectConverter : EffectConverter<MeetEffect>
     {
@@ -19,6 +19,7 @@ namespace BetterLife.Core.Relationships
             ["friend"] = RelationshipType.Friend,
             ["colleague"] = RelationshipType.Colleague,
             ["contact"] = RelationshipType.Contact,
+            ["partner"] = RelationshipType.Partner,
         };
 
         /// <inheritdoc />

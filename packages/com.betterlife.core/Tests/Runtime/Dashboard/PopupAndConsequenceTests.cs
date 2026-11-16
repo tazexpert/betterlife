@@ -99,6 +99,18 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void MeetingAPartner_StartsARelationship()
+        {
+            using (LifeSession life = NewLife(new InterruptPolicy()))
+            {
+                int partners = life.Character.Relationships.All.Count(r => r.Type == RelationshipType.Partner);
+                life.Bus.Publish(new MeetRequestedEvent(RelationshipType.Partner, life.TimeState.Clock.Now));
+
+                Assert.That(life.Character.Relationships.All.Count(r => r.Type == RelationshipType.Partner), Is.EqualTo(partners + 1));
+            }
+        }
+
+        [Test]
         public void Home_ShowsRelationshipStatusAndChildren()
         {
             ILocalizer keys = DashboardFixture.Keys();

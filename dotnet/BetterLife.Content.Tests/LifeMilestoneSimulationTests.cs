@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace BetterLife.Content.Tests
 {
     /// <summary>
-    /// Real content: lives played from birth meet the user's milestones (prequel ages 3-12 and chapter 1 ages 13-18)
+    /// Real content: lives played from birth meet the user's milestones (prequel ages 3-12, chapter 1 ages 13-18, chapter 2 ages 19-25)
     /// at about the chances the user set, raised by earlier milestones.
     /// </summary>
     [TestFixture]
@@ -39,7 +39,19 @@ namespace BetterLife.Content.Tests
             Assert.That(Rate(lives, "teen.national_award"), Is.LessThan(0.25f), "a 5% award stays rare even with boosts");
         }
 
-        private static List<HashSet<string>> Play(string category, int expected, int endAge, ulong seedBase, out List<LifeEventDefinition> events)
+        [Test]
+        public void YoungAdultMilestones_HappenAtAboutTheirChances()
+        {
+            List<HashSet<string>> lives = Play("young", 20, 26, 9100, out List<LifeEventDefinition> young, CareerSimulationTests.Decide);
+            Report(young, lives);
+            foreach (LifeEventDefinition e in young)
+            {
+                Assert.That(lives.Any(l => l.Contains(e.Id)), Is.True, e.Id + " never happens to students or workers");
+            }
+        }
+
+        private static List<HashSet<string>> Play(string category, int expected, int endAge, ulong seedBase, out List<LifeEventDefinition> events,
+            System.Action<LifeSession> decide = null)
         {
             IContentRepository content = DefaultContent.CreatePipeline(new FileSystemContentSource(RepoContent.ContentDir)).Load().RequireRepository();
             events = content.Get<DefinitionCatalog<LifeEventDefinition>>().All
@@ -54,7 +66,13 @@ namespace BetterLife.Content.Tests
                 {
                     while (!life.IsOver && life.Character.AgeAt(life.TimeState.Clock.Now) < endAge)
                     {
-                        life.Advance(TimeSkip.Year);
+                        if (decide == null)
+                        {
+                            life.Advance(TimeSkip.Year);
+                            continue;
+                        }
+                        decide(life);
+                        life.Advance(TimeSkip.Month);
                     }
                     if (!life.IsOver)
                     {
