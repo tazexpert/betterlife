@@ -54,6 +54,34 @@ namespace BetterLife.Core.Tests.Rules
         }
 
         [Test]
+        public void Retire_EndsTheJob_WithAPension()
+        {
+            var f = new SchoolWorkFixture(2030);
+            f.GiveJob("clerk");
+            EffectResult result = Apply(new RetireEffect(), f.Character, f.Clock.Now, f.Bus);
+
+            Assert.That(f.Character.Career.IsEmployed, Is.False);
+            Assert.That(f.Character.Career.History.Last().Reason, Is.EqualTo(JobEndReason.Retired));
+            Assert.That(f.Character.Career.PensionMonthly, Is.GreaterThan(0m));
+            Assert.That(result.Lines.Single().Key, Is.EqualTo(RetireEffect.RetiredKey));
+            Assert.That(Apply(new RetireEffect(), f.Character, f.Clock.Now, f.Bus).Lines, Is.Empty, "already retired");
+        }
+
+        [Test]
+        public void EndRelationship_TurnsTheSpouseIntoAnEx()
+        {
+            var f = new RelationshipFixture(family: false);
+            Relationship spouse = f.Add(RelationshipType.Spouse, 50f);
+
+            EffectResult result = Apply(new EndRelationshipEffect(RelationshipType.Spouse), f.Character, f.Clock.Now, f.Bus);
+
+            Assert.That(spouse.Type, Is.EqualTo(RelationshipType.Ex));
+            Assert.That(result.Lines.Single().Key, Is.EqualTo(EndRelationshipEffect.EndedKey));
+            Assert.That(Apply(new EndRelationshipEffect(RelationshipType.Spouse), f.Character, f.Clock.Now, f.Bus).Lines, Is.Empty);
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => new EndRelationshipEffect(RelationshipType.Friend));
+        }
+
+        [Test]
         public void Marry_TurnsTheClosestPartnerIntoTheSpouse()
         {
             var f = new RelationshipFixture(family: false);

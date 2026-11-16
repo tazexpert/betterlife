@@ -59,6 +59,8 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'career.fire'},
             {'type':'career.end','reason':'laid_off'},
             {'type':'career.promote'},
+            {'type':'career.retire'},
+            {'type':'relationship.end','relation':'spouse'},
             {'type':'relationship.marry'},
             {'type':'relationship.conceive'},
             {'type':'relationship.death','relation':'friend'},

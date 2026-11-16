@@ -67,7 +67,9 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new ConceiveEffectConverter())
                 .Register(new NpcDeathEffectConverter())
                 .Register(new EndCareerEffectConverter())
-                .Register(new PromoteEffectConverter());
+                .Register(new PromoteEffectConverter())
+                .Register(new RetireEffectConverter())
+                .Register(new EndRelationshipEffectConverter());
         }
     }
 }

@@ -153,6 +153,57 @@
       ],
       "recoveryChancePerWeek": 0.01,
       "annualMortality": 0
+    },
+    {
+      "id": "cancer",
+      "nameKey": "condition.cancer.name",
+      "descKey": "condition.cancer.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.disease_burden",
+          "amount": 1.0
+        },
+        {
+          "stat": "health.fatigue",
+          "amount": 1.0
+        }
+      ],
+      "recoveryChancePerWeek": null,
+      "annualMortality": 0.12
+    },
+    {
+      "id": "heart_disease",
+      "nameKey": "condition.heart_disease.name",
+      "descKey": "condition.heart_disease.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.disease_burden",
+          "amount": 0.8
+        },
+        {
+          "stat": "health.fatigue",
+          "amount": 0.6
+        }
+      ],
+      "recoveryChancePerWeek": null,
+      "annualMortality": 0.08
+    },
+    {
+      "id": "dementia",
+      "nameKey": "condition.dementia.name",
+      "descKey": "condition.dementia.desc",
+      "weeklyStats": [
+        {
+          "stat": "intelligence.knowledge",
+          "amount": -0.2
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 0.3
+        }
+      ],
+      "recoveryChancePerWeek": null,
+      "annualMortality": 0.06
     }
   ]
 }

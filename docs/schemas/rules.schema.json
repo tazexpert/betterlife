@@ -1444,6 +1444,37 @@
               ]
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.retire"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship.end"
+            },
+            "relation": {
+              "enum": [
+                "partner",
+                "spouse"
+              ]
+            }
+          }
         }
       ]
     },

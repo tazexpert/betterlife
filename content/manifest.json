@@ -191,6 +191,10 @@
     },
     {
       "type": "events",
+      "path": "events/life_old.json"
+    },
+    {
+      "type": "events",
       "path": "events/life_random.json"
     },
     {

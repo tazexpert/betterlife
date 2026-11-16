@@ -96,6 +96,7 @@ namespace BetterLife.Core.Careers
             _subscriptions.Add(_bus.Subscribe<LifeStageChangedEvent>(e => ReserveHours()));
             _subscriptions.Add(_bus.Subscribe<JobEndedEvent>(e => ReleaseHoursWhenUnemployed()));
             _subscriptions.Add(_bus.Subscribe<PromotionRequestedEvent>(e => PromoteNow(e.Week)));
+            _subscriptions.Add(_bus.Subscribe<RetirementRequestedEvent>(e => RetireNow(e.Week)));
         }
 
         /// <summary>Career tracks.</summary>
@@ -252,9 +253,7 @@ namespace BetterLife.Core.Careers
 
             if (_character.AgeAt(week) >= _settings.RetirementAge)
             {
-                decimal pension = Money.Round(track.Levels[job.LevelIndex].MonthlySalary * (decimal)track.PensionRate);
-                EndJob(JobEndReason.Retired, week);
-                _character.Career.Retire(pension);
+                Retire(job, track, week);
                 tick.RequestInterrupt(Severity.Normal, RetiredInterruptKey, track.Id);
                 return;
             }
@@ -317,6 +316,23 @@ namespace BetterLife.Core.Careers
                 subscription.Dispose();
             }
             _subscriptions.Clear();
+        }
+
+        private void Retire(Job job, CareerTrackDefinition track, GameDate week)
+        {
+            decimal pension = Money.Round(track.Levels[job.LevelIndex].MonthlySalary * (decimal)track.PensionRate);
+            EndJob(JobEndReason.Retired, week);
+            _character.Career.Retire(pension);
+        }
+
+        private void RetireNow(GameDate week)
+        {
+            Job job = _character.Career.Current;
+            if (job == null || !_character.IsAlive)
+            {
+                return;
+            }
+            Retire(job, _tracks.Get(job.TrackId), week);
         }
 
         private void PromoteNow(GameDate week)

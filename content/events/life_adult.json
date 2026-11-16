@@ -937,6 +937,14 @@
             "min": 208,
             "max": 260
           }
+        },
+        {
+          "type": "event.schedule",
+          "event": "old.child_graduates",
+          "delayWeeks": {
+            "min": 1144,
+            "max": 1250
+          }
         }
       ],
       "choices": []

@@ -68,6 +68,30 @@ namespace BetterLife.Content.Tests
             Assert.That(lives.Any(l => l.Contains("adult.child_school")), Is.True, "children start school");
         }
 
+        [Test]
+        public void OldAgeMilestones_HappenAndChangeRealState()
+        {
+            List<HashSet<string>> lives = Play("old", 23, 80, 13700, out List<LifeEventDefinition> old, DecideAndDate, 30, 0.3f);
+            Report(old, lives);
+            // The simulated player always finds a new partner, so the events that need a single character are not checked here.
+            var needsSingle = new HashSet<string> { "old.late_love", "old.chosen_solitude" };
+            foreach (LifeEventDefinition e in old.Where(e => !needsSingle.Contains(e.Id)))
+            {
+                Assert.That(lives.Any(l => l.Contains(e.Id)), Is.True, e.Id + " never happens");
+            }
+            Assert.That(lives.All(l => l.Contains("old.retirement")), Is.True, "everyone who reaches 60 meets retirement");
+            Assert.That(lives.Any(l => l.Contains("old.child_graduates")), Is.True, "the first child graduates about 22 years later");
+        }
+
+        [Test]
+        public void OldAgeMilestones_ForSingles_Happen()
+        {
+            List<HashSet<string>> lives = Play("old", 23, 80, 15100, out List<LifeEventDefinition> old, CareerSimulationTests.Decide, 30, 0.3f);
+            Assert.That(lives.Any(l => l.Contains("old.late_love")), Is.True, "singles can find love again");
+            Assert.That(lives.Any(l => l.Contains("old.chosen_solitude")), Is.True, "singles can choose to stay alone");
+            TestContext.WriteLine($"late love {Rate(lives, "old.late_love") * 100f:0}%, solitude {Rate(lives, "old.chosen_solitude") * 100f:0}%");
+        }
+
         /// <summary>
         /// The career player who also dates: meets a partner at 26 when single and chats with them every month
         /// (a real player tends the relationship; neglected partners leave).
@@ -89,7 +113,7 @@ namespace BetterLife.Content.Tests
         }
 
         private static List<HashSet<string>> Play(string category, int expected, int endAge, ulong seedBase, out List<LifeEventDefinition> events,
-            System.Action<LifeSession> decide = null, int lives = Lives)
+            System.Action<LifeSession> decide = null, int lives = Lives, float mustReach = 0.9f)
         {
             IContentRepository content = DefaultContent.CreatePipeline(new FileSystemContentSource(RepoContent.ContentDir)).Load().RequireRepository();
             events = content.Get<DefinitionCatalog<LifeEventDefinition>>().All
@@ -119,7 +143,7 @@ namespace BetterLife.Content.Tests
                     }
                 }
             }
-            Assert.That(played.Count, Is.GreaterThan(lives * 9 / 10), "most lives reach the end of the chapter");
+            Assert.That(played.Count, Is.GreaterThanOrEqualTo((int)(lives * mustReach)), "enough lives reach the end of the chapter");
             return played;
         }
 
