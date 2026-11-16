@@ -150,8 +150,9 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'luxury', 'nameKey': 'lifestyle.luxury.name', 'monthlyCost': 120000, 'monthlyStats': [ { 'stat': 'mental.stress', 'amount': -1 } ] } ] }";
 
         public const string FinanceSettings = @"{ 'independenceAge': 18, 'allowanceStartAge': 7, 'studentSupportUntilAge': 25, 'defaultLifestyle': 'modest', 'referenceLifestyle': 'modest',
-            'familySupport': [ { 'incomeLevel': 1, 'monthlyAllowance': 500, 'independenceGift': 0 },
-                               { 'incomeLevel': 5, 'monthlyAllowance': 8000, 'independenceGift': 1000000 } ],
+            'familySupport': [ { 'incomeLevel': 1, 'allowances': [ { 'fromAge': 7, 'amount': 500 } ], 'independenceGift': 0 },
+                               { 'incomeLevel': 5, 'allowances': [ { 'fromAge': 7, 'amount': 8000 }, { 'fromAge': 13, 'amount': 12000 }, { 'fromAge': 19, 'amount': 30000 } ],
+                                 'independenceGift': 1000000 } ],
             'fallbackProduct': 'loan_shark', 'defaultAfterMissed': 3, 'forcedSaleDiscount': 0.3,
             'creditScore': { 'onTimeGain': 0.2, 'missedLoss': 5, 'defaultLoss': 15, 'foreclosureLoss': 20, 'bankruptcyScore': 5, 'highUtilization': 0.7, 'utilizationLoss': 0.5 },
             'bankruptcy': { 'netWorthBelow': -500000, 'flagWeeks': 520 },

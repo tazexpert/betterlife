@@ -86,7 +86,7 @@ namespace BetterLife.Content.Tests
         [Test]
         public void OldAgeMilestones_ForSingles_Happen()
         {
-            List<HashSet<string>> lives = Play("old", 23, 80, 15100, out List<LifeEventDefinition> old, CareerSimulationTests.Decide, 30, 0.3f);
+            List<HashSet<string>> lives = Play("old", 23, 80, 15100, out List<LifeEventDefinition> old, CareerSimulationTests.Decide, 80, 0.3f);
             Assert.That(lives.Any(l => l.Contains("old.late_love")), Is.True, "singles can find love again");
             Assert.That(lives.Any(l => l.Contains("old.chosen_solitude")), Is.True, "singles can choose to stay alone");
             TestContext.WriteLine($"late love {Rate(lives, "old.late_love") * 100f:0}%, solitude {Rate(lives, "old.chosen_solitude") * 100f:0}%");

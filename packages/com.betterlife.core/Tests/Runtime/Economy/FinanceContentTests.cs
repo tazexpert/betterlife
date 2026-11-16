@@ -22,7 +22,7 @@ namespace BetterLife.Core.Tests.Economy
             DebtProductDefinition mortgage = content.Get<DefinitionCatalog<DebtProductDefinition>>().Get("mortgage");
             Assert.That((mortgage.Kind, mortgage.CollateralClass, mortgage.AnnualRate, mortgage.RateSpread), Is.EqualTo((DebtKind.Mortgage, (AssetClass?)AssetClass.RealEstate, (float?)null, (float?)0.035f)));
             Assert.That(content.Get<DefinitionCatalog<LifestyleTierDefinition>>().Get("frugal").MonthlyStats, Has.Count.EqualTo(1));
-            Assert.That(content.Get<FinanceSettings>().FamilySupport[5].IndependenceGift, Is.EqualTo(1000000m));
+            Assert.That(content.Get<FinanceSettings>().FamilySupport[5].AllowanceAt(14), Is.EqualTo(12000m));
         }
 
         [TestCase("finance_settings.json", "'fallbackProduct': 'loan_shark'", "'fallbackProduct': 'bank_of_mom'", "unknown loan product 'bank_of_mom'")]

@@ -49,20 +49,38 @@
         "additionalProperties": false,
         "required": [
           "incomeLevel",
-          "monthlyAllowance",
+          "allowances",
           "independenceGift"
         ],
         "properties": {
           "incomeLevel": {
             "type": "integer"
           },
-          "monthlyAllowance": {
-            "type": "number",
-            "minimum": 0
-          },
           "independenceGift": {
             "type": "number",
             "minimum": 0
+          },
+          "allowances": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "fromAge",
+                "amount"
+              ],
+              "properties": {
+                "fromAge": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "amount": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            }
           }
         }
       }

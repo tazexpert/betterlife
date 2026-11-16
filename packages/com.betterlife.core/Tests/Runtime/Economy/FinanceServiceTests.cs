@@ -30,6 +30,21 @@ namespace BetterLife.Core.Tests.Economy
         }
 
         [Test]
+        public void Allowance_GrowsWithTheAgeBand()
+        {
+            var child = new FinanceFixture(2010, "wealthy");
+            var teen = new FinanceFixture(2014, "wealthy");
+
+            Assert.That(child.Month().GrossIncome, Is.EqualTo(8000m), "primary school band");
+            Assert.That(teen.Month().GrossIncome, Is.EqualTo(12000m), "secondary school band from 13");
+
+            var level = new FamilySupportLevel(5, new[] { new AllowanceBand(7, 800m), new AllowanceBand(13, 1500m) }, 0m);
+            Assert.That((level.AllowanceAt(6), level.AllowanceAt(7), level.AllowanceAt(12), level.AllowanceAt(13), level.AllowanceAt(40)),
+                Is.EqualTo((0m, 800m, 800m, 1500m, 1500m)));
+            Assert.Throws<System.ArgumentException>(() => new FamilySupportLevel(5, new[] { new AllowanceBand(13, 1m), new AllowanceBand(7, 1m) }, 0m));
+        }
+
+        [Test]
         public void TurningEighteen_GivesTheFamilyGift_AndStartsLivingCosts()
         {
             var f = new FinanceFixture(2019, "wealthy");

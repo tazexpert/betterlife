@@ -33,9 +33,10 @@ namespace BetterLife.Core.Economy
                 yield break;
             }
             int level = character.Catalogs.FamilyBackgrounds.Get(character.Family.BackgroundId).HouseholdIncomeLevel;
-            if (_settings.FamilySupport.TryGetValue(level, out FamilySupportLevel support) && support.MonthlyAllowance > 0m)
+            decimal allowance = _settings.FamilySupport.TryGetValue(level, out FamilySupportLevel support) ? support.AllowanceAt(age) : 0m;
+            if (allowance > 0m)
             {
-                yield return new IncomeItem(SourceKey, support.MonthlyAllowance, false);
+                yield return new IncomeItem(SourceKey, allowance, false);
             }
         }
     }

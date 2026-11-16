@@ -32,7 +32,7 @@
           "tuitionPerYear": 30000,
           "difficulty": null,
           "quality": 3,
-          "familyMinIncome": 4
+          "familyMinIncome": 6
         }
       ]
     },
@@ -72,7 +72,7 @@
           "tuitionPerYear": 60000,
           "difficulty": null,
           "quality": 4,
-          "familyMinIncome": 4
+          "familyMinIncome": 6
         },
         {
           "id": "primary.international",
@@ -81,7 +81,7 @@
           "tuitionPerYear": 400000,
           "difficulty": null,
           "quality": 8,
-          "familyMinIncome": 6
+          "familyMinIncome": 9
         }
       ]
     },
@@ -130,7 +130,7 @@
           "tuitionPerYear": 80000,
           "difficulty": null,
           "quality": 4,
-          "familyMinIncome": 4
+          "familyMinIncome": 6
         },
         {
           "id": "lower_secondary.international",
@@ -139,7 +139,7 @@
           "tuitionPerYear": 500000,
           "difficulty": null,
           "quality": 8,
-          "familyMinIncome": 6
+          "familyMinIncome": 9
         }
       ]
     },
@@ -188,7 +188,7 @@
           "tuitionPerYear": 90000,
           "difficulty": null,
           "quality": 4,
-          "familyMinIncome": 4
+          "familyMinIncome": 6
         },
         {
           "id": "upper_secondary.international",
@@ -197,7 +197,7 @@
           "tuitionPerYear": 600000,
           "difficulty": null,
           "quality": 8,
-          "familyMinIncome": 6
+          "familyMinIncome": 9
         }
       ]
     },

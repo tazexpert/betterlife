@@ -1,10 +1,26 @@
 {
   "backgrounds": [
     {
+      "id": "very_poor",
+      "nameKey": "family.very_poor.name",
+      "weight": 10,
+      "householdIncomeLevel": 1,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": -28
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -14
+        }
+      ]
+    },
+    {
       "id": "poor",
       "nameKey": "family.poor.name",
-      "weight": 25,
-      "householdIncomeLevel": 1,
+      "weight": 15,
+      "householdIncomeLevel": 2,
       "statModifiers": [
         {
           "stat": "wealth",
@@ -17,10 +33,26 @@
       ]
     },
     {
+      "id": "low_income",
+      "nameKey": "family.low_income.name",
+      "weight": 15,
+      "householdIncomeLevel": 3,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": -13
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": -6
+        }
+      ]
+    },
+    {
       "id": "lower_middle",
       "nameKey": "family.lower_middle.name",
-      "weight": 35,
-      "householdIncomeLevel": 2,
+      "weight": 20,
+      "householdIncomeLevel": 4,
       "statModifiers": [
         {
           "stat": "wealth",
@@ -35,15 +67,31 @@
     {
       "id": "middle",
       "nameKey": "family.middle.name",
-      "weight": 25,
-      "householdIncomeLevel": 3,
+      "weight": 17,
+      "householdIncomeLevel": 5,
       "statModifiers": []
     },
     {
       "id": "upper_middle",
       "nameKey": "family.upper_middle.name",
-      "weight": 10,
-      "householdIncomeLevel": 4,
+      "weight": 11,
+      "householdIncomeLevel": 6,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": 8
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "affluent",
+      "nameKey": "family.affluent.name",
+      "weight": 6,
+      "householdIncomeLevel": 7,
       "statModifiers": [
         {
           "stat": "wealth",
@@ -52,6 +100,10 @@
         {
           "stat": "health.nutrition",
           "amount": 5
+        },
+        {
+          "stat": "hidden.charisma",
+          "amount": 1
         }
       ]
     },
@@ -59,11 +111,11 @@
       "id": "wealthy",
       "nameKey": "family.wealthy.name",
       "weight": 4,
-      "householdIncomeLevel": 5,
+      "householdIncomeLevel": 8,
       "statModifiers": [
         {
           "stat": "wealth",
-          "amount": 35
+          "amount": 28
         },
         {
           "stat": "health.nutrition",
@@ -76,10 +128,34 @@
       ]
     },
     {
+      "id": "very_wealthy",
+      "nameKey": "family.very_wealthy.name",
+      "weight": 1.5,
+      "householdIncomeLevel": 9,
+      "statModifiers": [
+        {
+          "stat": "wealth",
+          "amount": 40
+        },
+        {
+          "stat": "health.nutrition",
+          "amount": 9
+        },
+        {
+          "stat": "hidden.charisma",
+          "amount": 3
+        },
+        {
+          "stat": "mental.loneliness",
+          "amount": 2
+        }
+      ]
+    },
+    {
       "id": "elite",
       "nameKey": "family.elite.name",
-      "weight": 1,
-      "householdIncomeLevel": 6,
+      "weight": 0.5,
+      "householdIncomeLevel": 10,
       "statModifiers": [
         {
           "stat": "wealth",

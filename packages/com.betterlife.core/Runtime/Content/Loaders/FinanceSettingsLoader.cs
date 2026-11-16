@@ -49,9 +49,16 @@ namespace BetterLife.Core.Content.Loaders
             {
                 RuleReadContext c = supportContext.Index(i);
                 JObject level = RuleJson.RequireObject(token, c);
-                RuleJson.RequireOnly(level, c, "incomeLevel", "monthlyAllowance", "independenceGift");
-                return new FamilySupportLevel(RuleJson.RequireInt(level, "incomeLevel", c),
-                    RuleJson.RequireDecimal(level, "monthlyAllowance", c), RuleJson.RequireDecimal(level, "independenceGift", c));
+                RuleJson.RequireOnly(level, c, "incomeLevel", "allowances", "independenceGift");
+                var (bands, bandsContext) = RuleJson.RequireArrayProperty(level, "allowances", c);
+                List<AllowanceBand> allowances = bands.Select((band, j) =>
+                {
+                    RuleReadContext bc = bandsContext.Index(j);
+                    JObject item = RuleJson.RequireObject(band, bc);
+                    RuleJson.RequireOnly(item, bc, "fromAge", "amount");
+                    return new AllowanceBand(RuleJson.RequireInt(item, "fromAge", bc), RuleJson.RequireDecimal(item, "amount", bc));
+                }).ToList();
+                return new FamilySupportLevel(RuleJson.RequireInt(level, "incomeLevel", c), allowances, RuleJson.RequireDecimal(level, "independenceGift", c));
             }).ToList();
 
             var (credit, creditContext) = Section(root, "creditScore", context,

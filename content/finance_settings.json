@@ -8,32 +8,222 @@
   "familySupport": [
     {
       "incomeLevel": 1,
-      "monthlyAllowance": 500,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 200
+        },
+        {
+          "fromAge": 13,
+          "amount": 400
+        },
+        {
+          "fromAge": 16,
+          "amount": 600
+        },
+        {
+          "fromAge": 19,
+          "amount": 2000
+        }
+      ],
       "independenceGift": 0
     },
     {
       "incomeLevel": 2,
-      "monthlyAllowance": 1000,
-      "independenceGift": 10000
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 300
+        },
+        {
+          "fromAge": 13,
+          "amount": 600
+        },
+        {
+          "fromAge": 16,
+          "amount": 900
+        },
+        {
+          "fromAge": 19,
+          "amount": 3000
+        }
+      ],
+      "independenceGift": 0
     },
     {
       "incomeLevel": 3,
-      "monthlyAllowance": 2000,
-      "independenceGift": 50000
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 400
+        },
+        {
+          "fromAge": 13,
+          "amount": 800
+        },
+        {
+          "fromAge": 16,
+          "amount": 1200
+        },
+        {
+          "fromAge": 19,
+          "amount": 4000
+        }
+      ],
+      "independenceGift": 5000
     },
     {
       "incomeLevel": 4,
-      "monthlyAllowance": 4000,
-      "independenceGift": 200000
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 600
+        },
+        {
+          "fromAge": 13,
+          "amount": 1000
+        },
+        {
+          "fromAge": 16,
+          "amount": 1500
+        },
+        {
+          "fromAge": 19,
+          "amount": 5000
+        }
+      ],
+      "independenceGift": 10000
     },
     {
       "incomeLevel": 5,
-      "monthlyAllowance": 8000,
-      "independenceGift": 1000000
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 800
+        },
+        {
+          "fromAge": 13,
+          "amount": 1500
+        },
+        {
+          "fromAge": 16,
+          "amount": 2500
+        },
+        {
+          "fromAge": 19,
+          "amount": 7000
+        }
+      ],
+      "independenceGift": 50000
     },
     {
       "incomeLevel": 6,
-      "monthlyAllowance": 20000,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 1200
+        },
+        {
+          "fromAge": 13,
+          "amount": 2500
+        },
+        {
+          "fromAge": 16,
+          "amount": 4000
+        },
+        {
+          "fromAge": 19,
+          "amount": 10000
+        }
+      ],
+      "independenceGift": 200000
+    },
+    {
+      "incomeLevel": 7,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 2000
+        },
+        {
+          "fromAge": 13,
+          "amount": 4000
+        },
+        {
+          "fromAge": 16,
+          "amount": 6000
+        },
+        {
+          "fromAge": 19,
+          "amount": 15000
+        }
+      ],
+      "independenceGift": 500000
+    },
+    {
+      "incomeLevel": 8,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 3000
+        },
+        {
+          "fromAge": 13,
+          "amount": 6000
+        },
+        {
+          "fromAge": 16,
+          "amount": 10000
+        },
+        {
+          "fromAge": 19,
+          "amount": 25000
+        }
+      ],
+      "independenceGift": 1000000
+    },
+    {
+      "incomeLevel": 9,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 6000
+        },
+        {
+          "fromAge": 13,
+          "amount": 12000
+        },
+        {
+          "fromAge": 16,
+          "amount": 20000
+        },
+        {
+          "fromAge": 19,
+          "amount": 50000
+        }
+      ],
+      "independenceGift": 2000000
+    },
+    {
+      "incomeLevel": 10,
+      "allowances": [
+        {
+          "fromAge": 7,
+          "amount": 15000
+        },
+        {
+          "fromAge": 13,
+          "amount": 30000
+        },
+        {
+          "fromAge": 16,
+          "amount": 50000
+        },
+        {
+          "fromAge": 19,
+          "amount": 100000
+        }
+      ],
       "independenceGift": 5000000
     }
   ],
