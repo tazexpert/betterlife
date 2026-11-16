@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -291,5 +292,33 @@ namespace BetterLife.Content.Tests
                 Assert.That(missing, Is.Empty, language + " is missing: " + string.Join(", ", missing));
             }
         }
+
+        /// <summary>
+        /// Every story text is written in its own language: Thai event texts contain Thai letters and English ones do not
+        /// (catches swapped or untranslated texts). A few titles use the user's English terms on purpose.
+        /// </summary>
+        [Test]
+        public void EventTexts_AreInTheirOwnLanguage()
+        {
+            var englishOnPurpose = new HashSet<string> { "event.teen.glow_up.title", "event.adult.life_crisis.title", "event.young.work_hard_play_hard.title" };
+            StringTable th = _tables.Find("th");
+            StringTable en = _tables.Find("en");
+            var wrong = new List<string>();
+            foreach (string key in th.Keys.Where(k => k.StartsWith("event.", StringComparison.Ordinal) || k.StartsWith("eulogy.", StringComparison.Ordinal)))
+            {
+                if (!englishOnPurpose.Contains(key) && !th.Find(key).Any(IsThai))
+                {
+                    wrong.Add("th " + key + ": " + th.Find(key));
+                }
+                string english = en.Find(key);
+                if (english != null && english.Any(IsThai))
+                {
+                    wrong.Add("en " + key + ": " + english);
+                }
+            }
+            Assert.That(wrong, Is.Empty);
+        }
+
+        private static bool IsThai(char c) => c >= '\u0E00' && c <= '\u0E7F';
     }
 }
