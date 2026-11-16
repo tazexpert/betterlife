@@ -35,17 +35,17 @@
     {
       "minAge": 36,
       "maxAge": 45,
-      "filePrefix": "age_36_45/images/age_36_45_"
+      "filePrefix": "age_36_45/age_36_45_"
     },
     {
       "minAge": 46,
       "maxAge": 59,
-      "filePrefix": "age_46_59/images/age_46_59_"
+      "filePrefix": "age_46_59/age_46_59_"
     },
     {
       "minAge": 60,
       "maxAge": null,
-      "filePrefix": "age_60_up/images/age_60_up_"
+      "filePrefix": "age_60_up/age_60_up_"
     }
   ],
   "faces": [
