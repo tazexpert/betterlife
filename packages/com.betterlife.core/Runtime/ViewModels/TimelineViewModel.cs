@@ -123,7 +123,7 @@ namespace BetterLife.Core.ViewModels
                 if (npc.DiedOn.HasValue && relationship.Type != RelationshipType.Contact)
                 {
                     entries.Add((npc.DiedOn.Value, TimelineEntryKind.Loss,
-                        localizer.Format(LossKey, ("name", name), ("type", PeopleViewModel.TypeName(relationship.Type, localizer))), string.Empty));
+                        localizer.Format(LossKey, ("name", name), ("type", PeopleViewModel.RoleName(relationship, npc, character, localizer))), string.Empty));
                 }
             }
 

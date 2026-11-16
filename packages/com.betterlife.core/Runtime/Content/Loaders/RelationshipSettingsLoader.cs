@@ -84,7 +84,7 @@ namespace BetterLife.Core.Content.Loaders
         private static FamilyRules ReadFamily(JObject root, RuleReadContext context, ContentLoadContext content)
         {
             var (family, familyContext) = SettingsReading.Section(root, "family", context,
-                "parentStart", "defaultParentStart", "siblingStart", "childStart", "siblings", "siblingAgeGapYears");
+                "parentStart", "defaultParentStart", "siblingStart", "childStart", "siblings", "siblingAgeGapYears", "siblingMinGapYears");
             var personalities = content.Require<DefinitionCatalog<ParentPersonalityDefinition>>();
             var (parents, parentsContext) = RuleJson.RequireArrayProperty(family, "parentStart", familyContext);
             var parentStart = new Dictionary<string, float>();
@@ -106,7 +106,8 @@ namespace BetterLife.Core.Content.Loaders
             }).ToList();
             return new FamilyRules(parentStart, RuleJson.RequireFloat(family, "defaultParentStart", familyContext),
                 RuleJson.RequireFloat(family, "siblingStart", familyContext), RuleJson.RequireFloat(family, "childStart", familyContext),
-                weights, RuleJson.RequireInt(family, "siblingAgeGapYears", familyContext));
+                weights, RuleJson.RequireInt(family, "siblingAgeGapYears", familyContext),
+                RuleJson.OptionalInt(family, "siblingMinGapYears", familyContext) ?? 1);
         }
     }
 }

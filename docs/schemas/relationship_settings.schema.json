@@ -169,6 +169,11 @@
         "siblingAgeGapYears": {
           "type": "integer",
           "minimum": 0
+        },
+        "siblingMinGapYears": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Smallest age gap in years between the character and a sibling (default 1)."
         }
       }
     },

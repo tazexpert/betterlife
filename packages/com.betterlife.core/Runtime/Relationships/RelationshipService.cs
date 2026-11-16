@@ -26,6 +26,8 @@ namespace BetterLife.Core.Relationships
     /// </summary>
     public sealed class RelationshipService : ICareerNetwork, IDisposable
     {
+        private const float HalfChance = 0.5f;
+
         /// <summary>Source key of the Relationships stat update.</summary>
         public const string RelationshipsKey = "relationships.score";
         /// <summary>Source key of the loneliness update.</summary>
@@ -131,7 +133,9 @@ namespace BetterLife.Core.Relationships
             var traits = _character.Family.Parents.Select(p => p.TraitIds).ToList();
             for (int i = 0; i < siblings; i++)
             {
-                int gapWeeks = _random.NextInt(-family.SiblingAgeGapYears * GameCalendar.WeeksPerYear, family.SiblingAgeGapYears * GameCalendar.WeeksPerYear + 1);
+                // Older or younger by at least the smallest gap, so a sibling is never accidentally the same age.
+                int gapSize = _random.NextInt(family.SiblingMinGapYears * GameCalendar.WeeksPerYear, family.SiblingAgeGapYears * GameCalendar.WeeksPerYear + 1);
+                int gapWeeks = _random.Chance(HalfChance) ? gapSize : -gapSize;
                 GameDate siblingBorn = born.AddWeeks(gapWeeks);
                 people.Add(id => _factory.Child(id, _character.Birth.CountryId, _character.Name.FamilyName, siblingBorn, genomes, traits),
                     RelationshipType.Sibling, family.SiblingStart, born);

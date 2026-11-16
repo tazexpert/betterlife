@@ -158,6 +158,9 @@ namespace BetterLife.Content.Tests
             }
 
             keys.AddRange(RelationshipNames.Types.Keys.Select(n => PeopleViewModel.TypePrefix + n));
+            keys.AddRange(new[] { "father", "mother", "son", "daughter", "husband", "wife", "older_brother", "older_sister", "younger_brother",
+                "younger_sister", "twin_brother", "twin_sister" }.Select(r => PeopleViewModel.RolePrefix + r));
+            keys.AddRange(System.Enum.GetValues(typeof(BetterLife.Core.Domain.Characters.BiologicalSex)).Cast<System.Enum>().Select(x => SessionText.EnumKey(PeopleViewModel.SexPrefix, x)));
             keys.AddRange(new[] { "partner", "spouse", "ex" }.Select(n => TimelineViewModel.BecamePrefix + n));
             keys.AddRange(FortuneAreas.All.Select(a => SessionText.EnumKey(AstrologyViewModel.AreaPrefix, a)));
             keys.AddRange(System.Enum.GetValues(typeof(FinanceLineCategory)).Cast<System.Enum>().Select(c => SessionText.EnumKey(FinanceViewModel.CategoryPrefix, c)));

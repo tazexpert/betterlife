@@ -26,11 +26,11 @@ namespace BetterLife.Core.ViewModels
         public const string OthersKey = "people.others";
         /// <summary>Empty list text.</summary>
         public const string EmptyKey = "people.empty";
-        /// <summary>Row detail (placeholders <c>{type}</c>, <c>{age}</c>).</summary>
+        /// <summary>Row detail (placeholders <c>{type}</c>, <c>{sex}</c>, <c>{age}</c>).</summary>
         public const string RowDetailKey = "people.row";
-        /// <summary>Detail of someone who passed away (placeholder <c>{type}</c>).</summary>
+        /// <summary>Detail of someone who passed away (placeholders <c>{type}</c>, <c>{sex}</c>).</summary>
         public const string DepartedKey = "people.departed";
-        /// <summary>Person detail line (placeholders <c>{type}</c>, <c>{age}</c>, <c>{since}</c>).</summary>
+        /// <summary>Person detail line (placeholders <c>{type}</c>, <c>{sex}</c>, <c>{age}</c>, <c>{since}</c>).</summary>
         public const string PersonDetailKey = "person.detail";
         /// <summary>Compatibility total label.</summary>
         public const string CompatibilityKey = "person.compatibility";
@@ -76,7 +76,7 @@ namespace BetterLife.Core.ViewModels
                     .Where(p => p.Npc != null)
                     .OrderByDescending(p => p.Npc.IsAlive)
                     .ThenByDescending(p => p.Relationship.Value)
-                    .Select(p => Row(p.Relationship, p.Npc, now, localizer))
+                    .Select(p => Row(p.Relationship, p.Npc, session.Character, now, localizer))
                     .ToList();
                 if (rows.Count > 0)
                 {
@@ -111,8 +111,8 @@ namespace BetterLife.Core.ViewModels
                 return null;
             }
             GameDate now = session.TimeState.Clock.Now;
-            string type = TypeName(relationship.Type, localizer);
-            string detail = localizer.Format(PersonDetailKey, ("type", type), ("age", AgeOf(npc, now)),
+            string type = RoleName(relationship, npc, session.Character, localizer);
+            string detail = localizer.Format(PersonDetailKey, ("type", type), ("sex", SexName(npc, localizer)), ("age", AgeOf(npc, now)),
                 ("since", GameDateText.MonthYear(relationship.Since, localizer)));
 
             var compatibility = new List<ValueRow>();
@@ -194,12 +194,61 @@ namespace BetterLife.Core.ViewModels
         /// <returns>The text.</returns>
         public static string TypeName(RelationshipType type, ILocalizer localizer) => localizer.Get(TypePrefix + RelationshipNames.NameOf(type));
 
-        private static PersonRow Row(Relationship relationship, Npc npc, GameDate now, ILocalizer localizer)
+        /// <summary>Role key prefix (<c>relationship.role.mother</c>...).</summary>
+        public const string RolePrefix = "relationship.role.";
+        /// <summary>Sex key prefix (<c>sex.female</c>, <c>sex.male</c>).</summary>
+        public const string SexPrefix = "sex.";
+
+        /// <summary>
+        /// The person's role to the character, by sex and age: father/mother, older/younger brother/sister (twin when
+        /// born the same week), son/daughter, husband/wife; other relationships keep their type name.
+        /// </summary>
+        /// <param name="relationship">Relationship.</param>
+        /// <param name="npc">The person.</param>
+        /// <param name="self">The player character.</param>
+        /// <param name="localizer">Localizer.</param>
+        /// <returns>The role text.</returns>
+        public static string RoleName(Relationship relationship, Npc npc, Domain.Characters.Character self, ILocalizer localizer)
         {
-            string type = TypeName(relationship.Type, localizer);
+            bool female = npc.Sex == Domain.Characters.BiologicalSex.Female;
+            string role;
+            switch (relationship.Type)
+            {
+                case RelationshipType.Parent:
+                    role = female ? "mother" : "father";
+                    break;
+                case RelationshipType.Child:
+                    role = female ? "daughter" : "son";
+                    break;
+                case RelationshipType.Spouse:
+                    role = female ? "wife" : "husband";
+                    break;
+                case RelationshipType.Sibling:
+                    GameDate mine = self.Birth.Week;
+                    string order = npc.BornOn < mine ? "older_" : npc.BornOn > mine ? "younger_" : "twin_";
+                    role = order + (female ? "sister" : "brother");
+                    break;
+                default:
+                    return TypeName(relationship.Type, localizer);
+            }
+            return localizer.Get(RolePrefix + role);
+        }
+
+        /// <summary>
+        /// The person's sex.
+        /// </summary>
+        /// <param name="npc">The person.</param>
+        /// <param name="localizer">Localizer.</param>
+        /// <returns>"Male" or "Female".</returns>
+        public static string SexName(Npc npc, ILocalizer localizer) => localizer.Get(SessionText.EnumKey(SexPrefix, npc.Sex));
+
+        private static PersonRow Row(Relationship relationship, Npc npc, Domain.Characters.Character self, GameDate now, ILocalizer localizer)
+        {
+            string type = RoleName(relationship, npc, self, localizer);
+            string sex = SexName(npc, localizer);
             string detail = npc.IsAlive
-                ? localizer.Format(RowDetailKey, ("type", type), ("age", AgeOf(npc, now)))
-                : localizer.Format(DepartedKey, ("type", type));
+                ? localizer.Format(RowDetailKey, ("type", type), ("sex", sex), ("age", AgeOf(npc, now)))
+                : localizer.Format(DepartedKey, ("type", type), ("sex", sex));
             return new PersonRow(npc.Id, npc.Name.GivenName + " " + npc.Name.FamilyName, detail, relationship.Value,
                 relationship.Value.ToString(NumberFormat, CultureInfo.InvariantCulture), npc.IsAlive);
         }

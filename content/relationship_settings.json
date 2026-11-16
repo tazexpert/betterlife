@@ -120,7 +120,8 @@
         "weight": 1
       }
     ],
-    "siblingAgeGapYears": 8
+    "siblingAgeGapYears": 8,
+    "siblingMinGapYears": 1
   },
   "meeting": {
     "monthlyBase": 0.05,

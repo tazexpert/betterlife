@@ -18,9 +18,15 @@ namespace BetterLife.Core.Relationships
         /// <param name="childStart">Starting value with a new child.</param>
         /// <param name="siblingWeights">Weighted sibling counts.</param>
         /// <param name="siblingAgeGapYears">Largest age gap between siblings.</param>
+        /// <param name="siblingMinGapYears">Smallest age gap in years between the character and a sibling.</param>
         public FamilyRules(IReadOnlyDictionary<string, float> parentStart, float defaultParentStart, float siblingStart, float childStart,
-            IEnumerable<(int Count, float Weight)> siblingWeights, int siblingAgeGapYears)
+            IEnumerable<(int Count, float Weight)> siblingWeights, int siblingAgeGapYears, int siblingMinGapYears = 1)
         {
+            if (siblingMinGapYears < 0 || siblingMinGapYears > siblingAgeGapYears)
+            {
+                throw new ArgumentOutOfRangeException(nameof(siblingMinGapYears), siblingMinGapYears, "The smallest sibling gap must be within 0 and the largest gap.");
+            }
+            SiblingMinGapYears = siblingMinGapYears;
             ParentStart = parentStart ?? throw new ArgumentNullException(nameof(parentStart));
             SiblingWeights = (siblingWeights ?? Enumerable.Empty<(int, float)>()).ToList();
             if (SiblingWeights.Any(w => w.Count < 0 || w.Weight < 0f) || siblingAgeGapYears < 0)
@@ -50,6 +56,9 @@ namespace BetterLife.Core.Relationships
 
         /// <summary>Largest age gap between siblings.</summary>
         public int SiblingAgeGapYears { get; }
+
+        /// <summary>Smallest age gap in years between the character and a sibling (no accidental same-age siblings).</summary>
+        public int SiblingMinGapYears { get; }
 
         /// <summary>
         /// Returns the starting value with a parent of a personality.
