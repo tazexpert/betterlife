@@ -17,9 +17,11 @@ namespace BetterLife.Core.ViewModels
         /// <param name="compatibility">Compatibility breakdown (total first).</param>
         /// <param name="memories">Shared memories, newest first.</param>
         /// <param name="interactions">Interactions for this relationship type.</param>
+        /// <param name="avatarPath">Resources path of the person's picture, or null.</param>
         public PersonState(int npcId, string name, string detail, string valueText, IReadOnlyList<ValueRow> compatibility,
-            IReadOnlyList<ValueRow> memories, IReadOnlyList<InteractionOption> interactions)
+            IReadOnlyList<ValueRow> memories, IReadOnlyList<InteractionOption> interactions, string avatarPath = null)
         {
+            AvatarPath = avatarPath;
             NpcId = npcId;
             Name = name;
             Detail = detail;
@@ -49,5 +51,8 @@ namespace BetterLife.Core.ViewModels
 
         /// <summary>Interactions for this relationship type.</summary>
         public IReadOnlyList<InteractionOption> Interactions { get; }
+
+        /// <summary>Resources path of the person's picture, or null.</summary>
+        public string AvatarPath { get; }
     }
 }

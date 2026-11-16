@@ -61,6 +61,20 @@ namespace BetterLife.Core.Relationships
         /// <summary>Death week, or null.</summary>
         public GameDate? DiedOn { get; private set; }
 
+        /// <summary>Fixed avatar face (null = derived from the id; set for people carried into an heir's life).</summary>
+        public int? AvatarFace { get; private set; }
+
+        /// <summary>
+        /// Fixes the avatar face (keeps a person's face when they move into an heir's life).
+        /// </summary>
+        /// <param name="faceId">Face number, or null.</param>
+        /// <returns>This NPC.</returns>
+        public Npc WithAvatarFace(int? faceId)
+        {
+            AvatarFace = faceId.HasValue && faceId.Value >= 0 ? faceId : null;
+            return this;
+        }
+
         /// <summary>True while alive.</summary>
         public bool IsAlive => !DiedOn.HasValue;
 

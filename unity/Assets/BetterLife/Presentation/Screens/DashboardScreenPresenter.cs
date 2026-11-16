@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 namespace BetterLife.Presentation.Screens
 {
     /// <summary>
-    /// Home tab: core stat cards (value, trend, sparkline; tap for the breakdown), habit cards and the inbox shortcut.
+    /// Home tab: the player's face and family status, core stat cards (value, trend, sparkline; tap for the breakdown), habit cards and the inbox shortcut.
     /// </summary>
     public sealed class DashboardScreenPresenter : IScreenPresenter
     {
@@ -29,6 +29,7 @@ namespace BetterLife.Presentation.Screens
         private readonly VisualElement _habits;
         private readonly Label _habitsTitle;
         private readonly Button _inbox;
+        private readonly VisualElement _avatar;
 
         /// <summary>
         /// Creates the dashboard.
@@ -46,6 +47,22 @@ namespace BetterLife.Presentation.Screens
             _habitsTitle = Root.Q<Label>("habits-title");
             _inbox = Root.Q<Button>("inbox-shortcut");
             _inbox.clicked += () => _context.Router.Push(new ScreenRequest(ScreenIds.Inbox));
+
+            // Profile card built in code: the avatar (tap to change the face) beside the family status rows.
+            _avatar = AvatarImage.Create(null, AvatarImage.MediumClass);
+            _avatar.AddManipulator(new Clickable(() => _context.Router.Push(new ScreenRequest(ScreenIds.AvatarPicker))));
+            var profile = new VisualElement();
+            profile.AddToClassList("profile-card");
+            VisualElement parent = _family.parent;
+            if (parent != null)
+            {
+                int index = parent.IndexOf(_family);
+                _family.RemoveFromHierarchy();
+                parent.Insert(index, profile);
+            }
+            _family.AddToClassList("profile-card__family");
+            profile.Add(_avatar);
+            profile.Add(_family);
         }
 
         /// <inheritdoc />
@@ -68,6 +85,7 @@ namespace BetterLife.Presentation.Screens
                 return;
             }
             DashboardState state = DashboardViewModel.Build(session, _context.Localizer);
+            AvatarImage.Set(_avatar, state.AvatarPath);
             foreach (ValueRow row in state.Family)
             {
                 _family.Add(UiRows.Row(row, () => _context.Router.SelectTab(ScreenIds.People)));

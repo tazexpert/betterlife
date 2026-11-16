@@ -8,6 +8,8 @@ using System.Collections.Generic;
 namespace UnityEngine
 {
     public class Object { public string name; public static void Destroy(Object o) {} public static void DontDestroyOnLoad(Object o) {} public static implicit operator bool(Object o) => o != null; }
+    public class Texture : Object {}
+    public class Texture2D : Texture {}
     public class Component : Object { public GameObject gameObject; public Transform transform; public string tag; }
     public class Behaviour : Component { public bool enabled; }
     public class MonoBehaviour : Behaviour {}
@@ -44,7 +46,8 @@ namespace UnityEngine.UIElements
     public struct StyleLength { public static implicit operator StyleLength(float v) => default; }
     public struct StyleFloat { public static implicit operator StyleFloat(float v) => default; }
     public struct StyleEnum<T> { public static implicit operator StyleEnum<T>(T v) => default; }
-    public interface IStyle { StyleLength paddingLeft { get; set; } StyleLength paddingTop { get; set; } StyleLength paddingRight { get; set; } StyleLength paddingBottom { get; set; } StyleFloat flexGrow { get; set; } StyleEnum<DisplayStyle> display { get; set; } }
+    public struct StyleBackground { public StyleBackground(Texture2D v) {} }
+    public interface IStyle { StyleLength paddingLeft { get; set; } StyleLength paddingTop { get; set; } StyleLength paddingRight { get; set; } StyleLength paddingBottom { get; set; } StyleFloat flexGrow { get; set; } StyleEnum<DisplayStyle> display { get; set; } StyleBackground backgroundImage { get; set; } }
     public interface IResolvedStyle { Color color { get; } }
     public class Painter2D { public Color strokeColor; public float lineWidth; public LineJoin lineJoin; public LineCap lineCap; public void BeginPath() {} public void MoveTo(Vector2 p) {} public void LineTo(Vector2 p) {} public void Stroke() {} }
     public class MeshGenerationContext { public Painter2D painter2D => null; }
@@ -58,7 +61,7 @@ namespace UnityEngine.UIElements
         public Action<MeshGenerationContext> generateVisualContent;
         public void Add(VisualElement e) {} public void Clear() {} public void AddToClassList(string c) {} public void EnableInClassList(string c, bool on) {}
         public void SetEnabled(bool v) {} public void MarkDirtyRepaint() {}
-        public IVisualElementScheduler schedule; public int childCount; public void RemoveAt(int index) {} public void RemoveFromHierarchy() {} public void RemoveFromClassList(string c) {}
+        public IVisualElementScheduler schedule; public int childCount; public VisualElement parent; public int IndexOf(VisualElement e) => 0; public void Insert(int index, VisualElement e) {} public void RemoveAt(int index) {} public void RemoveFromHierarchy() {} public void RemoveFromClassList(string c) {}
     }
     public class TemplateContainer : VisualElement {}
     public class TextElement : VisualElement { public string text; }

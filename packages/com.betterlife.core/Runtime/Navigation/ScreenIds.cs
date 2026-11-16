@@ -41,5 +41,7 @@ namespace BetterLife.Core.Navigation
         public const string Settings = "settings";
         /// <summary>Story popup of a life event without choices (argument = event instance id).</summary>
         public const string Story = "story";
+        /// <summary>Avatar picker (modal).</summary>
+        public const string AvatarPicker = "avatar_picker";
     }
 }

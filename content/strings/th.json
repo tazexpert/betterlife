@@ -91,6 +91,8 @@
     "astrology.year": "ดวงปี {year}",
     "astrology.year_animal": "ปีนักษัตร",
     "astrology.zodiac": "ราศี",
+    "avatar.hint": "เลือกหน้าตาของคุณ หน้าตาจะโตขึ้นตามอายุ",
+    "avatar.title": "หน้าตาของคุณ",
     "breakdown.close": "ปิด",
     "breakdown.empty": "ช่วงนี้ไม่มีการเปลี่ยนแปลง",
     "breakdown.formula": "คำนวณจาก",

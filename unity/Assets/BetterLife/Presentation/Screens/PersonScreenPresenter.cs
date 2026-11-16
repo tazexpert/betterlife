@@ -31,6 +31,7 @@ namespace BetterLife.Presentation.Screens
                 return;
             }
             SetTitle(person.Name);
+            Content.Add(AvatarImage.Create(person.AvatarPath, AvatarImage.LargeClass));
             Content.Add(UiRows.Text(person.Detail, "list-screen__subtitle"));
             Content.Add(UiRows.Row(Context.Localizer.Get("person.closeness"), person.ValueText, string.Empty, RowTone.Neutral));
 

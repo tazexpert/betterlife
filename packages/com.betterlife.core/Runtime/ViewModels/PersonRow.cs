@@ -14,8 +14,10 @@ namespace BetterLife.Core.ViewModels
         /// <param name="value">Closeness -100..100.</param>
         /// <param name="valueText">Closeness text.</param>
         /// <param name="isAlive">Whether the person is alive.</param>
-        public PersonRow(int npcId, string name, string detail, float value, string valueText, bool isAlive)
+        /// <param name="avatarPath">Resources path of the person's picture, or null.</param>
+        public PersonRow(int npcId, string name, string detail, float value, string valueText, bool isAlive, string avatarPath = null)
         {
+            AvatarPath = avatarPath;
             NpcId = npcId;
             Name = name;
             Detail = detail;
@@ -41,5 +43,8 @@ namespace BetterLife.Core.ViewModels
 
         /// <summary>Whether the person is alive.</summary>
         public bool IsAlive { get; }
+
+        /// <summary>Resources path of the person's picture, or null.</summary>
+        public string AvatarPath { get; }
     }
 }

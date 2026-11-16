@@ -184,7 +184,7 @@ namespace BetterLife.Core.Tests.Legacy
         }
 
         /// <summary>A 40-year-old who dies leaving a spouse, two adult children, money and some flags.</summary>
-        private static LifeSession FinishedLife(out int heirId, out int siblingId)
+        internal static LifeSession FinishedLife(out int heirId, out int siblingId)
         {
             LifeSession life = SaveFixture.NewLife();
             SaveFixture.Advance(life, 40);

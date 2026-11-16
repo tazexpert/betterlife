@@ -139,6 +139,22 @@ namespace BetterLife.Core.Domain.Characters
         /// <summary>How the character died, or null while alive.</summary>
         public DeathRecord Death { get; private set; }
 
+        /// <summary>Avatar face the player chose (null = derived from the character id).</summary>
+        public int? AvatarFace { get; private set; }
+
+        /// <summary>
+        /// Chooses the avatar face (null = back to the default face).
+        /// </summary>
+        /// <param name="faceId">Face number, or null.</param>
+        public void SetAvatarFace(int? faceId)
+        {
+            if (faceId.HasValue && faceId.Value < 0)
+            {
+                throw new System.ArgumentOutOfRangeException(nameof(faceId), faceId, "Face numbers are non-negative.");
+            }
+            AvatarFace = faceId;
+        }
+
         /// <summary>Generation within the family line (1 = founder; heirs count up).</summary>
         public int Generation { get; private set; } = 1;
 

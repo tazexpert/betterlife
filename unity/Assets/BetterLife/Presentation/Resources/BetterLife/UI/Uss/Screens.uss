@@ -523,3 +523,57 @@
 .family-card {
     margin-bottom: var(--space-s);
 }
+
+/* ---- Avatars (task 27) ---- */
+.avatar {
+    -unity-background-scale-mode: scale-to-fit;
+    border-radius: var(--radius-s);
+    flex-shrink: 0;
+}
+
+.avatar--small {
+    width: 44px;
+    height: 48px;
+    margin-right: var(--space-s);
+}
+
+.avatar--medium {
+    width: 96px;
+    height: 106px;
+}
+
+.avatar--large {
+    width: 160px;
+    height: 177px;
+    align-self: center;
+    margin-bottom: var(--space-s);
+}
+
+.avatar--selected {
+    border-width: 4px;
+    border-color: var(--color-good);
+}
+
+.profile-card {
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-card > .avatar {
+    margin-right: var(--space-s);
+}
+
+.profile-card__family {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.avatar-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.avatar-grid > .avatar {
+    margin-bottom: var(--space-s);
+}

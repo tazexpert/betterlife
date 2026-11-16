@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using BetterLife.Core.Avatars;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Domain.Family;
@@ -109,6 +110,7 @@ namespace BetterLife.Core.Legacy
             CreditSchooling(heir, start);
             report = Inherit(heir, deceased, heirs.Count, start);
             heir.SetGeneration(parent.Generation + 1);
+            heir.SetAvatarFace(AvatarFaces.Optional(AvatarFaces.Of(parent, npc)));
             return heir;
         }
 
@@ -144,23 +146,25 @@ namespace BetterLife.Core.Legacy
         {
             Character parent = deceased.Character;
             GameDate born = heir.Birth.Week;
-            heir.Relationships.Add(id => new Npc(id, parent.Name, parent.Gender.Sex, parent.Birth.Week, parent.Genome, parent.Traits.Instances.Select(t => t.TraitId).ToList(), parent.Death.Week),
+            heir.Relationships.Add(id => new Npc(id, parent.Name, parent.Gender.Sex, parent.Birth.Week, parent.Genome, parent.Traits.Instances.Select(t => t.TraitId).ToList(), parent.Death.Week)
+                .WithAvatarFace(AvatarFaces.Optional(AvatarFaces.Of(parent))),
                 RelationshipType.Parent, link.Value, born);
             if (partner != null)
             {
-                heir.Relationships.Add(id => Copy(id, partner), RelationshipType.Parent, link.Value, born);
+                heir.Relationships.Add(id => Copy(id, partner, parent), RelationshipType.Parent, link.Value, born);
             }
             foreach (Relationship sibling in parent.Relationships.All.Where(r => r.Type == RelationshipType.Child && r.NpcId != self.Id))
             {
                 Npc npc = parent.Relationships.Npc(sibling.NpcId);
                 if (npc != null)
                 {
-                    heir.Relationships.Add(id => Copy(id, npc), RelationshipType.Sibling, sibling.Value, born);
+                    heir.Relationships.Add(id => Copy(id, npc, parent), RelationshipType.Sibling, sibling.Value, born);
                 }
             }
         }
 
-        private static Npc Copy(int id, Npc npc) => new Npc(id, npc.Name, npc.Sex, npc.BornOn, npc.Genome, npc.TraitIds, npc.DiedOn);
+        private static Npc Copy(int id, Npc npc, Character owner) =>
+            new Npc(id, npc.Name, npc.Sex, npc.BornOn, npc.Genome, npc.TraitIds, npc.DiedOn).WithAvatarFace(AvatarFaces.Optional(AvatarFaces.Of(owner, npc)));
 
         /// <summary>
         /// Credits the automatic schooling an heir of this age would have finished (a grown child arrives with the

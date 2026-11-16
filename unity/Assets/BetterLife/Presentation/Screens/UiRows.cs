@@ -58,13 +58,18 @@ namespace BetterLife.Presentation.Screens
         /// <param name="detail">Detail line, or empty.</param>
         /// <param name="tone">Colour of the value.</param>
         /// <param name="onTap">Called when tapped; null for a plain row.</param>
+        /// <param name="avatarPath">Resources path of a face to show at the start of the row, or null.</param>
         /// <returns>The element.</returns>
-        public static VisualElement Row(string label, string value, string detail, RowTone tone, Action onTap = null)
+        public static VisualElement Row(string label, string value, string detail, RowTone tone, Action onTap = null, string avatarPath = null)
         {
             var element = new VisualElement();
             element.AddToClassList(RowClass);
             element.EnableInClassList(GoodClass, tone == RowTone.Good);
             element.EnableInClassList(BadClass, tone == RowTone.Bad);
+            if (avatarPath != null)
+            {
+                element.Add(AvatarImage.Create(avatarPath, AvatarImage.SmallClass));
+            }
             var text = new VisualElement();
             text.AddToClassList("value-row__text");
             text.Add(Text(label, "value-row__label"));

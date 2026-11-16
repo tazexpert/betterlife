@@ -1,0 +1,181 @@
+{
+  "$schema": "../docs/schemas/avatars.schema.json",
+  "resourceRoot": "BetterLife/Avatars",
+  "bands": [
+    {
+      "minAge": 0,
+      "maxAge": 5,
+      "filePrefix": "age_00_05/age_00_05_"
+    },
+    {
+      "minAge": 6,
+      "maxAge": 10,
+      "filePrefix": "age_06_10/age_06_10_"
+    },
+    {
+      "minAge": 11,
+      "maxAge": 15,
+      "filePrefix": "age_11_15/age_11_15_"
+    },
+    {
+      "minAge": 16,
+      "maxAge": 19,
+      "filePrefix": "age_16_19/age_16_19_"
+    },
+    {
+      "minAge": 20,
+      "maxAge": 24,
+      "filePrefix": "age_20_24/age_20_24_"
+    },
+    {
+      "minAge": 25,
+      "maxAge": 35,
+      "filePrefix": "age_25_35/age_25_35_"
+    },
+    {
+      "minAge": 36,
+      "maxAge": 45,
+      "filePrefix": "age_36_45/images/age_36_45_"
+    },
+    {
+      "minAge": 46,
+      "maxAge": 59,
+      "filePrefix": "age_46_59/images/age_46_59_"
+    },
+    {
+      "minAge": 60,
+      "maxAge": null,
+      "filePrefix": "age_60_up/images/age_60_up_"
+    }
+  ],
+  "faces": [
+    {
+      "id": 3,
+      "sex": "male"
+    },
+    {
+      "id": 4,
+      "sex": "male"
+    },
+    {
+      "id": 5,
+      "sex": "male"
+    },
+    {
+      "id": 6,
+      "sex": "male"
+    },
+    {
+      "id": 7,
+      "sex": "male"
+    },
+    {
+      "id": 8,
+      "sex": "male"
+    },
+    {
+      "id": 9,
+      "sex": "male"
+    },
+    {
+      "id": 10,
+      "sex": "male"
+    },
+    {
+      "id": 12,
+      "sex": "male"
+    },
+    {
+      "id": 13,
+      "sex": "male"
+    },
+    {
+      "id": 14,
+      "sex": "male"
+    },
+    {
+      "id": 15,
+      "sex": "male"
+    },
+    {
+      "id": 16,
+      "sex": "male"
+    },
+    {
+      "id": 17,
+      "sex": "male"
+    },
+    {
+      "id": 18,
+      "sex": "male"
+    },
+    {
+      "id": 19,
+      "sex": "male"
+    },
+    {
+      "id": 20,
+      "sex": "female"
+    },
+    {
+      "id": 21,
+      "sex": "female"
+    },
+    {
+      "id": 22,
+      "sex": "female"
+    },
+    {
+      "id": 23,
+      "sex": "female"
+    },
+    {
+      "id": 24,
+      "sex": "female"
+    },
+    {
+      "id": 25,
+      "sex": "female"
+    },
+    {
+      "id": 26,
+      "sex": "female"
+    },
+    {
+      "id": 27,
+      "sex": "female"
+    },
+    {
+      "id": 28,
+      "sex": "female"
+    },
+    {
+      "id": 29,
+      "sex": "female"
+    },
+    {
+      "id": 30,
+      "sex": "female"
+    },
+    {
+      "id": 31,
+      "sex": "female"
+    },
+    {
+      "id": 32,
+      "sex": "female"
+    },
+    {
+      "id": 33,
+      "sex": "female"
+    },
+    {
+      "id": 34,
+      "sex": "female"
+    },
+    {
+      "id": 35,
+      "sex": "female"
+    }
+  ]
+}

@@ -15,9 +15,11 @@ namespace BetterLife.Core.ViewModels
         /// <param name="pendingDecisions">Number of events waiting for an answer.</param>
         /// <param name="inboxText">Inbox shortcut text.</param>
         /// <param name="family">Relationship status and children.</param>
+        /// <param name="avatarPath">Resources path of the player's picture, or null.</param>
         public DashboardState(IReadOnlyList<StatCardState> cards, IReadOnlyList<HabitCardState> habits, int pendingDecisions, string inboxText,
-            IReadOnlyList<ValueRow> family)
+            IReadOnlyList<ValueRow> family, string avatarPath = null)
         {
+            AvatarPath = avatarPath;
             Family = family;
             Cards = cards;
             Habits = habits;
@@ -39,5 +41,8 @@ namespace BetterLife.Core.ViewModels
 
         /// <summary>Relationship status and children.</summary>
         public IReadOnlyList<ValueRow> Family { get; }
+
+        /// <summary>Resources path of the player's picture, or null.</summary>
+        public string AvatarPath { get; }
     }
 }

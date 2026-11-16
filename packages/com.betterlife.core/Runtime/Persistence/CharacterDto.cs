@@ -108,5 +108,8 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Generation within the family line (0 in saves from before task 18 = 1).</summary>
         public int Generation;
+
+        /// <summary>Avatar face the player chose (null = default face; absent in older saves).</summary>
+        public int? AvatarFace;
     }
 }

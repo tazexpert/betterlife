@@ -26,6 +26,7 @@ namespace BetterLife.Core.Domain.Characters
         /// <param name="countries">Country catalog.</param>
         /// <param name="familyBackgrounds">Family background catalog.</param>
         /// <param name="lifeStages">Life stage catalog.</param>
+        /// <param name="avatars">Avatar pictures (optional).</param>
         public CharacterCatalogs(
             StatCatalog stats,
             DefinitionCatalog<TraitDefinition> traits,
@@ -35,9 +36,11 @@ namespace BetterLife.Core.Domain.Characters
             DefinitionCatalog<HealthConditionDefinition> healthConditions,
             DefinitionCatalog<CountryDefinition> countries,
             DefinitionCatalog<FamilyBackgroundDefinition> familyBackgrounds,
-            LifeStageCatalog lifeStages)
+            LifeStageCatalog lifeStages,
+            Avatars.AvatarCatalog avatars = null)
         {
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
+            Avatars = avatars;
             Traits = traits ?? throw new ArgumentNullException(nameof(traits));
             Skills = skills ?? throw new ArgumentNullException(nameof(skills));
             Flags = flags ?? throw new ArgumentNullException(nameof(flags));
@@ -47,6 +50,9 @@ namespace BetterLife.Core.Domain.Characters
             FamilyBackgrounds = familyBackgrounds ?? throw new ArgumentNullException(nameof(familyBackgrounds));
             LifeStages = lifeStages ?? throw new ArgumentNullException(nameof(lifeStages));
         }
+
+        /// <summary>Avatar pictures (null in tests that do not load them).</summary>
+        public Avatars.AvatarCatalog Avatars { get; }
 
         /// <summary>Stat catalog.</summary>
         public StatCatalog Stats { get; }

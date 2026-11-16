@@ -198,6 +198,10 @@
       "path": "events/life_random.json"
     },
     {
+      "type": "avatars",
+      "path": "avatars.json"
+    },
+    {
       "type": "legacy_settings",
       "path": "legacy_settings.json"
     },

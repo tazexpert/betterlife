@@ -33,5 +33,8 @@ namespace BetterLife.Core.Persistence
 
         /// <summary>Death week (GameDate.TotalWeeks) when not alive.</summary>
         public int DiedWeek;
+
+        /// <summary>Fixed avatar face, or null (absent in older saves).</summary>
+        public int? AvatarFace;
     }
 }

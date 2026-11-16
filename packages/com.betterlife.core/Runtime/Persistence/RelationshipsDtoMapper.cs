@@ -36,6 +36,7 @@ namespace BetterLife.Core.Persistence
                     Traits = n.TraitIds.ToList(),
                     Alive = n.IsAlive,
                     DiedWeek = n.DiedOn?.TotalWeeks ?? 0,
+                    AvatarFace = n.AvatarFace,
                 }).ToList(),
                 Relationships = relationships.All.Select(r => new RelationshipDto
                 {
@@ -72,7 +73,7 @@ namespace BetterLife.Core.Persistence
             {
                 List<Npc> npcs = (dto.Npcs ?? new List<NpcDto>()).Where(n => n != null).Select(n => new Npc(n.Id, new PersonName(n.GivenName, n.FamilyName),
                     EducationDtoMapper.ParseEnum<BiologicalSex>(n.Sex, nameof(n.Sex)), new GameDate(n.BirthWeek), CharacterDtoMapper.GenomeFrom(n.Genome),
-                    n.Traits, n.Alive ? (GameDate?)null : new GameDate(n.DiedWeek))).ToList();
+                    n.Traits, n.Alive ? (GameDate?)null : new GameDate(n.DiedWeek)).WithAvatarFace(n.AvatarFace)).ToList();
                 List<Relationship> links = (dto.Relationships ?? new List<RelationshipDto>()).Where(r => r != null).Select(r =>
                 {
                     var relationship = new Relationship(r.NpcId, EducationDtoMapper.ParseEnum<RelationshipType>(r.Type, nameof(r.Type)), r.Value,

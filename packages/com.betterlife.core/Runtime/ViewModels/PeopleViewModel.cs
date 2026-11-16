@@ -133,7 +133,8 @@ namespace BetterLife.Core.ViewModels
                 .ToList();
 
             return new PersonState(npcId, npc.Name.GivenName + " " + npc.Name.FamilyName, detail,
-                relationship.Value.ToString(NumberFormat, CultureInfo.InvariantCulture), compatibility, memories, interactions);
+                relationship.Value.ToString(NumberFormat, CultureInfo.InvariantCulture), compatibility, memories, interactions,
+                AvatarPaths.Of(session.Character, npc, session.TimeState.Clock.Now));
         }
 
         /// <summary>
@@ -250,7 +251,7 @@ namespace BetterLife.Core.ViewModels
                 ? localizer.Format(RowDetailKey, ("type", type), ("sex", sex), ("age", AgeOf(npc, now)))
                 : localizer.Format(DepartedKey, ("type", type), ("sex", sex));
             return new PersonRow(npc.Id, npc.Name.GivenName + " " + npc.Name.FamilyName, detail, relationship.Value,
-                relationship.Value.ToString(NumberFormat, CultureInfo.InvariantCulture), npc.IsAlive);
+                relationship.Value.ToString(NumberFormat, CultureInfo.InvariantCulture), npc.IsAlive, AvatarPaths.Of(self, npc, now));
         }
 
         private static string AgeOf(Npc npc, GameDate now) => npc.AgeAt(npc.DiedOn ?? now).ToString(CultureInfo.InvariantCulture);

@@ -20,7 +20,7 @@ namespace BetterLife.Core.Content.Loaders
         private static readonly string[] Dependencies =
         {
             ContentTypes.Stats, ContentTypes.Traits, ContentTypes.Skills, ContentTypes.Flags,
-            ContentTypes.ReputationDomains, ContentTypes.HealthConditions, ContentTypes.Countries, ContentTypes.FamilyBackgrounds, ContentTypes.LifeStages,
+            ContentTypes.ReputationDomains, ContentTypes.HealthConditions, ContentTypes.Countries, ContentTypes.FamilyBackgrounds, ContentTypes.LifeStages, ContentTypes.Avatars,
         };
 
         /// <inheritdoc />
@@ -44,7 +44,8 @@ namespace BetterLife.Core.Content.Loaders
                 context.Require<DefinitionCatalog<HealthConditionDefinition>>(),
                 context.Require<DefinitionCatalog<CountryDefinition>>(),
                 context.Require<DefinitionCatalog<FamilyBackgroundDefinition>>(),
-                context.Require<LifeStageCatalog>()));
+                context.Require<LifeStageCatalog>(),
+                context.Require<Avatars.AvatarCatalog>()));
         }
     }
 }

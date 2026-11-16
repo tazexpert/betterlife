@@ -50,7 +50,7 @@ namespace BetterLife.Core.ViewModels
             List<HabitCardState> habits = session.Vices.VisibleHabits().Select(state => Habit(session, state, now, localizer)).ToList();
             int pending = session.Events.Inbox.Count;
             string inbox = localizer.Format(InboxKey, ("count", pending.ToString(CultureInfo.InvariantCulture)));
-            return new DashboardState(cards, habits, pending, inbox, Family(character, now, localizer));
+            return new DashboardState(cards, habits, pending, inbox, Family(character, now, localizer), AvatarPaths.Of(character, now));
         }
 
         /// <summary>Status label.</summary>

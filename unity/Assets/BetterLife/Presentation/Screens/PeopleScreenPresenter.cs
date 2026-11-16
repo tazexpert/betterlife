@@ -36,7 +36,7 @@ namespace BetterLife.Presentation.Screens
                     string argument = person.NpcId.ToString(CultureInfo.InvariantCulture);
                     RowTone tone = !person.IsAlive ? RowTone.Neutral : person.Value >= 0f ? RowTone.Good : RowTone.Bad;
                     var row = UiRows.Row(person.Name, person.ValueText, person.Detail, tone,
-                        () => Context.Router.Push(new ScreenRequest(ScreenIds.Person, argument)));
+                        () => Context.Router.Push(new ScreenRequest(ScreenIds.Person, argument)), person.AvatarPath);
                     row.EnableInClassList("value-row--departed", !person.IsAlive);
                     Content.Add(row);
                 }

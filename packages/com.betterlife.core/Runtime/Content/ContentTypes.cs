@@ -85,6 +85,8 @@ namespace BetterLife.Core.Content
         public const string LegacySettings = "legacy_settings";
         /// <summary>Achievements.</summary>
         public const string Achievements = "achievements";
+        /// <summary>Avatar pictures (single file).</summary>
+        public const string Avatars = "avatars";
         /// <summary>Player-facing texts, one file per language.</summary>
         public const string Strings = "strings";
         /// <summary>Combined character catalogs (built from the types above, takes no files).</summary>

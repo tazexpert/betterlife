@@ -149,6 +149,10 @@ namespace BetterLife.Core.Tests.Content
             { 'id': 'modest', 'nameKey': 'lifestyle.modest.name', 'monthlyCost': 12000, 'monthlyStats': [] },
             { 'id': 'luxury', 'nameKey': 'lifestyle.luxury.name', 'monthlyCost': 120000, 'monthlyStats': [ { 'stat': 'mental.stress', 'amount': -1 } ] } ] }";
 
+        public const string Avatars = @"{ 'resourceRoot': 'BetterLife/Avatars',
+            'bands': [ { 'minAge': 0, 'maxAge': 17, 'filePrefix': 'young/young_' }, { 'minAge': 18, 'maxAge': null, 'filePrefix': 'adult/images/adult_' } ],
+            'faces': [ { 'id': 3, 'sex': 'male' }, { 'id': 4, 'sex': 'male' }, { 'id': 20, 'sex': 'female' }, { 'id': 21, 'sex': 'female' } ] }";
+
         public const string FinanceSettings = @"{ 'independenceAge': 18, 'allowanceStartAge': 7, 'studentSupportUntilAge': 25, 'defaultLifestyle': 'modest', 'referenceLifestyle': 'modest',
             'familySupport': [ { 'incomeLevel': 1, 'allowances': [ { 'fromAge': 7, 'amount': 500 } ], 'independenceGift': 0 },
                                { 'incomeLevel': 5, 'allowances': [ { 'fromAge': 7, 'amount': 8000 }, { 'fromAge': 13, 'amount': 12000 }, { 'fromAge': 19, 'amount': 30000 } ],
@@ -338,7 +342,7 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }, "
                 + "{ 'type': 'vices', 'path': 'vices.json' }, { 'type': 'quit_methods', 'path': 'quit_methods.json' }, { 'type': 'vice_settings', 'path': 'vice_settings.json' }, "
                 + "{ 'type': 'scams', 'path': 'scams.json' }, { 'type': 'scam_settings', 'path': 'scam_settings.json' }, "
-                + "{ 'type': 'legacy_settings', 'path': 'legacy_settings.json' }, { 'type': 'achievements', 'path': 'achievements.json' }"
+                + "{ 'type': 'avatars', 'path': 'avatars.json' }, { 'type': 'legacy_settings', 'path': 'legacy_settings.json' }, { 'type': 'achievements', 'path': 'achievements.json' }"
                 + (extraFiles == null ? string.Empty : ", " + extraFiles);
             return new InMemoryContentSource()
                 .Add(ContentPaths.ManifestFile, "{ '$schema': '../docs/schemas/manifest.schema.json', 'contentVersion': 3, 'files': [ " + files + " ] }")
@@ -378,6 +382,7 @@ namespace BetterLife.Core.Tests.Content
                 .Add("vice_settings.json", ViceSettings)
                 .Add("scams.json", Scams)
                 .Add("scam_settings.json", ScamSettings)
+                .Add("avatars.json", Avatars)
                 .Add("legacy_settings.json", LegacySettings)
                 .Add("achievements.json", Achievements);
         }
