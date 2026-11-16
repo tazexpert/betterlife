@@ -133,7 +133,7 @@ namespace BetterLife.Presentation.Screens
             }
             foreach (AvatarOption option in faces)
             {
-                VisualElement face = AvatarImage.Create(option.Path, AvatarImage.SmallClass);
+                VisualElement face = AvatarImage.Create(option.Path, AvatarImage.MediumClass);
                 face.EnableInClassList(AvatarPickerScreenPresenter.SelectedClass, option.IsSelected);
                 int id = option.FaceId;
                 face.AddManipulator(new Clickable(() =>

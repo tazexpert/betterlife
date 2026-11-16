@@ -129,3 +129,4 @@
 | ฟอนต์ใน Dropdown | รายการ Dropdown เปิดนอก `.shell` จึงตั้งฟอนต์ Sarabun ให้ `.unity-base-dropdown*` ใน Theme | กันอักษรไทยเป็นกล่อง |
 
 C#: `CreationRequest.AvatarFace`, `CreationIssue.AvatarInvalid` / `BirthDateInvalid`, `CreationDraft`, `ChoiceItem`, `CreationFormViewModel`, `ScreenIds.Creation` · Unity: `CreationScreenPresenter` (TextField, DropdownField, ปุ่มเพศ, ตารางหน้าตา), `ILifeController.StartNewLife(CreationDraft)` / `NewDraft()` / `Content` · Tests: `CreationFormTests` (3), `ProvincesTests`
+| แก้ 2026-11-16 (ผู้ใช้พบตัวอักษรเล็กมาก) | ช่องกรอก/Dropdown ของ Unity ใช้สไตล์เริ่มต้น (ตัวเล็ก สีเข้มบนพื้นมืด) → ปรับสไตล์ภายใต้ `.creation-field`: ป้ายชื่ออยู่บนช่อง ขนาด `--font-s`, ช่องสูง `--touch-height` ตัวอักษร `--font-m` สีตาม Theme, รายการ Dropdown ตัวใหญ่ พื้นเข้ม, ปุ่มเพศตัวใหญ่ ปุ่มที่เลือกขอบเขียว, หน้าตาขนาดกลาง (96px) | |
