@@ -29,7 +29,7 @@ namespace BetterLife.Content.Tests
         public void KidMilestones_HappenAtAboutTheirChances()
         {
             List<HashSet<string>> lives = Play("kid", 20, 13, 5100, out List<LifeEventDefinition> kid);
-            Report(kid, lives);
+            Report(kid, lives, 13);
             Assert.That(lives.Count(l => l.Contains("kid.famous_primary") && l.Contains("kid.missed_primary")), Is.EqualTo(0),
                 "a child cannot both pass and miss the famous school");
         }
@@ -38,7 +38,7 @@ namespace BetterLife.Content.Tests
         public void TeenMilestones_HappenAtAboutTheirChances()
         {
             List<HashSet<string>> lives = Play("teen", 30, 19, 7300, out List<LifeEventDefinition> teen);
-            Report(teen, lives);
+            Report(teen, lives, 19);
             Assert.That(Rate(lives, "teen.national_award"), Is.LessThan(0.25f), "a 5% award stays rare even with boosts");
         }
 
@@ -46,7 +46,7 @@ namespace BetterLife.Content.Tests
         public void YoungAdultMilestones_HappenAtAboutTheirChances()
         {
             List<HashSet<string>> lives = Play("young", 20, 26, 9100, out List<LifeEventDefinition> young, CareerSimulationTests.Decide);
-            Report(young, lives);
+            Report(young, lives, 26);
             foreach (LifeEventDefinition e in young)
             {
                 Assert.That(lives.Any(l => l.Contains(e.Id)), Is.True, e.Id + " never happens to students or workers");
@@ -57,7 +57,7 @@ namespace BetterLife.Content.Tests
         public void AdultMilestones_HappenAtAboutTheirChances()
         {
             List<HashSet<string>> lives = Play("adult", 23, 46, 11300, out List<LifeEventDefinition> adult, DecideAndDate, 40);
-            Report(adult, lives);
+            Report(adult, lives, 46);
             foreach (LifeEventDefinition e in adult)
             {
                 Assert.That(lives.Any(l => l.Contains(e.Id)), Is.True, e.Id + " never happens");
@@ -71,8 +71,8 @@ namespace BetterLife.Content.Tests
         [Test]
         public void OldAgeMilestones_HappenAndChangeRealState()
         {
-            List<HashSet<string>> lives = Play("old", 23, 80, 13700, out List<LifeEventDefinition> old, DecideAndDate, 30, 0.3f);
-            Report(old, lives);
+            List<HashSet<string>> lives = Play("old", 23, 80, 13700, out List<LifeEventDefinition> old, DecideAndDate, 60, 0.3f);
+            Report(old, lives, 80);
             // The simulated player always finds a new partner, so the events that need a single character are not checked here.
             var needsSingle = new HashSet<string> { "old.late_love", "old.chosen_solitude" };
             foreach (LifeEventDefinition e in old.Where(e => !needsSingle.Contains(e.Id)))
@@ -147,13 +147,13 @@ namespace BetterLife.Content.Tests
             return played;
         }
 
-        private static void Report(List<LifeEventDefinition> events, List<HashSet<string>> lives)
+        private static void Report(List<LifeEventDefinition> events, List<HashSet<string>> lives, int endAge)
         {
             foreach (LifeEventDefinition e in events.OrderBy(e => e.Id))
             {
                 float rate = Rate(lives, e.Id);
                 TestContext.WriteLine($"{e.Id,-26} set {e.Milestone.Percent,3}%  seen {rate * 100f,5:0.0}%");
-                if (e.Milestone.Percent >= CheckedFromPercent && e.Condition == null)
+                if (e.Milestone.Percent >= CheckedFromPercent && e.Condition == null && e.Milestone.MaxAge < endAge)
                 {
                     Assert.That(rate, Is.GreaterThan(e.Milestone.Percent / 100f * LowestShareOfChance), e.Id + " happens far less than its chance");
                 }

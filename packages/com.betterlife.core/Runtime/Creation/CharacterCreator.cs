@@ -91,6 +91,11 @@ namespace BetterLife.Core.Creation
             CheckId(issues, nameof(request.FamilyBackgroundId), request.FamilyBackgroundId, _catalogs.FamilyBackgrounds.Contains);
             CheckId(issues, nameof(request.MotherPersonalityId), request.MotherPersonalityId, _personalities.Contains);
             CheckId(issues, nameof(request.FatherPersonalityId), request.FatherPersonalityId, _personalities.Contains);
+            if (request.AvatarFace.HasValue && _catalogs.Avatars != null
+                && !_catalogs.Avatars.Faces.Any(f => f.Id == request.AvatarFace.Value && (!request.Sex.HasValue || f.Sex == request.Sex.Value)))
+            {
+                issues.Add(new CreationIssue(nameof(request.AvatarFace), CreationIssue.AvatarInvalid));
+            }
             CheckName(issues, nameof(request.GivenName), request.GivenName);
             CheckName(issues, nameof(request.FamilyName), request.FamilyName);
             return issues;
@@ -143,6 +148,11 @@ namespace BetterLife.Core.Creation
                 new BirthInfo(birthDate, birthHour, country.Id),
                 _catalogs);
             character.MoveTo(new Residence(country.Id, city.Id));
+            if (request.AvatarFace.HasValue && _catalogs.Avatars != null
+                && _catalogs.Avatars.FacesFor(sex).Any(f => f.Id == request.AvatarFace.Value))
+            {
+                character.SetAvatarFace(request.AvatarFace.Value);
+            }
             character.SetFamily(new FamilyInfo(background.Id, new[]
             {
                 new ParentRecord(new PersonName(motherGiven, familyName), BiologicalSex.Female, birthDate.Year - motherAge, motherPersonality.Id, motherGenes, motherTraits),

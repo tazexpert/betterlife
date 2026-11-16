@@ -140,10 +140,16 @@ namespace BetterLife.Bootstrap
             _settings = _settingsStore.Load();
             _language = SettingsStore.ResolveLanguage(_settings.Language, DeviceLanguage(), _content.Get<StringTables>().Languages, FallbackLanguage);
 
-            // Until the slot and creation screens exist (UI tasks), continue the autosave or start a new random life.
-            _life = TryLoadAutosave() ?? StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
+            // Continue the autosave; without one, a random life is ready behind the creation screen (Back keeps it).
+            _life = TryLoadAutosave();
+            bool firstLife = _life == null;
+            _life = _life ?? StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random));
             ApplySettings(_life);
             ComposeUi();
+            if (firstLife)
+            {
+                _router.Push(new ScreenRequest(ScreenIds.Creation));
+            }
         }
 
         /// <summary>
@@ -164,6 +170,7 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.EventDialog, () => new EventDialogPresenter(context));
             screens.Register(ScreenIds.Story, () => new StoryDialogPresenter(context));
             screens.Register(ScreenIds.AvatarPicker, () => new AvatarPickerScreenPresenter(context));
+            screens.Register(ScreenIds.Creation, () => new CreationScreenPresenter(context));
             screens.Register(ScreenIds.Breakdown, () => new BreakdownPresenter(context));
             screens.Register(ScreenIds.Money, () => new FinanceScreenPresenter(context));
             screens.Register(ScreenIds.People, () => new PeopleScreenPresenter(context));
@@ -210,6 +217,22 @@ namespace BetterLife.Bootstrap
         {
             ReplaceLife(StartNewLife(new CreationRequest(NewSeed(), CreationMode.Random)));
         }
+
+        /// <inheritdoc />
+        public IContentRepository Content => _content;
+
+        /// <summary>
+        /// Starts the life the player designed on the creation screen, then shows its home screen.
+        /// </summary>
+        /// <param name="draft">The player's choices.</param>
+        public void StartNewLife(CreationDraft draft)
+        {
+            ReplaceLife(StartNewLife(draft.ToRequest(NewSeed())));
+            _router.Reset();
+        }
+
+        /// <inheritdoc />
+        public CreationDraft NewDraft() => CreationDraft.Random(_content, NewSeed());
 
         private void ReplaceLife(LifeSession next)
         {

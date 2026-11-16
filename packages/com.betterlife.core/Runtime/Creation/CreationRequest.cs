@@ -64,10 +64,13 @@ namespace BetterLife.Core.Creation
         /// <summary>Father's personality override.</summary>
         public string FatherPersonalityId { get; set; }
 
+        /// <summary>Avatar face (must match the sex); null = derived from the character id.</summary>
+        public int? AvatarFace { get; set; }
+
         /// <summary>True when any override is set.</summary>
         public bool HasOverrides =>
             GivenName != null || FamilyName != null || Sex.HasValue || GenderIdentity.HasValue || SpeechStyle.HasValue ||
             BirthDate.HasValue || BirthHour.HasValue || CountryId != null || CityId != null || FamilyBackgroundId != null ||
-            MotherPersonalityId != null || FatherPersonalityId != null;
+            MotherPersonalityId != null || FatherPersonalityId != null || AvatarFace.HasValue;
     }
 }

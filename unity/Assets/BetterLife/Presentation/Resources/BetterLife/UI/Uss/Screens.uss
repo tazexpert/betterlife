@@ -577,3 +577,43 @@
 .avatar-grid > .avatar {
     margin-bottom: var(--space-s);
 }
+
+/* ---- Character creation (task 25) ---- */
+/* Dropdown lists open outside the shell element, so they need the Thai font set here. */
+.unity-base-dropdown,
+.unity-base-dropdown__label,
+.unity-base-dropdown__item {
+    -unity-font: url("../Fonts/Sarabun-Regular.ttf");
+}
+
+.creation-field {
+    margin-bottom: var(--space-xs);
+}
+
+.creation-date {
+    flex-direction: row;
+}
+
+.creation-date > .creation-field {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-right: 4px;
+}
+
+.choice-row {
+    flex-direction: row;
+    margin-bottom: var(--space-xs);
+}
+
+.choice {
+    flex-grow: 1;
+    min-height: var(--touch-height);
+    border-radius: var(--radius-s);
+    background-color: var(--color-surface);
+}
+
+.choice--selected {
+    border-width: 3px;
+    border-color: var(--color-good);
+    -unity-font-style: bold;
+}

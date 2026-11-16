@@ -43,5 +43,7 @@ namespace BetterLife.Core.Navigation
         public const string Story = "story";
         /// <summary>Avatar picker (modal).</summary>
         public const string AvatarPicker = "avatar_picker";
+        /// <summary>Character creation.</summary>
+        public const string Creation = "creation";
     }
 }

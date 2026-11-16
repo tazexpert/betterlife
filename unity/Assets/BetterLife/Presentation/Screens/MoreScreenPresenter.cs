@@ -1,4 +1,5 @@
 using BetterLife.Core.Navigation;
+using BetterLife.Core.ViewModels;
 using BetterLife.Core.Sessions;
 
 namespace BetterLife.Presentation.Screens
@@ -25,6 +26,7 @@ namespace BetterLife.Presentation.Screens
             Content.Add(UiRows.Action(Context.Localizer.Get("more.family_tree"), () => Context.Router.Push(new ScreenRequest(ScreenIds.FamilyTree))));
             Content.Add(UiRows.Action(Context.Localizer.Get("more.achievements"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Achievements))));
             Content.Add(UiRows.Action(Context.Localizer.Get("more.settings"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Settings))));
+            Content.Add(UiRows.Action(Context.Localizer.Get(CreationFormViewModel.NewLifeKey), () => Context.Router.Push(new ScreenRequest(ScreenIds.Creation))));
             if (session.IsOver)
             {
                 Content.Add(UiRows.Action(Context.Localizer.Get("more.summary"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Summary))));

@@ -14,7 +14,7 @@
         {
           "id": "thailand.bangkok",
           "nameKey": "city.thailand.bangkok.name",
-          "weight": 30,
+          "weight": 55,
           "modifiers": {
             "costOfLiving": 1.35,
             "education": 75,
@@ -22,9 +22,339 @@
           }
         },
         {
+          "id": "thailand.samut_prakan",
+          "nameKey": "city.thailand.samut_prakan.name",
+          "weight": 14,
+          "modifiers": {
+            "costOfLiving": 1.15,
+            "education": 68,
+            "healthcare": 72
+          }
+        },
+        {
+          "id": "thailand.nonthaburi",
+          "nameKey": "city.thailand.nonthaburi.name",
+          "weight": 13,
+          "modifiers": {
+            "costOfLiving": 1.15,
+            "education": 68,
+            "healthcare": 72
+          }
+        },
+        {
+          "id": "thailand.pathum_thani",
+          "nameKey": "city.thailand.pathum_thani.name",
+          "weight": 12,
+          "modifiers": {
+            "costOfLiving": 1.15,
+            "education": 68,
+            "healthcare": 72
+          }
+        },
+        {
+          "id": "thailand.ayutthaya",
+          "nameKey": "city.thailand.ayutthaya.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.ang_thong",
+          "nameKey": "city.thailand.ang_thong.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.lopburi",
+          "nameKey": "city.thailand.lopburi.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.sing_buri",
+          "nameKey": "city.thailand.sing_buri.name",
+          "weight": 2,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.chai_nat",
+          "nameKey": "city.thailand.chai_nat.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.saraburi",
+          "nameKey": "city.thailand.saraburi.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.nakhon_nayok",
+          "nameKey": "city.thailand.nakhon_nayok.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.nakhon_sawan",
+          "nameKey": "city.thailand.nakhon_sawan.name",
+          "weight": 11,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 57,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.uthai_thani",
+          "nameKey": "city.thailand.uthai_thani.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.kamphaeng_phet",
+          "nameKey": "city.thailand.kamphaeng_phet.name",
+          "weight": 7,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.sukhothai",
+          "nameKey": "city.thailand.sukhothai.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.phitsanulok",
+          "nameKey": "city.thailand.phitsanulok.name",
+          "weight": 9,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 57,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.phichit",
+          "nameKey": "city.thailand.phichit.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.phetchabun",
+          "nameKey": "city.thailand.phetchabun.name",
+          "weight": 10,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.suphan_buri",
+          "nameKey": "city.thailand.suphan_buri.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.nakhon_pathom",
+          "nameKey": "city.thailand.nakhon_pathom.name",
+          "weight": 9,
+          "modifiers": {
+            "costOfLiving": 1.0,
+            "education": 60,
+            "healthcare": 64
+          }
+        },
+        {
+          "id": "thailand.samut_sakhon",
+          "nameKey": "city.thailand.samut_sakhon.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 1.0,
+            "education": 60,
+            "healthcare": 64
+          }
+        },
+        {
+          "id": "thailand.samut_songkhram",
+          "nameKey": "city.thailand.samut_songkhram.name",
+          "weight": 2,
+          "modifiers": {
+            "costOfLiving": 0.92,
+            "education": 55,
+            "healthcare": 58
+          }
+        },
+        {
+          "id": "thailand.chonburi",
+          "nameKey": "city.thailand.chonburi.name",
+          "weight": 16,
+          "modifiers": {
+            "costOfLiving": 1.1,
+            "education": 62,
+            "healthcare": 68
+          }
+        },
+        {
+          "id": "thailand.rayong",
+          "nameKey": "city.thailand.rayong.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 1.05,
+            "education": 60,
+            "healthcare": 64
+          }
+        },
+        {
+          "id": "thailand.chanthaburi",
+          "nameKey": "city.thailand.chanthaburi.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 55,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.trat",
+          "nameKey": "city.thailand.trat.name",
+          "weight": 2,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 55,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.chachoengsao",
+          "nameKey": "city.thailand.chachoengsao.name",
+          "weight": 7,
+          "modifiers": {
+            "costOfLiving": 1.0,
+            "education": 60,
+            "healthcare": 64
+          }
+        },
+        {
+          "id": "thailand.prachin_buri",
+          "nameKey": "city.thailand.prachin_buri.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 55,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.sa_kaeo",
+          "nameKey": "city.thailand.sa_kaeo.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 55,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.tak",
+          "nameKey": "city.thailand.tak.name",
+          "weight": 7,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.kanchanaburi",
+          "nameKey": "city.thailand.kanchanaburi.name",
+          "weight": 9,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.ratchaburi",
+          "nameKey": "city.thailand.ratchaburi.name",
+          "weight": 9,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.phetchaburi",
+          "nameKey": "city.thailand.phetchaburi.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.prachuap_khiri_khan",
+          "nameKey": "city.thailand.prachuap_khiri_khan.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
           "id": "thailand.chiang_mai",
           "nameKey": "city.thailand.chiang_mai.name",
-          "weight": 12,
+          "weight": 18,
           "modifiers": {
             "costOfLiving": 0.95,
             "education": 65,
@@ -32,39 +362,89 @@
           }
         },
         {
-          "id": "thailand.khon_kaen",
-          "nameKey": "city.thailand.khon_kaen.name",
-          "weight": 10,
+          "id": "thailand.chiang_rai",
+          "nameKey": "city.thailand.chiang_rai.name",
+          "weight": 13,
           "modifiers": {
             "costOfLiving": 0.85,
-            "education": 58,
-            "healthcare": 62
+            "education": 54,
+            "healthcare": 56
           }
         },
         {
-          "id": "thailand.phuket",
-          "nameKey": "city.thailand.phuket.name",
-          "weight": 6,
+          "id": "thailand.lamphun",
+          "nameKey": "city.thailand.lamphun.name",
+          "weight": 4,
           "modifiers": {
-            "costOfLiving": 1.2,
-            "education": 60,
-            "healthcare": 68
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
           }
         },
         {
-          "id": "thailand.hat_yai",
-          "nameKey": "city.thailand.hat_yai.name",
-          "weight": 8,
+          "id": "thailand.lampang",
+          "nameKey": "city.thailand.lampang.name",
+          "weight": 7,
           "modifiers": {
-            "costOfLiving": 0.9,
-            "education": 58,
-            "healthcare": 62
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.uttaradit",
+          "nameKey": "city.thailand.uttaradit.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.phrae",
+          "nameKey": "city.thailand.phrae.name",
+          "weight": 4,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.nan",
+          "nameKey": "city.thailand.nan.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.phayao",
+          "nameKey": "city.thailand.phayao.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.mae_hong_son",
+          "nameKey": "city.thailand.mae_hong_son.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 54,
+            "healthcare": 56
           }
         },
         {
           "id": "thailand.nakhon_ratchasima",
           "nameKey": "city.thailand.nakhon_ratchasima.name",
-          "weight": 10,
+          "weight": 26,
           "modifiers": {
             "costOfLiving": 0.85,
             "education": 55,
@@ -72,9 +452,339 @@
           }
         },
         {
+          "id": "thailand.buriram",
+          "nameKey": "city.thailand.buriram.name",
+          "weight": 16,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.surin",
+          "nameKey": "city.thailand.surin.name",
+          "weight": 14,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.sisaket",
+          "nameKey": "city.thailand.sisaket.name",
+          "weight": 15,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.ubon_ratchathani",
+          "nameKey": "city.thailand.ubon_ratchathani.name",
+          "weight": 19,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 56,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.yasothon",
+          "nameKey": "city.thailand.yasothon.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.chaiyaphum",
+          "nameKey": "city.thailand.chaiyaphum.name",
+          "weight": 11,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.amnat_charoen",
+          "nameKey": "city.thailand.amnat_charoen.name",
+          "weight": 4,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.bueng_kan",
+          "nameKey": "city.thailand.bueng_kan.name",
+          "weight": 4,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.nong_bua_lamphu",
+          "nameKey": "city.thailand.nong_bua_lamphu.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.khon_kaen",
+          "nameKey": "city.thailand.khon_kaen.name",
+          "weight": 18,
+          "modifiers": {
+            "costOfLiving": 0.85,
+            "education": 58,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.udon_thani",
+          "nameKey": "city.thailand.udon_thani.name",
+          "weight": 16,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 58,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.loei",
+          "nameKey": "city.thailand.loei.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.nong_khai",
+          "nameKey": "city.thailand.nong_khai.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.maha_sarakham",
+          "nameKey": "city.thailand.maha_sarakham.name",
+          "weight": 10,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.roi_et",
+          "nameKey": "city.thailand.roi_et.name",
+          "weight": 13,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.kalasin",
+          "nameKey": "city.thailand.kalasin.name",
+          "weight": 10,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.sakon_nakhon",
+          "nameKey": "city.thailand.sakon_nakhon.name",
+          "weight": 12,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.nakhon_phanom",
+          "nameKey": "city.thailand.nakhon_phanom.name",
+          "weight": 7,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.mukdahan",
+          "nameKey": "city.thailand.mukdahan.name",
+          "weight": 4,
+          "modifiers": {
+            "costOfLiving": 0.8,
+            "education": 50,
+            "healthcare": 53
+          }
+        },
+        {
+          "id": "thailand.chumphon",
+          "nameKey": "city.thailand.chumphon.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.ranong",
+          "nameKey": "city.thailand.ranong.name",
+          "weight": 2,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.surat_thani",
+          "nameKey": "city.thailand.surat_thani.name",
+          "weight": 11,
+          "modifiers": {
+            "costOfLiving": 0.95,
+            "education": 57,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.phang_nga",
+          "nameKey": "city.thailand.phang_nga.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.phuket",
+          "nameKey": "city.thailand.phuket.name",
+          "weight": 4,
+          "modifiers": {
+            "costOfLiving": 1.2,
+            "education": 60,
+            "healthcare": 68
+          }
+        },
+        {
+          "id": "thailand.krabi",
+          "nameKey": "city.thailand.krabi.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.nakhon_si_thammarat",
+          "nameKey": "city.thailand.nakhon_si_thammarat.name",
+          "weight": 16,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 56,
+            "healthcare": 60
+          }
+        },
+        {
+          "id": "thailand.trang",
+          "nameKey": "city.thailand.trang.name",
+          "weight": 6,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.phatthalung",
+          "nameKey": "city.thailand.phatthalung.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.satun",
+          "nameKey": "city.thailand.satun.name",
+          "weight": 3,
+          "modifiers": {
+            "costOfLiving": 0.88,
+            "education": 53,
+            "healthcare": 56
+          }
+        },
+        {
+          "id": "thailand.hat_yai",
+          "nameKey": "city.thailand.hat_yai.name",
+          "weight": 14,
+          "modifiers": {
+            "costOfLiving": 0.9,
+            "education": 58,
+            "healthcare": 62
+          }
+        },
+        {
+          "id": "thailand.pattani",
+          "nameKey": "city.thailand.pattani.name",
+          "weight": 7,
+          "modifiers": {
+            "costOfLiving": 0.82,
+            "education": 48,
+            "healthcare": 52
+          }
+        },
+        {
+          "id": "thailand.yala",
+          "nameKey": "city.thailand.yala.name",
+          "weight": 5,
+          "modifiers": {
+            "costOfLiving": 0.82,
+            "education": 48,
+            "healthcare": 52
+          }
+        },
+        {
+          "id": "thailand.narathiwat",
+          "nameKey": "city.thailand.narathiwat.name",
+          "weight": 8,
+          "modifiers": {
+            "costOfLiving": 0.82,
+            "education": 48,
+            "healthcare": 52
+          }
+        },
+        {
           "id": "thailand.rural_isan",
           "nameKey": "city.thailand.rural_isan.name",
-          "weight": 24,
+          "weight": 0,
           "modifiers": {
             "costOfLiving": 0.7,
             "education": 45,

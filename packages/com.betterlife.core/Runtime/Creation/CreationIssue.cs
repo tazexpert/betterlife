@@ -17,6 +17,10 @@ namespace BetterLife.Core.Creation
         public const string CityNotInCountry = "creation.issue.city_not_in_country";
         /// <summary>The name is empty or too long.</summary>
         public const string NameInvalid = "creation.issue.name_invalid";
+        /// <summary>The chosen face does not exist or is drawn as the other sex.</summary>
+        public const string AvatarInvalid = "creation.issue.avatar_invalid";
+        /// <summary>The birth date does not exist (e.g. 31 February).</summary>
+        public const string BirthDateInvalid = "creation.issue.birth_date_invalid";
 
         /// <summary>
         /// Creates an issue.

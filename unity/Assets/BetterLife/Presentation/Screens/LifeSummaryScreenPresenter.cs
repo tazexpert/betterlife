@@ -1,3 +1,4 @@
+using BetterLife.Core.Navigation;
 using BetterLife.Core.Sessions;
 using BetterLife.Core.ViewModels;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace BetterLife.Presentation.Screens
             {
                 Content.Add(UiRows.Text(Context.Localizer.Get("summary.no_heir"), "list-screen__empty"));
             }
-            Content.Add(UiRows.Action(Context.Localizer.Get("summary.new_life"), Context.Lives.StartNewLife));
+            Content.Add(UiRows.Action(Context.Localizer.Get("summary.new_life"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Creation))));
             string share = summary.ShareText;
             Content.Add(UiRows.Action(Context.Localizer.Get("summary.copy"), () => Copy(share)));
         }

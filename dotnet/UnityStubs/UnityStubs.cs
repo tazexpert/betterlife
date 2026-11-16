@@ -63,6 +63,16 @@ namespace UnityEngine.UIElements
         public void SetEnabled(bool v) {} public void MarkDirtyRepaint() {}
         public IVisualElementScheduler schedule; public int childCount; public VisualElement parent; public int IndexOf(VisualElement e) => 0; public void Insert(int index, VisualElement e) {} public void RemoveAt(int index) {} public void RemoveFromHierarchy() {} public void RemoveFromClassList(string c) {}
     }
+    public delegate void EventCallback<in TEventType>(TEventType evt);
+    public class ChangeEvent<T> { public T previousValue; public T newValue; }
+    public interface INotifyValueChanged<T> { T value { get; set; } }
+    public static class INotifyValueChangedExtension { public static bool RegisterValueChangedCallback<T>(this INotifyValueChanged<T> control, EventCallback<ChangeEvent<T>> callback) => true; }
+    public class TextField : VisualElement, INotifyValueChanged<string> { public TextField() {} public TextField(string label) {} public string value { get; set; } public int maxLength; public string label; }
+    public class DropdownField : VisualElement, INotifyValueChanged<string>
+    {
+        public DropdownField() {} public DropdownField(string label, List<string> choices, int defaultIndex, Func<string, string> formatSelectedValueCallback = null, Func<string, string> formatListItemCallback = null) {}
+        public string value { get; set; } public int index { get; set; } public List<string> choices { get; set; } public string label;
+    }
     public class TemplateContainer : VisualElement {}
     public class TextElement : VisualElement { public string text; }
     public class Label : TextElement { public Label() {} public Label(string t) {} }
