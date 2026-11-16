@@ -4,7 +4,9 @@
       "version": "file:../../packages/com.betterlife.core",
       "depth": 0,
       "source": "local",
-      "dependencies": {}
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      }
     },
     "com.unity.ext.nunit": {
       "version": "2.1.0",
