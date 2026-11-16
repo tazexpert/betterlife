@@ -226,8 +226,9 @@ namespace BetterLife.Core.LifeEvents
                 State.AddHistory(new EventHistoryEntry(instanceId, definition.Id, origin, tick.Week, null, true));
             }
 
-            if (definition.HasChoices)
+            if (definition.HasChoices || definition.Trigger == EventTrigger.Milestone)
             {
+                // Life milestones stop time too, so the story popup shows them in the week they happen.
                 tick.RequestDecision(definition.Severity, definition.TitleKey, definition.Id);
             }
             else

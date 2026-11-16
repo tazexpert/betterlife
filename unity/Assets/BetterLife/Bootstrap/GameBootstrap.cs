@@ -8,6 +8,7 @@ using BetterLife.Core.Creation;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Events;
 using BetterLife.Core.Legacy;
+using BetterLife.Core.LifeEvents;
 using BetterLife.Core.Localization;
 using BetterLife.Core.Navigation;
 using BetterLife.Core.Notices;
@@ -161,6 +162,7 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.Home, () => new DashboardScreenPresenter(context));
             screens.Register(ScreenIds.Inbox, () => new InboxScreenPresenter(context));
             screens.Register(ScreenIds.EventDialog, () => new EventDialogPresenter(context));
+            screens.Register(ScreenIds.Story, () => new StoryDialogPresenter(context));
             screens.Register(ScreenIds.Breakdown, () => new BreakdownPresenter(context));
             screens.Register(ScreenIds.Money, () => new FinanceScreenPresenter(context));
             screens.Register(ScreenIds.People, () => new PeopleScreenPresenter(context));
@@ -338,6 +340,14 @@ namespace BetterLife.Bootstrap
             if (decision.HasValue)
             {
                 _router.OpenModal(new ScreenRequest(ScreenIds.EventDialog, decision.Value.ToString(CultureInfo.InvariantCulture)));
+            }
+            else
+            {
+                StoryEntry story = _life.Stories.Stopping(result);
+                if (story != null)
+                {
+                    _router.OpenModal(new ScreenRequest(ScreenIds.Story, story.InstanceId.ToString(CultureInfo.InvariantCulture)));
+                }
             }
             if (result.WasInterrupted)
             {

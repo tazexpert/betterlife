@@ -64,6 +64,7 @@ namespace BetterLife.Core.Sessions
             Luck = luck ?? throw new ArgumentNullException(nameof(luck));
             Deaths = deaths ?? throw new ArgumentNullException(nameof(deaths));
             Bus = bus ?? throw new ArgumentNullException(nameof(bus));
+            Stories = new StoryLog(bus);
         }
 
         /// <summary>Macro economy (cycle, inflation, markets).</summary>
@@ -123,6 +124,9 @@ namespace BetterLife.Core.Sessions
         /// <summary>Event bus.</summary>
         public IEventBus Bus { get; }
 
+        /// <summary>Latest life events without choices, for the story popup (not saved).</summary>
+        public StoryLog Stories { get; }
+
         /// <summary>True once the character has died.</summary>
         public bool IsOver => !Character.IsAlive;
 
@@ -149,6 +153,7 @@ namespace BetterLife.Core.Sessions
             Relationships.Dispose();
             Vices.Dispose();
             Scams.Dispose();
+            Stories.Dispose();
         }
     }
 }

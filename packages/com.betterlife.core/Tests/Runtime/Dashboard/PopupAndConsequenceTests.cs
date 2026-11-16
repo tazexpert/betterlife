@@ -99,6 +99,33 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void ALifeMilestone_StopsTime_AndShowsItsStoryAndEffects()
+        {
+            const string story = @"{ 'id': 'test.story', 'titleKey': 'event.test.story.title', 'bodyKey': 'event.test.story.body',
+                'category': 'test', 'trigger': 'milestone', 'severity': 'minor', 'tone': 'positive',
+                'milestone': { 'minAge': 0, 'maxAge': 2, 'chance': 100 },
+                'onFire': [ { 'type': 'stat', 'stat': 'mental.happiness', 'amount': 5 } ], 'choices': [] }";
+            IContentRepository content = TestContent.Load(TestContent.Source("{ 'type': 'events', 'path': 'events/test.json' }", 0f)
+                .Add("events/test.json", EventFixture.Events(story)));
+            ILocalizer keys = DashboardFixture.Keys();
+            CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(5UL, CreationMode.Random));
+            using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), new InterruptPolicy()))
+            {
+                AdvanceResult result = life.Advance(TimeSkip.Year);
+                Assert.That(result.WeeksAdvanced, Is.EqualTo(1), "the story pops up in the week it happens, even in a year skip");
+                Assert.That(Notices.NoticeFeed.StoppingDecision(result, life.Events.Inbox), Is.Null, "nothing to answer");
+
+                StoryEntry entry = life.Stories.Stopping(result);
+                Assert.That(entry, Is.Not.Null, "the shell opens the story popup");
+                Assert.That(life.Stories.Find(entry.InstanceId), Is.SameAs(entry));
+                EventResultState state = EventDialogViewModel.BuildStory(life, entry, keys, new MoneyFormatter(keys));
+                Assert.That(state.Title, Is.EqualTo(keys.Get("event.test.story.title")));
+                Assert.That(state.ResultText, Is.EqualTo(keys.Get("event.test.story.body")));
+                Assert.That(state.Lines, Has.Count.EqualTo(1), "the effect it applied is listed");
+            }
+        }
+
+        [Test]
         public void MeetingAPartner_StartsARelationship()
         {
             using (LifeSession life = NewLife(new InterruptPolicy()))

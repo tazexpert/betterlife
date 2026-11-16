@@ -8,7 +8,7 @@
       "trigger": "random",
       "severity": "normal",
       "tone": "negative",
-      "cooldownWeeks": 40,
+      "cooldownWeeks": 52,
       "weight": {
         "base": 5
       },

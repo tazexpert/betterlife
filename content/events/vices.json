@@ -24,7 +24,7 @@
           }
         ]
       },
-      "cooldownWeeks": 12,
+      "cooldownWeeks": 39,
       "condition": {
         "type": "all",
         "conditions": [

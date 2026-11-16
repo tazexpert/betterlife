@@ -11,7 +11,7 @@
       "weight": {
         "base": 6
       },
-      "cooldownWeeks": 52,
+      "cooldownWeeks": 156,
       "condition": {
         "type": "age",
         "op": ">=",
@@ -31,7 +31,8 @@
           "amount": 4
         }
       ],
-      "choices": []
+      "choices": [],
+      "maxOccurrences": 2
     },
     {
       "id": "daily.found_temple_fair",
@@ -55,7 +56,7 @@
           }
         ]
       },
-      "cooldownWeeks": 26,
+      "cooldownWeeks": 104,
       "choices": [
         {
           "id": "make_merit",
@@ -109,7 +110,8 @@
         "type": "age",
         "op": ">=",
         "value": 10
-      }
+      },
+      "maxOccurrences": 3
     }
   ]
 }

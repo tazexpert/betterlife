@@ -39,5 +39,7 @@ namespace BetterLife.Core.Navigation
         public const string Achievements = "achievements";
         /// <summary>Settings (pushed on the More tab).</summary>
         public const string Settings = "settings";
+        /// <summary>Story popup of a life event without choices (argument = event instance id).</summary>
+        public const string Story = "story";
     }
 }

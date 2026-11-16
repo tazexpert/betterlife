@@ -101,6 +101,32 @@ namespace BetterLife.Core.ViewModels
         }
 
         /// <summary>
+        /// Builds the story popup of a life event without choices: title, story text and the effects it applied.
+        /// </summary>
+        /// <param name="session">Life session.</param>
+        /// <param name="story">The story.</param>
+        /// <param name="localizer">Localizer.</param>
+        /// <param name="money">Money formatter.</param>
+        /// <returns>The state.</returns>
+        public static EventResultState BuildStory(LifeSession session, StoryEntry story, ILocalizer localizer, MoneyFormatter money)
+        {
+            if (session == null)
+            {
+                throw new ArgumentNullException(nameof(session));
+            }
+            if (story == null)
+            {
+                throw new ArgumentNullException(nameof(story));
+            }
+            if (localizer == null)
+            {
+                throw new ArgumentNullException(nameof(localizer));
+            }
+            IReadOnlyList<string> lines = Formatter(session, localizer, money).FormatAll(story.Effects.Lines);
+            return new EventResultState(localizer.Get(story.Definition.TitleKey), localizer.Get(story.Definition.BodyKey), true, null, lines);
+        }
+
+        /// <summary>
         /// Lists the visible requirements that are not met (", " separated), or the generic locked text.
         /// </summary>
         private static string Locked(Rules.ConditionTrace requirement, RuleTextFormatter rules, ILocalizer localizer)

@@ -12,7 +12,7 @@
         "type": "career",
         "employed": true
       },
-      "cooldownWeeks": 26,
+      "cooldownWeeks": 39,
       "weight": {
         "base": 8,
         "modifiers": [
