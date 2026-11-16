@@ -143,3 +143,13 @@ Tests: `EffectTests.MedicalBills_ArePaidByTheFamily_WhileDependent`, `PopupAndCo
 | 10 ชนชั้นนำ | 15,000 | 30,000 | 50,000 | 100,000 |
 
 C#: `AllowanceBand`, `FamilySupportLevel.Allowances` + `AllowanceAt(age)` (แทน `MonthlyAllowance`) · Save: ไม่เปลี่ยน · Tests: `FinanceServiceTests.Allowance_GrowsWithTheAgeBand`, `FinanceContentTests`
+
+## แก้ 2026-11-16: เงินของเด็กหายโดยไม่รู้สาเหตุ (ผู้ใช้พบ)
+| หัวข้อ | การตัดสินใจ | เหตุผล |
+|---|---|---|
+| สาเหตุหลัก | ตารางเวลาเริ่มต้นของเด็กมีเที่ยวเล่น 10 ชม. (10 บาท/ชม.) + เจอเพื่อน 6 ชม. (30 บาท/ชม.) ≈ 280 บาท/สัปดาห์ (≈ 1,200/เดือน) หักจากเงินของเด็กทุกสัปดาห์โดยไม่มีการแจ้ง (มากกว่าค่าขนมของฐานะระดับ 1–5) | |
+| แก้ | ค่าใช้จ่ายของกิจกรรมในตารางเวลา **ครอบครัวจ่ายให้ทั้งหมดขณะยังอยู่ในความดูแล** (`TimeAllocationPhase`) ค่าขนมจึงสะสมเป็นเงินเก็บได้ | เหมือนค่ารักษา (`familyPays`) |
+| เงินที่ยังหายได้ (ตั้งใจ) | กระเป๋าตังค์หาย (12+), เคราะห์ร้ายเล็กน้อยจากกรรม, มิจฉาชีพไอเทมเกม (9+) → ต้องมองเห็นเสมอ: **เหตุการณ์ที่ไม่มีตัวเลือกแต่ทำให้เสียเงิน หยุดเวลาและเปิด Story popup** (เดิมเป็นแถบแจ้งเตือน 3.5 วินาที) | เงินไม่หายเงียบๆ |
+| เงินเฟ้อ | หน้าการเงินมีบรรทัด "เงินเฟ้อ" แต่ยอดที่แสดงเป็นราคาตามยุคจึงไม่ลดลง | |
+
+Tests: `PopupAndConsequenceTests.TheFamily_PaysAChildsEverydayCosts_AndAdultsPayTheirOwn`, `EventsThatCostMoney_ShowTheStoryPopup`

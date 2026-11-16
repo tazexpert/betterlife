@@ -1,3 +1,5 @@
+using BetterLife.Core.Time.Ticking.Phases;
+using System.Collections.Generic;
 using System.Linq;
 using BetterLife.Core.Content;
 using BetterLife.Core.Creation;
@@ -159,6 +161,42 @@ namespace BetterLife.Core.Tests.Dashboard
                 }
                 Assume.That(life.Character.Education.IsEnrolled, Is.False);
                 Assert.That(life.Character.Finances.IsDependent, Is.False, "a 30-year-old pays their own way");
+            }
+        }
+
+        [Test]
+        public void TheFamily_PaysAChildsEverydayCosts_AndAdultsPayTheirOwn()
+        {
+            using (LifeSession life = SaveFixture.NewLife())
+            {
+                var spent = new List<(int Age, decimal Cash)>();
+                life.Bus.Subscribe<TimeAllocationAppliedEvent>(e => spent.Add((life.Character.AgeAt(e.Week), e.CashSpent)));
+                SaveFixture.Advance(life, 29);
+                Assume.That(life.IsOver || life.Character.Education.IsEnrolled, Is.False);
+                life.Character.Wallet.Deposit(100000m);
+                int beforeAdultWeeks = spent.Count;
+                SaveFixture.Advance(life, 1);
+
+                Assert.That(spent.Where(s => s.Age >= 12 && s.Age < 18).Select(s => s.Cash), Is.All.EqualTo(0m),
+                    "a teenager's gym hours do not empty their pocket money");
+                Assert.That(spent.Skip(beforeAdultWeeks).Sum(s => s.Cash), Is.GreaterThan(0m), "an adult pays for the gym");
+            }
+        }
+
+        [Test]
+        public void EventsThatCostMoney_ShowTheStoryPopup()
+        {
+            const string events = @"{ 'id': 'test.lost', 'titleKey': 'event.test.lost.title', 'bodyKey': 'event.test.lost.body',
+                'category': 'test', 'trigger': 'random', 'severity': 'minor', 'tone': 'negative', 'cooldownWeeks': 1000,
+                'onFire': [ { 'type': 'cash', 'amount': -100 } ], 'choices': [] }";
+            IContentRepository content = TestContent.Load(TestContent.Source("{ 'type': 'events', 'path': 'events/test.json' }", 1f)
+                .Add("events/test.json", EventFixture.Events(events)));
+            CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(5UL, CreationMode.Random));
+            using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), new InterruptPolicy()))
+            {
+                AdvanceResult result = life.Advance(TimeSkip.Year);
+                Assert.That(result.WeeksAdvanced, Is.EqualTo(1), "money never disappears silently");
+                Assert.That(life.Stories.Stopping(result).Definition.Id, Is.EqualTo("test.lost"));
             }
         }
 

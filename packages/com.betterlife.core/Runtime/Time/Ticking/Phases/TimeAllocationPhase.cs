@@ -95,8 +95,9 @@ namespace BetterLife.Core.Time.Ticking.Phases
         private decimal Pay(Character character, ActivityDefinition activity, int hours, GameDate week)
         {
             decimal cost = activity.CostPerHour * hours;
-            if (cost <= 0m)
+            if (cost <= 0m || character.Finances.IsDependent)
             {
+                // The family pays a dependent child's everyday costs; pocket money is kept as savings.
                 return 0m;
             }
 

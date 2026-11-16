@@ -226,9 +226,10 @@ namespace BetterLife.Core.LifeEvents
                 State.AddHistory(new EventHistoryEntry(instanceId, definition.Id, origin, tick.Week, null, true));
             }
 
-            if (definition.HasChoices || definition.Trigger == EventTrigger.Milestone || definition.Trigger == EventTrigger.Scheduled)
+            if (definition.HasChoices || definition.Trigger != EventTrigger.Random || CostsMoney(onFire))
             {
-                // Life milestones and follow-ups of earlier choices stop time too, so the story popup shows them in the week they happen.
+                // Choices open the event dialog; life milestones, follow-ups, karmic misfortunes and anything that took money
+                // stop time for the story popup, so the player sees why money or stats changed.
                 tick.RequestDecision(definition.Severity, definition.TitleKey, definition.Id);
             }
             else
@@ -237,6 +238,11 @@ namespace BetterLife.Core.LifeEvents
             }
             onFire.PublishTo(_bus);
             _bus.Publish(new LifeEventFiredEvent(instanceId, definition, origin, tick.Week, onFire));
+        }
+
+        private static bool CostsMoney(EffectResult result)
+        {
+            return result.CashShortfall > 0m || result.Lines.Any(l => l.Key == RuleTextKeys.EffectCashPay || l.Key == RuleTextKeys.EffectCashShortfall);
         }
 
         private LifeEventDefinition Draw(EventTrigger trigger, RuleContext context, Func<LifeEventDefinition, bool> extraFilter)
