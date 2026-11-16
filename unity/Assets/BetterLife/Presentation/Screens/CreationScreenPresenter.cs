@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 namespace BetterLife.Presentation.Screens
 {
     /// <summary>
-    /// Character creation: name, sex, date and time of birth, country and province, family wealth, parents' parenting
+    /// Character creation: name, sex, date and time of birth, province (country only when content has no home country), family wealth, parents' parenting
     /// styles and face. Starts from a random character; every field can be changed. The form keeps its values in a
     /// <see cref="CreationDraft"/> and is rebuilt from it when the sex or country changes.
     /// </summary>
@@ -22,6 +22,8 @@ namespace BetterLife.Presentation.Screens
         public const string FieldClass = "creation-field";
         /// <summary>Class of a selected choice button.</summary>
         public const string SelectedClass = "choice--selected";
+        /// <summary>Face grid with 8 faces per row.</summary>
+        public const string FaceGridClass = "avatar-grid--eight";
 
         private CreationDraft _draft;
         private CreationFormViewModel _form;
@@ -64,12 +66,15 @@ namespace BetterLife.Presentation.Screens
             Content.Add(Dropdown(CreationFormViewModel.BirthHourKey, _form.Hours, _draft.Hour.ToString(CultureInfo.InvariantCulture),
                 id => _draft.Hour = int.Parse(id, CultureInfo.InvariantCulture)));
 
-            Content.Add(Dropdown(CreationFormViewModel.CountryKey, _form.Countries, _draft.CountryId, id =>
+            if (_form.HomeCountryId == null)
             {
-                _draft.CountryId = id;
-                _draft.CityId = _form.Cities(id).FirstOrDefault()?.Id;
-                Refresh();
-            }));
+                Content.Add(Dropdown(CreationFormViewModel.CountryKey, _form.Countries, _draft.CountryId, id =>
+                {
+                    _draft.CountryId = id;
+                    _draft.CityId = _form.Cities(id).FirstOrDefault()?.Id;
+                    Refresh();
+                }));
+            }
             Content.Add(Dropdown(CreationFormViewModel.CityKey, _form.Cities(_draft.CountryId), _draft.CityId, id => _draft.CityId = id));
             Content.Add(Dropdown(CreationFormViewModel.FamilyKey, _form.Families, _draft.FamilyBackgroundId, id => _draft.FamilyBackgroundId = id));
             Content.Add(Dropdown(CreationFormViewModel.MotherKey, _form.Personalities, _draft.MotherPersonalityId, id => _draft.MotherPersonalityId = id));
@@ -125,6 +130,7 @@ namespace BetterLife.Presentation.Screens
         {
             var grid = new VisualElement();
             grid.AddToClassList(AvatarPickerScreenPresenter.GridClass);
+            grid.AddToClassList(FaceGridClass);
             IReadOnlyList<AvatarOption> faces = _form.Faces(_draft.Sex, _draft.AvatarFace);
             if (_draft.AvatarFace == null && faces.Count > 0)
             {

@@ -43,7 +43,7 @@ namespace BetterLife.Content.Tests
             double thai = lives.Count(c => c.Residence.CountryId == "thailand") / (double)Lives;
             TestContext.WriteLine($"Thailand {thai:P0}, backgrounds: " + string.Join(", ", lives.GroupBy(c => c.Family.BackgroundId).OrderByDescending(g => g.Count()).Select(g => $"{g.Key} {g.Count()}")));
             TestContext.WriteLine($"Mean wealth {lives.Average(c => c.Stats.GetValue(StatIds.Wealth)):0.0}, mean IQ {lives.Average(c => c.Stats.GetValue(StatIds.Iq)):0.0}, with traits {lives.Count(c => c.Traits.Instances.Count > 0)}");
-            Assert.That(thai, Is.EqualTo(0.9).Within(0.05));
+            Assert.That(thai, Is.EqualTo(1.0), "every life is born in the home country (creation_settings.homeCountry)");
             Assert.That(lives.Select(c => c.Family.BackgroundId).Distinct().Count(), Is.GreaterThanOrEqualTo(5));
             Assert.That(lives.Select(c => c.Name.GivenName).Distinct().Count(), Is.GreaterThan(20));
         }

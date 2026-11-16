@@ -314,9 +314,13 @@ namespace BetterLife.Bootstrap
             _router.Push(new ScreenRequest(ScreenIds.Settings));
         }
 
+        /// <summary>
+        /// The game starts in Thai whatever the device language (the user's choice, 2026-11-16); English stays selectable
+        /// in Settings.
+        /// </summary>
         private static string DeviceLanguage()
         {
-            return Application.systemLanguage == SystemLanguage.Thai ? ThaiLanguage : FallbackLanguage;
+            return ThaiLanguage;
         }
 
         private void ShowSummaryIfOver()

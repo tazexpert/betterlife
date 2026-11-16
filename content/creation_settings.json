@@ -6,5 +6,6 @@
   "parentAgeAtBirth": {
     "min": 20,
     "max": 42
-  }
+  },
+  "homeCountry": "thailand"
 }

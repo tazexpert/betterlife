@@ -8,7 +8,7 @@ namespace BetterLife.Content.Tests
 {
     /// <summary>
     /// Real content: the creation screen offers all 77 Thai provinces in Thai alphabetical order; places kept only for old
-    /// saves are hidden.
+    /// saves are hidden. Every life is born in Thailand.
     /// </summary>
     [TestFixture]
     public class ProvincesTests
@@ -27,6 +27,13 @@ namespace BetterLife.Content.Tests
             Assert.That(provinces.Select(p => p.Label).ToList().IndexOf("เชียงใหม่"), Is.LessThan(provinces.Select(p => p.Label).ToList().IndexOf("ตาก")),
                 "a leading vowel sorts by its consonant (ช before ต)");
             Assert.That(form.Families, Has.Count.EqualTo(10));
+            Assert.That(form.HomeCountryId, Is.EqualTo("thailand"), "the form shows no country choice");
+            for (ulong seed = 1; seed <= 40; seed++)
+            {
+                var c = new BetterLife.Core.Creation.CharacterCreator(content)
+                    .Create(new BetterLife.Core.Creation.CreationRequest(seed, BetterLife.Core.Creation.CreationMode.Random)).Character;
+                Assert.That(c.Residence.CountryId, Is.EqualTo("thailand"), "every life is born in Thailand");
+            }
         }
     }
 }

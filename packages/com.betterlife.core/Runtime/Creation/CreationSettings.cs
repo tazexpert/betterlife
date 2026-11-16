@@ -15,8 +15,10 @@ namespace BetterLife.Core.Creation
         /// <param name="maxBirthYear">Latest birth year.</param>
         /// <param name="minParentAge">Youngest parent age at the birth; positive.</param>
         /// <param name="maxParentAge">Oldest parent age at the birth.</param>
-        public CreationSettings(int minBirthYear, int maxBirthYear, int minParentAge, int maxParentAge)
+        /// <param name="homeCountryId">Country every life is born in, or null to roll it by weight.</param>
+        public CreationSettings(int minBirthYear, int maxBirthYear, int minParentAge, int maxParentAge, string homeCountryId = null)
         {
+            HomeCountryId = homeCountryId;
             if (minBirthYear < GameCalendar.EpochYear || maxBirthYear < minBirthYear)
             {
                 throw new ArgumentOutOfRangeException(nameof(maxBirthYear), maxBirthYear, $"Birth years must satisfy {GameCalendar.EpochYear} <= min <= max.");
@@ -42,5 +44,8 @@ namespace BetterLife.Core.Creation
 
         /// <summary>Oldest parent age at the birth.</summary>
         public int MaxParentAge { get; }
+
+        /// <summary>Country every life is born in, or null to roll it by weight.</summary>
+        public string HomeCountryId { get; }
     }
 }

@@ -96,6 +96,9 @@ namespace BetterLife.Core.ViewModels
         public IReadOnlyList<ChoiceItem> Hours => Enumerable.Range(0, 24)
             .Select(h => new ChoiceItem(h.ToString(CultureInfo.InvariantCulture), _localizer.Format(HourFormatKey, ("hour", h.ToString(HourFormat, CultureInfo.InvariantCulture))))).ToList();
 
+        /// <summary>Country every life is born in (the form shows its provinces only), or null to choose.</summary>
+        public string HomeCountryId => _settings.HomeCountryId;
+
         /// <summary>Countries.</summary>
         public IReadOnlyList<ChoiceItem> Countries => _catalogs.Countries.All.Select(c => new ChoiceItem(c.Id, _localizer.Get(c.NameKey))).ToList();
 

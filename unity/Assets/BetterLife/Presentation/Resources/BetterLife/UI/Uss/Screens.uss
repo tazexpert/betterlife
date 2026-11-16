@@ -677,3 +677,15 @@
     color: var(--color-good);
     -unity-font-style: bold;
 }
+
+/* Creation screen: 8 faces per row. */
+.avatar-grid--eight {
+    justify-content: flex-start;
+}
+
+.avatar-grid--eight > .avatar {
+    width: 12%;
+    height: 132px;
+    margin-right: 0.5%;
+    margin-bottom: var(--space-xs);
+}

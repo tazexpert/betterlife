@@ -54,6 +54,10 @@
           "minimum": 1
         }
       }
+    },
+    "homeCountry": {
+      "$ref": "#/$defs/id",
+      "description": "Country every life is born in; omit to roll it by weight."
     }
   }
 }

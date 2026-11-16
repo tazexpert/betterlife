@@ -201,9 +201,10 @@ namespace BetterLife.Core.Creation
         private (CountryDefinition, CityDefinition) RollLocation(CreationRequest request, IRandomProvider random)
         {
             CountryDefinition rolledCountry = random.PickWeighted(_catalogs.Countries.All, c => c.Weight) ?? _catalogs.Countries.All.First();
+            CountryDefinition home = _settings.HomeCountryId != null ? _catalogs.Countries.Get(_settings.HomeCountryId) : null;
             CountryDefinition country = request.CountryId != null
                 ? _catalogs.Countries.Get(request.CountryId)
-                : request.CityId != null ? _catalogs.Countries.All.First(c => c.FindCity(request.CityId) != null) : rolledCountry;
+                : request.CityId != null ? _catalogs.Countries.All.First(c => c.FindCity(request.CityId) != null) : home ?? rolledCountry;
             CityDefinition rolledCity = random.PickWeighted(country.Cities, c => c.Weight) ?? country.Cities.First();
             CityDefinition city = request.CityId != null ? country.FindCity(request.CityId) : rolledCity;
             return (country, city);

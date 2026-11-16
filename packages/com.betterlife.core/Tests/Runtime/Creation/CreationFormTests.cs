@@ -1,5 +1,7 @@
 using System.Linq;
 using BetterLife.Core.Avatars;
+using BetterLife.Core.Content;
+using BetterLife.Core.Tests.Content;
 using BetterLife.Core.Creation;
 using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Localization;
@@ -69,6 +71,21 @@ namespace BetterLife.Core.Tests.Creation
             Assert.That(form.Hours, Has.Count.EqualTo(24));
             Assert.That(form.Months, Has.Count.EqualTo(12));
             Assert.That(form.Years.First(), Is.GreaterThan(form.Years.Last()), "newest year first");
+        }
+
+        [Test]
+        public void AHomeCountry_IsWhereEveryLifeIsBorn()
+        {
+            IContentRepository content = TestContent.Load(TestContent.Source()
+                .Add("creation_settings.json", "{ 'birthYear': { 'min': 1980, 'max': 2020 }, 'parentAgeAtBirth': { 'min': 20, 'max': 40 }, 'homeCountry': 'japan' }"));
+            Assert.That(content.Get<CreationSettings>().HomeCountryId, Is.EqualTo("japan"));
+            for (ulong seed = 1; seed <= 30; seed++)
+            {
+                Character c = new CharacterCreator(content).Create(new CreationRequest(seed, CreationMode.Random)).Character;
+                Assert.That(c.Residence.CountryId, Is.EqualTo("japan"));
+            }
+            Assert.That(new CreationFormViewModel(content, DashboardFixture.Keys()).HomeCountryId, Is.EqualTo("japan"));
+            Assert.That(new CreationFormViewModel(SaveFixture.Content, DashboardFixture.Keys()).HomeCountryId, Is.Null, "without one the form offers countries");
         }
     }
 }
