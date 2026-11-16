@@ -24,7 +24,7 @@
           }
         ]
       },
-      "cooldownWeeks": 39,
+      "cooldownWeeks": 52,
       "condition": {
         "type": "all",
         "conditions": [
@@ -113,7 +113,8 @@
           }
         }
       ],
-      "defaultChoice": "decline"
+      "defaultChoice": "decline",
+      "maxOccurrences": 10
     }
   ]
 }

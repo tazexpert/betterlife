@@ -23,7 +23,7 @@
           }
         ]
       },
-      "cooldownWeeks": 52,
+      "cooldownWeeks": 104,
       "condition": {
         "type": "all",
         "conditions": [
@@ -92,7 +92,8 @@
           }
         }
       ],
-      "defaultChoice": "decline"
+      "defaultChoice": "decline",
+      "maxOccurrences": 5
     },
     {
       "id": "scam.online_lover_request",

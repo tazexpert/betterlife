@@ -8,7 +8,7 @@
       "trigger": "random",
       "severity": "normal",
       "tone": "negative",
-      "cooldownWeeks": 52,
+      "cooldownWeeks": 104,
       "weight": {
         "base": 5
       },
@@ -96,7 +96,8 @@
           }
         }
       ],
-      "defaultChoice": "rest"
+      "defaultChoice": "rest",
+      "maxOccurrences": 15
     }
   ]
 }

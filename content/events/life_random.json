@@ -1,0 +1,3308 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "re.injured_stray",
+      "titleKey": "event.re.injured_stray.title",
+      "bodyKey": "event.re.injured_stray.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "adopt",
+          "textKey": "event.re.injured_stray.choice.adopt",
+          "success": {
+            "resultKey": "event.re.injured_stray.choice.adopt.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -2000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.pet"
+              },
+              {
+                "type": "karma.good",
+                "amount": 5
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.pet_best_friend",
+                "delayWeeks": {
+                  "min": 26,
+                  "max": 52
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "call",
+          "textKey": "event.re.injured_stray.choice.call",
+          "success": {
+            "resultKey": "event.re.injured_stray.choice.call.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 2
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "call"
+    },
+    {
+      "id": "re.pet_best_friend",
+      "titleKey": "event.re.pet_best_friend.title",
+      "bodyKey": "event.re.pet_best_friend.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "positive",
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.skip_day",
+      "titleKey": "event.re.skip_day.title",
+      "bodyKey": "event.re.skip_day.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          },
+          {
+            "type": "any",
+            "conditions": [
+              {
+                "type": "education",
+                "enrolled": true
+              },
+              {
+                "type": "career",
+                "employed": true
+              }
+            ]
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "go",
+          "textKey": "event.re.skip_day.choice.go",
+          "chance": {
+            "base": 70
+          },
+          "success": {
+            "resultKey": "event.re.skip_day.choice.go.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 30
+              },
+              {
+                "type": "relationship",
+                "relation": "friend",
+                "amount": 15,
+                "target": "closest"
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.skip_day.choice.go.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 30
+              },
+              {
+                "type": "relationship",
+                "relation": "friend",
+                "amount": 15,
+                "target": "closest"
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.skip_caught",
+                "delayWeeks": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "stay",
+          "textKey": "event.re.skip_day.choice.stay",
+          "success": {
+            "resultKey": "event.re.skip_day.choice.stay.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              },
+              {
+                "type": "if",
+                "condition": {
+                  "type": "education",
+                  "enrolled": true
+                },
+                "then": [
+                  {
+                    "type": "education.performance",
+                    "amount": 10
+                  }
+                ],
+                "else": [
+                  {
+                    "type": "career.performance",
+                    "amount": 10
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "stay"
+    },
+    {
+      "id": "re.skip_caught",
+      "titleKey": "event.re.skip_caught.title",
+      "bodyKey": "event.re.skip_caught.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "if",
+          "condition": {
+            "type": "education",
+            "enrolled": true
+          },
+          "then": [
+            {
+              "type": "education.performance",
+              "amount": -10
+            },
+            {
+              "type": "reputation",
+              "domain": "school",
+              "amount": -5
+            }
+          ],
+          "else": [
+            {
+              "type": "career.boss",
+              "amount": -15
+            },
+            {
+              "type": "cash",
+              "amount": -1000
+            }
+          ]
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.lost_phone",
+      "titleKey": "event.re.lost_phone.title",
+      "bodyKey": "event.re.lost_phone.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "return",
+          "textKey": "event.re.lost_phone.choice.return",
+          "chance": {
+            "base": 50
+          },
+          "success": {
+            "resultKey": "event.re.lost_phone.choice.return.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 3
+              },
+              {
+                "type": "karma.good",
+                "amount": 5
+              },
+              {
+                "type": "cash",
+                "amount": 2000
+              },
+              {
+                "type": "meet",
+                "relation": "contact",
+                "chance": 0.2
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.lost_phone.choice.return.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 3
+              },
+              {
+                "type": "karma.good",
+                "amount": 5
+              }
+            ]
+          }
+        },
+        {
+          "id": "sell",
+          "textKey": "event.re.lost_phone.choice.sell",
+          "chance": {
+            "base": 80
+          },
+          "success": {
+            "resultKey": "event.re.lost_phone.choice.sell.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 10000
+              },
+              {
+                "type": "karma.bad",
+                "amount": 8
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.lost_phone.choice.sell.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 10000
+              },
+              {
+                "type": "karma.bad",
+                "amount": 8
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.phone_police",
+                "delayWeeks": {
+                  "min": 4,
+                  "max": 12
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "return"
+    },
+    {
+      "id": "re.phone_police",
+      "titleKey": "event.re.phone_police.title",
+      "bodyKey": "event.re.phone_police.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "cash",
+          "amount": -20000
+        },
+        {
+          "type": "reputation",
+          "domain": "neighborhood",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 25
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.scouted",
+      "titleKey": "event.re.scouted.title",
+      "bodyKey": "event.re.scouted.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "try",
+          "textKey": "event.re.scouted.choice.try",
+          "chance": {
+            "base": 15
+          },
+          "success": {
+            "resultKey": "event.re.scouted.choice.try.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 4
+              },
+              {
+                "type": "reputation",
+                "domain": "entertainment",
+                "amount": 30
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 10
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.showbiz"
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.scouted.choice.try.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 4
+              },
+              {
+                "type": "cash",
+                "amount": -8000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": -5
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.re.scouted.choice.decline",
+          "success": {
+            "resultKey": "event.re.scouted.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": -5
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.no_showbiz"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline"
+    },
+    {
+      "id": "re.cyber_drama",
+      "titleKey": "event.re.cyber_drama.title",
+      "bodyKey": "event.re.cyber_drama.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          },
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 15
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "apologize",
+          "textKey": "event.re.cyber_drama.choice.apologize",
+          "success": {
+            "resultKey": "event.re.cyber_drama.choice.apologize.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 20
+              },
+              {
+                "type": "reputation",
+                "domain": "online",
+                "amount": -10
+              }
+            ]
+          }
+        },
+        {
+          "id": "fight",
+          "textKey": "event.re.cyber_drama.choice.fight",
+          "chance": {
+            "base": 50
+          },
+          "success": {
+            "resultKey": "event.re.cyber_drama.choice.fight.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 40
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.cyber_drama.choice.fight.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 40
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.defamation_suit",
+                "delayWeeks": {
+                  "min": 4,
+                  "max": 12
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "apologize"
+    },
+    {
+      "id": "re.defamation_suit",
+      "titleKey": "event.re.defamation_suit.title",
+      "bodyKey": "event.re.defamation_suit.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "cash",
+          "amount": -30000
+        },
+        {
+          "type": "reputation",
+          "domain": "online",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 20
+        },
+        {
+          "type": "if",
+          "condition": {
+            "type": "career",
+            "employed": true
+          },
+          "then": [
+            {
+              "type": "career.boss",
+              "amount": -15
+            }
+          ]
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.mega_sale",
+      "titleKey": "event.re.mega_sale.title",
+      "bodyKey": "event.re.mega_sale.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 16
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "buy",
+          "textKey": "event.re.mega_sale.choice.buy",
+          "success": {
+            "resultKey": "event.re.mega_sale.choice.buy.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "cash",
+                "amount": -15000
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.broke_month",
+                "delayWeeks": {
+                  "min": 3,
+                  "max": 5
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "resist",
+          "textKey": "event.re.mega_sale.choice.resist",
+          "success": {
+            "resultKey": "event.re.mega_sale.choice.resist.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              },
+              {
+                "type": "stat",
+                "stat": "wealth.credit_score",
+                "amount": 5
+              },
+              {
+                "type": "stat",
+                "stat": "hidden.willpower",
+                "amount": 5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "resist"
+    },
+    {
+      "id": "re.broke_month",
+      "titleKey": "event.re.broke_month.title",
+      "bodyKey": "event.re.broke_month.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.forbidden_crush",
+      "titleKey": "event.re.forbidden_crush.title",
+      "bodyKey": "event.re.forbidden_crush.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 15
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "pursue",
+          "textKey": "event.re.forbidden_crush.choice.pursue",
+          "chance": {
+            "base": 30
+          },
+          "success": {
+            "resultKey": "event.re.forbidden_crush.choice.pursue.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 30
+              },
+              {
+                "type": "karma.bad",
+                "amount": 10
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.forbidden_crush.choice.pursue.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 30
+              },
+              {
+                "type": "karma.bad",
+                "amount": 10
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.affair_exposed",
+                "delayWeeks": {
+                  "min": 8,
+                  "max": 26
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "let_go",
+          "textKey": "event.re.forbidden_crush.choice.let_go",
+          "success": {
+            "resultKey": "event.re.forbidden_crush.choice.let_go.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -20
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 15
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.let_go"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "let_go"
+    },
+    {
+      "id": "re.affair_exposed",
+      "titleKey": "event.re.affair_exposed.title",
+      "bodyKey": "event.re.affair_exposed.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "reputation",
+          "domain": "online",
+          "amount": -15
+        },
+        {
+          "type": "reputation",
+          "domain": "neighborhood",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -20
+        },
+        {
+          "type": "relationship",
+          "relation": "friend",
+          "amount": -10,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "partner",
+          "amount": -30,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "spouse",
+          "amount": -30,
+          "target": "all"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.fender_bender",
+      "titleKey": "event.re.fender_bender.title",
+      "bodyKey": "event.re.fender_bender.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 16
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "pay",
+          "textKey": "event.re.fender_bender.choice.pay",
+          "success": {
+            "resultKey": "event.re.fender_bender.choice.pay.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -3000
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "argue",
+          "textKey": "event.re.fender_bender.choice.argue",
+          "chance": {
+            "base": 50
+          },
+          "success": {
+            "resultKey": "event.re.fender_bender.choice.argue.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 30
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.fender_bender.choice.argue.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 30
+              },
+              {
+                "type": "cash",
+                "amount": -10000
+              },
+              {
+                "type": "reputation",
+                "domain": "online",
+                "amount": -15
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "pay"
+    },
+    {
+      "id": "re.food_poisoning",
+      "titleKey": "event.re.food_poisoning.title",
+      "bodyKey": "event.re.food_poisoning.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "hospital",
+          "textKey": "event.re.food_poisoning.choice.hospital",
+          "success": {
+            "resultKey": "event.re.food_poisoning.choice.hospital.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -5000
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": -5
+              }
+            ]
+          }
+        },
+        {
+          "id": "tough_it",
+          "textKey": "event.re.food_poisoning.choice.tough_it",
+          "chance": {
+            "base": 80
+          },
+          "success": {
+            "resultKey": "event.re.food_poisoning.choice.tough_it.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -200
+              },
+              {
+                "type": "healthCondition.add",
+                "condition": "food_poisoning",
+                "severity": 40
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": 5
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.food_poisoning.choice.tough_it.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -200
+              },
+              {
+                "type": "healthCondition.add",
+                "condition": "food_poisoning",
+                "severity": 70
+              },
+              {
+                "type": "stat",
+                "stat": "health.fitness",
+                "amount": -10
+              },
+              {
+                "type": "if",
+                "condition": {
+                  "type": "career",
+                  "employed": true
+                },
+                "then": [
+                  {
+                    "type": "career.performance",
+                    "amount": -10
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "hospital"
+    },
+    {
+      "id": "re.viral",
+      "titleKey": "event.re.viral.title",
+      "bodyKey": "event.re.viral.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 13
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 25
+          }
+        ]
+      },
+      "weight": {
+        "base": 3
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "go_big",
+          "textKey": "event.re.viral.choice.go_big",
+          "success": {
+            "resultKey": "event.re.viral.choice.go_big.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 20
+              },
+              {
+                "type": "reputation",
+                "domain": "online",
+                "amount": 40
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 10
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.influencer"
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.creator_income",
+                "delayWeeks": {
+                  "min": 12,
+                  "max": 26
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "let_pass",
+          "textKey": "event.re.viral.choice.let_pass",
+          "success": {
+            "resultKey": "event.re.viral.choice.let_pass.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "let_pass"
+    },
+    {
+      "id": "re.creator_income",
+      "titleKey": "event.re.creator_income.title",
+      "bodyKey": "event.re.creator_income.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "positive",
+      "onFire": [
+        {
+          "type": "cash",
+          "amount": 30000
+        },
+        {
+          "type": "reputation",
+          "domain": "online",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.relative_loan",
+      "titleKey": "event.re.relative_loan.title",
+      "bodyKey": "event.re.relative_loan.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "lend",
+          "textKey": "event.re.relative_loan.choice.lend",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 20000
+          },
+          "chance": {
+            "base": 10
+          },
+          "success": {
+            "resultKey": "event.re.relative_loan.choice.lend.success",
+            "effects": [
+              {
+                "type": "karma.good",
+                "amount": 3
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 5
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.relative_loan.choice.lend.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -20000
+              },
+              {
+                "type": "karma.good",
+                "amount": 3
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.relative_again",
+                "delayWeeks": {
+                  "min": 12,
+                  "max": 26
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "refuse",
+          "textKey": "event.re.relative_loan.choice.refuse",
+          "success": {
+            "resultKey": "event.re.relative_loan.choice.refuse.success",
+            "effects": [
+              {
+                "type": "reputation",
+                "domain": "family",
+                "amount": -15
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "refuse"
+    },
+    {
+      "id": "re.relative_again",
+      "titleKey": "event.re.relative_again.title",
+      "bodyKey": "event.re.relative_again.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "choices": [
+        {
+          "id": "lend",
+          "textKey": "event.re.relative_again.choice.lend",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 10000
+          },
+          "success": {
+            "resultKey": "event.re.relative_again.choice.lend.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -10000
+              },
+              {
+                "type": "karma.good",
+                "amount": 2
+              }
+            ]
+          }
+        },
+        {
+          "id": "refuse",
+          "textKey": "event.re.relative_again.choice.refuse",
+          "success": {
+            "resultKey": "event.re.relative_again.choice.refuse.success",
+            "effects": [
+              {
+                "type": "reputation",
+                "domain": "family",
+                "amount": -10
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "refuse"
+    },
+    {
+      "id": "re.headhunter",
+      "titleKey": "event.re.headhunter.title",
+      "bodyKey": "event.re.headhunter.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          },
+          {
+            "type": "career",
+            "employed": true
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "accept",
+          "textKey": "event.re.headhunter.choice.accept",
+          "chance": {
+            "base": 60
+          },
+          "success": {
+            "resultKey": "event.re.headhunter.choice.accept.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 30000
+              },
+              {
+                "type": "relationship",
+                "relation": "colleague",
+                "amount": -50,
+                "target": "all"
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.job_hopper"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 10
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.headhunter.choice.accept.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 30000
+              },
+              {
+                "type": "relationship",
+                "relation": "colleague",
+                "amount": -50,
+                "target": "all"
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.job_hopper"
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.toxic_workplace",
+                "delayWeeks": {
+                  "min": 8,
+                  "max": 20
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "stay",
+          "textKey": "event.re.headhunter.choice.stay",
+          "chance": {
+            "base": 20
+          },
+          "success": {
+            "resultKey": "event.re.headhunter.choice.stay.success",
+            "effects": [
+              {
+                "type": "career.boss",
+                "amount": 20
+              },
+              {
+                "type": "career.performance",
+                "amount": 20
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.headhunter.choice.stay.failure",
+            "effects": [
+              {
+                "type": "career.boss",
+                "amount": 20
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "stay"
+    },
+    {
+      "id": "re.toxic_workplace",
+      "titleKey": "event.re.toxic_workplace.title",
+      "bodyKey": "event.re.toxic_workplace.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 25
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.the_ex",
+      "titleKey": "event.re.the_ex.title",
+      "bodyKey": "event.re.the_ex.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          },
+          {
+            "type": "relationship",
+            "relation": "ex",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "meet",
+          "textKey": "event.re.the_ex.choice.meet",
+          "chance": {
+            "base": 40
+          },
+          "success": {
+            "resultKey": "event.re.the_ex.choice.meet.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 2
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.the_ex.choice.meet.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 2
+              },
+              {
+                "type": "if",
+                "condition": {
+                  "type": "any",
+                  "conditions": [
+                    {
+                      "type": "relationship",
+                      "relation": "partner",
+                      "count": {
+                        "op": ">=",
+                        "value": 1
+                      }
+                    },
+                    {
+                      "type": "relationship",
+                      "relation": "spouse",
+                      "count": {
+                        "op": ">=",
+                        "value": 1
+                      }
+                    }
+                  ]
+                },
+                "then": [
+                  {
+                    "type": "event.schedule",
+                    "event": "re.home_wrecked",
+                    "delayWeeks": {
+                      "min": 4,
+                      "max": 12
+                    }
+                  }
+                ],
+                "else": [
+                  {
+                    "type": "relationship",
+                    "relation": "ex",
+                    "amount": 10,
+                    "target": "closest"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "block",
+          "textKey": "event.re.the_ex.choice.block",
+          "success": {
+            "resultKey": "event.re.the_ex.choice.block.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.willpower",
+                "amount": 10
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "block"
+    },
+    {
+      "id": "re.home_wrecked",
+      "titleKey": "event.re.home_wrecked.title",
+      "bodyKey": "event.re.home_wrecked.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "relationship",
+          "relation": "partner",
+          "amount": -40,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "spouse",
+          "amount": -40,
+          "target": "all"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 30
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.phishing",
+      "titleKey": "event.re.phishing.title",
+      "bodyKey": "event.re.phishing.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "click",
+          "textKey": "event.re.phishing.choice.click",
+          "success": {
+            "resultKey": "event.re.phishing.choice.click.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.account_drained",
+                "delayWeeks": 1
+              }
+            ]
+          }
+        },
+        {
+          "id": "check",
+          "textKey": "event.re.phishing.choice.check",
+          "success": {
+            "resultKey": "event.re.phishing.choice.check.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 1
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "check"
+    },
+    {
+      "id": "re.account_drained",
+      "titleKey": "event.re.account_drained.title",
+      "bodyKey": "event.re.account_drained.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "scam.loss",
+          "scam": "sms_phishing",
+          "cashShare": 0.9,
+          "min": 1000,
+          "max": 5000000
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 30
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.water_leak",
+      "titleKey": "event.re.water_leak.title",
+      "bodyKey": "event.re.water_leak.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "renovate",
+          "textKey": "event.re.water_leak.choice.renovate",
+          "success": {
+            "resultKey": "event.re.water_leak.choice.renovate.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -30000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.home_upgraded"
+              }
+            ]
+          }
+        },
+        {
+          "id": "bucket",
+          "textKey": "event.re.water_leak.choice.bucket",
+          "chance": {
+            "base": 60
+          },
+          "success": {
+            "resultKey": "event.re.water_leak.choice.bucket.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -1000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.water_leak.choice.bucket.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -1000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.mold",
+                "delayWeeks": {
+                  "min": 8,
+                  "max": 26
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "bucket"
+    },
+    {
+      "id": "re.mold",
+      "titleKey": "event.re.mold.title",
+      "bodyKey": "event.re.mold.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "normal",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -5
+        },
+        {
+          "type": "healthCondition.add",
+          "condition": "cold",
+          "severity": 30
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.lottery",
+      "titleKey": "event.re.lottery.title",
+      "bodyKey": "event.re.lottery.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "celebrate",
+          "textKey": "event.re.lottery.choice.celebrate",
+          "success": {
+            "resultKey": "event.re.lottery.choice.celebrate.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 30
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.taste_for_luxury"
+              }
+            ]
+          }
+        },
+        {
+          "id": "save",
+          "textKey": "event.re.lottery.choice.save",
+          "success": {
+            "resultKey": "event.re.lottery.choice.save.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": 4000
+              },
+              {
+                "type": "stat",
+                "stat": "wealth.credit_score",
+                "amount": 5
+              },
+              {
+                "type": "stat",
+                "stat": "hidden.willpower",
+                "amount": 5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "save"
+    },
+    {
+      "id": "re.lost_child",
+      "titleKey": "event.re.lost_child.title",
+      "bodyKey": "event.re.lost_child.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "help",
+          "textKey": "event.re.lost_child.choice.help",
+          "chance": {
+            "base": 20
+          },
+          "success": {
+            "resultKey": "event.re.lost_child.choice.help.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 3
+              },
+              {
+                "type": "karma.good",
+                "amount": 8
+              },
+              {
+                "type": "meet",
+                "relation": "contact",
+                "chance": 1
+              },
+              {
+                "type": "reputation",
+                "domain": "neighborhood",
+                "amount": 10
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.lost_child.choice.help.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 3
+              },
+              {
+                "type": "karma.good",
+                "amount": 8
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 5
+              }
+            ]
+          }
+        },
+        {
+          "id": "point",
+          "textKey": "event.re.lost_child.choice.point",
+          "success": {
+            "resultKey": "event.re.lost_child.choice.point.success",
+            "effects": [
+              {
+                "type": "karma.bad",
+                "amount": 5
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "help"
+    },
+    {
+      "id": "re.life_coach",
+      "titleKey": "event.re.life_coach.title",
+      "bodyKey": "event.re.life_coach.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          },
+          {
+            "type": "career",
+            "employed": true
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "join",
+          "textKey": "event.re.life_coach.choice.join",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 15000
+          },
+          "chance": {
+            "base": 10
+          },
+          "success": {
+            "resultKey": "event.re.life_coach.choice.join.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -15000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.inspired"
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.life_coach.choice.join.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -15000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": 20
+              }
+            ]
+          }
+        },
+        {
+          "id": "skip",
+          "textKey": "event.re.life_coach.choice.skip",
+          "success": {
+            "resultKey": "event.re.life_coach.choice.skip.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 10
+              },
+              {
+                "type": "relationship",
+                "relation": "colleague",
+                "amount": -10,
+                "target": "closest"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "skip"
+    },
+    {
+      "id": "re.forgot_anniversary",
+      "titleKey": "event.re.forgot_anniversary.title",
+      "bodyKey": "event.re.forgot_anniversary.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 26
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          },
+          {
+            "type": "any",
+            "conditions": [
+              {
+                "type": "relationship",
+                "relation": "partner",
+                "count": {
+                  "op": ">=",
+                  "value": 1
+                }
+              },
+              {
+                "type": "relationship",
+                "relation": "spouse",
+                "count": {
+                  "op": ">=",
+                  "value": 1
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "confess",
+          "textKey": "event.re.forgot_anniversary.choice.confess",
+          "success": {
+            "resultKey": "event.re.forgot_anniversary.choice.confess.success",
+            "effects": [
+              {
+                "type": "relationship",
+                "relation": "partner",
+                "amount": -20,
+                "target": "all"
+              },
+              {
+                "type": "relationship",
+                "relation": "spouse",
+                "amount": -20,
+                "target": "all"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 30
+              },
+              {
+                "type": "cash",
+                "amount": -5000
+              }
+            ]
+          }
+        },
+        {
+          "id": "fake_sick",
+          "textKey": "event.re.forgot_anniversary.choice.fake_sick",
+          "chance": {
+            "base": 50
+          },
+          "success": {
+            "resultKey": "event.re.forgot_anniversary.choice.fake_sick.success",
+            "effects": [
+              {
+                "type": "karma.bad",
+                "amount": 5
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 5
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.forgot_anniversary.choice.fake_sick.failure",
+            "effects": [
+              {
+                "type": "karma.bad",
+                "amount": 5
+              },
+              {
+                "type": "relationship",
+                "relation": "partner",
+                "amount": -50,
+                "target": "all"
+              },
+              {
+                "type": "relationship",
+                "relation": "spouse",
+                "amount": -40,
+                "target": "all"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 20
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "confess"
+    },
+    {
+      "id": "re.checkup",
+      "titleKey": "event.re.checkup.title",
+      "bodyKey": "event.re.checkup.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 30
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 50
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "change",
+          "textKey": "event.re.checkup.choice.change",
+          "success": {
+            "resultKey": "event.re.checkup.choice.change.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fitness",
+                "amount": 10
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -15
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": -10
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.healthy_reset"
+              }
+            ]
+          }
+        },
+        {
+          "id": "ignore",
+          "textKey": "event.re.checkup.choice.ignore",
+          "success": {
+            "resultKey": "event.re.checkup.choice.ignore.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": 15
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.diabetes_arrives",
+                "delayWeeks": {
+                  "min": 52,
+                  "max": 260
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "change"
+    },
+    {
+      "id": "re.diabetes_arrives",
+      "titleKey": "event.re.diabetes_arrives.title",
+      "bodyKey": "event.re.diabetes_arrives.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "healthCondition.add",
+          "condition": "diabetes",
+          "severity": 50
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.merit_trip",
+      "titleKey": "event.re.merit_trip.title",
+      "bodyKey": "event.re.merit_trip.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 51
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "go",
+          "textKey": "event.re.merit_trip.choice.go",
+          "success": {
+            "resultKey": "event.re.merit_trip.choice.go.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -3000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "health.fitness",
+                "amount": -5
+              },
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": -15
+              },
+              {
+                "type": "karma.merit",
+                "amount": 8
+              },
+              {
+                "type": "meet",
+                "relation": "friend",
+                "chance": 0.3
+              }
+            ]
+          }
+        },
+        {
+          "id": "stay",
+          "textKey": "event.re.merit_trip.choice.stay",
+          "success": {
+            "resultKey": "event.re.merit_trip.choice.stay.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": -10
+              },
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": 10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "stay"
+    },
+    {
+      "id": "re.joint_pain",
+      "titleKey": "event.re.joint_pain.title",
+      "bodyKey": "event.re.joint_pain.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 51
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "doctor",
+          "textKey": "event.re.joint_pain.choice.doctor",
+          "success": {
+            "resultKey": "event.re.joint_pain.choice.doctor.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -4000
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": -10
+              },
+              {
+                "type": "stat",
+                "stat": "health.fitness",
+                "amount": 5
+              }
+            ]
+          }
+        },
+        {
+          "id": "balm",
+          "textKey": "event.re.joint_pain.choice.balm",
+          "success": {
+            "resultKey": "event.re.joint_pain.choice.balm.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -100
+              },
+              {
+                "type": "stat",
+                "stat": "health.disease_burden",
+                "amount": 10
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.bad_knees"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "doctor"
+    },
+    {
+      "id": "re.grandchild_startup",
+      "titleKey": "event.re.grandchild_startup.title",
+      "bodyKey": "event.re.grandchild_startup.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 60
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          },
+          {
+            "type": "relationship",
+            "relation": "child",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "give",
+          "textKey": "event.re.grandchild_startup.choice.give",
+          "condition": {
+            "type": "cash",
+            "op": ">=",
+            "amount": 500000
+          },
+          "chance": {
+            "base": 80
+          },
+          "success": {
+            "resultKey": "event.re.grandchild_startup.choice.give.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -500000
+              },
+              {
+                "type": "relationship",
+                "relation": "child",
+                "amount": 40,
+                "target": "all"
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.grandchild_cares"
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.grandchild_startup.choice.give.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -500000
+              },
+              {
+                "type": "relationship",
+                "relation": "child",
+                "amount": -10,
+                "target": "all"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -15
+              }
+            ]
+          }
+        },
+        {
+          "id": "refuse",
+          "textKey": "event.re.grandchild_startup.choice.refuse",
+          "success": {
+            "resultKey": "event.re.grandchild_startup.choice.refuse.success",
+            "effects": [
+              {
+                "type": "relationship",
+                "relation": "child",
+                "amount": -20,
+                "target": "all"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "refuse"
+    },
+    {
+      "id": "re.miracle_drug",
+      "titleKey": "event.re.miracle_drug.title",
+      "bodyKey": "event.re.miracle_drug.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 51
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 2,
+      "choices": [
+        {
+          "id": "buy",
+          "textKey": "event.re.miracle_drug.choice.buy",
+          "success": {
+            "resultKey": "event.re.miracle_drug.choice.buy.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -6000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 10
+              },
+              {
+                "type": "event.schedule",
+                "event": "re.kidney_damage",
+                "delayWeeks": {
+                  "min": 8,
+                  "max": 26
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "change_channel",
+          "textKey": "event.re.miracle_drug.choice.change_channel",
+          "success": {
+            "resultKey": "event.re.miracle_drug.choice.change_channel.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 20
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "change_channel"
+    },
+    {
+      "id": "re.kidney_damage",
+      "titleKey": "event.re.kidney_damage.title",
+      "bodyKey": "event.re.kidney_damage.body",
+      "category": "life",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "negative",
+      "onFire": [
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 25
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -10
+        },
+        {
+          "type": "cash",
+          "amount": -30000
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "re.scam_caller",
+      "titleKey": "event.re.scam_caller.title",
+      "bodyKey": "event.re.scam_caller.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 51
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 2,
+      "choices": [
+        {
+          "id": "transfer",
+          "textKey": "event.re.scam_caller.choice.transfer",
+          "success": {
+            "resultKey": "event.re.scam_caller.choice.transfer.success",
+            "effects": [
+              {
+                "type": "scam.loss",
+                "scam": "call_center_police",
+                "cashShare": 0.5,
+                "min": 1000,
+                "max": 5000000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 50
+              },
+              {
+                "type": "healthCondition.add",
+                "condition": "depression",
+                "severity": 30
+              }
+            ]
+          }
+        },
+        {
+          "id": "hang_up",
+          "textKey": "event.re.scam_caller.choice.hang_up",
+          "success": {
+            "resultKey": "event.re.scam_caller.choice.hang_up.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "hidden.street_smarts",
+                "amount": 15
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "hang_up"
+    },
+    {
+      "id": "re.sick_pet",
+      "titleKey": "event.re.sick_pet.title",
+      "bodyKey": "event.re.sick_pet.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 30
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          },
+          {
+            "type": "any",
+            "conditions": [
+              {
+                "type": "flag",
+                "flag": "life.pet"
+              },
+              {
+                "type": "age",
+                "op": ">=",
+                "value": 51
+              }
+            ]
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "surgery",
+          "textKey": "event.re.sick_pet.choice.surgery",
+          "success": {
+            "resultKey": "event.re.sick_pet.choice.surgery.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -20000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 15
+              }
+            ]
+          }
+        },
+        {
+          "id": "let_go",
+          "textKey": "event.re.sick_pet.choice.let_go",
+          "success": {
+            "resultKey": "event.re.sick_pet.choice.let_go.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -40
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 30
+              },
+              {
+                "type": "flag.clear",
+                "flag": "life.pet"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "surgery"
+    },
+    {
+      "id": "re.family_trip",
+      "titleKey": "event.re.family_trip.title",
+      "bodyKey": "event.re.family_trip.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 55
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          },
+          {
+            "type": "relationship",
+            "relation": "child",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "go",
+          "textKey": "event.re.family_trip.choice.go",
+          "success": {
+            "resultKey": "event.re.family_trip.choice.go.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 20
+              },
+              {
+                "type": "relationship",
+                "relation": "child",
+                "amount": 25,
+                "target": "all"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.family_trip"
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.re.family_trip.choice.decline",
+          "success": {
+            "resultKey": "event.re.family_trip.choice.decline.success",
+            "effects": [
+              {
+                "type": "relationship",
+                "relation": "child",
+                "amount": -10,
+                "target": "all"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "go"
+    },
+    {
+      "id": "re.peer_passing",
+      "titleKey": "event.re.peer_passing.title",
+      "bodyKey": "event.re.peer_passing.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 60
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 2,
+      "choices": [
+        {
+          "id": "attend",
+          "textKey": "event.re.peer_passing.choice.attend",
+          "success": {
+            "resultKey": "event.re.peer_passing.choice.attend.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 15
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": -20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.at_peace"
+              }
+            ]
+          }
+        },
+        {
+          "id": "wreath",
+          "textKey": "event.re.peer_passing.choice.wreath",
+          "success": {
+            "resultKey": "event.re.peer_passing.choice.wreath.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -1500
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.regret"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "attend"
+    },
+    {
+      "id": "re.insomnia",
+      "titleKey": "event.re.insomnia.title",
+      "bodyKey": "event.re.insomnia.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 51
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "choices": [
+        {
+          "id": "pills",
+          "textKey": "event.re.insomnia.choice.pills",
+          "chance": {
+            "base": 80
+          },
+          "success": {
+            "resultKey": "event.re.insomnia.choice.pills.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -1500
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": -15
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.re.insomnia.choice.pills.failure",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -1500
+              },
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": -15
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.pill_dependence"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 10
+              }
+            ]
+          }
+        },
+        {
+          "id": "meditate",
+          "textKey": "event.re.insomnia.choice.meditate",
+          "success": {
+            "resultKey": "event.re.insomnia.choice.meditate.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "health.fatigue",
+                "amount": 10
+              },
+              {
+                "type": "stat",
+                "stat": "hidden.willpower",
+                "amount": 20
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -10
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "meditate"
+    },
+    {
+      "id": "re.inheritance_drama",
+      "titleKey": "event.re.inheritance_drama.title",
+      "bodyKey": "event.re.inheritance_drama.body",
+      "category": "life",
+      "trigger": "random",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 65
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 100
+          },
+          {
+            "type": "relationship",
+            "relation": "child",
+            "count": {
+              "op": ">=",
+              "value": 2
+            }
+          }
+        ]
+      },
+      "weight": {
+        "base": 5
+      },
+      "cooldownWeeks": 156,
+      "maxOccurrences": 1,
+      "choices": [
+        {
+          "id": "will",
+          "textKey": "event.re.inheritance_drama.choice.will",
+          "success": {
+            "resultKey": "event.re.inheritance_drama.choice.will.success",
+            "effects": [
+              {
+                "type": "cash",
+                "amount": -5000
+              },
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -30
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.will_written"
+              },
+              {
+                "type": "flag.clear",
+                "flag": "life.re.no_will"
+              }
+            ]
+          }
+        },
+        {
+          "id": "wait",
+          "textKey": "event.re.inheritance_drama.choice.wait",
+          "success": {
+            "resultKey": "event.re.inheritance_drama.choice.wait.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": 20
+              },
+              {
+                "type": "flag.set",
+                "flag": "life.re.no_will"
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "will"
+    }
+  ]
+}

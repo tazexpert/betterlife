@@ -439,6 +439,13 @@
               "flag": "life.young.peak_looks"
             },
             "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.re.let_go"
+            },
+            "add": 15
           }
         ]
       },

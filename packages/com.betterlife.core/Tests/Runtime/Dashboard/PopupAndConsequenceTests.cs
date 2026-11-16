@@ -126,6 +126,28 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void AFollowUp_StopsTime_AndShowsItsStory()
+        {
+            const string events = @"{ 'id': 'test.cause', 'titleKey': 'event.test.cause.title', 'bodyKey': 'event.test.cause.body',
+                'category': 'test', 'trigger': 'milestone', 'severity': 'minor', 'tone': 'neutral',
+                'milestone': { 'minAge': 0, 'maxAge': 2, 'chance': 100 },
+                'onFire': [ { 'type': 'event.schedule', 'event': 'test.followup', 'delayWeeks': 3 } ], 'choices': [] },
+              { 'id': 'test.followup', 'titleKey': 'event.test.followup.title', 'bodyKey': 'event.test.followup.body',
+                'category': 'test', 'trigger': 'scheduled', 'severity': 'minor', 'tone': 'negative',
+                'onFire': [ { 'type': 'stat', 'stat': 'mental.stress', 'amount': 5 } ], 'choices': [] }";
+            IContentRepository content = TestContent.Load(TestContent.Source("{ 'type': 'events', 'path': 'events/test.json' }", 0f)
+                .Add("events/test.json", EventFixture.Events(events)));
+            CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(5UL, CreationMode.Random));
+            using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), new InterruptPolicy()))
+            {
+                Assert.That(life.Stories.Stopping(life.Advance(TimeSkip.Year)).Definition.Id, Is.EqualTo("test.cause"));
+                AdvanceResult result = life.Advance(TimeSkip.Year);
+                Assert.That(result.WeeksAdvanced, Is.LessThanOrEqualTo(4), "the follow-up stops the year skip when it happens");
+                Assert.That(life.Stories.Stopping(result).Definition.Id, Is.EqualTo("test.followup"));
+            }
+        }
+
+        [Test]
         public void MeetingAPartner_StartsARelationship()
         {
             using (LifeSession life = NewLife(new InterruptPolicy()))
