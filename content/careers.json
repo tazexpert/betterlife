@@ -2,6 +2,119 @@
   "$schema": "../docs/schemas/careers.schema.json",
   "tracks": [
     {
+      "id": "food_delivery",
+      "nameKey": "career.food_delivery.name",
+      "category": "freelance",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 95,
+        "fortune": "career"
+      },
+      "weeklyHours": 20,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.04,
+      "incomeVolatility": 0.2,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.2,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "staff",
+          "titleKey": "career.food_delivery.staff",
+          "monthlySalary": 9000,
+          "promotionAfterMonths": 18,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "shift_lead",
+          "titleKey": "career.food_delivery.shift_lead",
+          "monthlySalary": 12000,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "department_store",
+      "nameKey": "career.department_store.name",
+      "category": "labor",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 88,
+        "fortune": "career"
+      },
+      "weeklyHours": 24,
+      "performanceSkill": null,
+      "skills": [
+        {
+          "skill": "public_speaking",
+          "gainPerHour": 0.02
+        }
+      ],
+      "stressPerHour": 0.04,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.2,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "staff",
+          "titleKey": "career.department_store.staff",
+          "monthlySalary": 8000,
+          "promotionAfterMonths": 18,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "shift_lead",
+          "titleKey": "career.department_store.shift_lead",
+          "monthlySalary": 11500,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
+      "id": "convenience_store",
+      "nameKey": "career.convenience_store.name",
+      "category": "labor",
+      "premium": false,
+      "requirement": null,
+      "hiring": {
+        "base": 92,
+        "fortune": "career"
+      },
+      "weeklyHours": 20,
+      "performanceSkill": null,
+      "skills": [],
+      "stressPerHour": 0.04,
+      "incomeVolatility": 0,
+      "marketBeta": 0,
+      "layoffSensitivity": 1.2,
+      "pensionRate": 0,
+      "risk": null,
+      "levels": [
+        {
+          "id": "staff",
+          "titleKey": "career.convenience_store.staff",
+          "monthlySalary": 6500,
+          "promotionAfterMonths": 18,
+          "promotionPerformance": 60
+        },
+        {
+          "id": "shift_lead",
+          "titleKey": "career.convenience_store.shift_lead",
+          "monthlySalary": 9500,
+          "promotionAfterMonths": null,
+          "promotionPerformance": 0
+        }
+      ]
+    },
+    {
       "id": "labor_worker",
       "nameKey": "career.labor_worker.name",
       "category": "labor",
@@ -291,7 +404,12 @@
       "nameKey": "career.chef.name",
       "category": "labor",
       "premium": false,
-      "requirement": null,
+      "requirement": {
+        "type": "skill",
+        "skill": "cooking",
+        "op": ">=",
+        "value": 40
+      },
       "hiring": {
         "base": 55,
         "stats": [
@@ -450,7 +568,7 @@
         "type": "skill",
         "skill": "cooking",
         "op": ">=",
-        "value": 50
+        "value": 75
       },
       "hiring": {
         "base": 40,
@@ -518,10 +636,19 @@
       "category": "high_risk",
       "premium": false,
       "requirement": {
-        "type": "stat",
-        "stat": "health.fitness",
-        "op": ">=",
-        "value": 75
+        "type": "all",
+        "conditions": [
+          {
+            "type": "stat",
+            "stat": "health.fitness",
+            "op": ">=",
+            "value": 80
+          },
+          {
+            "type": "trait",
+            "trait": "athletic"
+          }
+        ]
       },
       "hiring": {
         "base": 20,
@@ -580,7 +707,12 @@
       "nameKey": "career.smuggler.name",
       "category": "illegal",
       "premium": false,
-      "requirement": null,
+      "requirement": {
+        "type": "stat",
+        "stat": "hidden.street_smarts",
+        "op": ">=",
+        "value": 60
+      },
       "hiring": {
         "base": 70,
         "karma": false

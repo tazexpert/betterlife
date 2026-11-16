@@ -137,8 +137,9 @@ namespace BetterLife.Core.ViewModels
             List<JobOption> jobs = session.Career.Tracks.All
                 .Select(t => (Track: t, Quote: session.Career.Quote(t.Id)))
                 .Where(p => p.Quote.Eligible)
-                .OrderByDescending(p => p.Quote.StartingSalary)
-                .Select(p => new JobOption(p.Track.Id, localizer.Get(p.Track.NameKey), localizer.Format(JobDetailKey,
+                .OrderByDescending(p => p.Track.WeeklyHours <= PartTimeHours)
+                .ThenByDescending(p => p.Quote.StartingSalary)
+                .Select(p => new JobOption(p.Track.Id, localizer.Get(p.Track.NameKey), PartTimePrefix(p.Track.WeeklyHours, localizer) + localizer.Format(JobDetailKey,
                     ("chance", p.Quote.Chance.Final.ToString(EventDialogViewModel.ChanceFormat, CultureInfo.InvariantCulture)),
                     ("salary", SessionText.Money(session, money, p.Quote.StartingSalary)),
                     ("hours", p.Track.WeeklyHours.ToString(CultureInfo.InvariantCulture)))))
@@ -224,5 +225,13 @@ namespace BetterLife.Core.ViewModels
             return localizer.Format(success ? EventDialogViewModel.RollSuccessKey : EventDialogViewModel.RollFailureKey,
                 ("value", chance.ToString(EventDialogViewModel.ChanceFormat, CultureInfo.InvariantCulture)));
         }
+
+        /// <summary>Jobs of at most this many hours a week are part-time (listed first, labelled).</summary>
+        public const int PartTimeHours = 24;
+
+        /// <summary>Label of a part-time job.</summary>
+        public const string PartTimeKey = "work.job.part_time";
+
+        private static string PartTimePrefix(int weeklyHours, ILocalizer localizer) => weeklyHours <= PartTimeHours ? localizer.Get(PartTimeKey) + " · " : string.Empty;
     }
 }
