@@ -25,8 +25,10 @@ namespace BetterLife.Core.Relationships
         /// </summary>
         /// <param name="type">Kind of relationship to start (friend, colleague, contact or partner).</param>
         /// <param name="chance">Chance 0..1.</param>
-        public MeetEffect(RelationshipType type, float chance)
+        /// <param name="oppositeSex">True to meet someone of the other sex.</param>
+        public MeetEffect(RelationshipType type, float chance, bool oppositeSex = false)
         {
+            OppositeSex = oppositeSex;
             if (!(chance > 0f) || chance > 1f)
             {
                 throw new ArgumentOutOfRangeException(nameof(chance), chance, "Chance must be within (0, 1].");
@@ -41,6 +43,9 @@ namespace BetterLife.Core.Relationships
         /// <summary>Chance 0..1.</summary>
         public float Chance { get; }
 
+        /// <summary>True to meet someone of the other sex.</summary>
+        public bool OppositeSex { get; }
+
         /// <inheritdoc />
         public EffectResult Apply(RuleContext context)
         {
@@ -53,7 +58,7 @@ namespace BetterLife.Core.Relationships
                 return EffectResult.Empty;
             }
             return new EffectResult(new[] { RuleText.Of(MetKey, (RuleTextKeys.ArgSubject, RelationshipNames.NameOf(Type))) }, new Domain.Stats.StatChangeResult[0], 0m,
-                new IGameEvent[] { new MeetRequestedEvent(Type, context.Now) });
+                new IGameEvent[] { new MeetRequestedEvent(Type, context.Now, OppositeSex) });
         }
 
         /// <inheritdoc />

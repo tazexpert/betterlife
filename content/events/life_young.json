@@ -241,6 +241,13 @@
       "trigger": "milestone",
       "severity": "minor",
       "tone": "neutral",
+      "condition": {
+        "type": "not",
+        "condition": {
+          "type": "flag",
+          "flag": "life.young.first_car"
+        }
+      },
       "milestone": {
         "minAge": 19,
         "maxAge": 25,
@@ -457,7 +464,8 @@
         {
           "type": "meet",
           "relation": "partner",
-          "chance": 1
+          "chance": 1,
+          "sex": "opposite"
         },
         {
           "type": "stat",

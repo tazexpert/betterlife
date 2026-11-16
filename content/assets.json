@@ -89,6 +89,46 @@
       "class": "crypto",
       "minPurchase": 100,
       "sellFeeRate": 0.005
+    },
+    {
+      "id": "townhouse",
+      "nameKey": "asset.townhouse.name",
+      "class": "real_estate",
+      "minPurchase": 1800000,
+      "sellFeeRate": 0.05,
+      "rentalYield": 0.035
+    },
+    {
+      "id": "luxury_house",
+      "nameKey": "asset.luxury_house.name",
+      "class": "real_estate",
+      "minPurchase": 8000000,
+      "sellFeeRate": 0.05,
+      "rentalYield": 0.025
+    },
+    {
+      "id": "motorbike",
+      "nameKey": "asset.motorbike.name",
+      "class": "vehicle",
+      "minPurchase": 30000,
+      "sellFeeRate": 0.1,
+      "depreciation": 0.12
+    },
+    {
+      "id": "family_car",
+      "nameKey": "asset.family_car.name",
+      "class": "vehicle",
+      "minPurchase": 800000,
+      "sellFeeRate": 0.1,
+      "depreciation": 0.13
+    },
+    {
+      "id": "luxury_car",
+      "nameKey": "asset.luxury_car.name",
+      "class": "vehicle",
+      "minPurchase": 2500000,
+      "sellFeeRate": 0.12,
+      "depreciation": 0.15
     }
   ]
 }

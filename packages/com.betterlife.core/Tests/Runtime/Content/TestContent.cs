@@ -153,6 +153,11 @@ namespace BetterLife.Core.Tests.Content
             'bands': [ { 'minAge': 0, 'maxAge': 17, 'filePrefix': 'young/young_' }, { 'minAge': 18, 'maxAge': null, 'filePrefix': 'adult/images/adult_' } ],
             'faces': [ { 'id': 3, 'sex': 'male' }, { 'id': 4, 'sex': 'male' }, { 'id': 20, 'sex': 'female' }, { 'id': 21, 'sex': 'female' } ] }";
 
+        public const string Purchases = @"{ 'purchases': [
+            { 'id': 'home.condo', 'nameKey': 'purchase.home.condo.name', 'descKey': 'purchase.home.condo.desc', 'category': 'home',
+              'assetId': 'condo_city', 'price': 1500000, 'loanProduct': 'mortgage',
+              'effects': [ { 'type': 'stat', 'stat': 'mental.happiness', 'amount': 10 } ] } ] }";
+
         public const string FinanceSettings = @"{ 'independenceAge': 18, 'allowanceStartAge': 7, 'studentSupportUntilAge': 25, 'defaultLifestyle': 'modest', 'referenceLifestyle': 'modest',
             'familySupport': [ { 'incomeLevel': 1, 'allowances': [ { 'fromAge': 7, 'amount': 500 } ], 'independenceGift': 0 },
                                { 'incomeLevel': 5, 'allowances': [ { 'fromAge': 7, 'amount': 8000 }, { 'fromAge': 13, 'amount': 12000 }, { 'fromAge': 19, 'amount': 30000 } ],
@@ -336,7 +341,7 @@ namespace BetterLife.Core.Tests.Content
                 + "{ 'type': 'death_causes', 'path': 'death_causes.json' }, "
                 + "{ 'type': 'economy', 'path': 'economy.json' }, { 'type': 'assets', 'path': 'assets.json' }, "
                 + "{ 'type': 'debt_products', 'path': 'debts.json' }, { 'type': 'lifestyle_tiers', 'path': 'lifestyle_tiers.json' }, "
-                + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }, "
+                + "{ 'type': 'finance_settings', 'path': 'finance_settings.json' }, { 'type': 'purchases', 'path': 'purchases.json' }, "
                 + "{ 'type': 'education_programs', 'path': 'education_programs.json' }, { 'type': 'education_settings', 'path': 'education_settings.json' }, "
                 + "{ 'type': 'careers', 'path': 'careers.json' }, { 'type': 'career_settings', 'path': 'career_settings.json' }, "
                 + "{ 'type': 'relationship_settings', 'path': 'relationship_settings.json' }, { 'type': 'interactions', 'path': 'interactions.json' }, "
@@ -371,6 +376,7 @@ namespace BetterLife.Core.Tests.Content
                 .Add("debts.json", DebtProducts)
                 .Add("lifestyle_tiers.json", LifestyleTiers)
                 .Add("finance_settings.json", FinanceSettings)
+                .Add("purchases.json", Purchases)
                 .Add("education_programs.json", EducationPrograms)
                 .Add("education_settings.json", EducationSettings)
                 .Add("careers.json", Careers)

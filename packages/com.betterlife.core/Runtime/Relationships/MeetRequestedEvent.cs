@@ -13,11 +13,16 @@ namespace BetterLife.Core.Relationships
         /// </summary>
         /// <param name="type">Kind of relationship to start.</param>
         /// <param name="week">Week of the meeting.</param>
-        public MeetRequestedEvent(RelationshipType type, GameDate week)
+        /// <param name="oppositeSex">True to meet someone of the other sex.</param>
+        public MeetRequestedEvent(RelationshipType type, GameDate week, bool oppositeSex = false)
         {
             Type = type;
             Week = week;
+            OppositeSex = oppositeSex;
         }
+
+        /// <summary>True to meet someone of the other sex.</summary>
+        public bool OppositeSex { get; }
 
         /// <summary>Kind of relationship to start.</summary>
         public RelationshipType Type { get; }

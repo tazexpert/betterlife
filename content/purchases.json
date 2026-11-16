@@ -1,0 +1,205 @@
+{
+  "$schema": "../docs/schemas/purchases.schema.json",
+  "purchases": [
+    {
+      "id": "home.condo",
+      "nameKey": "purchase.home.condo.name",
+      "descKey": "purchase.home.condo.desc",
+      "category": "home",
+      "assetId": "condo_city",
+      "price": 1500000,
+      "loanProduct": "mortgage",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_home"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -3
+        }
+      ]
+    },
+    {
+      "id": "home.townhouse",
+      "nameKey": "purchase.home.townhouse.name",
+      "descKey": "purchase.home.townhouse.desc",
+      "category": "home",
+      "assetId": "townhouse",
+      "price": 2500000,
+      "loanProduct": "mortgage",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_home"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -4
+        }
+      ]
+    },
+    {
+      "id": "home.house",
+      "nameKey": "purchase.home.house.name",
+      "descKey": "purchase.home.house.desc",
+      "category": "home",
+      "assetId": "house_suburb",
+      "price": 4500000,
+      "loanProduct": "mortgage",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_home"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 14
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -5
+        }
+      ]
+    },
+    {
+      "id": "home.luxury",
+      "nameKey": "purchase.home.luxury.name",
+      "descKey": "purchase.home.luxury.desc",
+      "category": "home",
+      "assetId": "luxury_house",
+      "price": 12000000,
+      "loanProduct": "mortgage",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_home"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -6
+        }
+      ]
+    },
+    {
+      "id": "vehicle.motorbike",
+      "nameKey": "purchase.vehicle.motorbike.name",
+      "descKey": "purchase.vehicle.motorbike.desc",
+      "category": "vehicle",
+      "assetId": "motorbike",
+      "price": 55000,
+      "loanProduct": "car_loan",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_car"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 4
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -1
+        }
+      ]
+    },
+    {
+      "id": "vehicle.eco_car",
+      "nameKey": "purchase.vehicle.eco_car.name",
+      "descKey": "purchase.vehicle.eco_car.desc",
+      "category": "vehicle",
+      "assetId": "city_car",
+      "price": 550000,
+      "loanProduct": "car_loan",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_car"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -2
+        }
+      ]
+    },
+    {
+      "id": "vehicle.family_car",
+      "nameKey": "purchase.vehicle.family_car.name",
+      "descKey": "purchase.vehicle.family_car.desc",
+      "category": "vehicle",
+      "assetId": "family_car",
+      "price": 1100000,
+      "loanProduct": "car_loan",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_car"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -2
+        }
+      ]
+    },
+    {
+      "id": "vehicle.luxury_car",
+      "nameKey": "purchase.vehicle.luxury_car.name",
+      "descKey": "purchase.vehicle.luxury_car.desc",
+      "category": "vehicle",
+      "assetId": "luxury_car",
+      "price": 4000000,
+      "loanProduct": "car_loan",
+      "effects": [
+        {
+          "type": "flag.set",
+          "flag": "life.young.first_car"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 12
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -2
+        }
+      ]
+    }
+  ]
+}

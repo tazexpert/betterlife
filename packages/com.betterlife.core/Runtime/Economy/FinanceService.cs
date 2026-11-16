@@ -6,6 +6,7 @@ using BetterLife.Core.Domain.Characters;
 using BetterLife.Core.Domain.Family;
 using BetterLife.Core.Domain.Stats;
 using BetterLife.Core.Events;
+using BetterLife.Core.Randomness;
 using BetterLife.Core.Time;
 using BetterLife.Core.Time.Ticking;
 
@@ -77,10 +78,12 @@ namespace BetterLife.Core.Economy
         /// <param name="incomeSources">Monthly income sources.</param>
         /// <param name="bus">Event bus.</param>
         /// <param name="clock">Game clock (current week for player actions).</param>
+        /// <param name="purchases">Big purchases (homes, vehicles); empty when null.</param>
         public FinanceService(Character character, DefinitionCatalog<AssetDefinition> assets, DefinitionCatalog<DebtProductDefinition> products,
             DefinitionCatalog<LifestyleTierDefinition> lifestyles, FinanceSettings settings, EconomyService economy,
-            IEnumerable<IIncomeSource> incomeSources, IEventBus bus, GameClock clock)
+            IEnumerable<IIncomeSource> incomeSources, IEventBus bus, GameClock clock, DefinitionCatalog<PurchaseDefinition> purchases = null)
         {
+            Purchases = purchases ?? new DefinitionCatalog<PurchaseDefinition>(new PurchaseDefinition[0]);
             _character = character ?? throw new ArgumentNullException(nameof(character));
             _assets = assets ?? throw new ArgumentNullException(nameof(assets));
             _products = products ?? throw new ArgumentNullException(nameof(products));
@@ -126,7 +129,78 @@ namespace BetterLife.Core.Economy
         /// </summary>
         /// <param name="tierId">Tier id.</param>
         /// <returns>Real monthly cost.</returns>
-        public decimal LifestyleCost(string tierId) => Money.Round(_lifestyles.Get(tierId).MonthlyCost * CostOfLiving);
+        public decimal LifestyleCost(string tierId)
+        {
+            decimal cost = _lifestyles.Get(tierId).MonthlyCost * CostOfLiving;
+            return Money.Round(OwnsHome ? cost * (1m - (decimal)_settings.HomeOwnerLivingDiscount) : cost);
+        }
+
+        /// <summary>Share of the living costs saved while owning a home.</summary>
+        public float HomeOwnerLivingDiscount => _settings.HomeOwnerLivingDiscount;
+
+        /// <summary>Big purchases on offer (homes, vehicles).</summary>
+        public DefinitionCatalog<PurchaseDefinition> Purchases { get; }
+
+        /// <summary>True while the character owns a home (real estate), which lowers living costs.</summary>
+        public bool OwnsHome => _character.Finances.Portfolio.Holdings.Any(h => _assets.TryGet(h.AssetId, out AssetDefinition a) && a.Class == AssetClass.RealEstate);
+
+        /// <summary>
+        /// Quotes a big purchase: paying cash, or its loan (down payment from cash, the rest borrowed).
+        /// </summary>
+        /// <param name="purchaseId">Purchase id.</param>
+        /// <returns>The quote.</returns>
+        public PurchaseQuote QuotePurchase(string purchaseId)
+        {
+            PurchaseDefinition purchase = Purchases.Get(purchaseId);
+            DebtProductDefinition product = _products.Get(purchase.LoanProductId);
+            decimal cash = _character.Wallet.Cash;
+            var cashReasons = new List<string>();
+            if (!IsAdult(_clock.Now))
+            {
+                cashReasons.Add(LoanQuote.ReasonTooYoung);
+            }
+            if (cash < purchase.Price)
+            {
+                cashReasons.Add(LoanQuote.ReasonCash);
+            }
+            decimal down = Money.Round(purchase.Price * (decimal)product.DownPaymentRate);
+            LoanQuote loan = Quote(product.Id, purchase.Price - down);
+            var loanReasons = loan.ReasonKeys.ToList();
+            if (cash < down && !loanReasons.Contains(LoanQuote.ReasonCash))
+            {
+                loanReasons.Add(LoanQuote.ReasonCash);
+            }
+            return new PurchaseQuote(purchase.Price, cashReasons, down, loan, loanReasons, product.TermMonths);
+        }
+
+        /// <summary>
+        /// Makes a big purchase with cash or with its loan, adds the asset to the portfolio and applies its effects.
+        /// </summary>
+        /// <param name="purchaseId">Purchase id.</param>
+        /// <param name="financed">True to use the loan; false to pay cash.</param>
+        /// <returns>The effects of owning it.</returns>
+        public Rules.EffectResult BuyPurchase(string purchaseId, bool financed)
+        {
+            PurchaseDefinition purchase = Purchases.Get(purchaseId);
+            PurchaseQuote quote = QuotePurchase(purchaseId);
+            if (financed ? !quote.LoanAllowed : !quote.CashAllowed)
+            {
+                throw new InvalidOperationException(string.Join(", ", financed ? quote.LoanReasons : quote.CashReasons));
+            }
+            if (financed)
+            {
+                BuyWithLoan(purchase.AssetId, purchase.Price, purchase.LoanProductId);
+            }
+            else
+            {
+                _character.Wallet.TryWithdraw(purchase.Price);
+                _character.Finances.Portfolio.Add(purchase.AssetId, purchase.Price, _clock.Now);
+            }
+            var random = new Pcg32(StableHash.Fnv1a64(purchase.Id), (ulong)_clock.Now.TotalWeeks);
+            Rules.EffectResult result = purchase.Effects.Apply(new Rules.RuleContext(_character, _clock.Now, random, purchase.NameKey));
+            result.PublishTo(_bus);
+            return result;
+        }
 
         /// <summary>
         /// Chooses a lifestyle (adults only; it applies once they pay their own way).

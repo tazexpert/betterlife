@@ -171,6 +171,7 @@ namespace BetterLife.Bootstrap
             screens.Register(ScreenIds.Story, () => new StoryDialogPresenter(context));
             screens.Register(ScreenIds.AvatarPicker, () => new AvatarPickerScreenPresenter(context));
             screens.Register(ScreenIds.Creation, () => new CreationScreenPresenter(context));
+            screens.Register(ScreenIds.Purchases, () => new PurchaseScreenPresenter(context));
             screens.Register(ScreenIds.Breakdown, () => new BreakdownPresenter(context));
             screens.Register(ScreenIds.Money, () => new FinanceScreenPresenter(context));
             screens.Register(ScreenIds.People, () => new PeopleScreenPresenter(context));

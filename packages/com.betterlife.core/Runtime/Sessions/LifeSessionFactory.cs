@@ -206,7 +206,8 @@ namespace BetterLife.Core.Sessions
             };
             var finance = new FinanceService(character, content.Get<DefinitionCatalog<AssetDefinition>>(),
                 content.Get<DefinitionCatalog<DebtProductDefinition>>(), content.Get<DefinitionCatalog<LifestyleTierDefinition>>(),
-                financeSettings, economy, incomeSources, bus, clock);
+                financeSettings, economy, incomeSources, bus, clock,
+                content.TryGet(out DefinitionCatalog<PurchaseDefinition> purchases) ? purchases : null);
             var programs = content.Get<DefinitionCatalog<EducationProgramDefinition>>();
             var education = new EducationService(character, programs, content.Get<EducationSettings>(), settings, budget, luck,
                 random.GetStream(EducationStream), finance, finance, bus, clock);

@@ -201,6 +201,23 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void MeetingTheOppositeSex_AlwaysGivesTheOtherSex()
+        {
+            using (LifeSession life = NewLife(new InterruptPolicy()))
+            {
+                var sex = life.Character.Gender.Sex;
+                for (int i = 0; i < 12; i++)
+                {
+                    life.Bus.Publish(new MeetRequestedEvent(RelationshipType.Contact, life.TimeState.Clock.Now, oppositeSex: true));
+                }
+                var met = life.Character.Relationships.All.Where(r => r.Type == RelationshipType.Contact)
+                    .Select(r => life.Character.Relationships.Npc(r.NpcId).Sex).ToList();
+                Assert.That(met, Has.Count.GreaterThanOrEqualTo(12));
+                Assert.That(met, Has.All.Not.EqualTo(sex));
+            }
+        }
+
+        [Test]
         public void MeetingAPartner_StartsARelationship()
         {
             using (LifeSession life = NewLife(new InterruptPolicy()))

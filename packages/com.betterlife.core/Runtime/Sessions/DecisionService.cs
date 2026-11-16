@@ -166,6 +166,19 @@ namespace BetterLife.Core.Sessions
         }
 
         /// <summary>
+        /// Makes a big purchase (a home or vehicle) with cash or its loan.
+        /// </summary>
+        /// <param name="session">Running life.</param>
+        /// <param name="purchaseId">Purchase id.</param>
+        /// <param name="financed">True to use the loan.</param>
+        /// <returns>The effects of owning it.</returns>
+        public Rules.EffectResult BuyPurchase(LifeSession session, string purchaseId, bool financed)
+        {
+            Checkpoint(session);
+            return session.Finance.BuyPurchase(purchaseId, financed);
+        }
+
+        /// <summary>
         /// Sells part of a holding.
         /// </summary>
         /// <param name="session">Running life.</param>

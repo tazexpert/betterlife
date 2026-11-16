@@ -45,5 +45,7 @@ namespace BetterLife.Core.Navigation
         public const string AvatarPicker = "avatar_picker";
         /// <summary>Character creation.</summary>
         public const string Creation = "creation";
+        /// <summary>Homes and vehicles to buy.</summary>
+        public const string Purchases = "purchases";
     }
 }

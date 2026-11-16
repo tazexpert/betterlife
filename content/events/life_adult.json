@@ -785,6 +785,13 @@
       "trigger": "milestone",
       "severity": "normal",
       "tone": "neutral",
+      "condition": {
+        "type": "not",
+        "condition": {
+          "type": "flag",
+          "flag": "life.adult.first_home"
+        }
+      },
       "milestone": {
         "minAge": 26,
         "maxAge": 45,

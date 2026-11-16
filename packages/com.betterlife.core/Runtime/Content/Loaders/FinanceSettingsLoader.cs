@@ -35,7 +35,7 @@ namespace BetterLife.Core.Content.Loaders
         {
             RuleJson.RequireOnly(root, context, "independenceAge", "allowanceStartAge", "studentSupportUntilAge", "defaultLifestyle", "referenceLifestyle",
                 "familySupport", "fallbackProduct", "defaultAfterMissed", "forcedSaleDiscount", "creditScore", "bankruptcy",
-                "debtStress", "wealthCurve", ContentReading.SchemaProperty);
+                "debtStress", "wealthCurve", "homeOwnerLivingDiscount", ContentReading.SchemaProperty);
             RequireCodeContent(context, content);
 
             var lifestyles = content.Require<DefinitionCatalog<LifestyleTierDefinition>>();
@@ -97,7 +97,8 @@ namespace BetterLife.Core.Content.Loaders
                 RuleJson.RequireFloat(stress, "perYearOfCosts", stressContext),
                 RuleJson.RequireFloat(stress, "max", stressContext),
                 RuleJson.RequireFloat(stress, "informalExtra", stressContext),
-                new WealthCurve(points)));
+                new WealthCurve(points),
+                root["homeOwnerLivingDiscount"] == null ? 0f : RuleJson.RequireFloat(root, "homeOwnerLivingDiscount", context)));
         }
 
         private static void RequireCodeContent(RuleReadContext context, ContentLoadContext content)

@@ -66,6 +66,7 @@ namespace BetterLife.Core.Tests.Rules
             {'type':'relationship.death','relation':'friend'},
             {'type':'relationship','relation':'parent','amount':{'min':1,'max':4},'target':'all','memory':'memory.visit'},
             {'type':'meet','relation':'friend','chance':0.2},
+            {'type':'meet','relation':'contact','chance':1,'sex':'opposite'},
             {'type':'if','condition':{'type':'trait','trait':'calm'},'then':[{'type':'stat','stat':'mental.happiness','amount':-2}],
              'else':[{'type':'stat','stat':'mental.happiness','amount':-8}]}]";
 

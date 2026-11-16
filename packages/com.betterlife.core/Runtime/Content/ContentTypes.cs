@@ -55,6 +55,8 @@ namespace BetterLife.Core.Content
         public const string Assets = "assets";
         /// <summary>Loan products.</summary>
         public const string DebtProducts = "debt_products";
+        /// <summary>Big purchases (homes, vehicles).</summary>
+        public const string Purchases = "purchases";
         /// <summary>Lifestyle tiers (monthly living costs).</summary>
         public const string LifestyleTiers = "lifestyle_tiers";
         /// <summary>Personal finance settings (single file).</summary>

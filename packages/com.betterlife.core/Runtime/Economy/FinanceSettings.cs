@@ -31,11 +31,17 @@ namespace BetterLife.Core.Economy
         /// <param name="debtStressMax">Cap of monthly debt stress; non-negative.</param>
         /// <param name="informalDebtStress">Extra monthly stress while owing a loan shark; non-negative.</param>
         /// <param name="wealthCurve">Wealth score curve.</param>
+        /// <param name="homeOwnerLivingDiscount">Share of the living costs saved while owning a home (no rent).</param>
         public FinanceSettings(int independenceAge, int allowanceStartAge, int studentSupportUntilAge, string defaultLifestyleId, string referenceLifestyleId,
             IEnumerable<FamilySupportLevel> familySupport, string fallbackProductId, int defaultAfterMissed, decimal forcedSaleDiscount,
             CreditScoreRules credit, decimal bankruptcyNetWorth, int bankruptcyWeeks, float debtStressPerYearOfCosts, float debtStressMax,
-            float informalDebtStress, WealthCurve wealthCurve)
+            float informalDebtStress, WealthCurve wealthCurve, float homeOwnerLivingDiscount = 0f)
         {
+            if (!(homeOwnerLivingDiscount >= 0f) || homeOwnerLivingDiscount > 1f)
+            {
+                throw new ArgumentOutOfRangeException(nameof(homeOwnerLivingDiscount), homeOwnerLivingDiscount, "Discount must be within [0, 1].");
+            }
+            HomeOwnerLivingDiscount = homeOwnerLivingDiscount;
             if (independenceAge < 1 || allowanceStartAge < 0 || allowanceStartAge > independenceAge || studentSupportUntilAge < independenceAge
                 || defaultAfterMissed < 1 || bankruptcyWeeks < 1)
             {
@@ -66,6 +72,9 @@ namespace BetterLife.Core.Economy
             InformalDebtStress = informalDebtStress;
             WealthCurve = wealthCurve ?? throw new ArgumentNullException(nameof(wealthCurve));
         }
+
+        /// <summary>Share of the living costs saved while owning a home (no rent), 0..1.</summary>
+        public float HomeOwnerLivingDiscount { get; }
 
         /// <summary>Age of independence.</summary>
         public int IndependenceAge { get; }

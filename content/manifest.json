@@ -63,6 +63,10 @@
     },
     {
       "type": "events",
+      "path": "events/social_approach.json"
+    },
+    {
+      "type": "events",
       "path": "events/karma.json"
     },
     {
@@ -120,6 +124,10 @@
     {
       "type": "finance_settings",
       "path": "finance_settings.json"
+    },
+    {
+      "type": "purchases",
+      "path": "purchases.json"
     },
     {
       "type": "education_programs",

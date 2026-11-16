@@ -1361,6 +1361,11 @@
               "type": "number",
               "exclusiveMinimum": 0,
               "maximum": 1
+            },
+            "sex": {
+              "enum": [
+                "opposite"
+              ]
             }
           }
         },

@@ -273,5 +273,6 @@
       "months": 600,
       "score": 95
     }
-  ]
+  ],
+  "homeOwnerLivingDiscount": 0.25
 }

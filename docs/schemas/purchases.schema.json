@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://betterlife.game/schemas/purchases.schema.json",
+  "title": "Big purchases",
+  "description": "Homes and vehicles the player can buy with cash or a secured loan.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "purchases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "purchases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nameKey",
+          "descKey",
+          "category",
+          "assetId",
+          "price",
+          "loanProduct",
+          "effects"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "nameKey": {
+            "type": "string"
+          },
+          "descKey": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "home",
+              "vehicle"
+            ]
+          },
+          "assetId": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "loanProduct": {
+            "type": "string"
+          },
+          "effects": {
+            "$ref": "rules.schema.json#/$defs/effects"
+          }
+        }
+      }
+    }
+  }
+}

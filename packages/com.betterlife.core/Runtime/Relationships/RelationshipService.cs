@@ -98,7 +98,7 @@ namespace BetterLife.Core.Relationships
             {
                 if (_character.IsAlive)
                 {
-                    MeetSomeone(e.Type, _character.AgeAt(e.Week), e.Week);
+                    MeetSomeone(e.Type, _character.AgeAt(e.Week), e.Week, e.OppositeSex);
                 }
             });
             _childSubscription = _bus.Subscribe<ChildRequestedEvent>(e => StartChild(e.Week));
@@ -508,12 +508,15 @@ namespace BetterLife.Core.Relationships
             }
         }
 
-        private void MeetSomeone(RelationshipType type, int age, GameDate week)
+        private void MeetSomeone(RelationshipType type, int age, GameDate week, bool oppositeSex = false)
         {
+            BiologicalSex? sex = oppositeSex
+                ? (_character.Gender.Sex == BiologicalSex.Male ? BiologicalSex.Female : BiologicalSex.Male)
+                : (BiologicalSex?)null;
             int gap = _settings.Meeting.AgeGapYears;
             int theirAge = Math.Max(0, age + _random.NextInt(-gap, gap + 1));
             GameDate born = week.AddWeeks(-theirAge * GameCalendar.WeeksPerYear - _random.NextInt(0, GameCalendar.WeeksPerYear));
-            Relationship relationship = _character.Relationships.Add(id => _factory.Stranger(id, _character.Residence.CountryId, born), type,
+            Relationship relationship = _character.Relationships.Add(id => _factory.Stranger(id, _character.Residence.CountryId, born, sex), type,
                 _settings.Meeting.StartValue.Roll(_random), week);
             _bus.Publish(new MetPersonEvent(_character.Relationships.Npc(relationship.NpcId), relationship, week));
         }

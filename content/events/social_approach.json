@@ -1,0 +1,205 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "social.approach_friend",
+      "titleKey": "event.social.approach_friend.title",
+      "bodyKey": "event.social.approach_friend.body",
+      "category": "social",
+      "trigger": "random",
+      "severity": "minor",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 10
+          }
+        ]
+      },
+      "weight": {
+        "base": 4
+      },
+      "cooldownWeeks": 104,
+      "choices": [
+        {
+          "id": "accept",
+          "textKey": "event.social.approach_friend.choice.accept",
+          "success": {
+            "resultKey": "event.social.approach_friend.choice.accept.success",
+            "effects": [
+              {
+                "type": "meet",
+                "relation": "friend",
+                "chance": 1
+              },
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": -5
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 3
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.social.approach_friend.choice.decline",
+          "success": {
+            "resultKey": "event.social.approach_friend.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -1
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline",
+      "maxOccurrences": 8
+    },
+    {
+      "id": "social.approach_romance",
+      "titleKey": "event.social.approach_romance.title",
+      "bodyKey": "event.social.approach_romance.body",
+      "category": "social",
+      "trigger": "random",
+      "severity": "minor",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "age",
+            "op": ">=",
+            "value": 18
+          },
+          {
+            "type": "age",
+            "op": "<=",
+            "value": 60
+          },
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "weight": {
+        "base": 4
+      },
+      "cooldownWeeks": 78,
+      "choices": [
+        {
+          "id": "talk",
+          "textKey": "event.social.approach_romance.choice.talk",
+          "success": {
+            "resultKey": "event.social.approach_romance.choice.talk.success",
+            "effects": [
+              {
+                "type": "meet",
+                "relation": "contact",
+                "chance": 1,
+                "sex": "opposite"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 4
+              },
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": -3
+              }
+            ]
+          }
+        },
+        {
+          "id": "date",
+          "textKey": "event.social.approach_romance.choice.date",
+          "chance": {
+            "base": 50,
+            "stats": [
+              {
+                "stat": "hidden.charisma",
+                "weight": 0.3
+              },
+              {
+                "stat": "hidden.looks",
+                "weight": 0.2
+              }
+            ],
+            "fortune": "love"
+          },
+          "success": {
+            "resultKey": "event.social.approach_romance.choice.date.success",
+            "effects": [
+              {
+                "type": "meet",
+                "relation": "partner",
+                "chance": 1,
+                "sex": "opposite"
+              },
+              {
+                "type": "stat",
+                "stat": "mental.happiness",
+                "amount": 10
+              },
+              {
+                "type": "stat",
+                "stat": "mental.loneliness",
+                "amount": -10
+              }
+            ]
+          },
+          "failure": {
+            "resultKey": "event.social.approach_romance.choice.date.failure",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.confidence",
+                "amount": -4
+              }
+            ]
+          }
+        },
+        {
+          "id": "decline",
+          "textKey": "event.social.approach_romance.choice.decline",
+          "success": {
+            "resultKey": "event.social.approach_romance.choice.decline.success",
+            "effects": [
+              {
+                "type": "stat",
+                "stat": "mental.stress",
+                "amount": -1
+              }
+            ]
+          }
+        }
+      ],
+      "defaultChoice": "decline"
+    }
+  ]
+}

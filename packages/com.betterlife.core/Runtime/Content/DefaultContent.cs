@@ -50,6 +50,7 @@ namespace BetterLife.Core.Content
                 new DebtProductsLoader(),
                 new LifestyleTiersLoader(),
                 new FinanceSettingsLoader(),
+                new PurchasesLoader(),
                 new EducationSettingsLoader(),
                 new CareerSettingsLoader(),
                 new RelationshipSettingsLoader(),

@@ -7,12 +7,14 @@ using Newtonsoft.Json.Linq;
 namespace BetterLife.Core.Relationships
 {
     /// <summary>
-    /// Reads <c>{ "type": "meet", "relation": "friend", "chance": 0.15 }</c> (relation: friend, colleague, contact or partner).
+    /// Reads <c>{ "type": "meet", "relation": "friend", "chance": 0.15, "sex": "opposite" }</c> (sex optional) (relation: friend, colleague, contact or partner).
     /// </summary>
     public sealed class MeetEffectConverter : EffectConverter<MeetEffect>
     {
         /// <summary>JSON type name.</summary>
         public const string TypeName = "meet";
+
+        private const string OppositeSex = "opposite";
 
         private static readonly IReadOnlyDictionary<string, RelationshipType> Relations = new Dictionary<string, RelationshipType>
         {
@@ -28,13 +30,18 @@ namespace BetterLife.Core.Relationships
         /// <inheritdoc />
         protected override MeetEffect ReadTyped(JObject json, RuleReadContext context, RuleRegistry registry)
         {
-            RuleJson.RequireOnly(json, context, "relation", "chance");
+            RuleJson.RequireOnly(json, context, "relation", "chance", "sex");
             float chance = RuleJson.RequireFloat(json, "chance", context);
             if (!(chance > 0f) || chance > 1f)
             {
                 throw context.Property("chance").Error("chance must be within (0, 1].");
             }
-            return new MeetEffect(ContentReading.RequireEnum(json, "relation", context, Relations), chance);
+            string sex = RuleJson.OptionalId(json, "sex", context);
+            if (sex != null && sex != OppositeSex)
+            {
+                throw context.Property("sex").Error("sex must be \"opposite\".");
+            }
+            return new MeetEffect(ContentReading.RequireEnum(json, "relation", context, Relations), chance, sex != null);
         }
 
         /// <inheritdoc />
@@ -42,6 +49,10 @@ namespace BetterLife.Core.Relationships
         {
             json["relation"] = RelationshipNames.NameOf(effect.Type);
             json["chance"] = RuleJson.Number(effect.Chance);
+            if (effect.OppositeSex)
+            {
+                json["sex"] = OppositeSex;
+            }
         }
     }
 }

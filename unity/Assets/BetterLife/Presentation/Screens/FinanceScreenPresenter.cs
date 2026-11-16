@@ -27,6 +27,7 @@ namespace BetterLife.Presentation.Screens
                 Content.Add(UiRows.Row(row));
             }
             Content.Add(UiRows.Action(Context.Localizer.Get("finance.open_invest"), () => Context.Router.Push(new ScreenRequest(ScreenIds.Invest))));
+            Content.Add(UiRows.Action(Context.Localizer.Get(PurchaseViewModel.OpenKey), () => Context.Router.Push(new ScreenRequest(ScreenIds.Purchases))));
             AddSection("finance.section.economy", state.Economy);
             AddSection("finance.section.holdings", state.Holdings, "finance.none");
             AddSection("finance.section.debts", state.Debts, "finance.none");

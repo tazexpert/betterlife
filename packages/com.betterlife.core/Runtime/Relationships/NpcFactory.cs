@@ -57,12 +57,15 @@ namespace BetterLife.Core.Relationships
         /// <param name="id">NPC id.</param>
         /// <param name="countryId">Country for the name.</param>
         /// <param name="bornOn">Birth week.</param>
+        /// <param name="sex">Sex of the person, or null to roll it.</param>
         /// <returns>The NPC.</returns>
-        public Npc Stranger(int id, string countryId, GameDate bornOn)
+        public Npc Stranger(int id, string countryId, GameDate bornOn, BiologicalSex? sex = null)
         {
-            BiologicalSex sex = RollSex();
+            // The roll always happens so the random stream does not depend on the request.
+            BiologicalSex rolled = RollSex();
+            BiologicalSex chosen = sex ?? rolled;
             NameList names = Names(countryId);
-            return new Npc(id, new PersonName(Pick(names.GivenNames(sex)), Pick(names.Family)), sex, bornOn,
+            return new Npc(id, new PersonName(Pick(names.GivenNames(chosen)), Pick(names.Family)), chosen, bornOn,
                 _genetics.RollFounder(_random), _genetics.RollFounderTraits(_random));
         }
 
