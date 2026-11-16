@@ -47,7 +47,8 @@
               },
               {
                 "type": "cash",
-                "amount": -500
+                "amount": -500,
+                "familyPays": true
               }
             ]
           }

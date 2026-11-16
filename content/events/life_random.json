@@ -1028,7 +1028,8 @@
             "effects": [
               {
                 "type": "cash",
-                "amount": -5000
+                "amount": -5000,
+                "familyPays": true
               },
               {
                 "type": "stat",
@@ -1049,7 +1050,8 @@
             "effects": [
               {
                 "type": "cash",
-                "amount": -200
+                "amount": -200,
+                "familyPays": true
               },
               {
                 "type": "healthCondition.add",
@@ -1068,7 +1070,8 @@
             "effects": [
               {
                 "type": "cash",
-                "amount": -200
+                "amount": -200,
+                "familyPays": true
               },
               {
                 "type": "healthCondition.add",

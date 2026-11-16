@@ -8,6 +8,7 @@ namespace BetterLife.Core.Rules.Effects
     /// <summary>
     /// Adds or removes cash. A payment larger than the cash on hand takes everything and reports the shortfall,
     /// (also as a <see cref="CashShortfallEvent"/> message), which the Economy system turns into debt.
+    /// A payment marked "family pays" (medical bills) is paid in full by the family while the character is a dependent.
     /// </summary>
     public sealed class CashEffect : IEffect
     {
@@ -15,13 +16,21 @@ namespace BetterLife.Core.Rules.Effects
         /// Creates the effect.
         /// </summary>
         /// <param name="amount">Fixed or ranged amount; positive receives, negative pays.</param>
-        public CashEffect(DecimalRange amount)
+        /// <param name="familyPays">True when the family pays this cost for a dependent (medical bills).</param>
+        public CashEffect(DecimalRange amount, bool familyPays = false)
         {
             Amount = amount;
+            FamilyPays = familyPays;
         }
+
+        /// <summary>Rule text when the family pays (placeholder <c>{value}</c>).</summary>
+        public const string FamilyPaysKey = "rule.effect.cash_family_pays";
 
         /// <summary>Amount.</summary>
         public DecimalRange Amount { get; }
+
+        /// <summary>True when the family pays this cost for a dependent (medical bills).</summary>
+        public bool FamilyPays { get; }
 
         /// <inheritdoc />
         public EffectResult Apply(RuleContext context)
@@ -43,6 +52,10 @@ namespace BetterLife.Core.Rules.Effects
             }
 
             decimal requested = -amount;
+            if (FamilyPays && context.Character.Finances.IsDependent)
+            {
+                return EffectResult.FromLine(RuleText.Of(FamilyPaysKey, (RuleTextKeys.ArgValue, RuleText.Number(requested))));
+            }
             decimal paid = context.Character.Wallet.WithdrawUpTo(requested);
             decimal shortfall = requested - paid;
             var lines = new List<RuleText>();
@@ -66,6 +79,10 @@ namespace BetterLife.Core.Rules.Effects
             if (Amount.IsFixed && Amount.Min == 0m)
             {
                 return new RuleText[0];
+            }
+            if (Amount.Max <= 0m && FamilyPays && context?.Character.Finances.IsDependent == true)
+            {
+                return new[] { RangeText.Preview(FamilyPaysKey, new DecimalRange(-Amount.Max, -Amount.Min)) };
             }
             if (Amount.Max <= 0m)
             {

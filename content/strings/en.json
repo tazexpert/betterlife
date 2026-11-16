@@ -1106,6 +1106,7 @@
     "rule.effect.career_laid_off": "Laid off",
     "rule.effect.career_promote": "Promoted",
     "rule.effect.career_quit": "You quit your job",
+    "rule.effect.cash_family_pays": "Your family pays {value}",
     "rule.effect.cash_gain": "Receive {value}",
     "rule.effect.cash_pay": "Pay {value}",
     "rule.effect.cash_share": "Lose {value}% of your cash",

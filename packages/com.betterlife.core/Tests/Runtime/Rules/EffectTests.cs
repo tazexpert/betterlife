@@ -77,6 +77,25 @@ namespace BetterLife.Core.Tests.Rules
         }
 
         [Test]
+        public void MedicalBills_ArePaidByTheFamily_WhileDependent()
+        {
+            _f.Character.Wallet.Deposit(3000m);
+            EffectSequence bill = _f.Effects("[{'type':'cash','amount':-5000,'familyPays':true}]");
+
+            _f.Character.Finances.SetDependent(true);
+            Assert.That(bill.Preview(_f.Context).Single().Key, Is.EqualTo(CashEffect.FamilyPaysKey));
+            EffectResult child = bill.Apply(_f.Context);
+            Assert.That(_f.Character.Wallet.Cash, Is.EqualTo(3000m), "a child's pocket money is not spent on hospital bills");
+            Assert.That(child.CashShortfall, Is.EqualTo(0m));
+            Assert.That(child.Lines.Single().Key, Is.EqualTo(CashEffect.FamilyPaysKey));
+
+            _f.Character.Finances.SetDependent(false);
+            EffectResult adult = bill.Apply(_f.Context);
+            Assert.That(_f.Character.Wallet.Cash, Is.EqualTo(0m), "adults pay their own bills");
+            Assert.That(adult.CashShortfall, Is.EqualTo(2000m));
+        }
+
+        [Test]
         public void CashShare_TakesAShareOfCash_AndNeverCreatesDebt()
         {
             _f.Character.Wallet.Deposit(10000m);

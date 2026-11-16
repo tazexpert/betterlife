@@ -89,6 +89,7 @@ namespace BetterLife.Core.Economy
             _economy = economy ?? throw new ArgumentNullException(nameof(economy));
             _bus = bus ?? throw new ArgumentNullException(nameof(bus));
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _character.Finances.SetDependent(_settings.IsDependent(_character, _clock.Now));
             _incomeSources = (incomeSources ?? Enumerable.Empty<IIncomeSource>()).ToList();
             _products.Get(settings.FallbackProductId);
             _subscription = _bus.Subscribe<CashShortfallEvent>(e => CoverShortfall(e.Amount, e.SourceKey, e.Week));
@@ -386,6 +387,7 @@ namespace BetterLife.Core.Economy
             ApplyInflationToCash(market);
             ApplyInvestmentReturns(market);
             bool independent = IsIndependent(week);
+            _character.Finances.SetDependent(!independent);
             if (independent && _character.Finances.LifestyleTierId == null)
             {
                 BecomeIndependent();

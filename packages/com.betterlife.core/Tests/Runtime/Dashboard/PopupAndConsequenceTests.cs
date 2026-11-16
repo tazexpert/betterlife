@@ -148,6 +148,21 @@ namespace BetterLife.Core.Tests.Dashboard
         }
 
         [Test]
+        public void Children_AreDependents_UntilTheyGrowUp()
+        {
+            using (LifeSession life = NewLife(new InterruptPolicy { StopForDecisions = false }))
+            {
+                Assert.That(life.Character.Finances.IsDependent, Is.True, "a newborn is supported by the family");
+                while (life.Character.AgeAt(life.TimeState.Clock.Now) < 30 && !life.IsOver)
+                {
+                    life.Advance(TimeSkip.Year);
+                }
+                Assume.That(life.Character.Education.IsEnrolled, Is.False);
+                Assert.That(life.Character.Finances.IsDependent, Is.False, "a 30-year-old pays their own way");
+            }
+        }
+
+        [Test]
         public void MeetingAPartner_StartsARelationship()
         {
             using (LifeSession life = NewLife(new InterruptPolicy()))

@@ -69,7 +69,8 @@
             "effects": [
               {
                 "type": "cash",
-                "amount": -4000
+                "amount": -4000,
+                "familyPays": true
               },
               {
                 "type": "healthCondition.remove",

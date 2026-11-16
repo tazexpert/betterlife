@@ -24,6 +24,18 @@ namespace BetterLife.Core.Economy
         public decimal LastMonthlyIncome { get; private set; }
 
         /// <summary>
+        /// True while the family supports the character (a child, or a student under the support age). Kept up to date by the
+        /// finance service (not saved: it is derived from age and enrolment).
+        /// </summary>
+        public bool IsDependent { get; private set; }
+
+        /// <summary>
+        /// Updates the dependent status.
+        /// </summary>
+        /// <param name="dependent">True while the family supports the character.</param>
+        public void SetDependent(bool dependent) => IsDependent = dependent;
+
+        /// <summary>
         /// Records the latest month's gross income.
         /// </summary>
         /// <param name="amount">Non-negative amount.</param>

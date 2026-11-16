@@ -847,6 +847,9 @@
             },
             "amount": {
               "$ref": "#/$defs/range"
+            },
+            "familyPays": {
+              "type": "boolean"
             }
           }
         },

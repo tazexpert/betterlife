@@ -1106,6 +1106,7 @@
     "rule.effect.career_laid_off": "ถูกเลิกจ้าง",
     "rule.effect.career_promote": "ได้เลื่อนตำแหน่ง",
     "rule.effect.career_quit": "ลาออกจากงาน",
+    "rule.effect.cash_family_pays": "ครอบครัวจ่ายให้ {value}",
     "rule.effect.cash_gain": "ได้รับเงิน {value}",
     "rule.effect.cash_pay": "จ่ายเงิน {value}",
     "rule.effect.cash_share": "เสียเงินสด {value}%",
