@@ -5,6 +5,7 @@ using BetterLife.Core.Creation;
 using BetterLife.Core.Domain;
 using BetterLife.Core.Events;
 using BetterLife.Core.LifeEvents;
+using BetterLife.Core.Relationships;
 using BetterLife.Core.Sessions;
 using BetterLife.Core.Time.Ticking;
 using NUnit.Framework;
@@ -19,6 +20,8 @@ namespace BetterLife.Content.Tests
     public class LifeMilestoneSimulationTests
     {
         private const int Lives = 80;
+        private const int DatingAge = 26;
+        private const string ChatId = "chat";
         private const float LowestShareOfChance = 0.5f;
         private const float CheckedFromPercent = 25f;
 
@@ -50,16 +53,51 @@ namespace BetterLife.Content.Tests
             }
         }
 
+        [Test]
+        public void AdultMilestones_HappenAtAboutTheirChances()
+        {
+            List<HashSet<string>> lives = Play("adult", 23, 46, 11300, out List<LifeEventDefinition> adult, DecideAndDate, 40);
+            Report(adult, lives);
+            foreach (LifeEventDefinition e in adult)
+            {
+                Assert.That(lives.Any(l => l.Contains(e.Id)), Is.True, e.Id + " never happens");
+            }
+            int engaged = lives.Count(l => l.Contains("adult.engaged"));
+            TestContext.WriteLine($"engaged {engaged}, wedding {Rate(lives, "adult.wedding") * lives.Count}, school {Rate(lives, "adult.child_school") * lives.Count}");
+            Assert.That(lives.Count(l => l.Contains("adult.wedding")), Is.GreaterThan(engaged / 2), "most engagements end in a wedding");
+            Assert.That(lives.Any(l => l.Contains("adult.child_school")), Is.True, "children start school");
+        }
+
+        /// <summary>
+        /// The career player who also dates: meets a partner at 26 when single and chats with them every month
+        /// (a real player tends the relationship; neglected partners leave).
+        /// </summary>
+        private static void DecideAndDate(LifeSession life)
+        {
+            CareerSimulationTests.Decide(life);
+            var people = life.Character.Relationships;
+            Relationship partner = people.Closest(RelationshipType.Spouse) ?? people.Closest(RelationshipType.Partner);
+            if (partner == null && life.Character.AgeAt(life.TimeState.Clock.Now) >= DatingAge)
+            {
+                life.Bus.Publish(new MeetRequestedEvent(RelationshipType.Partner, life.TimeState.Clock.Now));
+                return;
+            }
+            if (partner != null && life.Relationships.Quote(partner.NpcId, ChatId).Available)
+            {
+                life.Relationships.Interact(partner.NpcId, ChatId);
+            }
+        }
+
         private static List<HashSet<string>> Play(string category, int expected, int endAge, ulong seedBase, out List<LifeEventDefinition> events,
-            System.Action<LifeSession> decide = null)
+            System.Action<LifeSession> decide = null, int lives = Lives)
         {
             IContentRepository content = DefaultContent.CreatePipeline(new FileSystemContentSource(RepoContent.ContentDir)).Load().RequireRepository();
             events = content.Get<DefinitionCatalog<LifeEventDefinition>>().All
                 .Where(e => e.Trigger == EventTrigger.Milestone && e.Category == category).ToList();
             Assert.That(events.Count, Is.EqualTo(expected));
 
-            var lives = new List<HashSet<string>>();
-            for (int i = 0; i < Lives; i++)
+            var played = new List<HashSet<string>>();
+            for (int i = 0; i < lives; i++)
             {
                 CreationResult creation = new CharacterCreator(content).Create(new CreationRequest(seedBase + (ulong)(i * 29), CreationMode.Random));
                 using (LifeSession life = LifeSessionFactory.CreateNew(content, creation, new EventBus(), RepoContent.Simulation))
@@ -76,12 +114,13 @@ namespace BetterLife.Content.Tests
                     }
                     if (!life.IsOver)
                     {
-                        lives.Add(new HashSet<string>(events.Where(e => life.Events.State.FindRecord(e.Id) != null).Select(e => e.Id)));
+                        played.Add(new HashSet<string>(content.Get<DefinitionCatalog<LifeEventDefinition>>().All
+                            .Where(e => e.Category == category && life.Events.State.FindRecord(e.Id) != null).Select(e => e.Id)));
                     }
                 }
             }
-            Assert.That(lives.Count, Is.GreaterThan(Lives * 9 / 10), "most lives reach the end of the chapter");
-            return lives;
+            Assert.That(played.Count, Is.GreaterThan(lives * 9 / 10), "most lives reach the end of the chapter");
+            return played;
         }
 
         private static void Report(List<LifeEventDefinition> events, List<HashSet<string>> lives)

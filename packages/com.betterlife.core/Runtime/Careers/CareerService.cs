@@ -95,6 +95,7 @@ namespace BetterLife.Core.Careers
             }));
             _subscriptions.Add(_bus.Subscribe<LifeStageChangedEvent>(e => ReserveHours()));
             _subscriptions.Add(_bus.Subscribe<JobEndedEvent>(e => ReleaseHoursWhenUnemployed()));
+            _subscriptions.Add(_bus.Subscribe<PromotionRequestedEvent>(e => PromoteNow(e.Week)));
         }
 
         /// <summary>Career tracks.</summary>
@@ -316,6 +317,22 @@ namespace BetterLife.Core.Careers
                 subscription.Dispose();
             }
             _subscriptions.Clear();
+        }
+
+        private void PromoteNow(GameDate week)
+        {
+            Job job = _character.Career.Current;
+            if (job == null || !_character.IsAlive)
+            {
+                return;
+            }
+            CareerTrackDefinition track = _tracks.Get(job.TrackId);
+            if (job.LevelIndex + 1 >= track.Levels.Count)
+            {
+                return;
+            }
+            job.Promote(week, ReviewAfter(week, track.Levels[job.LevelIndex + 1].PromotionAfterMonths));
+            _bus.Publish(new PromotedEvent(job, week));
         }
 
         private void Review(Job job, CareerTrackDefinition track, GameDate week, TickContext tick)

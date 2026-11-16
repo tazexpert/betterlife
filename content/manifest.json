@@ -187,6 +187,10 @@
     },
     {
       "type": "events",
+      "path": "events/life_adult.json"
+    },
+    {
+      "type": "events",
       "path": "events/life_random.json"
     },
     {

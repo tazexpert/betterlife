@@ -706,6 +706,181 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": "eulogy.life.re.will_written"
+    },
+    {
+      "id": "life.adult.portfolio_crash",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.laid_off",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.first_big_debt",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.burnout",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.engaged",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.manager",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.life_crisis",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.six_figures",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.card_debt_trap",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.fresh_start",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.office_syndrome",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.executive",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.first_home",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.first_child",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.new_hobby",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.own_company",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.business_failure",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.relationship_crisis",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.friend_dies",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.financial_crisis",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.workaholic",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.chronic_disease",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.passive_income",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.wedding",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.adult.child_school",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
     }
   ]
 }

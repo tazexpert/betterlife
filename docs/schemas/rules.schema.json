@@ -1360,6 +1360,87 @@
               "maximum": 1
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "reason"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.end"
+            },
+            "reason": {
+              "enum": [
+                "quit",
+                "laid_off"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "career.promote"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship.marry"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship.conceive"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "relation"
+          ],
+          "properties": {
+            "type": {
+              "const": "relationship.death"
+            },
+            "relation": {
+              "enum": [
+                "parent",
+                "sibling",
+                "child",
+                "partner",
+                "spouse",
+                "ex",
+                "friend",
+                "colleague",
+                "contact"
+              ]
+            }
+          }
         }
       ]
     },

@@ -1,0 +1,1622 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "adult.portfolio_crash",
+      "titleKey": "event.adult.portfolio_crash.title",
+      "bodyKey": "event.adult.portfolio_crash.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "flag",
+            "flag": "life.young.risky_investment"
+          },
+          {
+            "type": "flag",
+            "flag": "life.teen.early_investor"
+          },
+          {
+            "type": "netWorth",
+            "op": ">=",
+            "amount": 300000
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 20,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.risky_investment"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.portfolio_crash"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.laid_off",
+      "titleKey": "event.adult.laid_off.title",
+      "bodyKey": "event.adult.laid_off.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.late_graduation"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.laid_off"
+        },
+        {
+          "type": "career.end",
+          "reason": "laid_off"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 25
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.first_big_debt",
+      "titleKey": "event.adult.first_big_debt.title",
+      "bodyKey": "event.adult.first_big_debt.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 50,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.first_job"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.first_car"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.drunk_crash"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.first_credit_card"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_big_debt"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.2
+        },
+        {
+          "type": "stat",
+          "stat": "wealth.credit_score",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.burnout",
+      "titleKey": "event.adult.burnout.title",
+      "bodyKey": "event.adult.burnout.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 40,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.daily_tutoring"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.party_life"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.work_hard_play_hard"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.burnout"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": 15
+        },
+        {
+          "type": "career.performance",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.engaged",
+      "titleKey": "event.adult.engaged.title",
+      "bodyKey": "event.adult.engaged.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.peak_looks"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.campus_love"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.lone_wolf"
+            },
+            "add": -15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.engaged"
+        },
+        {
+          "type": "relationship",
+          "relation": "partner",
+          "amount": 15,
+          "target": "all"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 15
+        },
+        {
+          "type": "event.schedule",
+          "event": "adult.wedding",
+          "delayWeeks": {
+            "min": 26,
+            "max": 52
+          }
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.manager",
+      "titleKey": "event.adult.manager.title",
+      "bodyKey": "event.adult.manager.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.class_leader"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.top_employer"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.manager"
+        },
+        {
+          "type": "career.promote"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        },
+        {
+          "type": "reputation",
+          "domain": "workplace",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.life_crisis",
+      "titleKey": "event.adult.life_crisis.title",
+      "bodyKey": "event.adult.life_crisis.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.switched_major"
+            },
+            "add": 10
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.laid_off"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.burnout"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.life_crisis"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.six_figures",
+      "titleKey": "event.adult.six_figures.title",
+      "bodyKey": "event.adult.six_figures.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "career",
+            "employed": true
+          },
+          {
+            "type": "netWorth",
+            "op": ">=",
+            "amount": 1000000
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.early_investor"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.risky_investment"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.specialist"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.six_figures"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.card_debt_trap",
+      "titleKey": "event.adult.card_debt_trap.title",
+      "bodyKey": "event.adult.card_debt_trap.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "flag",
+            "flag": "life.young.first_credit_card"
+          },
+          {
+            "type": "totalDebt",
+            "op": ">=",
+            "amount": 1
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.work_hard_play_hard"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.first_credit_card"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.portfolio_crash"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.laid_off"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.first_big_debt"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.card_debt_trap"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 20
+        },
+        {
+          "type": "stat",
+          "stat": "wealth.credit_score",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.fresh_start",
+      "titleKey": "event.adult.fresh_start.title",
+      "bodyKey": "event.adult.fresh_start.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.exchange_abroad"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.burnout"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.life_crisis"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.fresh_start"
+        },
+        {
+          "type": "career.end",
+          "reason": "quit"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "health.fatigue",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.office_syndrome",
+      "titleKey": "event.adult.office_syndrome.title",
+      "bodyKey": "event.adult.office_syndrome.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "negative",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 60,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.party_life"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.work_hard_play_hard"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.office_syndrome"
+        },
+        {
+          "type": "healthCondition.add",
+          "condition": "office_syndrome",
+          "severity": 40
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.executive",
+      "titleKey": "event.adult.executive.title",
+      "bodyKey": "event.adult.executive.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.top_employer"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.manager"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.executive"
+        },
+        {
+          "type": "career.promote"
+        },
+        {
+          "type": "reputation",
+          "domain": "workplace",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.first_home",
+      "titleKey": "event.adult.first_home.title",
+      "bodyKey": "event.adult.first_home.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.top_employer"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.portfolio_crash"
+            },
+            "add": -20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.six_figures"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.card_debt_trap"
+            },
+            "add": -30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.wedding"
+            },
+            "add": 40
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_home"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.first_child",
+      "titleKey": "event.adult.first_child.title",
+      "bodyKey": "event.adult.first_child.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "positive",
+      "condition": {
+        "type": "all",
+        "conditions": [
+          {
+            "type": "any",
+            "conditions": [
+              {
+                "type": "relationship",
+                "relation": "partner",
+                "count": {
+                  "op": ">=",
+                  "value": 1
+                }
+              },
+              {
+                "type": "relationship",
+                "relation": "spouse",
+                "count": {
+                  "op": ">=",
+                  "value": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "relationship",
+            "relation": "child",
+            "count": {
+              "op": "<",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 40,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.engaged"
+            },
+            "add": 80
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.wedding"
+            },
+            "add": 40
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.first_child"
+        },
+        {
+          "type": "relationship.conceive"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "event.schedule",
+          "event": "adult.child_school",
+          "delayWeeks": {
+            "min": 208,
+            "max": 260
+          }
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.new_hobby",
+      "titleKey": "event.adult.new_hobby.title",
+      "bodyKey": "event.adult.new_hobby.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.life_crisis"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.fresh_start"
+            },
+            "add": 20
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.new_hobby"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.own_company",
+      "titleKey": "event.adult.own_company.title",
+      "bodyKey": "event.adult.own_company.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.life_goal"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.online_shop"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.specialist"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.side_hustle"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.fresh_start"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.re.inspired"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.own_company"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.3
+        },
+        {
+          "type": "reputation",
+          "domain": "business",
+          "amount": 15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.business_failure",
+      "titleKey": "event.adult.business_failure.title",
+      "bodyKey": "event.adult.business_failure.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "flag",
+            "flag": "life.adult.own_company"
+          },
+          {
+            "type": "flag",
+            "flag": "life.young.online_shop"
+          },
+          {
+            "type": "career",
+            "category": "business"
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.own_company"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.business_failure"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.4
+        },
+        {
+          "type": "reputation",
+          "domain": "business",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 25
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.relationship_crisis",
+      "titleKey": "event.adult.relationship_crisis.title",
+      "bodyKey": "event.adult.relationship_crisis.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "any",
+        "conditions": [
+          {
+            "type": "relationship",
+            "relation": "partner",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          },
+          {
+            "type": "relationship",
+            "relation": "spouse",
+            "count": {
+              "op": ">=",
+              "value": 1
+            }
+          }
+        ]
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.workaholic"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.relationship_crisis"
+        },
+        {
+          "type": "relationship",
+          "relation": "spouse",
+          "amount": -30,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "partner",
+          "amount": -30,
+          "target": "all"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -15
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.friend_dies",
+      "titleKey": "event.adult.friend_dies.title",
+      "bodyKey": "event.adult.friend_dies.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "condition": {
+        "type": "relationship",
+        "relation": "friend",
+        "count": {
+          "op": ">=",
+          "value": 1
+        }
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 5,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.ride_or_die"
+            },
+            "add": 15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.friend_dies"
+        },
+        {
+          "type": "relationship.death",
+          "relation": "friend"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -20
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.financial_crisis",
+      "titleKey": "event.adult.financial_crisis.title",
+      "bodyKey": "event.adult.financial_crisis.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 10,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.school_move"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.laid_off"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.card_debt_trap"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.first_home"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.business_failure"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.financial_crisis"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 30
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -15
+        },
+        {
+          "type": "stat",
+          "stat": "wealth.credit_score",
+          "amount": -10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.workaholic",
+      "titleKey": "event.adult.workaholic.title",
+      "bodyKey": "event.adult.workaholic.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "career",
+        "employed": true
+      },
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 35,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.manager"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.executive"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.workaholic"
+        },
+        {
+          "type": "career.performance",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 15
+        },
+        {
+          "type": "relationship",
+          "relation": "spouse",
+          "amount": -15,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "partner",
+          "amount": -15,
+          "target": "all"
+        },
+        {
+          "type": "relationship",
+          "relation": "child",
+          "amount": -15,
+          "target": "all"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.chronic_disease",
+      "titleKey": "event.adult.chronic_disease.title",
+      "bodyKey": "event.adult.chronic_disease.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 30,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.teen.hospitalized"
+            },
+            "add": 10
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.office_syndrome"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.re.healthy_reset"
+            },
+            "add": -15
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.chronic_disease"
+        },
+        {
+          "type": "healthCondition.add",
+          "condition": "hypertension",
+          "severity": 40
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.passive_income",
+      "titleKey": "event.adult.passive_income.title",
+      "bodyKey": "event.adult.passive_income.body",
+      "category": "adult",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 26,
+        "maxAge": 45,
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.risky_investment"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.young.side_hustle"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.six_figures"
+            },
+            "add": 35
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.executive"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.adult.own_company"
+            },
+            "add": 25
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.passive_income"
+        },
+        {
+          "type": "cash",
+          "amount": 50000
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.wedding",
+      "titleKey": "event.adult.wedding.title",
+      "bodyKey": "event.adult.wedding.body",
+      "category": "adult",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "positive",
+      "condition": {
+        "type": "relationship",
+        "relation": "partner",
+        "count": {
+          "op": ">=",
+          "value": 1
+        }
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.wedding"
+        },
+        {
+          "type": "relationship.marry"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.25
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 20
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "adult.child_school",
+      "titleKey": "event.adult.child_school.title",
+      "bodyKey": "event.adult.child_school.body",
+      "category": "adult",
+      "trigger": "scheduled",
+      "severity": "major",
+      "tone": "neutral",
+      "condition": {
+        "type": "relationship",
+        "relation": "child",
+        "count": {
+          "op": ">=",
+          "value": 1
+        }
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.adult.child_school"
+        },
+        {
+          "type": "cash.share",
+          "share": 0.15
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        }
+      ],
+      "choices": []
+    }
+  ]
+}

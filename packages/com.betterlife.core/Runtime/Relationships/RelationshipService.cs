@@ -62,6 +62,7 @@ namespace BetterLife.Core.Relationships
         private readonly GameClock _clock;
         private readonly IDisposable _subscription;
         private readonly IDisposable _meetSubscription;
+        private readonly IDisposable _childSubscription;
         private int _socialHours;
 
         /// <summary>
@@ -100,6 +101,7 @@ namespace BetterLife.Core.Relationships
                     MeetSomeone(e.Type, _character.AgeAt(e.Week), e.Week);
                 }
             });
+            _childSubscription = _bus.Subscribe<ChildRequestedEvent>(e => StartChild(e.Week));
         }
 
         /// <summary>Socialize hours counted so far this month (saved so a reload continues the month).</summary>
@@ -358,6 +360,7 @@ namespace BetterLife.Core.Relationships
         {
             _subscription.Dispose();
             _meetSubscription.Dispose();
+            _childSubscription.Dispose();
         }
 
         private bool CanHaveChild(InteractionDefinition interaction, Npc npc, GameDate now)
@@ -375,6 +378,24 @@ namespace BetterLife.Core.Relationships
             bool fertile(int age) => age >= rules.FertileMinAge && age <= rules.FertileMaxAge;
             return _character.Gender.Sex != npc.Sex && fertile(_character.AgeAt(now)) && fertile(npc.AgeAt(now))
                 && _character.Relationships.Pregnancies.Count == 0;
+        }
+
+        private void StartChild(GameDate week)
+        {
+            Relationship partner = _character.Relationships.Closest(RelationshipType.Spouse) ?? _character.Relationships.Closest(RelationshipType.Partner);
+            if (!_character.IsAlive || partner == null || _character.Relationships.Pregnancies.Count > 0)
+            {
+                return;
+            }
+            Npc npc = _character.Relationships.Npc(partner.NpcId);
+            ChildRules rules = _settings.Children;
+            bool fertile(int age) => age >= rules.FertileMinAge && age <= rules.FertileMaxAge;
+            if (_character.Gender.Sex != npc.Sex && fertile(_character.AgeAt(week)) && fertile(npc.AgeAt(week)))
+            {
+                _character.Relationships.AddPregnancy(new Pregnancy(npc.Id, week.AddWeeks(rules.PregnancyWeeks)));
+                return;
+            }
+            AddChild(id => _factory.Adopted(id, _character.Residence.CountryId, _character.Name.FamilyName, week), npc.Id, week);
         }
 
         private static ChanceSpec Spec(InteractionDefinition interaction, CompatibilityBreakdown compatibility)

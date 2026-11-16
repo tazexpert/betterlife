@@ -136,6 +136,23 @@
       ],
       "recoveryChancePerWeek": null,
       "annualMortality": 0.015
+    },
+    {
+      "id": "office_syndrome",
+      "nameKey": "condition.office_syndrome.name",
+      "descKey": "condition.office_syndrome.desc",
+      "weeklyStats": [
+        {
+          "stat": "health.fitness",
+          "amount": -0.1
+        },
+        {
+          "stat": "mental.stress",
+          "amount": 0.2
+        }
+      ],
+      "recoveryChancePerWeek": 0.01,
+      "annualMortality": 0
     }
   ]
 }

@@ -62,7 +62,12 @@ namespace BetterLife.Core.Rules.Serialization
                 .Register(new BossSatisfactionEffectConverter())
                 .Register(new FireEffectConverter())
                 .Register(new RelationshipEffectConverter())
-                .Register(new MeetEffectConverter());
+                .Register(new MeetEffectConverter())
+                .Register(new MarryEffectConverter())
+                .Register(new ConceiveEffectConverter())
+                .Register(new NpcDeathEffectConverter())
+                .Register(new EndCareerEffectConverter())
+                .Register(new PromoteEffectConverter());
         }
     }
 }
