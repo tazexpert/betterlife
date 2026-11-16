@@ -1,12 +1,13 @@
 # Progress
 
 ## สถานะปัจจุบัน
-**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅ · **20 Localization + Settings** ✅ · **16b Popup + ผลตามมา** ✅
-**ถัดไป:** 21 Balancing Simulator (ลำดับที่ตกลง: 21 → 22 → 19 → 23)
+**00 Repo Setup** ✅ · **01 Foundation** ✅ · **02 Domain Model + Stats** ✅ · **03 Rules Engine** ✅ · **04 Content Pipeline** ✅ · **05 Time System** ✅ · **06 Astrology + Karma + Luck** ✅ · **07 Event System** ✅ · **08 Character Creation** ✅ · **09 Life Stages + Aging + Death** ✅ · **10 Economy + Finance** ✅ · **11 Education + Career** ✅ · **12 NPC + Relationships** ✅ · **13 Vice System** ✅ · **14 Save System** ✅ · **13b Scams** ✅ · **15 UI Shell** ✅ · **16 Dashboard + Inbox** ✅ · **17 หน้าจอย่อย** ✅ · **17b Player Actions** ✅ · **18 Legacy** ✅ · **20 Localization + Settings** ✅ · **16b Popup + ผลตามมา** ✅ · **22 Content Batch** ✅ · **25 หน้าสร้างตัวละคร** ✅ · **27 Avatar** ✅
+**ถัดไป:** 26 ตัดสินใจครั้งใหญ่ + พบผู้คน (ลำดับใหม่ที่ผู้ใช้ตกลง 2026-11-16: 26 → 24 → 19 → 21 → 23)
 
 ## กติกาการทำงาน
 - ผู้ใช้อนุญาตให้ใช้ตัวเลือกที่แนะนำได้เลยโดยไม่ต้องหยุดรอยืนยัน (2026-11-08) แต่ยังต้องเขียน Data Structure ลงสเปกก่อนเขียน Logic
 - ลำดับที่ผู้ใช้ตกลง (2026-11-15): 18 → 20 → 21 → 22 → 19 → 23 (Ads + IAP ทำหลัง Content เพื่อทำพร้อมการตั้งค่า Store)
+- **ลำดับใหม่ (2026-11-16):** ผู้ใช้ให้ย้ายข้อ 21 ไปท้ายๆ → **26 → 24 → 19 → 21 → 23** (Balancing ทำหลังระบบและเนื้อหาครบ เพราะข้อ 26 ยังเพิ่มตัวเลขการเงิน/ความสัมพันธ์; Build เป็นข้อสุดท้าย)
 - ทำทีละข้อ 1 ข้อ = 1 Session ใน Claude Code
 - เริ่มข้อถัดไปได้เมื่อ `dotnet test dotnet/BetterLife.sln` ของข้อก่อนผ่านครบแล้วเท่านั้น
 - ตอนเริ่ม Session ใหม่ ให้พิมพ์เลขข้อ เช่น "เริ่มข้อ 02"
@@ -38,7 +39,7 @@
 | 18 | Legacy + Life Summary + Achievements | มรดก/ทายาท, Family Tree, คำไว้อาลัย, Achievement ข้ามชีวิต (`docs/systems/legacy.md`) | ✅ |
 | 19 | Ads + IAP | Fake ก่อน → SDK จริง | ⬜ |
 | 20 | Localization TH/EN + Settings | ฟอนต์ไทย Sarabun, สลับภาษา, ข้อความครบทั้งเกม, หน้า Settings (`docs/systems/localization-settings.md`) | ✅ |
-| 21 | Balancing Simulator | รัน 10,000 ชีวิต แล้วออกรายงาน | ⬜ |
+| 21 | Balancing Simulator | รัน 10,000 ชีวิต แล้วออกรายงาน · **ย้ายไปทำหลังข้อ 19 (2026-11-16)** · เรื่องที่สะสมไว้ให้ข้อนี้: พลังแฝงแบบบวกที่ซ้อนกันทำให้เกิดเกินค่าที่ตั้งมาก (ติดเกม 35→67%, Burnout 40→84%, ผ่าตัดใหญ่ 25→63%, เที่ยวรอบโลก 15→63%, อุบัติเหตุเมาแล้วขับ 5→22%, วิกฤตการเงิน 10→34%), ความถี่เหตุการณ์สุ่ม (~2 ครั้ง/ปี + เหตุการณ์ชีวิต), ค่าขนม 10 ระดับ/เงินตั้งตัว, ค่าครองชีพ/การศึกษา/สาธารณสุข 77 จังหวัด, ภาษีมรดก/ส่วนแบ่งกรรม (ข้อ 18), Life Score ตอนจบ | ⬜ |
 | 22 | Content Batch | 100 เหตุการณ์ตามแบบของผู้ใช้ 4 ชุด + บทปฐมบท (`docs/systems/life-events-100.md`): ปฐมบท อายุ 3–12 (20) ✅ · ชุด 1 บทที่ 1 อายุ 13–18 ✅ · ชุด 2 บทที่ 2 อายุ 19–25 ✅ · เหตุการณ์สุ่ม RE-01–30 ✅ (`random-events-30.md`) · ชุด 3 บทที่ 3 อายุ 26–45 ✅ · ชุด 4 บทที่ 4 อายุ 46–95 ✅ | ✅ |
 | 23 | Build Checklist Android/iOS | | ⬜ |
 | 24 | Google Sign-in + Cloud Save (ผู้ใช้ขอ 2026-11-15) | ลงชื่อเข้าใช้ด้วยบัญชี Google แล้วเซฟขึ้น Cloud: มีอยู่แล้ว = `ISaveStorage` (Cloud ใช้ Interface เดียวกัน), เซฟ/โปรไฟล์แยก Slot · ยังไม่มี = Auth, Cloud backend, การรวมเซฟข้ามเครื่อง · ทำคู่กับข้อ 19 ได้ (ตั้งค่าใน Google Play Console/Firebase เหมือนกัน) | ⬜ |
@@ -98,3 +99,4 @@
 - 2026-11-16 — 20 (ตรวจซ้ำ) + 25: ไม่มีข้อความอังกฤษเหลือในตารางไทยแล้ว (3 หัวข้อที่ใช้คำอังกฤษของผู้ใช้เติมคำไทยนำหน้า, Test ตรวจภาษาไม่มีข้อยกเว้น); หน้าสร้างตัวละคร (ชื่อ เพศ วันเวลาเกิด ประเทศ/77 จังหวัด ฐานะ 10 ระดับ การเลี้ยงดูของพ่อแม่ หน้าตา) + ตรวจความถูกต้องเป็นภาษาไทย; `dotnet test` ผ่าน 685 + 43 tests
 - 2026-11-16 — แก้ 25 (ผู้ใช้พบตัวอักษรเล็กมาก): สไตล์ช่องกรอก/Dropdown/ปุ่มเพศ/รายการ Dropdown ตามขนาดและสีของ Theme, หน้าตาขนาดกลาง
 - 2026-11-16 — แก้ 25 ตามผู้ใช้: ทุกชีวิตเกิดในประเทศไทย (`creation_settings.homeCountry`) ไม่มีช่องประเทศ, ภาษาเริ่มต้นเป็นไทยเสมอ, หน้าตาแถวละ 8 รูป; `dotnet test` ผ่าน 686 + 43 tests
+- 2026-11-16 — ผู้ใช้ให้ย้ายข้อ 21 Balancing ไปท้ายๆ: ลำดับใหม่ 26 → 24 → 19 → 21 → 23 และรวบรวมเรื่องที่ต้องปรับสมดุลไว้ในแถวข้อ 21
