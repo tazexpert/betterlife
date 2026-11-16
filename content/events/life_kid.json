@@ -1,0 +1,697 @@
+{
+  "$schema": "../../docs/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "kid.prep_course",
+      "titleKey": "event.kid.prep_course.title",
+      "bodyKey": "event.kid.prep_course.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 4,
+        "maxAge": 6,
+        "chance": 40
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.prep_course"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.famous_primary",
+      "titleKey": "event.kid.famous_primary.title",
+      "bodyKey": "event.kid.famous_primary.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "not",
+        "condition": {
+          "type": "flag",
+          "flag": "life.kid.missed_primary"
+        }
+      },
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 7,
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.prep_course"
+            },
+            "add": 30
+          }
+        ]
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.famous_primary"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.missed_primary",
+      "titleKey": "event.kid.missed_primary.title",
+      "bodyKey": "event.kid.missed_primary.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "not",
+        "condition": {
+          "type": "flag",
+          "flag": "life.kid.famous_primary"
+        }
+      },
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 7,
+        "chance": 15
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.missed_primary"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -12
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.daily_tutoring",
+      "titleKey": "event.kid.daily_tutoring.title",
+      "bodyKey": "event.kid.daily_tutoring.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 12,
+        "chance": 55
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.daily_tutoring"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.bilingual",
+      "titleKey": "event.kid.bilingual.title",
+      "bodyKey": "event.kid.bilingual.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 3,
+        "maxAge": 12,
+        "chance": 20
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.bilingual"
+        },
+        {
+          "type": "skill.practice",
+          "skill": "english",
+          "gain": 20
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.compared",
+      "titleKey": "event.kid.compared.title",
+      "bodyKey": "event.kid.compared.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 3,
+        "maxAge": 12,
+        "chance": 60
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.compared"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.enrichment",
+      "titleKey": "event.kid.enrichment.title",
+      "bodyKey": "event.kid.enrichment.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 4,
+        "maxAge": 12,
+        "chance": 50
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.enrichment"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 3
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.school_icon",
+      "titleKey": "event.kid.school_icon.title",
+      "bodyKey": "event.kid.school_icon.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 12,
+        "chance": 15
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.school_icon"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.looks",
+          "amount": 3
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 8
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.toxic_start",
+      "titleKey": "event.kid.toxic_start.title",
+      "bodyKey": "event.kid.toxic_start.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 3,
+        "maxAge": 8,
+        "chance": 20
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.toxic_start"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -8
+        },
+        {
+          "type": "stat",
+          "stat": "hidden.charisma",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.class_leader",
+      "titleKey": "event.kid.class_leader.title",
+      "bodyKey": "event.kid.class_leader.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 12,
+        "chance": 25
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.class_leader"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 8
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.parents_fight",
+      "titleKey": "event.kid.parents_fight.title",
+      "bodyKey": "event.kid.parents_fight.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 3,
+        "maxAge": 12,
+        "chance": 30
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.parents_fight"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 8
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.adhd",
+      "titleKey": "event.kid.adhd.title",
+      "bodyKey": "event.kid.adhd.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 5,
+        "maxAge": 12,
+        "chance": 10
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.adhd"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": -3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.quiz_champion",
+      "titleKey": "event.kid.quiz_champion.title",
+      "bodyKey": "event.kid.quiz_champion.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 12,
+        "chance": 10
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.quiz_champion"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 5
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": 10
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.school_dread",
+      "titleKey": "event.kid.school_dread.title",
+      "bodyKey": "event.kid.school_dread.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 4,
+        "maxAge": 12,
+        "chance": 25
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.school_dread"
+        },
+        {
+          "type": "stat",
+          "stat": "health.disease_burden",
+          "amount": 5
+        },
+        {
+          "type": "stat",
+          "stat": "health.fitness",
+          "amount": -5
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.frenemy",
+      "titleKey": "event.kid.frenemy.title",
+      "bodyKey": "event.kid.frenemy.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 6,
+        "maxAge": 12,
+        "chance": 35
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.frenemy"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 3
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 4
+        },
+        {
+          "type": "meet",
+          "relation": "friend",
+          "chance": 1
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.first_game",
+      "titleKey": "event.kid.first_game.title",
+      "bodyKey": "event.kid.first_game.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "minor",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 7,
+        "maxAge": 12,
+        "chance": 45
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.first_game"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": 5
+        },
+        {
+          "type": "vice.addiction",
+          "vice": "binge_entertainment",
+          "amount": 4
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.caught_cheating",
+      "titleKey": "event.kid.caught_cheating.title",
+      "bodyKey": "event.kid.caught_cheating.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "negative",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 7,
+        "maxAge": 12,
+        "chance": 20
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.caught_cheating"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": -5
+        },
+        {
+          "type": "reputation",
+          "domain": "school",
+          "amount": -8
+        },
+        {
+          "type": "relationship",
+          "relation": "parent",
+          "amount": -8,
+          "target": "all"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.school_move",
+      "titleKey": "event.kid.school_move.title",
+      "bodyKey": "event.kid.school_move.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "neutral",
+      "milestone": {
+        "minAge": 4,
+        "maxAge": 12,
+        "chance": 15
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.school_move"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 4
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 2
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.gifted_class",
+      "titleKey": "event.kid.gifted_class.title",
+      "bodyKey": "event.kid.gifted_class.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "normal",
+      "tone": "positive",
+      "condition": {
+        "type": "education",
+        "enrolled": true
+      },
+      "milestone": {
+        "minAge": 9,
+        "maxAge": 12,
+        "chance": 20
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.gifted_class"
+        },
+        {
+          "type": "stat",
+          "stat": "intelligence.knowledge",
+          "amount": 6
+        },
+        {
+          "type": "stat",
+          "stat": "mental.confidence",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "kid.parents_divorce",
+      "titleKey": "event.kid.parents_divorce.title",
+      "bodyKey": "event.kid.parents_divorce.body",
+      "category": "kid",
+      "trigger": "milestone",
+      "severity": "major",
+      "tone": "negative",
+      "milestone": {
+        "minAge": 3,
+        "maxAge": 8,
+        "chance": 15
+      },
+      "onFire": [
+        {
+          "type": "flag.set",
+          "flag": "life.kid.parents_divorce"
+        },
+        {
+          "type": "stat",
+          "stat": "mental.happiness",
+          "amount": -12
+        },
+        {
+          "type": "stat",
+          "stat": "mental.stress",
+          "amount": 10
+        },
+        {
+          "type": "stat",
+          "stat": "mental.loneliness",
+          "amount": 6
+        }
+      ],
+      "choices": []
+    }
+  ]
+}

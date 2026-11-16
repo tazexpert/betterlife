@@ -300,6 +300,146 @@
       "defaultExpiryWeeks": null,
       "inheritable": false,
       "eulogyKey": null
+    },
+    {
+      "id": "life.kid.prep_course",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.famous_primary",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.missed_primary",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.daily_tutoring",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.bilingual",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.compared",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.enrichment",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.school_icon",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.toxic_start",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.class_leader",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.parents_fight",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.adhd",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.quiz_champion",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.school_dread",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.frenemy",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.first_game",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.caught_cheating",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.school_move",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.gifted_class",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
+    },
+    {
+      "id": "life.kid.parents_divorce",
+      "kind": "bool",
+      "defaultExpiryWeeks": null,
+      "inheritable": false,
+      "eulogyKey": null
     }
   ]
 }

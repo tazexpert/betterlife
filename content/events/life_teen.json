@@ -16,7 +16,23 @@
       "milestone": {
         "minAge": 13,
         "maxAge": 18,
-        "chance": 25
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.famous_primary"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.frenemy"
+            },
+            "add": 20
+          }
+        ]
       },
       "onFire": [
         {
@@ -52,7 +68,16 @@
       "milestone": {
         "minAge": 13,
         "maxAge": 18,
-        "chance": 15
+        "chance": 15,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.toxic_start"
+            },
+            "add": 30
+          }
+        ]
       },
       "onFire": [
         {
@@ -90,6 +115,20 @@
         "maxAge": 18,
         "chance": 30,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.enrichment"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.adhd"
+            },
+            "add": 30
+          },
           {
             "condition": {
               "type": "flag",
@@ -203,7 +242,23 @@
       "milestone": {
         "minAge": 13,
         "maxAge": 18,
-        "chance": 25
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.school_dread"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.caught_cheating"
+            },
+            "add": 25
+          }
+        ]
       },
       "onFire": [
         {
@@ -267,6 +322,20 @@
         "maxAge": 18,
         "chance": 20,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.compared"
+            },
+            "add": 25
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.parents_divorce"
+            },
+            "add": 20
+          },
           {
             "condition": {
               "type": "flag",
@@ -363,6 +432,20 @@
           {
             "condition": {
               "type": "flag",
+              "flag": "life.kid.frenemy"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.first_game"
+            },
+            "add": 30
+          },
+          {
+            "condition": {
+              "type": "flag",
               "flag": "life.teen.own_phone"
             },
             "add": 30
@@ -400,6 +483,20 @@
         "maxAge": 18,
         "chance": 25,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.missed_primary"
+            },
+            "add": 15
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.parents_fight"
+            },
+            "add": 25
+          },
           {
             "condition": {
               "type": "flag",
@@ -446,6 +543,13 @@
         "maxAge": 18,
         "chance": 5,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.quiz_champion"
+            },
+            "add": 35
+          },
           {
             "condition": {
               "type": "flag",
@@ -544,6 +648,13 @@
         "maxAge": 18,
         "chance": 25,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.school_icon"
+            },
+            "add": 25
+          },
           {
             "condition": {
               "type": "flag",
@@ -652,6 +763,34 @@
           {
             "condition": {
               "type": "flag",
+              "flag": "life.kid.daily_tutoring"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.adhd"
+            },
+            "add": -20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.frenemy"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.gifted_class"
+            },
+            "add": 40
+          },
+          {
+            "condition": {
+              "type": "flag",
               "flag": "life.teen.elite_school"
             },
             "add": 15
@@ -701,7 +840,30 @@
       "milestone": {
         "minAge": 13,
         "maxAge": 18,
-        "chance": 25
+        "chance": 25,
+        "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.famous_primary"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.class_leader"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.school_move"
+            },
+            "add": 20
+          }
+        ]
       },
       "onFire": [
         {
@@ -861,6 +1023,13 @@
         "maxAge": 18,
         "chance": 15,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.enrichment"
+            },
+            "add": 15
+          },
           {
             "condition": {
               "type": "flag",
@@ -1057,6 +1226,13 @@
           {
             "condition": {
               "type": "flag",
+              "flag": "life.kid.parents_divorce"
+            },
+            "add": 20
+          },
+          {
+            "condition": {
+              "type": "flag",
               "flag": "life.teen.party_crowd"
             },
             "add": 20
@@ -1202,6 +1378,13 @@
         "maxAge": 18,
         "chance": 10,
         "modifiers": [
+          {
+            "condition": {
+              "type": "flag",
+              "flag": "life.kid.parents_fight"
+            },
+            "add": 15
+          },
           {
             "condition": {
               "type": "flag",

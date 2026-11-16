@@ -175,6 +175,10 @@
     },
     {
       "type": "events",
+      "path": "events/life_kid.json"
+    },
+    {
+      "type": "events",
       "path": "events/life_teen.json"
     },
     {
